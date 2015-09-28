@@ -1,0 +1,72 @@
+// PX2E_MainFrame.pkg
+
+	class E_MainFrame : public wxFrame
+	{
+		void OnNewProject();
+		void OnOpenProject();
+		void OnSaveProject();
+		void OnSaveProjectAs();
+		void OnCloseProject();
+
+		void OnNewScene();
+		void OnOpenScene();
+		void OnSaveScene();
+		void OnSaveSceneAs();
+		void OnCloseScene();
+		
+		void OnExit();
+		
+		void OnImport();
+		void OnImportSelectedRes();
+		void OnExport();
+		
+		void OnShowWindow(const std::string &tag);
+		void OnStageCentre();
+		
+		void OnEditorSimulate();
+		void OnEditorPlay();
+		void OnEditorStop();
+		void OnPlay();
+		void OnPlayConfig();
+		
+		void OnSetEditMode(int type);
+		void OnSetting();
+		
+		void OnCreateTerrain();
+		void OnCreateTerrainPange();
+		
+		void InspChangeWindow(int windowType);
+		
+		void OnResRefresh();
+		void OnResClear();
+		void OnResOpen();
+		void OnResCopyResPath();
+		
+		void TimeLine_UIGroup_Delete();
+		void TimeLine_UIGroup_DeleteAll();
+		void TimeLine_SelectCtrl_InValue();
+		void TimeLine_SelectCtrl_OutValue();
+		void TimeLine_SelectCtrl_Delete();
+		
+		void OnProjectTreeShowLevel(int level);
+		void OnProjectExpandSelect();
+		void OnProjectCollapseSelect();
+		
+		wxMenu *AddMainMenuItem(const std::string &title);
+		wxMenuItem *AddMenuItem(wxMenu *menu, const std::string &title,
+			const std::string &script, const std::string &tag="");
+		void AddSeparater(wxMenu *menu);
+		void EnableMenusTag(const std::string &tag, bool enable);
+								
+		wxAuiManager *GetAuiMananger();
+
+		// 0 noraml, 1 check, 2 radio
+		void AddTool(PX2wxAuiToolBar *toolBar, const std::string &icon, const std::string &script, 
+			const std::string &helpStr="", int type=0);
+		void AddToolChoose(PX2wxAuiToolBar *toolBar, const std::string &script, 
+			const std::string &choose0, const std::string &choose1 = "",
+			const std::string &choose2 = "", const std::string &choose3 = "", 
+			const std::string &choose4 = "");
+		void AddToolSeparater(PX2wxAuiToolBar *toolBar);
+		void AddToolStretch(PX2wxAuiToolBar *toolBar);
+	};

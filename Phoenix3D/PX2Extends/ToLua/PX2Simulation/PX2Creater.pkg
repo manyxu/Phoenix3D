@@ -1,0 +1,71 @@
+// PX2Creater.pkg
+
+	class Creater
+	{
+	public:
+		Creater();
+		virtual ~Creater();
+
+		Object *New0(const std::string &className);
+
+		Actor *CreateActor_Rectangle(Node *parent, const APoint &pos, bool posIsLocal);
+		Actor *CreateActor_Box(Node *parent, const APoint &pos, bool posIsLocal);
+		Actor *CreateActor_Sphere(Node *parent, const APoint &pos, bool posIsLocal);
+		Actor *CreateActor_Effect(Node *parent, const APoint &pos, bool posIsLocal);
+		Actor *CreateActor_Actor(Node *parent, const APoint &pos, bool posIsLocal);
+		Character *CreateActor_Character(Node *parent, const APoint &pos, bool posIsLocal);
+		TriggerActor *CreateActor_Trigger(Node *parent, const APoint &pos, bool posIsLocal);
+		SkyActor *CreateActor_Sky(Node *parent, const APoint &pos, bool posIsLocal);
+		TerrainActor *CreateActor_Terrain(Node *parent, const APoint &pos,
+			const std::string &name, int terrainSize, int pageSize, float gridSpacing, bool posIsLocal);
+		LightActor *CreateActor_Light(Node *scene, const APoint &pos, bool posIsLocal);
+
+		Movable *CreateRectangle(Node *parent, const APoint &pos, bool posIsLocal);
+		Movable *CreateBox(Node *parent, const APoint &pos, bool posIsLocal);
+		Movable *CreateSphere(Node *parent, const APoint &pos, bool posIsLocal);
+		Movable *CreateTerrainPage(Terrain *terrain, int indexRow, int indexCol);
+
+		UIFrame *CreateUIFrame(Node *parent, const APoint &pos, bool posIsLocal);
+		UIPicBox *CreateUIPicBox(Node *parent, const APoint &pos, const std::string &filename, bool posIsLocal);
+		UIPicBox *CreateUIPicBox(Node *parent, const APoint &pos, const std::string &texPack,
+			const std::string &eleName, bool posIsLocal);
+		UIText *CreateUIText(Node *parent, const APoint &pos, bool posIsLocal);
+		UIButton *CreateUIButton(Node *parent, const APoint &pos, bool posIsLocal);
+		UICheckButton *CreateUICheckButton(Node *parent, const APoint &pos, bool posIsLocal);
+		UIEditBox *CreateUIEditBox(Node *parent, const APoint &pos, bool posIsLocal);
+		UIProgressBar *CreateUIProgressBar(Node *parent, const APoint &pos, bool posIsLocal);
+
+		ParticleEmitter *CreateParticleEmitter(Node *parent, const APoint &pos, bool posIsLocal);
+		Billboard *CreateBillboard(Node *parent, const APoint &pos, bool posIsLocal);
+		BeamEmitter *CreateBeamEmitter(Node *parent, const APoint &pos, bool posIsLocal);
+		RibbonEmitter *CreateRibbonEmitter(Node *parent, const APoint &pos, bool posIsLocal);
+		Soundable *CreateSoundable(Node *parent, const APoint &pos, bool posIsLocal);
+
+		InterpCurveAlphaController *CreateICC_Alpha(Movable *mov);
+		InterpCurveColorController *CreateICC_Color(Movable *mov);
+		InterpCurveUniformScaleController *CreateICC_UniformScale(Movable *mov);
+		InterpCurveScaleController *CreateICC_Scale(Movable *mov);
+		InterpCurveRotateController *CreateICC_Rotate(Movable *mov);
+		InterpCurveTranslateController *CreateICC_Translate(Movable *mov);
+
+		Node *CreateNode(Node *parent);
+
+		Actor *CreateActor(Node *parent, const std::string &resPath, const APoint &pos, bool posIsLocal);
+		Character *CreateCharacter(Node *parent, const std::string &resPath, const APoint &pos, bool posIsLocal);
+		EffectActor *CreateEffectActor(Node *parent, const std::string &resPath, const APoint &pos, bool posIsLocal);
+
+		void AddObject(Object *parent, Object *obj,
+			bool command = true);
+		bool RemoveObject(Object *obj, bool command = true);
+
+	public:
+		Controlledable *ConvertToControlledable(Object *obj);
+		Movable *ConvertToMovable(Object *obj);
+		Node *ConvertToNode(Object *obj);
+		Actor *ConvertToActor(Object *obj);
+		UIPicBox *ConvertToUIPicBox(Object *obj);
+		UIFrame *ConvertToUIFrame(Object *obj);
+		InterpCurveController *ConvertToInterpCurveController(Object *obj);
+		EffectableController *ConvertToEffectableController(Object *obj);
+		EffectModule *ConvertToEffectModule(Object *obj);
+	};

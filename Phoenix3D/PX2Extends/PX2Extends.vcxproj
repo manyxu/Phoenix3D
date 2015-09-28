@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{77B1ECDF-E281-42E6-BA9C-F842A22946B3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>PX2Extends</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>PX2ExtendsD</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;PX2_FOUNDATION_DLL_IMPORT;PX2_EXTENDS_DLL_EXPORT;PX2_TOLUA_DLL_EXPORT</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>./;./Effect;./Terrains;./UI;./Simulation;./Edit;./ToLua;../PX2Foundation/Unity/Lua;../PX2Foundation/Unity/ToLua;../PX2SDK/Include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration);..\..\ThirdPartiesLibs\wxWidgets-3.0.2\lib\vc_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PX2FoundationD.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>mkdir ..\PX2SDK\Include
+xcopy /DY *.hpp ..\PX2SDK\Include
+xcopy /DY .\Edit\*.hpp ..\PX2SDK\Include
+xcopy /DY .\Edit\*.inl ..\PX2SDK\Include
+xcopy /DY .\Effect\*.hpp ..\PX2SDK\Include
+xcopy /DY .\Effect\*.inl ..\PX2SDK\Include
+xcopy /DY .\UI\*.hpp ..\PX2SDK\Include
+xcopy /DY .\UI\*.inl ..\PX2SDK\Include
+xcopy /DY .\Terrains\*.hpp ..\PX2SDK\Include
+xcopy /DY .\Terrains\*.inl ..\PX2SDK\Include
+xcopy /DY .\Simulation\*.hpp ..\PX2SDK\Include
+xcopy /DY .\Simulation\*.inl ..\PX2SDK\Include
+xcopy /DY .\AppFrame\*.hpp ..\PX2SDK\Include
+xcopy /DY .\AppFrame\*.inl ..\PX2SDK\Include
+mkdir ..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(TargetPath)" ..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(OutDir)$(TargetName).lib" ..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;PX2EXTENDS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="AppFrame\PX2AppFramePre.hpp" />
+    <ClInclude Include="AppFrame\PX2Application.hpp" />
+    <ClInclude Include="AppFrame\PX2ApplicationBase.hpp" />
+    <ClInclude Include="Edit\PX2Brush.hpp" />
+    <ClInclude Include="Edit\PX2Curve.hpp" />
+    <ClInclude Include="Edit\PX2CurveCtrl.hpp" />
+    <ClInclude Include="Edit\PX2CurveGroup.hpp" />
+    <ClInclude Include="Edit\PX2Edit.hpp" />
+    <ClInclude Include="Edit\PX2EditDefine.hpp" />
+    <ClInclude Include="Edit\PX2EditEventType.hpp" />
+    <ClInclude Include="Edit\PX2EditMap.hpp" />
+    <ClInclude Include="Edit\PX2EditParams.hpp" />
+    <ClInclude Include="Edit\PX2EditPre.hpp" />
+    <ClInclude Include="Edit\PX2EditRenderView.hpp" />
+    <ClInclude Include="Edit\PX2EditRenderView_Logic.hpp" />
+    <ClInclude Include="Edit\PX2EditRenderView_PreView.hpp" />
+    <ClInclude Include="Edit\PX2EditRenderView_Res.hpp" />
+    <ClInclude Include="Edit\PX2EditRenderView_Scene.hpp" />
+    <ClInclude Include="Edit\PX2EditRenderView_TimeLine.hpp" />
+    <ClInclude Include="Edit\PX2EditRenderView_UI.hpp" />
+    <ClInclude Include="Edit\PX2Edits.hpp" />
+    <ClInclude Include="Edit\PX2EditTimeLineEdit.hpp" />
+    <ClInclude Include="Edit\PX2EU_InspectorFrame.hpp" />
+    <ClInclude Include="Edit\PX2EU_Manager.hpp" />
+    <ClInclude Include="Edit\PX2EU_ProjectFrame.hpp" />
+    <ClInclude Include="Edit\PX2GeoObjFactory.hpp" />
+    <ClInclude Include="Edit\PX2SceneNodeCtrl.hpp" />
+    <ClInclude Include="Edit\PX2SelectResData.hpp" />
+    <ClInclude Include="Edit\PX2TerrainBrush.hpp" />
+    <ClInclude Include="Edit\PX2TerrainEdit.hpp" />
+    <ClInclude Include="Edit\PX2TerrainProcess.hpp" />
+    <ClInclude Include="Edit\PX2UICurveGroup.hpp" />
+    <ClInclude Include="Edit\PX2UIObjectCtrl.hpp" />
+    <ClInclude Include="Effect\PX2BeamEmitter.hpp" />
+    <ClInclude Include="Effect\PX2BeamEmitterController.hpp" />
+    <ClInclude Include="Effect\PX2BeamObject.hpp" />
+    <ClInclude Include="Effect\PX2Billboard.hpp" />
+    <ClInclude Include="Effect\PX2BillboardController.hpp" />
+    <ClInclude Include="Effect\PX2CameraShake.hpp" />
+    <ClInclude Include="Effect\PX2CameraShakeController.hpp" />
+    <ClInclude Include="Effect\PX2CameraShakeObject.hpp" />
+    <ClInclude Include="Effect\PX2Effect.hpp" />
+    <ClInclude Include="Effect\PX2Effectable.hpp" />
+    <ClInclude Include="Effect\PX2EffectableController.hpp" />
+    <ClInclude Include="Effect\PX2EffectModel.hpp" />
+    <ClInclude Include="Effect\PX2EffectModelController.hpp" />
+    <ClInclude Include="Effect\PX2EffectModelNode.hpp" />
+    <ClInclude Include="Effect\PX2EffectModelNodeController.hpp" />
+    <ClInclude Include="Effect\PX2EffectModule.hpp" />
+    <ClInclude Include="Effect\PX2EffectModuleCallbacks_BeamEmitter.hpp" />
+    <ClInclude Include="Effect\PX2EffectModuleCallbacks_CameraShake.hpp" />
+    <ClInclude Include="Effect\PX2EffectModuleCallbacks_Effectable.hpp" />
+    <ClInclude Include="Effect\PX2EffectModuleCallbacks_ParticleEmitter.hpp" />
+    <ClInclude Include="Effect\PX2EffectModuleCallbacks_Soundable.hpp" />
+    <ClInclude Include="Effect\PX2EffectObject.hpp" />
+    <ClInclude Include="Effect\PX2EffectPre.hpp" />
+    <ClInclude Include="Effect\PX2ParticleEmitter.hpp" />
+    <ClInclude Include="Effect\PX2ParticleEmitterController.hpp" />
+    <ClInclude Include="Effect\PX2ParticleObject.hpp" />
+    <ClInclude Include="Effect\PX2RibbonEmitter.hpp" />
+    <ClInclude Include="Effect\PX2RibbonEmitterController.hpp" />
+    <ClInclude Include="Effect\PX2RibbonObject.hpp" />
+    <ClInclude Include="Effect\PX2Soundable.hpp" />
+    <ClInclude Include="Effect\PX2SoundableController.hpp" />
+    <ClInclude Include="Effect\PX2SoundableObject.hpp" />
+    <ClInclude Include="Effect\PX2TRange.hpp" />
+    <ClInclude Include="Effect\PX2TRecyclingArray.hpp" />
+    <ClInclude Include="PX2ExtendsPre.hpp" />
+    <ClInclude Include="Simulation\PX2AccoutManager.hpp" />
+    <ClInclude Include="Simulation\PX2Actor.hpp" />
+    <ClInclude Include="Simulation\PX2ActorPicker.hpp" />
+    <ClInclude Include="Simulation\PX2ActorPickRecord.hpp" />
+    <ClInclude Include="Simulation\PX2AmbientRegionActor.hpp" />
+    <ClInclude Include="Simulation\PX2Animation.hpp" />
+    <ClInclude Include="Simulation\PX2Animation3DSkeleton.hpp" />
+    <ClInclude Include="Simulation\PX2AnimationFrames.hpp" />
+    <ClInclude Include="Simulation\PX2AnimationObject.hpp" />
+    <ClInclude Include="Simulation\PX2CameraActor.hpp" />
+    <ClInclude Include="Simulation\PX2CellSpace.hpp" />
+    <ClInclude Include="Simulation\PX2CellSpaceT.hpp" />
+    <ClInclude Include="Simulation\PX2Character.hpp" />
+    <ClInclude Include="Simulation\PX2Creater.hpp" />
+    <ClInclude Include="Simulation\PX2EffectActor.hpp" />
+    <ClInclude Include="Simulation\PX2EngineLoop.hpp" />
+    <ClInclude Include="Simulation\PX2FramesMesh.hpp" />
+    <ClInclude Include="Simulation\PX2LightActor.hpp" />
+    <ClInclude Include="Simulation\PX2PlatformSDK.hpp" />
+    <ClInclude Include="Simulation\PX2PlatformSDKEventType.hpp" />
+    <ClInclude Include="Simulation\PX2Project.hpp" />
+    <ClInclude Include="Simulation\PX2RedoUndo.hpp" />
+    <ClInclude Include="Simulation\PX2RenderStepScene.hpp" />
+    <ClInclude Include="Simulation\PX2Scene.hpp" />
+    <ClInclude Include="Simulation\PX2Selection.hpp" />
+    <ClInclude Include="Simulation\PX2Simulation.hpp" />
+    <ClInclude Include="Simulation\PX2SimulationDataDefine.hpp" />
+    <ClInclude Include="Simulation\PX2SimulationEventType.hpp" />
+    <ClInclude Include="Simulation\PX2SimulationPre.hpp" />
+    <ClInclude Include="Simulation\PX2SkyActor.hpp" />
+    <ClInclude Include="Simulation\PX2SkyMesh.hpp" />
+    <ClInclude Include="Simulation\PX2TerrainActor.hpp" />
+    <ClInclude Include="Simulation\PX2TriggerActor.hpp" />
+    <ClInclude Include="Simulation\PX2User.hpp" />
+    <ClInclude Include="Simulation\PX2UserActor.hpp" />
+    <ClInclude Include="Simulation\PX2VBIBObj.hpp" />
+    <ClInclude Include="Terrains\PX2Jungler.hpp" />
+    <ClInclude Include="Terrains\PX2LODTerrain.hpp" />
+    <ClInclude Include="Terrains\PX2LODTerrainBlock.hpp" />
+    <ClInclude Include="Terrains\PX2LODTerrainPage.hpp" />
+    <ClInclude Include="Terrains\PX2LODTerrainVertex.hpp" />
+    <ClInclude Include="Terrains\PX2RawTerrain.hpp" />
+    <ClInclude Include="Terrains\PX2RawTerrainPage.hpp" />
+    <ClInclude Include="Terrains\PX2Terrain.hpp" />
+    <ClInclude Include="Terrains\PX2TerrainPage.hpp" />
+    <ClInclude Include="Terrains\PX2Terrains.hpp" />
+    <ClInclude Include="Terrains\PX2TerrainsPre.hpp" />
+    <ClInclude Include="ToLua\PX2ToLua.hpp" />
+    <ClInclude Include="UI\PX2UI.hpp" />
+    <ClInclude Include="UI\PX2UIAuiBlockFrame.hpp" />
+    <ClInclude Include="UI\PX2UIAuiFrame.hpp" />
+    <ClInclude Include="UI\PX2UIButton.hpp" />
+    <ClInclude Include="UI\PX2UIButtonBase.hpp" />
+    <ClInclude Include="UI\PX2UICallback.hpp" />
+    <ClInclude Include="UI\PX2UICheckButton.hpp" />
+    <ClInclude Include="UI\PX2UIDefine.hpp" />
+    <ClInclude Include="UI\PX2UIEditBox.hpp" />
+    <ClInclude Include="UI\PX2UIFPicBox.hpp" />
+    <ClInclude Include="UI\PX2UIFrame.hpp" />
+    <ClInclude Include="UI\PX2UIFrameGridAlignControl.hpp" />
+    <ClInclude Include="UI\PX2UIGridFrame.hpp" />
+    <ClInclude Include="UI\PX2UIInputText.hpp" />
+    <ClInclude Include="UI\PX2UIItem.hpp" />
+    <ClInclude Include="UI\PX2UIMenu.hpp" />
+    <ClInclude Include="UI\PX2UIMenuItem.hpp" />
+    <ClInclude Include="UI\PX2UIPanel.hpp" />
+    <ClInclude Include="UI\PX2UIPicBox.hpp" />
+    <ClInclude Include="UI\PX2UIPre.hpp" />
+    <ClInclude Include="UI\PX2UIProgressBar.hpp" />
+    <ClInclude Include="UI\PX2UIProgressBarCtrl.hpp" />
+    <ClInclude Include="UI\PX2UIScoreText.hpp" />
+    <ClInclude Include="UI\PX2UIScoreTextCtrl.hpp" />
+    <ClInclude Include="UI\PX2UISkinManager.hpp" />
+    <ClInclude Include="UI\PX2UISplitterFrame.hpp" />
+    <ClInclude Include="UI\PX2UITabFrame.hpp" />
+    <ClInclude Include="UI\PX2UIText.hpp" />
+    <ClInclude Include="UI\PX2UIView.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AppFrame\PX2Application.cpp" />
+    <ClCompile Include="AppFrame\PX2ApplicationBase.cpp" />
+    <ClCompile Include="Edit\PX2Brush.cpp" />
+    <ClCompile Include="Edit\PX2Curve.cpp" />
+    <ClCompile Include="Edit\PX2CurveCtrl.cpp" />
+    <ClCompile Include="Edit\PX2CurveGroup.cpp" />
+    <ClCompile Include="Edit\PX2Edit.cpp" />
+    <ClCompile Include="Edit\PX2EditEventType.cpp" />
+    <ClCompile Include="Edit\PX2EditMap.cpp" />
+    <ClCompile Include="Edit\PX2EditParams.cpp" />
+    <ClCompile Include="Edit\PX2EditRenderView.cpp" />
+    <ClCompile Include="Edit\PX2EditRenderView_Logic.cpp" />
+    <ClCompile Include="Edit\PX2EditRenderView_PreView.cpp" />
+    <ClCompile Include="Edit\PX2EditRenderView_Res.cpp" />
+    <ClCompile Include="Edit\PX2EditRenderView_Scene.cpp" />
+    <ClCompile Include="Edit\PX2EditRenderView_TimeLine.cpp" />
+    <ClCompile Include="Edit\PX2EditRenderView_UI.cpp" />
+    <ClCompile Include="Edit\PX2EditTimeLineEdit.cpp" />
+    <ClCompile Include="Edit\PX2EU_InspectorFrame.cpp" />
+    <ClCompile Include="Edit\PX2EU_Manager.cpp" />
+    <ClCompile Include="Edit\PX2EU_ProjectFrame.cpp" />
+    <ClCompile Include="Edit\PX2GeoObjFactory.cpp" />
+    <ClCompile Include="Edit\PX2SceneNodeCtrl.cpp" />
+    <ClCompile Include="Edit\PX2SelectResData.cpp" />
+    <ClCompile Include="Edit\PX2TerrainBrush.cpp" />
+    <ClCompile Include="Edit\PX2TerrainEdit.cpp" />
+    <ClCompile Include="Edit\PX2TerrainProcess.cpp" />
+    <ClCompile Include="Edit\PX2UICurveGroup.cpp" />
+    <ClCompile Include="Edit\PX2UIObjectCtrl.cpp" />
+    <ClCompile Include="Effect\PX2BeamEmitter.cpp" />
+    <ClCompile Include="Effect\PX2BeamEmitterController.cpp" />
+    <ClCompile Include="Effect\PX2BeamObject.cpp" />
+    <ClCompile Include="Effect\PX2Billboard.cpp" />
+    <ClCompile Include="Effect\PX2BillboardController.cpp" />
+    <ClCompile Include="Effect\PX2CameraShake.cpp" />
+    <ClCompile Include="Effect\PX2CameraShakeController.cpp" />
+    <ClCompile Include="Effect\PX2CameraShakeObject.cpp" />
+    <ClCompile Include="Effect\PX2Effectable.cpp" />
+    <ClCompile Include="Effect\PX2EffectableController.cpp" />
+    <ClCompile Include="Effect\PX2EffectModel.cpp" />
+    <ClCompile Include="Effect\PX2EffectModelController.cpp" />
+    <ClCompile Include="Effect\PX2EffectModelNode.cpp" />
+    <ClCompile Include="Effect\PX2EffectModelNodeController.cpp" />
+    <ClCompile Include="Effect\PX2EffectModule.cpp" />
+    <ClCompile Include="Effect\PX2EffectModuleCallbacks_BeamEmitter.cpp" />
+    <ClCompile Include="Effect\PX2EffectModuleCallbacks_CameraShake.cpp" />
+    <ClCompile Include="Effect\PX2EffectModuleCallbacks_Effectable.cpp" />
+    <ClCompile Include="Effect\PX2EffectModuleCallbacks_ParticleEmitter.cpp" />
+    <ClCompile Include="Effect\PX2EffectModuleCallbacks_Soundable.cpp" />
+    <ClCompile Include="Effect\PX2EffectObject.cpp" />
+    <ClCompile Include="Effect\PX2ParticleEmitter.cpp" />
+    <ClCompile Include="Effect\PX2ParticleEmitterController.cpp" />
+    <ClCompile Include="Effect\PX2ParticleObject.cpp" />
+    <ClCompile Include="Effect\PX2RibbonEmitter.cpp" />
+    <ClCompile Include="Effect\PX2RibbonEmitterController.cpp" />
+    <ClCompile Include="Effect\PX2RibbonObject.cpp" />
+    <ClCompile Include="Effect\PX2Soundable.cpp" />
+    <ClCompile Include="Effect\PX2SoundableController.cpp" />
+    <ClCompile Include="Effect\PX2SoundableObject.cpp" />
+    <ClCompile Include="Simulation\PX2AccoutManager.cpp" />
+    <ClCompile Include="Simulation\PX2Actor.cpp" />
+    <ClCompile Include="Simulation\PX2ActorPicker.cpp" />
+    <ClCompile Include="Simulation\PX2Actor_BitSet.cpp" />
+    <ClCompile Include="Simulation\PX2AmbientRegionActor.cpp" />
+    <ClCompile Include="Simulation\PX2Animation.cpp" />
+    <ClCompile Include="Simulation\PX2Animation3DSkeleton.cpp" />
+    <ClCompile Include="Simulation\PX2AnimationFrames.cpp" />
+    <ClCompile Include="Simulation\PX2AnimationObject.cpp" />
+    <ClCompile Include="Simulation\PX2CameraActor.cpp" />
+    <ClCompile Include="Simulation\PX2CellSpace.cpp" />
+    <ClCompile Include="Simulation\PX2Character.cpp" />
+    <ClCompile Include="Simulation\PX2Character_Anim.cpp" />
+    <ClCompile Include="Simulation\PX2Character_HPAP.cpp" />
+    <ClCompile Include="Simulation\PX2Creater.cpp" />
+    <ClCompile Include="Simulation\PX2EffectActor.cpp" />
+    <ClCompile Include="Simulation\PX2EngineLoop.cpp" />
+    <ClCompile Include="Simulation\PX2EngineLoop_InitTerm.cpp" />
+    <ClCompile Include="Simulation\PX2EngineLoop_Play.cpp" />
+    <ClCompile Include="Simulation\PX2EngineLoop_Tick.cpp" />
+    <ClCompile Include="Simulation\PX2FramesMesh.cpp" />
+    <ClCompile Include="Simulation\PX2LightActor.cpp" />
+    <ClCompile Include="Simulation\PX2PlatformSDK.cpp" />
+    <ClCompile Include="Simulation\PX2PlatformSDKEventType.cpp" />
+    <ClCompile Include="Simulation\PX2Project.cpp" />
+    <ClCompile Include="Simulation\PX2RedoUndo.cpp" />
+    <ClCompile Include="Simulation\PX2RenderStepScene.cpp" />
+    <ClCompile Include="Simulation\PX2Scene.cpp" />
+    <ClCompile Include="Simulation\PX2Scene_Manager.cpp" />
+    <ClCompile Include="Simulation\PX2Selection.cpp" />
+    <ClCompile Include="Simulation\PX2SimulationEventType.cpp" />
+    <ClCompile Include="Simulation\PX2SkyActor.cpp" />
+    <ClCompile Include="Simulation\PX2SkyMesh.cpp" />
+    <ClCompile Include="Simulation\PX2TerrainActor.cpp" />
+    <ClCompile Include="Simulation\PX2TriggerActor.cpp" />
+    <ClCompile Include="Simulation\PX2User.cpp" />
+    <ClCompile Include="Simulation\PX2UserActor.cpp" />
+    <ClCompile Include="Simulation\PX2VBIBObj.cpp" />
+    <ClCompile Include="Terrains\PX2Jungler.cpp" />
+    <ClCompile Include="Terrains\PX2LODTerrain.cpp" />
+    <ClCompile Include="Terrains\PX2LODTerrainBlock.cpp" />
+    <ClCompile Include="Terrains\PX2LODTerrainPage.cpp" />
+    <ClCompile Include="Terrains\PX2LODTerrainVertex.cpp" />
+    <ClCompile Include="Terrains\PX2RawTerrain.cpp" />
+    <ClCompile Include="Terrains\PX2RawTerrainPage.cpp" />
+    <ClCompile Include="Terrains\PX2Terrain.cpp" />
+    <ClCompile Include="Terrains\PX2TerrainPage.cpp" />
+    <ClCompile Include="ToLua\PX2ToLua.cpp" />
+    <ClCompile Include="UI\PX2UIAuiBlockFrame.cpp" />
+    <ClCompile Include="UI\PX2UIAuiFrame.cpp" />
+    <ClCompile Include="UI\PX2UIButton.cpp" />
+    <ClCompile Include="UI\PX2UIButtonBase.cpp" />
+    <ClCompile Include="UI\PX2UICheckButton.cpp" />
+    <ClCompile Include="UI\PX2UIEditBox.cpp" />
+    <ClCompile Include="UI\PX2UIFPicBox.cpp" />
+    <ClCompile Include="UI\PX2UIFrame.cpp" />
+    <ClCompile Include="UI\PX2UIFrameGridAlignControl.cpp" />
+    <ClCompile Include="UI\PX2UIGridFrame.cpp" />
+    <ClCompile Include="UI\PX2UIInputText.cpp" />
+    <ClCompile Include="UI\PX2UIItem.cpp" />
+    <ClCompile Include="UI\PX2UIMenu.cpp" />
+    <ClCompile Include="UI\PX2UIMenuItem.cpp" />
+    <ClCompile Include="UI\PX2UIPanel.cpp" />
+    <ClCompile Include="UI\PX2UIPicBox.cpp" />
+    <ClCompile Include="UI\PX2UIProgressBar.cpp" />
+    <ClCompile Include="UI\PX2UIProgressBarCtrl.cpp" />
+    <ClCompile Include="UI\PX2UIScoreText.cpp" />
+    <ClCompile Include="UI\PX2UIScoreTextCtrl.cpp" />
+    <ClCompile Include="UI\PX2UISkinManager.cpp" />
+    <ClCompile Include="UI\PX2UISplitterFrame.cpp" />
+    <ClCompile Include="UI\PX2UITabFrame.cpp" />
+    <ClCompile Include="UI\PX2UIText.cpp" />
+    <ClCompile Include="UI\PX2UIView.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Edit\PX2Edit.inl" />
+    <None Include="Effect\PX2BeamEmitter.inl" />
+    <None Include="Effect\PX2BeamEmitterController.inl" />
+    <None Include="Effect\PX2Billboard.inl" />
+    <None Include="Effect\PX2BillboardController.inl" />
+    <None Include="Effect\PX2CameraShake.inl" />
+    <None Include="Effect\PX2CameraShakeController.inl" />
+    <None Include="Effect\PX2Effectable.inl" />
+    <None Include="Effect\PX2EffectableController.inl" />
+    <None Include="Effect\PX2EffectModel.inl" />
+    <None Include="Effect\PX2EffectModelController.inl" />
+    <None Include="Effect\PX2EffectModelNode.inl" />
+    <None Include="Effect\PX2EffectModule.inl" />
+    <None Include="Effect\PX2ParticleEmitter.inl" />
+    <None Include="Effect\PX2ParticleEmitterController.inl" />
+    <None Include="Effect\PX2RibbonEmitter.inl" />
+    <None Include="Effect\PX2RibbonEmitterController.inl" />
+    <None Include="Effect\PX2Soundable.inl" />
+    <None Include="Effect\PX2SoundableController.inl" />
+    <None Include="Effect\PX2TRange.inl" />
+    <None Include="Effect\PX2TRecyclingArray.inl" />
+    <None Include="Simulation\PX2Actor.inl" />
+    <None Include="Simulation\PX2AmbientRegionActor.inl" />
+    <None Include="Simulation\PX2Animation.inl" />
+    <None Include="Simulation\PX2Animation3DSkeleton.inl" />
+    <None Include="Simulation\PX2AnimationFrames.inl" />
+    <None Include="Simulation\PX2AnimationObject.inl" />
+    <None Include="Simulation\PX2CameraActor.inl" />
+    <None Include="Simulation\PX2CellSpaceT.inl" />
+    <None Include="Simulation\PX2Character.inl" />
+    <None Include="Simulation\PX2EngineLoop.inl" />
+    <None Include="Simulation\PX2FramesMesh.inl" />
+    <None Include="Simulation\PX2LightActor.inl" />
+    <None Include="Simulation\PX2Project.inl" />
+    <None Include="Simulation\PX2Scene.inl" />
+    <None Include="Simulation\PX2Selection.inl" />
+    <None Include="Simulation\PX2SkyActor.inl" />
+    <None Include="Simulation\PX2SkyMesh.inl" />
+    <None Include="Simulation\PX2TerrainActor.inl" />
+    <None Include="Simulation\PX2TriggerActor.inl" />
+    <None Include="Simulation\PX2UserActor.inl" />
+    <None Include="Terrains\PX2Jungler.inl" />
+    <None Include="Terrains\PX2LODTerrain.inl" />
+    <None Include="Terrains\PX2LODTerrainBlock.inl" />
+    <None Include="Terrains\PX2LODTerrainPage.inl" />
+    <None Include="Terrains\PX2LODTerrainVertex.inl" />
+    <None Include="Terrains\PX2RawTerrainPage.inl" />
+    <None Include="Terrains\PX2Terrain.inl" />
+    <None Include="Terrains\PX2TerrainPage.inl" />
+    <None Include="UI\PX2UIAuiBlockFrame.inl" />
+    <None Include="UI\PX2UIButton.inl" />
+    <None Include="UI\PX2UIButtonBase.inl" />
+    <None Include="UI\PX2UIEditBox.inl" />
+    <None Include="UI\PX2UIFPicBox.inl" />
+    <None Include="UI\PX2UIFrame.inl" />
+    <None Include="UI\PX2UIFrameGridAlignControl.inl" />
+    <None Include="UI\PX2UIInputText.inl" />
+    <None Include="UI\PX2UIItem.inl" />
+    <None Include="UI\PX2UIMenu.inl" />
+    <None Include="UI\PX2UIMenuItem.inl" />
+    <None Include="UI\PX2UIPicBox.inl" />
+    <None Include="UI\PX2UIProgressBar.inl" />
+    <None Include="UI\PX2UIProgressBarCtrl.inl" />
+    <None Include="UI\PX2UIScoreText.inl" />
+    <None Include="UI\PX2UIScoreTextCtrl.inl" />
+    <None Include="UI\PX2UISplitterFrame.inl" />
+    <None Include="UI\PX2UITabFrame.inl" />
+    <None Include="UI\PX2UIText.inl" />
+    <None Include="UI\PX2UIView.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

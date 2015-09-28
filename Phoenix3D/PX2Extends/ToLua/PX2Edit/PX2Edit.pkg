@@ -1,0 +1,104 @@
+// PX2Edit.hpp
+
+	class Edit
+	{
+	public:
+		Edit();
+		~Edit();
+
+		bool Initlize();
+		bool Ternamate();
+		void Reset();
+
+	public:
+		enum EditType
+		{
+			ET_SCENE,
+			ET_TERRAIN,
+			ET_UI,
+			ET_MAXTYPE
+		};
+		void SetEditType(EditType type);
+		EditType GetEditType() const;		
+		
+		enum EditAxisMode
+		{
+			EAM_WORLD,
+			EAM_LOCAL,
+			EAM_PARENT,
+			EMA_MAX_MODE
+		};
+		void SetEditAxisMode(EditAxisMode mode);
+		EditAxisMode GetEdtiAxisMode() const;
+
+		enum EditMode
+		{
+			EM_NONE,
+			EM_SELECT,
+			EM_TRANSLATE,
+			EM_ROLATE,
+			EM_SCALE,
+			EM_MAX_MODE
+		};
+		void SetEditMode(EditMode mode);
+		EditMode GetEditMode() const;
+
+		EditMap *GetEditMap();
+	public:
+		GeoObjFactory *GetGOF();
+
+		static int GetEditID();
+
+	public:
+		EditParams *GetEditParams();
+		
+		// key
+	public:
+		bool IsAltDown;
+		bool IsCtrlDown;
+		bool IsShiftDown;
+
+		// Pick
+	public:
+		void SetPickPos(const APoint &pos);
+		const APoint &GetPickPos() const;
+
+		// Select
+	public:
+		bool DeleteSelection();
+
+		// select
+	public:
+		void SetSelectPath_ChildFilenames(const std::vector<std::string> &filenamess);
+		void SetSelectPath_ChildPaths(const std::vector<std::string> &paths);
+		const std::vector<std::string> &GetSelectPath_ChildFilenames() const;
+		const std::vector<std::string> &GetSelectPath_ChildPaths() const;
+
+		void SetSelectedResource(const SelectResData &data);
+		const SelectResData &GetSelectedResource() const;
+		
+	public:
+		void OnFindSelectInProjTree();
+		void OnFindSelectInResTree();
+
+		// Copy
+	public:
+		void SetCopyObject(Object *obj);
+		Object *GetCopyObject();
+		void PasteCopyedObject();
+		
+		// anim
+	public:
+		void AnimPlay();
+		void AnimResetPlay();
+		void AnimStop();
+		void AnimReset();
+		
+		bool IsAnimPlaying();
+		void AnimPlayStop();
+		
+		// TimeLine
+	public:
+		TimeLineEdit *GetTimeLineEdit();
+		void MakeSelectTimeLineEdit();
+	};

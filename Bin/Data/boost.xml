@@ -1,0 +1,9 @@
+<boost name="boost">
+	<config>
+		<var width="1136" height="640"/>
+	</config>
+	<play>
+		<var projectname="Soccer" playlogicmode="logic"/>
+	</play>
+</boost>
+
