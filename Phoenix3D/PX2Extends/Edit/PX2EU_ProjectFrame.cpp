@@ -8,23 +8,36 @@ PX2_IMPLEMENT_STREAM(EU_ProjectFrame);
 PX2_IMPLEMENT_FACTORY(EU_ProjectFrame);
 
 //----------------------------------------------------------------------------
-float EU_ProjectFrame::sItemSize = 20.0f;
-//----------------------------------------------------------------------------
 EU_ProjectFrame::EU_ProjectFrame()
 {
-	mRootItem = new UIItem();
-	AttachChild(mRootItem);
-	mRootItem->LocalTransform.SetTranslateZ(-1.0f);
-	mRootItem->SetSize(10.0f, sItemSize);
-	mRootItem->SetAnchorHor(0.0f, 1.0f);
-	mRootItem->SetAnchorVer(1.0f, 1.0f);
-	mRootItem->SetAnchorParamVer(-sItemSize/2.0f, 0.0f);
-	mRootItem->CreateAddBackgroundPicBox();
+	mTree = new0 EU_ProjectTree();
+	AttachChild(mTree);
+	mTree->SetAnchorHor(0.0f, 1.0f);
+	mTree->SetAnchorVer(0.0f, 1.0f);
+
+	UIItem *rootItem = mTree->GetRootItem();
+	rootItem->AddItem("ABCD");
+
+	UIItem *itemABC = rootItem->AddItem("ABC");
+	itemABC->AddItem("abc1");
+	itemABC->AddItem("abc2");
+
+	rootItem->AddItem("ABC");
+
+	UIItem *itemAB = rootItem->AddItem("AB");
+	itemAB->AddItem("ab1");
+	UIItem *itemab2 = itemAB->AddItem("ab2");
+	itemab2->AddItem("ab2_1");
+	itemab2->AddItem("ab2_2");
+
+	rootItem->AddItem("AA");
+	rootItem->AddItem("A");
+
+	rootItem->Expand(true);
 }
 //----------------------------------------------------------------------------
 EU_ProjectFrame::~EU_ProjectFrame()
 {
-
 }
 //----------------------------------------------------------------------------
 

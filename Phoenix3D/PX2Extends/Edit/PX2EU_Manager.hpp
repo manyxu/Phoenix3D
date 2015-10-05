@@ -41,9 +41,11 @@ namespace PX2
 		// content
 		void CreateFrame_Content();
 
-		void CreateFrame_Project();
+		void CreateFrame_ProjectRes();
 
 		void CreateFrame_Inspector();
+
+		void CreateFrame_Console();
 
 	protected:
 		Pointer0<UIView> mUIView_Main;

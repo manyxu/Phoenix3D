@@ -1,6 +1,6 @@
 /*
 ** Lua binding: PX2
-** Generated automatically by tolua++-1.0.92 on 08/26/15 23:19:31.
+** Generated automatically by tolua++-1.0.92 on 10/05/15 17:11:02.
 */
 
 #ifndef __cplusplus
@@ -26550,8 +26550,8 @@ static int tolua_PX2_Billboard_IsDynamic00(lua_State* tolua_S)
 #endif //#ifndef TOLUA_DISABLE
 
 /* method: SetPivot of class  Billboard */
-#ifndef TOLUA_DISABLE_tolua_PX2_Billboard_SetPivotPoint00
-static int tolua_PX2_Billboard_SetPivotPoint00(lua_State* tolua_S)
+#ifndef TOLUA_DISABLE_tolua_PX2_Billboard_SetPivot00
+static int tolua_PX2_Billboard_SetPivot00(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
@@ -26585,8 +26585,8 @@ static int tolua_PX2_Billboard_SetPivotPoint00(lua_State* tolua_S)
 #endif //#ifndef TOLUA_DISABLE
 
 /* method: SetPivot of class  Billboard */
-#ifndef TOLUA_DISABLE_tolua_PX2_Billboard_SetPivotPoint01
-static int tolua_PX2_Billboard_SetPivotPoint01(lua_State* tolua_S)
+#ifndef TOLUA_DISABLE_tolua_PX2_Billboard_SetPivot01
+static int tolua_PX2_Billboard_SetPivot01(lua_State* tolua_S)
 {
  tolua_Error tolua_err;
  if (
@@ -26608,13 +26608,13 @@ static int tolua_PX2_Billboard_SetPivotPoint01(lua_State* tolua_S)
  }
  return 0;
 tolua_lerror:
- return tolua_PX2_Billboard_SetPivotPoint00(tolua_S);
+ return tolua_PX2_Billboard_SetPivot00(tolua_S);
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: GetPivotPoint of class  Billboard */
-#ifndef TOLUA_DISABLE_tolua_PX2_Billboard_GetPivotPoint00
-static int tolua_PX2_Billboard_GetPivotPoint00(lua_State* tolua_S)
+/* method: GetPivot of class  Billboard */
+#ifndef TOLUA_DISABLE_tolua_PX2_Billboard_GetPivot00
+static int tolua_PX2_Billboard_GetPivot00(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
@@ -26628,17 +26628,17 @@ static int tolua_PX2_Billboard_GetPivotPoint00(lua_State* tolua_S)
  {
   const Billboard* self = (const Billboard*)  tolua_tousertype(tolua_S,1,0);
 #ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPivotPoint'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPivot'", NULL);
 #endif
   {
-   const Float2& tolua_ret = (const Float2&)  self->GetPivotPoint();
+   const Float2& tolua_ret = (const Float2&)  self->GetPivot();
     tolua_pushusertype(tolua_S,(void*)&tolua_ret,"const Float2");
   }
  }
  return 1;
 #ifndef TOLUA_RELEASE
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'GetPivotPoint'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'GetPivot'.",&tolua_err);
  return 0;
 #endif
 }
@@ -28969,8 +28969,8 @@ static int tolua_PX2_ParticleEmitter_GetModelFilename00(lua_State* tolua_S)
 #endif //#ifndef TOLUA_DISABLE
 
 /* method: SetPivot of class  ParticleEmitter */
-#ifndef TOLUA_DISABLE_tolua_PX2_ParticleEmitter_SetPivotPoint00
-static int tolua_PX2_ParticleEmitter_SetPivotPoint00(lua_State* tolua_S)
+#ifndef TOLUA_DISABLE_tolua_PX2_ParticleEmitter_SetPivot00
+static int tolua_PX2_ParticleEmitter_SetPivot00(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
@@ -29001,9 +29001,9 @@ static int tolua_PX2_ParticleEmitter_SetPivotPoint00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: GetPivotPoint of class  ParticleEmitter */
-#ifndef TOLUA_DISABLE_tolua_PX2_ParticleEmitter_GetPivotPoint00
-static int tolua_PX2_ParticleEmitter_GetPivotPoint00(lua_State* tolua_S)
+/* method: GetPivot of class  ParticleEmitter */
+#ifndef TOLUA_DISABLE_tolua_PX2_ParticleEmitter_GetPivot00
+static int tolua_PX2_ParticleEmitter_GetPivot00(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
@@ -29017,17 +29017,17 @@ static int tolua_PX2_ParticleEmitter_GetPivotPoint00(lua_State* tolua_S)
  {
   const ParticleEmitter* self = (const ParticleEmitter*)  tolua_tousertype(tolua_S,1,0);
 #ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPivotPoint'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPivot'", NULL);
 #endif
   {
-   const Float2& tolua_ret = (const Float2&)  self->GetPivotPoint();
+   const Float2& tolua_ret = (const Float2&)  self->GetPivot();
     tolua_pushusertype(tolua_S,(void*)&tolua_ret,"const Float2");
   }
  }
  return 1;
 #ifndef TOLUA_RELEASE
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'GetPivotPoint'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'GetPivot'.",&tolua_err);
  return 0;
 #endif
 }
@@ -34044,8 +34044,8 @@ static int tolua_PX2_UIPicBox_GetPicBoxType00(lua_State* tolua_S)
 #endif //#ifndef TOLUA_DISABLE
 
 /* method: SetPivot of class  UIPicBox */
-#ifndef TOLUA_DISABLE_tolua_PX2_UIPicBox_SetPivotPoint00
-static int tolua_PX2_UIPicBox_SetPivotPoint00(lua_State* tolua_S)
+#ifndef TOLUA_DISABLE_tolua_PX2_UIPicBox_SetPivot00
+static int tolua_PX2_UIPicBox_SetPivot00(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
@@ -34079,8 +34079,8 @@ static int tolua_PX2_UIPicBox_SetPivotPoint00(lua_State* tolua_S)
 #endif //#ifndef TOLUA_DISABLE
 
 /* method: SetPivot of class  UIPicBox */
-#ifndef TOLUA_DISABLE_tolua_PX2_UIPicBox_SetPivotPoint01
-static int tolua_PX2_UIPicBox_SetPivotPoint01(lua_State* tolua_S)
+#ifndef TOLUA_DISABLE_tolua_PX2_UIPicBox_SetPivot01
+static int tolua_PX2_UIPicBox_SetPivot01(lua_State* tolua_S)
 {
  tolua_Error tolua_err;
  if (
@@ -34102,13 +34102,13 @@ static int tolua_PX2_UIPicBox_SetPivotPoint01(lua_State* tolua_S)
  }
  return 0;
 tolua_lerror:
- return tolua_PX2_UIPicBox_SetPivotPoint00(tolua_S);
+ return tolua_PX2_UIPicBox_SetPivot00(tolua_S);
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: GetPivotPoint of class  UIPicBox */
-#ifndef TOLUA_DISABLE_tolua_PX2_UIPicBox_GetPivotPoint00
-static int tolua_PX2_UIPicBox_GetPivotPoint00(lua_State* tolua_S)
+/* method: GetPivot of class  UIPicBox */
+#ifndef TOLUA_DISABLE_tolua_PX2_UIPicBox_GetPivot00
+static int tolua_PX2_UIPicBox_GetPivot00(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
@@ -34122,25 +34122,25 @@ static int tolua_PX2_UIPicBox_GetPivotPoint00(lua_State* tolua_S)
  {
   const UIPicBox* self = (const UIPicBox*)  tolua_tousertype(tolua_S,1,0);
 #ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPivotPoint'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPivot'", NULL);
 #endif
   {
-   const Float2& tolua_ret = (const Float2&)  self->GetPivotPoint();
+   const Float2& tolua_ret = (const Float2&)  self->GetPivot();
     tolua_pushusertype(tolua_S,(void*)&tolua_ret,"const Float2");
   }
  }
  return 1;
 #ifndef TOLUA_RELEASE
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'GetPivotPoint'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'GetPivot'.",&tolua_err);
  return 0;
 #endif
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: GetPivotPoint of class  UIPicBox */
-#ifndef TOLUA_DISABLE_tolua_PX2_UIPicBox_GetPivotPoint01
-static int tolua_PX2_UIPicBox_GetPivotPoint01(lua_State* tolua_S)
+/* method: GetPivot of class  UIPicBox */
+#ifndef TOLUA_DISABLE_tolua_PX2_UIPicBox_GetPivot01
+static int tolua_PX2_UIPicBox_GetPivot01(lua_State* tolua_S)
 {
  tolua_Error tolua_err;
  if (
@@ -34152,16 +34152,16 @@ static int tolua_PX2_UIPicBox_GetPivotPoint01(lua_State* tolua_S)
  {
   UIPicBox* self = (UIPicBox*)  tolua_tousertype(tolua_S,1,0);
 #ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPivotPoint'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPivot'", NULL);
 #endif
   {
-   Float2& tolua_ret = (Float2&)  self->GetPivotPoint();
+   Float2& tolua_ret = (Float2&)  self->GetPivot();
     tolua_pushusertype(tolua_S,(void*)&tolua_ret,"Float2");
   }
  }
  return 1;
 tolua_lerror:
- return tolua_PX2_UIPicBox_GetPivotPoint00(tolua_S);
+ return tolua_PX2_UIPicBox_GetPivot00(tolua_S);
 }
 #endif //#ifndef TOLUA_DISABLE
 
@@ -35557,37 +35557,6 @@ static int tolua_PX2_UIButton_OnReleased00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'OnReleased'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: OnReleasedNotValied of class  UIButton */
-#ifndef TOLUA_DISABLE_tolua_PX2_UIButton_OnReleasedNotValied00
-static int tolua_PX2_UIButton_OnReleasedNotValied00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"UIButton",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  UIButton* self = (UIButton*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OnReleasedNotValied'", NULL);
-#endif
-  {
-   self->OnReleasedNotValied();
-  }
- }
- return 0;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'OnReleasedNotValied'.",&tolua_err);
  return 0;
 #endif
 }
@@ -44764,9 +44733,9 @@ TOLUA_API int tolua_PX2_open (lua_State* tolua_S)
    tolua_function(tolua_S,"delete",tolua_PX2_Billboard_delete00);
    tolua_function(tolua_S,"SetDynamic",tolua_PX2_Billboard_SetDynamic00);
    tolua_function(tolua_S,"IsDynamic",tolua_PX2_Billboard_IsDynamic00);
-   tolua_function(tolua_S,"SetPivot",tolua_PX2_Billboard_SetPivotPoint00);
-   tolua_function(tolua_S,"SetPivot",tolua_PX2_Billboard_SetPivotPoint01);
-   tolua_function(tolua_S,"GetPivotPoint",tolua_PX2_Billboard_GetPivotPoint00);
+   tolua_function(tolua_S,"SetPivot",tolua_PX2_Billboard_SetPivot00);
+   tolua_function(tolua_S,"SetPivot",tolua_PX2_Billboard_SetPivot01);
+   tolua_function(tolua_S,"GetPivot",tolua_PX2_Billboard_GetPivot00);
    tolua_function(tolua_S,"SetUseTexAsSize",tolua_PX2_Billboard_SetUseTexAsSize00);
    tolua_function(tolua_S,"IsUseTexAsSize",tolua_PX2_Billboard_IsUseTexAsSize00);
    tolua_function(tolua_S,"SetUseTrim",tolua_PX2_Billboard_SetUseTrim00);
@@ -44889,8 +44858,8 @@ TOLUA_API int tolua_PX2_open (lua_State* tolua_S)
    tolua_function(tolua_S,"GetDrawType",tolua_PX2_ParticleEmitter_GetDrawType00);
    tolua_function(tolua_S,"SetModelFilename",tolua_PX2_ParticleEmitter_SetModelFilename00);
    tolua_function(tolua_S,"GetModelFilename",tolua_PX2_ParticleEmitter_GetModelFilename00);
-   tolua_function(tolua_S,"SetPivot",tolua_PX2_ParticleEmitter_SetPivotPoint00);
-   tolua_function(tolua_S,"GetPivotPoint",tolua_PX2_ParticleEmitter_GetPivotPoint00);
+   tolua_function(tolua_S,"SetPivot",tolua_PX2_ParticleEmitter_SetPivot00);
+   tolua_function(tolua_S,"GetPivot",tolua_PX2_ParticleEmitter_GetPivot00);
    tolua_function(tolua_S,"SetEmitRate",tolua_PX2_ParticleEmitter_SetEmitRate00);
    tolua_function(tolua_S,"GetEmitRate",tolua_PX2_ParticleEmitter_GetEmitRate00);
    tolua_function(tolua_S,"SetEmitDirDynamic",tolua_PX2_ParticleEmitter_SetEmitDirDynamic00);
@@ -45116,10 +45085,10 @@ TOLUA_API int tolua_PX2_open (lua_State* tolua_S)
    tolua_constant(tolua_S,"PBT_MAX_TYPE",UIPicBox::PBT_MAX_TYPE);
    tolua_function(tolua_S,"SetPicBoxType",tolua_PX2_UIPicBox_SetPicBoxType00);
    tolua_function(tolua_S,"GetPicBoxType",tolua_PX2_UIPicBox_GetPicBoxType00);
-   tolua_function(tolua_S,"SetPivot",tolua_PX2_UIPicBox_SetPivotPoint00);
-   tolua_function(tolua_S,"SetPivot",tolua_PX2_UIPicBox_SetPivotPoint01);
-   tolua_function(tolua_S,"GetPivotPoint",tolua_PX2_UIPicBox_GetPivotPoint00);
-   tolua_function(tolua_S,"GetPivotPoint",tolua_PX2_UIPicBox_GetPivotPoint01);
+   tolua_function(tolua_S,"SetPivot",tolua_PX2_UIPicBox_SetPivot00);
+   tolua_function(tolua_S,"SetPivot",tolua_PX2_UIPicBox_SetPivot01);
+   tolua_function(tolua_S,"GetPivot",tolua_PX2_UIPicBox_GetPivot00);
+   tolua_function(tolua_S,"GetPivot",tolua_PX2_UIPicBox_GetPivot01);
    tolua_function(tolua_S,"SetSize",tolua_PX2_UIPicBox_SetSize00);
    tolua_function(tolua_S,"SetSize",tolua_PX2_UIPicBox_SetSize01);
    tolua_function(tolua_S,"GetSize",tolua_PX2_UIPicBox_GetSize00);
@@ -45191,12 +45160,10 @@ TOLUA_API int tolua_PX2_open (lua_State* tolua_S)
    tolua_function(tolua_S,"OnEvent",tolua_PX2_UIButton_OnEvent00);
    tolua_function(tolua_S,"OnPressed",tolua_PX2_UIButton_OnPressed00);
    tolua_function(tolua_S,"OnReleased",tolua_PX2_UIButton_OnReleased00);
-   tolua_function(tolua_S,"OnReleasedNotValied",tolua_PX2_UIButton_OnReleasedNotValied00);
   tolua_endmodule(tolua_S);
   tolua_constant(tolua_S,"UICT_NONE",UICT_NONE);
   tolua_constant(tolua_S,"UICT_PRESSED",UICT_PRESSED);
   tolua_constant(tolua_S,"UICT_RELEASED",UICT_RELEASED);
-  tolua_constant(tolua_S,"UICT_RELEASED_NOTVALIED",UICT_RELEASED_NOTVALIED);
   tolua_constant(tolua_S,"UICT_DOUBLECLICK",UICT_DOUBLECLICK);
   tolua_constant(tolua_S,"UICT_PROGRESSCHANGED",UICT_PROGRESSCHANGED);
   tolua_constant(tolua_S,"UICT_EDITBOX_ATTACHWITHIME",UICT_EDITBOX_ATTACHWITHIME);

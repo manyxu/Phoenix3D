@@ -117,6 +117,7 @@ void UIButtonBase::SetPicBox(ButtonState state, UIPicBox *pic)
 	if (pic)
 	{
 		AttachChild(pic);
+		pic->SetPivot(GetPvoit());
 	}
 }
 //----------------------------------------------------------------------------
@@ -156,7 +157,11 @@ UIText *UIButtonBase::CreateAddText()
 
 	mText = new0 UIText();
 	AttachChild(mText);
+	mText->SetRectUseage(UIText::RU_ALIGNS);
+	mText->SetAligns(TEXTALIGN_HCENTER | TEXTALIGN_VCENTER);
+	mText->SetRect(Rectf(-mSize.Width / 2.0f, -mSize.Height / 2.0f, mSize.Width/2.0f, mSize.Height/2.0f));
 	mText->LocalTransform.SetTranslateY(-5.0f);
+	mText->SetFontColor(Float3::MakeColor(50, 50, 50));
 
 	return mText;
 }

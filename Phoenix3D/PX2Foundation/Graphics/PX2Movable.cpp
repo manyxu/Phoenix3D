@@ -131,6 +131,35 @@ Movable *Movable::GetTopestParent()
 	return topestParent;
 }
 //----------------------------------------------------------------------------
+Movable *Movable::GetFirstParentDerivedFromType(const Rtti &type, 
+	int *numLevels)
+{
+	int numLev = 0;
+	Movable *topestParentTemp = mParent;
+	Movable *topestParent = mParent;
+
+	while (topestParentTemp)
+	{
+		topestParent = topestParentTemp;
+		numLev++;
+
+		if (topestParent->IsDerived(type))
+		{
+			if (numLevels)
+				*numLevels = numLev;
+
+			return topestParent;
+		}
+
+		topestParentTemp = topestParentTemp->GetParent();
+	}
+
+	if (numLevels)
+		*numLevels = 0;
+
+	return 0;
+}
+//----------------------------------------------------------------------------
 void Movable::OnPicked (int pickInfo)
 {
 	PX2_UNUSED(pickInfo);

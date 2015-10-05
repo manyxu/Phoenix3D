@@ -605,7 +605,7 @@ void UIPicBox::RegistProperties()
 	picBoxTypes.push_back("PBT_NORAML_UVREVERSE");
 	AddPropertyEnum("PicBoxType", (int)GetPicBoxType(), picBoxTypes);
 
-	AddProperty("AnchorPoint", PT_FLOAT2, GetPivotPoint());
+	AddProperty("AnchorPoint", PT_FLOAT2, GetPivot());
 	AddProperty("Size", PT_SIZE, GetSize());;
 
 	std::vector<std::string> texModes;

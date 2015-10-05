@@ -85,6 +85,7 @@ namespace PX2
 		void GetParentTransformIngore (bool &trans, bool &rotate, bool &scale);
 
 		Movable *GetTopestParent();
+		Movable *GetFirstParentDerivedFromType(const Rtti &type, int *numLevels=0);
 
 		// Pick
 	public:

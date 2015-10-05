@@ -299,7 +299,7 @@ void ParticleEmitter::RegistProperties ()
 	AddPropertyEnum("DrawType", (int)GetDrawType(), drawTypes);
 	AddProperty("ModelFilename", PT_STRINGBUTTON, GetModelFilename());
 
-	AddProperty("AnchorPoint", PT_FLOAT2, GetPivotPoint());
+	AddProperty("AnchorPoint", PT_FLOAT2, GetPivot());
 
 	std::vector<std::string> rotateAxisTypes;
 	rotateAxisTypes.push_back("RAT_D");

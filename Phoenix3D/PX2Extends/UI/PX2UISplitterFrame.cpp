@@ -40,7 +40,7 @@ mIsDraging(false)
 
 	UIPicBox *picBoxBottom = CreateAddBackgroundPicBox();
 	picBoxBottom->SetTexture("Data/engine/white.png");
-	picBoxBottom->SetColor(Float3::MakeColor(50, 50, 50));
+	picBoxBottom->SetColor(PX2_UISM.Color_Splitter);
 }
 //----------------------------------------------------------------------------
 UISplitterFrame::~UISplitterFrame()

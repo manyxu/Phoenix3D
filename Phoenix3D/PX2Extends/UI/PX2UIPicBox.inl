@@ -6,12 +6,12 @@ inline UIPicBox::PicBoxType UIPicBox::GetPicBoxType()
 	return mPicBoxType;
 }
 //----------------------------------------------------------------------------
-inline const Float2 &UIPicBox::GetPivotPoint() const
+inline const Float2 &UIPicBox::GetPivot() const
 {
 	return mPivotPoint;
 }
 //----------------------------------------------------------------------------
-inline Float2 &UIPicBox::GetPivotPoint()
+inline Float2 &UIPicBox::GetPivot()
 {
 	return mPivotPoint;
 }

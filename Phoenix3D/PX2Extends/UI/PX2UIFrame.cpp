@@ -16,6 +16,8 @@ PX2_IMPLEMENT_FACTORY(UIFrame);
 //----------------------------------------------------------------------------
 UIFrame::UIFrame() :
 mUICallback(0),
+mMemObject(0),
+mMemUICallback(0),
 mIsLayoutChanged(true),
 mUIView(0),
 mIsAnchorLayoutEnable(true)
@@ -399,6 +401,8 @@ void UIFrame::OnPropertyChanged(const PropertyObject &obj)
 UIFrame::UIFrame(LoadConstructor value) :
 Node(value),
 mUICallback(0),
+mMemObject(0),
+mMemUICallback(0),
 mIsLayoutChanged(true),
 mUIView(0),
 mIsAnchorLayoutEnable(true)

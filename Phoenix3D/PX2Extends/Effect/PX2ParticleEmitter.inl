@@ -26,7 +26,7 @@ inline void ParticleEmitter::SetPivot (const Float2 &point)
 	mPivotPoint = point;
 }
 //----------------------------------------------------------------------------
-inline const Float2 &ParticleEmitter::GetPivotPoint () const
+inline const Float2 &ParticleEmitter::GetPivot () const
 {
 	return mPivotPoint;
 }

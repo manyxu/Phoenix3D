@@ -1,9 +1,9 @@
-// PX2EU_Project.hpp
+// PX2EU_ProjectFrame.hpp
 
 #ifndef PX2EU_PROJECTFRAME_HPP
 #define PX2EU_PROJECTFRAME_HPP
 
-#include "PX2UIItem.hpp"
+#include "PX2EU_ProjectTree.hpp"
 
 namespace PX2
 {
@@ -17,10 +17,8 @@ namespace PX2
 		EU_ProjectFrame();
 		virtual ~EU_ProjectFrame();
 
-		static float sItemSize;
-
 	protected:
-		UIItemPtr mRootItem;
+		EU_ProjectTreePtr mTree;
 	};
 
 	PX2_REGISTER_STREAM(EU_ProjectFrame);

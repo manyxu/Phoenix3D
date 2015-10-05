@@ -40,7 +40,7 @@ namespace PX2
 		int _GetDirIndex(const AVector &dir);
 		void _CalFrame();
 
-		bool mIsNeedReCal;
+		bool mIsNeedRecal;
 
 		std::string mTexPackFilename;
 		int mNumDir;

@@ -26,6 +26,8 @@ namespace PX2
 		UIFrame();
 		virtual ~UIFrame();
 
+		typedef int (UIFrame::*MemUICallback)(UIFrame *frame, UICallType type);
+
 		virtual int AttachChild (Movable* child);
 
 	protected:
@@ -113,11 +115,16 @@ namespace PX2
 		void SetUICallback(UICallback callback);
 		UICallback GetUICallback() const;
 
+		void SetMemUIUICallback(UIFrame *object, MemUICallback callback);
+		MemUICallback GetMemUICallback() const;
+
 		void SetScriptHandler(const std::string &scriptHandler);
 		const std::string &GetScriptHandler() const;
 
 	protected:
 		UICallback mUICallback;
+		UIFrame *mMemObject;
+		MemUICallback mMemUICallback;
 		std::string mUIScriptHandler;
 
 	public_internal:

@@ -12,7 +12,6 @@ float EU_InspectorFrame::sItemSize = 20.0f;
 //----------------------------------------------------------------------------
 EU_InspectorFrame::EU_InspectorFrame()
 {
-	CreateAddBackgroundPicBox();
 }
 //----------------------------------------------------------------------------
 EU_InspectorFrame::~EU_InspectorFrame()

@@ -8,7 +8,9 @@
 #include "PX2UIAuiBlockFrame.hpp"
 #include "PX2UITabFrame.hpp"
 #include "PX2EU_ProjectFrame.hpp"
+#include "PX2EU_ResFrame.hpp"
 #include "PX2EU_InspectorFrame.hpp"
+#include "PX2EU_ConsoleFrame.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------
@@ -59,11 +61,14 @@ void EU_Manager::CrateView_Main()
 	// status bar
 	CreateFrame_StatusBar();
 
-	// project bar
-	CreateFrame_Project();
+	// project res bar
+	CreateFrame_ProjectRes();
 
 	// inspector bar
 	CreateFrame_Inspector();
+
+	// console frame
+	CreateFrame_Console();
 }
 //----------------------------------------------------------------------------
 UIView *EU_Manager::GetView_Main()
@@ -117,6 +122,7 @@ void EU_Manager::CreateFrame_Content()
 	mFrame_Content = new0 UIAuiFrame();
 	mFrame_Main->AttachChild(mFrame_Content);
 	mFrame_Content->SetName("ContentFrame");
+	UIAuiManager::GetSingleton().SetAuiFrame(mFrame_Content);
 
 	mFrame_Content->SetAnchorHor(Float2(0.0f, 1.0f));
 	mFrame_Content->SetAnchorVer(Float2(0.0f, 1.0f));
@@ -142,7 +148,7 @@ void EU_Manager::CreateFrame_StatusBar()
 	mFrame_StatusBar->SetPvoit(0.5f, 0.0f);
 }
 //----------------------------------------------------------------------------
-void EU_Manager::CreateFrame_Project()
+void EU_Manager::CreateFrame_ProjectRes()
 {
 	UIAuiBlockFrame *blockFrame = mFrame_Content->AuiBlockDefault
 		->CreateAddPosFrame(UILPT_LEFT, Sizef(200.0f, 200.0f));
@@ -150,11 +156,17 @@ void EU_Manager::CreateFrame_Project()
 	UITabFrame *tabFrame = new0 UITabFrame();
 	blockFrame->AttachChild(tabFrame);
 
-	EU_ProjectFrame *projFrame = new0 EU_ProjectFrame();
-	tabFrame->AddTab("Project", projFrame);
+	EU_ProjectFrame *frame = new0 EU_ProjectFrame();
+	tabFrame->AddTab("Project", frame);
+	frame->SetAnchorHor(0.0f, 1.0f);
+	frame->SetAnchorVer(0.0f, 1.0f);
+
+	EU_ResFrame *frame1 = new0 EU_ResFrame();
+	tabFrame->AddTab("Res", frame1);
+	frame1->SetAnchorHor(0.0f, 1.0f);
+	frame1->SetAnchorVer(0.0f, 1.0f);
+
 	tabFrame->SetActiveTab("Project");
-	projFrame->SetAnchorHor(0.0f, 1.0f);
-	projFrame->SetAnchorVer(0.0f, 1.0f);
 }
 //----------------------------------------------------------------------------
 void EU_Manager::CreateFrame_Inspector()
@@ -165,9 +177,23 @@ void EU_Manager::CreateFrame_Inspector()
 	UITabFrame *tabFrame = new0 UITabFrame();
 	blockFrame->AttachChild(tabFrame);
 
-	EU_InspectorFrame *inspFrame = new0 EU_InspectorFrame();
-	tabFrame->AddTab("Inspector", inspFrame);
-	inspFrame->SetAnchorHor(0.0f, 1.0f);
-	inspFrame->SetAnchorVer(0.0f, 1.0f);
+	EU_InspectorFrame *frame = new0 EU_InspectorFrame();
+	tabFrame->AddTab("Inspector", frame);
+	frame->SetAnchorHor(0.0f, 1.0f);
+	frame->SetAnchorVer(0.0f, 1.0f);
+}
+//----------------------------------------------------------------------------
+void EU_Manager::CreateFrame_Console()
+{
+	UIAuiBlockFrame *blockFrame = mFrame_Content->AuiBlockDefault
+		->CreateAddPosFrame(UILPT_BOTTOM, Sizef(200.0f, 200.0f));
+
+	UITabFrame *tabFrame = new0 UITabFrame();
+	blockFrame->AttachChild(tabFrame);
+
+	EU_ConcoleFrame *frame = new0 EU_ConcoleFrame();
+	tabFrame->AddTab("Console", frame);
+	frame->SetAnchorHor(0.0f, 1.0f);
+	frame->SetAnchorVer(0.0f, 1.0f);
 }
 //----------------------------------------------------------------------------

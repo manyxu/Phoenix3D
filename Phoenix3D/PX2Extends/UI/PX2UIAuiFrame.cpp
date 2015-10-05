@@ -17,7 +17,7 @@ UIAuiFrame::UIAuiFrame()
 	SpLeft = new0 UISplitterFrame(false);
 	AttachChild(SpLeft);
 	SpLeft->SetName("SpLeft");
-	SpLeft->LocalTransform.SetTranslateY(-10.0f);
+	SpLeft->LocalTransform.SetTranslateY(0.0f);
 	SpLeft->SetAnchorHor(Float2(0.0f, 0.0f));
 	SpLeft->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpLeft->SetAnchorVer(Float2(0.0f, 1.0f));
@@ -29,7 +29,7 @@ UIAuiFrame::UIAuiFrame()
 	SpRight = new0 UISplitterFrame(false);
 	AttachChild(SpRight);
 	SpRight->SetName("SpRight");
-	SpRight->LocalTransform.SetTranslateY(-10.0f);
+	SpRight->LocalTransform.SetTranslateY(0.0f);
 	SpRight->SetAnchorHor(Float2(1.0f, 1.0f));
 	SpRight->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpRight->SetAnchorVer(Float2(0.0f, 1.0f));
@@ -41,7 +41,7 @@ UIAuiFrame::UIAuiFrame()
 	SpBottom = new0 UISplitterFrame(true);
 	AttachChild(SpBottom);
 	SpBottom->SetName("SpBottom");
-	SpBottom->LocalTransform.SetTranslateY(-10.0f);
+	SpBottom->LocalTransform.SetTranslateY(0.0f);
 	SpBottom->SetAnchorHor(Float2(0.0f, 1.0f));
 	SpBottom->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpBottom->SetAnchorVer(Float2(0.0f, 0.0f));
@@ -53,7 +53,7 @@ UIAuiFrame::UIAuiFrame()
 	SpTop = new0 UISplitterFrame(true);
 	AttachChild(SpTop);
 	SpTop->SetName("SpTop");
-	SpTop->LocalTransform.SetTranslateY(-10.0f);
+	SpTop->LocalTransform.SetTranslateY(0.0f);
 	SpTop->SetAnchorHor(Float2(0.0f, 1.0f));
 	SpTop->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpTop->SetAnchorVer(Float2(1.0f, 1.0f));
@@ -77,19 +77,10 @@ UIAuiFrame::UIAuiFrame()
 	AuiBlockDefault->SetSideFrameHor1(SpTop, false);
 	AuiBlockDefault->SetSideFrameVer0(SpLeft, false);
 	AuiBlockDefault->SetSideFrameVer1(SpRight, false);
-
-	//AuiBlockDefault->CreateAddBackgroundPicBox();
 }
 //----------------------------------------------------------------------------
 UIAuiFrame::~UIAuiFrame()
 {
-}
-//----------------------------------------------------------------------------
-int UIAuiFrame::AttachChild(Movable* child)
-{
-	int ret = UIFrame::AttachChild(child);
-
-	return ret;
 }
 //----------------------------------------------------------------------------
 

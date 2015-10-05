@@ -507,7 +507,10 @@ UIAuiBlockFrame *UIAuiBlockFrame::CreateAddPosFrame(UILayoutPosType pos,
 	else
 	{
 		UIAuiBlockFrame *existFrame = it->second;
-		existFrame->CreateAddPosFrame(pos, size);
+		UIAuiBlockFrame * auiBlockFrame = existFrame->CreateAddPosFrame(pos, 
+			size);
+
+		return auiBlockFrame;
 	}
 
 	return 0;

@@ -37,14 +37,12 @@ namespace PX2
 
 		void OnPressed();
 		void OnReleased();
-		void OnReleasedNotValied();
 
 	protected:
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
 
 		virtual void OnChildPicked(int info, Movable *child);
 		virtual void OnNotPicked(int info);
-		virtual void OnChildUIAfterPicked(int info, Movable *child);
 
 		AfterReleasedType mAfterReleasedType;
 		float mAfterReleasedRecoverTime;

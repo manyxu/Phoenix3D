@@ -71,7 +71,7 @@ namespace PX2
 		std::vector<RenderablePtr> &GetPickedRenderables();
 
 	public_internal:
-		std::list<UIButtonPtr > mPressedButs;
+		std::list<UIFramePtr > mPickedFrames;
 
 	protected:
 		void _DoPick(float x, float z, int pickInfo,

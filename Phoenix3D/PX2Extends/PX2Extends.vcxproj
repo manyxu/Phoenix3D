@@ -126,9 +126,13 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Edit\PX2EditRenderView_UI.hpp" />
     <ClInclude Include="Edit\PX2Edits.hpp" />
     <ClInclude Include="Edit\PX2EditTimeLineEdit.hpp" />
+    <ClInclude Include="Edit\PX2EU_ConsoleFrame.hpp" />
     <ClInclude Include="Edit\PX2EU_InspectorFrame.hpp" />
     <ClInclude Include="Edit\PX2EU_Manager.hpp" />
     <ClInclude Include="Edit\PX2EU_ProjectFrame.hpp" />
+    <ClInclude Include="Edit\PX2EU_ProjectTree.hpp" />
+    <ClInclude Include="Edit\PX2EU_ResFrame.hpp" />
+    <ClInclude Include="Edit\PX2EU_ResTree.hpp" />
     <ClInclude Include="Edit\PX2GeoObjFactory.hpp" />
     <ClInclude Include="Edit\PX2SceneNodeCtrl.hpp" />
     <ClInclude Include="Edit\PX2SelectResData.hpp" />
@@ -223,9 +227,9 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="UI\PX2UI.hpp" />
     <ClInclude Include="UI\PX2UIAuiBlockFrame.hpp" />
     <ClInclude Include="UI\PX2UIAuiFrame.hpp" />
+    <ClInclude Include="UI\PX2UIAuiManager.hpp" />
     <ClInclude Include="UI\PX2UIButton.hpp" />
     <ClInclude Include="UI\PX2UIButtonBase.hpp" />
-    <ClInclude Include="UI\PX2UICallback.hpp" />
     <ClInclude Include="UI\PX2UICheckButton.hpp" />
     <ClInclude Include="UI\PX2UIDefine.hpp" />
     <ClInclude Include="UI\PX2UIEditBox.hpp" />
@@ -235,6 +239,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="UI\PX2UIGridFrame.hpp" />
     <ClInclude Include="UI\PX2UIInputText.hpp" />
     <ClInclude Include="UI\PX2UIItem.hpp" />
+    <ClInclude Include="UI\PX2UIList.hpp" />
     <ClInclude Include="UI\PX2UIMenu.hpp" />
     <ClInclude Include="UI\PX2UIMenuItem.hpp" />
     <ClInclude Include="UI\PX2UIPanel.hpp" />
@@ -248,6 +253,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="UI\PX2UISplitterFrame.hpp" />
     <ClInclude Include="UI\PX2UITabFrame.hpp" />
     <ClInclude Include="UI\PX2UIText.hpp" />
+    <ClInclude Include="UI\PX2UITree.hpp" />
     <ClInclude Include="UI\PX2UIView.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -269,9 +275,13 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Edit\PX2EditRenderView_TimeLine.cpp" />
     <ClCompile Include="Edit\PX2EditRenderView_UI.cpp" />
     <ClCompile Include="Edit\PX2EditTimeLineEdit.cpp" />
+    <ClCompile Include="Edit\PX2EU_ConsoleFrame.cpp" />
     <ClCompile Include="Edit\PX2EU_InspectorFrame.cpp" />
     <ClCompile Include="Edit\PX2EU_Manager.cpp" />
     <ClCompile Include="Edit\PX2EU_ProjectFrame.cpp" />
+    <ClCompile Include="Edit\PX2EU_ProjectTree.cpp" />
+    <ClCompile Include="Edit\PX2EU_ResFrame.cpp" />
+    <ClCompile Include="Edit\PX2EU_ResTree.cpp" />
     <ClCompile Include="Edit\PX2GeoObjFactory.cpp" />
     <ClCompile Include="Edit\PX2SceneNodeCtrl.cpp" />
     <ClCompile Include="Edit\PX2SelectResData.cpp" />
@@ -360,6 +370,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="ToLua\PX2ToLua.cpp" />
     <ClCompile Include="UI\PX2UIAuiBlockFrame.cpp" />
     <ClCompile Include="UI\PX2UIAuiFrame.cpp" />
+    <ClCompile Include="UI\PX2UIAuiManager.cpp" />
     <ClCompile Include="UI\PX2UIButton.cpp" />
     <ClCompile Include="UI\PX2UIButtonBase.cpp" />
     <ClCompile Include="UI\PX2UICheckButton.cpp" />
@@ -370,6 +381,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="UI\PX2UIGridFrame.cpp" />
     <ClCompile Include="UI\PX2UIInputText.cpp" />
     <ClCompile Include="UI\PX2UIItem.cpp" />
+    <ClCompile Include="UI\PX2UIList.cpp" />
     <ClCompile Include="UI\PX2UIMenu.cpp" />
     <ClCompile Include="UI\PX2UIMenuItem.cpp" />
     <ClCompile Include="UI\PX2UIPanel.cpp" />
@@ -382,6 +394,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="UI\PX2UISplitterFrame.cpp" />
     <ClCompile Include="UI\PX2UITabFrame.cpp" />
     <ClCompile Include="UI\PX2UIText.cpp" />
+    <ClCompile Include="UI\PX2UITree.cpp" />
     <ClCompile Include="UI\PX2UIView.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -435,6 +448,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="Terrains\PX2Terrain.inl" />
     <None Include="Terrains\PX2TerrainPage.inl" />
     <None Include="UI\PX2UIAuiBlockFrame.inl" />
+    <None Include="UI\PX2UIAuiManager.inl" />
     <None Include="UI\PX2UIButton.inl" />
     <None Include="UI\PX2UIButtonBase.inl" />
     <None Include="UI\PX2UIEditBox.inl" />
@@ -443,6 +457,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="UI\PX2UIFrameGridAlignControl.inl" />
     <None Include="UI\PX2UIInputText.inl" />
     <None Include="UI\PX2UIItem.inl" />
+    <None Include="UI\PX2UIList.inl" />
     <None Include="UI\PX2UIMenu.inl" />
     <None Include="UI\PX2UIMenuItem.inl" />
     <None Include="UI\PX2UIPicBox.inl" />
@@ -453,6 +468,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="UI\PX2UISplitterFrame.inl" />
     <None Include="UI\PX2UITabFrame.inl" />
     <None Include="UI\PX2UIText.inl" />
+    <None Include="UI\PX2UITree.inl" />
     <None Include="UI\PX2UIView.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

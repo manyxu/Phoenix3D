@@ -45,8 +45,8 @@ namespace PX2
 		// anchor
 		void SetPivot(float anchX, float anchZ);
 		void SetPivot(Float2 anchor);
-		const Float2 &GetPivotPoint() const;
-		Float2 &GetPivotPoint();
+		const Float2 &GetPivot() const;
+		Float2 &GetPivot();
 
 		// size
 		void SetSize(float width, float height);

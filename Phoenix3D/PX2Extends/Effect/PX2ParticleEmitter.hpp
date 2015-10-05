@@ -39,7 +39,7 @@ namespace PX2
 		const std::string &GetModelFilename () const;
 
 		void SetPivot (const Float2 &point);
-		const Float2 &GetPivotPoint () const;
+		const Float2 &GetPivot () const;
 
 		void SetEmitRate (float rate);
 		float GetEmitRate () const;

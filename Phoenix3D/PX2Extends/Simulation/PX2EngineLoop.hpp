@@ -22,6 +22,7 @@
 #include "PX2AccoutManager.hpp"
 #include "PX2VBIBObj.hpp"
 #include "PX2Project.hpp"
+#include "PX2UIAuiManager.hpp"
 #include "PX2UISkinManager.hpp"
 #include "PX2Edit.hpp"
 
@@ -76,6 +77,7 @@ namespace PX2
 		AccoutManager *mAccoutManager;
 		VBIBManager *mVBIBManager;
 		Edit *mEdit;
+		UIAuiManager *mUIAuiManager;
 		UISkinManager *mUISkinManager;
 
 	protected:

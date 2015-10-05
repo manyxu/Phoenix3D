@@ -173,13 +173,7 @@ void UIView::DoExecute(Event *event)
 		if (doPick)
 		{
 			_DoPick(data.MTPos.X(), data.MTPos.Z(), UIPT_RELEASED, mPickedRenderables);
-
-			std::list<UIButtonPtr >::iterator it = mPressedButs.begin();
-			for (; it != mPressedButs.end(); it++)
-			{
-				(*it)->OnReleasedNotValied();
-			}
-			mPressedButs.clear();
+			mPressedPos = data.MTPos;
 		}
 	}
 }

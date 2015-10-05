@@ -337,7 +337,7 @@ void Billboard::RegistProperties ()
 
 	AddPropertyClass("Billboard");
 	AddProperty("IsDynamic", PT_BOOL, IsDynamic());
-	AddProperty("AnchorPoint", PT_FLOAT2, GetPivotPoint());
+	AddProperty("AnchorPoint", PT_FLOAT2, GetPivot());
 	AddProperty("IsUseTexAsSize", PT_BOOL, IsUseTexAsSize());
 	AddProperty("IsDoAlphaDisAfterStop", PT_BOOL, IsDoAlphaDisAfterStop());
 	AddProperty("AlphaDisAfterStopSpeed", PT_FLOAT, GetDoAlphaDisAfterStopSpeed());

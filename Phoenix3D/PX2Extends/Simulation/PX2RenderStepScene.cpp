@@ -657,7 +657,7 @@ void RenderStepScene::_UpdateShadowChanged()
 void RenderStepScene::_SetCameraF(Camera *camera, UIPicBox *uiPicBox)
 {
 	const APoint &worldPos = uiPicBox->WorldTransform.GetTranslate();
-	const Float2 &anchor = uiPicBox->GetPivotPoint();
+	const Float2 &anchor = uiPicBox->GetPivot();
 	const Sizef &size = uiPicBox->GetSize();
 
 	APoint cameraPos = worldPos;

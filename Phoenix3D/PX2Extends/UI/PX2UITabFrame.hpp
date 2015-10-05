@@ -29,6 +29,7 @@ namespace PX2
 		void SetActiveTab(const std::string &name);
 
 	protected:
+		void TabCallback(UIFrame *frame, UICallType type);
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
 		void _CalTabs();
 

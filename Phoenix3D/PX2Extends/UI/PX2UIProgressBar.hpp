@@ -31,7 +31,7 @@ namespace PX2
 		UIPicBox *GetOverPicBox();
 
 		void SetPivot(const Float2 &anchorPoint);
-		const Float2 &GetPivotPoint() const;
+		const Float2 &GetPivot() const;
 
 		virtual void OnSizeChanged();
 		virtual void OnBorderSizeChanged();

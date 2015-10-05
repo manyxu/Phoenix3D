@@ -12,7 +12,7 @@ PX2_IMPLEMENT_DEFAULT_NAMES(TriMesh, FramesMesh);
 
 //----------------------------------------------------------------------------
 FramesMesh::FramesMesh() :
-mIsNeedReCal(true),
+mIsNeedRecal(true),
 mNumDir(8),
 mAnimPlayedTime(0.0f),
 mPlayOnceTime(1.0f),
@@ -48,7 +48,7 @@ void FramesMesh::Stop()
 void FramesMesh::SetSize(float size)
 {
 	mSize = size;
-	mIsNeedReCal = true;
+	mIsNeedRecal = true;
 }
 //----------------------------------------------------------------------------
 int FramesMesh::SetTexPack(const std::string &texPackFilename)
@@ -59,7 +59,7 @@ int FramesMesh::SetTexPack(const std::string &texPackFilename)
 	const TexPack &texPack = PX2_RM.GetTexPack(texPackFilename);
 	if (!texPack.IsValid()) return 0;
 
-	mIsNeedReCal = true;
+	mIsNeedRecal = true;
 
 	mNumAllFrames = (int)texPack.Elements.size();
 	mNumFramesPerDir = mNumAllFrames / mNumDir;
@@ -103,7 +103,7 @@ void FramesMesh::UpdateWorldData(double applicationTime, double elapsedTime)
 		}
 	}
 
-	if (mIsNeedReCal)
+	if (mIsNeedRecal)
 	{
 		_Cal(mTexPackFilename);
 	}
@@ -234,7 +234,7 @@ void FramesMesh::_Cal(const std::string &texPackFilename)
 
 	mi->GetMaterial()->GetCullProperty(0, 0)->Enabled = false;
 
-	mIsNeedReCal = false;
+	mIsNeedRecal = false;
 }
 //----------------------------------------------------------------------------
 int FramesMesh::_GetDirIndex(const AVector &dir)
@@ -308,7 +308,7 @@ void FramesMesh::_CalFrame()
 //----------------------------------------------------------------------------
 FramesMesh::FramesMesh(LoadConstructor value) :
 TriMesh(value),
-mIsNeedReCal(true),
+mIsNeedRecal(true),
 mNumDir(8),
 mAnimPlayedTime(0.0f),
 mPlayOnceTime(1.0f),

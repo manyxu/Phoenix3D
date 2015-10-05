@@ -16,7 +16,7 @@ inline UIPicBox *UIProgressBar::GetOverPicBox()
 	return mOverPicBox;
 }
 //----------------------------------------------------------------------------
-inline const Float2 &UIProgressBar::GetPivotPoint() const
+inline const Float2 &UIProgressBar::GetPivot() const
 {
 	return mPivotPoint;
 }

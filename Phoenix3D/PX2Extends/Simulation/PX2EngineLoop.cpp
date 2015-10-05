@@ -29,6 +29,8 @@ mCreater(0),
 mAccoutManager(0),
 mVBIBManager(0),
 mEdit(0),
+mUIAuiManager(0),
+mUISkinManager(0),
 
 mIsInBackground(false),
 

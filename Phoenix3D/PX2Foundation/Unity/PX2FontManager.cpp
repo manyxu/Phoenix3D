@@ -136,6 +136,7 @@ void FontManager::RenderText (TriMesh *mesh, Font *font, const char *text,
 //----------------------------------------------------------------------------
 void FontManager::RenderText (TriMesh *mesh, Font *font, const char *text, 
 	unsigned int style,	unsigned int align, Rectf &rect, const Float2 &space, 
+	float offX, float offY,
 	const Float4 &color, const Float4 &borderShadowColor,
 	float shadowBorderSize, float scale, bool doTransfer)
 {
@@ -189,8 +190,8 @@ void FontManager::RenderText (TriMesh *mesh, Font *font, const char *text,
 		offsetY = rect.Bottom + textHeight - (fontHeight+lineInterval)*scale;
 	}
 
-	RenderText(mesh, font, text, style, offsetX, offsetY, space, color,
-		borderShadowColor, shadowBorderSize, scale, doTransfer);
+	RenderText(mesh, font, text, style, offsetX+offX, offsetY+offY, space,
+		color, borderShadowColor, shadowBorderSize, scale, doTransfer);
 }
 //----------------------------------------------------------------------------
 void FontManager::RenderText (TriMesh *mesh, Font *font, const char *text, 

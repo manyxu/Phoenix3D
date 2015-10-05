@@ -380,7 +380,7 @@ void UIText::ReCreate()
 	else if (RU_ALIGNS == mRectUseage)
 	{
 		PX2_FM.RenderText(this, mFont, mText.c_str(),
-			mDrawStyle, mTextAligns, mRect, mSpace,
+			mDrawStyle, mTextAligns, mRect, mSpace, mOffset[0], mOffset[1],
 			mFontColor,
 			mBorderShadowColor, mShadowBorderSize, mFontScale,
 			mIsDoCharTranslate);
@@ -391,10 +391,13 @@ void UIText::ReCreate()
 	MaterialInstance *mtlInst = GetMaterialInstance();
 	mtlInst->SetPixelTexture(0, "SamplerBase", mFontTex);
 
-	if (Renderer::IsOneBind(GetVertexBuffer()) || Renderer::IsOneBind(GetIndexBuffer()))
+	VertexBuffer *vb = GetVertexBuffer();
+	IndexBuffer *ib = GetIndexBuffer();
+
+	if ((vb && Renderer::IsOneBind(vb)) || (ib && Renderer::IsOneBind(ib)))
 	{
-		Renderer::UpdateAll(GetVertexBuffer());
-		Renderer::UpdateAll(GetIndexBuffer());
+		Renderer::UpdateAll(vb);
+		Renderer::UpdateAll(ib);
 	}
 
 	mIsNeedReCreate = false;

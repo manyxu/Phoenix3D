@@ -71,6 +71,17 @@ inline UICallback UIFrame::GetUICallback() const
 	return mUICallback;
 }
 //----------------------------------------------------------------------------
+inline void UIFrame::SetMemUIUICallback(UIFrame *object, MemUICallback callback)
+{
+	mMemObject = object;
+	mMemUICallback = callback;
+}
+//----------------------------------------------------------------------------
+inline UIFrame::MemUICallback UIFrame::GetMemUICallback() const
+{
+	return mMemUICallback;
+}
+//----------------------------------------------------------------------------
 inline void UIFrame::SetScriptHandler(const std::string &scriptHandler)
 {
 	mUIScriptHandler = scriptHandler;

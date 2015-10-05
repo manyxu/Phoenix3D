@@ -8,7 +8,7 @@
 #include "PX2UIDefine.hpp"
 #include "PX2UISplitterFrame.hpp"
 #include "PX2UIAuiBlockFrame.hpp"
-#include "PX2UIText.hpp"
+#include "PX2UIButton.hpp"
 
 namespace PX2
 {
@@ -22,6 +22,18 @@ namespace PX2
 		UIItem();
 		virtual ~UIItem();
 
+		UIItem *AddItem(const std::string &label);
+		virtual void OnChildAdded(Movable *child);
+		virtual void OnChildRemoved(Movable *child);
+		int GetNumChildItem() const;
+
+		void Expand(bool expand);
+		bool IsExpand() const;
+		int GetNumAllChildsExpand() const;
+
+		void SetLabel(const std::string &label);
+		const std::string &GetLabel() const;
+
 		enum IconArrowState
 		{
 			IAS_NONE,
@@ -32,23 +44,41 @@ namespace PX2
 		void SetIconArrowState(IconArrowState state);
 		IconArrowState GetIconArrowState() const;
 
+		UIButton *GetButBack();
 		UIPicBox *GetIconArrow0();
 		UIPicBox *GetIconArrow1();
 		UIPicBox *GetIcon();
 		UIText *GetText();
 
+		virtual void OnSizeChanged();
+
+	public_internal:
+		void _SetLevel(int level);
+		int _GetLevel() const;
+
 	protected:
 		virtual void UpdateWorldData(double applicationTime,
 			double elapsedTime);
+		void _RecalNumChildExpand();
+		void _TellParentChildrenRecal();
 		void _Recal();
 
-		bool mIsNeedReCal;
+		bool mIsNeedRecal;
+
+		bool mIsExpand;
+		bool mIsNumAllChildExpandNeedRecal;
+		int mNumAllChildExpand;
 
 		IconArrowState mIconArrowState;
+		UIButtonPtr mButBack;
 		UIPicBoxPtr mIconArrow0;
 		UIPicBoxPtr mIconArrow1;
 		UIPicBoxPtr mIcon;
 		UITextPtr mText;
+
+		int mLevel;
+
+		int mNumChildItem;
 	};
 
 #include "PX2UIItem.inl"

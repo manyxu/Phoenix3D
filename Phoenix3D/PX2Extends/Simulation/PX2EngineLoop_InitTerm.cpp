@@ -94,6 +94,8 @@ bool EngineLoop::Initlize()
 
 	mVBIBManager = new0 VBIBManager();
 
+	mUIAuiManager = new0 UIAuiManager();
+
 	mUISkinManager = new0 UISkinManager();
 
 	mEdit = new0 Edit();
@@ -194,6 +196,12 @@ bool EngineLoop::Ternamate()
 	{
 		delete0(mUISkinManager);
 		UISkinManager::Set(0);
+	}
+
+	if (mUIAuiManager)
+	{
+		delete0(mUIAuiManager);
+		UIAuiManager::Set(0);
 	}
 
 	if (mVBIBManager)

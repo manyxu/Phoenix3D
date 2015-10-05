@@ -3,6 +3,7 @@
 #include "PX2UITabFrame.hpp"
 #include "PX2UIButton.hpp"
 #include "PX2UIAuiBlockFrame.hpp"
+#include "PX2UIAuiManager.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, UITabFrame);
@@ -56,6 +57,12 @@ void UITabFrame::SetTabWidth(float width)
 	mIsTabsNeedReCal = true;
 }
 //----------------------------------------------------------------------------
+void UITabFrame::TabCallback(UIFrame *frame, UICallType type)
+{
+	const std::string &name = frame->GetName();
+	SetActiveTab(name);
+}
+//----------------------------------------------------------------------------
 void UITabFrame::AddTab(const std::string &name, UIFrame *tabFrame)
 {
 	if (!tabFrame) return;
@@ -63,13 +70,19 @@ void UITabFrame::AddTab(const std::string &name, UIFrame *tabFrame)
 	std::map<std::string, UIFramePtr>::iterator it = mTabFrames.find(name);
 	if (it == mTabFrames.end())
 	{
+		UIAuiManager::GetSingleton().AddTabItemFrame(name, tabFrame);
+
+		tabFrame->Show(false);
+
 		mTabFrames[name] = tabFrame;
 		mFrame_Content->AttachChild(tabFrame);
-		tabFrame->Show(false);
 
 		UIButton *tabBut = new0 UIButton();	
 		mFrame_TitleBar->AttachChild(tabBut);
 		mTabTitles[name] = tabBut;
+		tabBut->LocalTransform.SetTranslateY(-5.0f);
+		tabBut->SetName(name);
+		tabBut->SetMemUIUICallback(this, (UIFrame::MemUICallback)(&UITabFrame::TabCallback));
 
 		UIText *text = tabBut->CreateAddText();
 		text->SetText(name);
@@ -159,9 +172,8 @@ void UITabFrame::_CalTabs()
 		UIFrame *tabTitle = it->second;
 		tabTitle->SetSize(mTabWidth, mFrame_TitleBar->GetHeight());
 		tabTitle->SetAnchorHor(0.0f, 0.0f);
-		tabTitle->SetAnchorParamHor(mTabWidth*index, 0.0f);
+		tabTitle->SetAnchorParamHor(mTabWidth*0.5f + mTabWidth*index, 0.0f);
 		tabTitle->SetAnchorVer(0.0f, 1.0f);
-		tabTitle->SetPvoit(0.0f, 0.5f);
 
 		index++;
 	}

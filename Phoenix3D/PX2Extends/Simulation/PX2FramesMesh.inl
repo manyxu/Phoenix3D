@@ -4,7 +4,7 @@
 inline void FramesMesh::SetNumDir(int numFrames)
 {
 	mNumDir = numFrames;
-	mIsNeedReCal = true;
+	mIsNeedRecal = true;
 }
 //----------------------------------------------------------------------------
 inline int FramesMesh::GetNumDir() const

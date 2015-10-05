@@ -25,7 +25,7 @@ namespace PX2
 
 		void SetPivot (float anchX, float anchZ);
 		void SetPivot (const Float2 &anchor);
-		const Float2 &GetPivotPoint () const;
+		const Float2 &GetPivot () const;
 
 		void SetUseTexAsSize (bool use);
 		bool IsUseTexAsSize () const;

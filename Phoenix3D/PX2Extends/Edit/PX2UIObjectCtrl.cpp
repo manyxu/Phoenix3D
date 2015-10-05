@@ -107,19 +107,19 @@ void UIObjectCtrl::UpdateOnSelectUI()
 		isCross = false;
 
 		size = picBox->GetSize();
-		anchorPoint = picBox->GetPivotPoint();
+		anchorPoint = picBox->GetPivot();
 	}
 	else if (obj->IsDerived(UIButtonBase::TYPE))
 	{
 		isCross = false;
 		size = but->GetSize();
-		anchorPoint = but->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->GetPivotPoint();
+		anchorPoint = but->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->GetPivot();
 	}
 	else if (obj->IsDerived(UIProgressBar::TYPE))
 	{
 		isCross = false;
 		size = pb->GetSize();
-		anchorPoint = pb->GetProgressPicBox()->GetPivotPoint();
+		anchorPoint = pb->GetProgressPicBox()->GetPivot();
 	}
 	else
 	{

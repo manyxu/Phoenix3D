@@ -6,7 +6,7 @@ inline bool Billboard::IsDynamic () const
 	return mIsDynamic;
 }
 //----------------------------------------------------------------------------
-inline const Float2 &Billboard::GetPivotPoint () const
+inline const Float2 &Billboard::GetPivot () const
 {
 	return mPivotPoint;
 }

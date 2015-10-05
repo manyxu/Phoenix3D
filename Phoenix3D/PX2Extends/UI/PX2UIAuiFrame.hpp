@@ -25,9 +25,6 @@ namespace PX2
 		UISplitterFramePtr SpBottom;
 		UISplitterFramePtr SpTop;
 		UIAuiBlockFramePtr AuiBlockDefault;
-
-	public:
-		virtual int AttachChild(Movable* child);
 	};
 
 	PX2_REGISTER_STREAM(UIAuiFrame);

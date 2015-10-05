@@ -81,25 +81,17 @@ void UIButton::OnEvent(Event *event)
 //----------------------------------------------------------------------------
 void UIButton::OnPressed()
 {
-	if (ART_NORMAL == mAfterReleasedType)
-	{
-		UIFrame *uiFrame = DynamicCast<UIFrame>(GetTopestParent());
-		if (uiFrame)
-		{
-			UIView *uiView = uiFrame->GetUIView();
-			if (uiView)
-			{
-				uiView->mPressedButs.push_back(this);
-			}
-		}
-	}
-
-	GraphicsRoot::PlayType playType = PX2_GR.GetPlayType();
-	if (GraphicsRoot::PT_PLAY != playType) return;
+	//GraphicsRoot::PlayType playType = PX2_GR.GetPlayType();
+	//if (GraphicsRoot::PT_PLAY != playType) return;
 
 	if (mUICallback)
 	{
 		mUICallback(this, UICT_PRESSED);
+	}
+
+	if (mMemObject && mMemUICallback)
+	{
+		(mMemObject->*mMemUICallback)(this, UICT_PRESSED);
 	}
 
 	std::vector<Visitor *>::iterator it = mVisitors.begin();
@@ -127,33 +119,17 @@ void UIButton::OnReleased()
 		mRecoverBeginTime = (float)Time::GetTimeInSeconds();
 	}
 
-	UIFrame *uiFrame = DynamicCast<UIFrame>(GetTopestParent());
-	if (uiFrame)
-	{
-		UIView *uiView = uiFrame->GetUIView();
-		if (uiView)
-		{
-			std::list<UIButtonPtr>::iterator it = uiView->mPressedButs.begin();
-			for (; it != uiView->mPressedButs.end();)
-			{
-				if ((*it) == this)
-				{
-					it = uiView->mPressedButs.erase(it);
-				}
-				else
-				{
-					it++;
-				}
-			}
-		}
-	}
-
-	GraphicsRoot::PlayType playType = PX2_GR.GetPlayType();
-	if (GraphicsRoot::PT_PLAY != playType) return;
+	//GraphicsRoot::PlayType playType = PX2_GR.GetPlayType();
+	//if (GraphicsRoot::PT_PLAY != playType) return;
 
 	if (mUICallback)
 	{
 		mUICallback(this, UICT_RELEASED);
+	}
+	
+	if (mMemObject && mMemUICallback)
+	{
+		(mMemObject->*mMemUICallback)(this, UICT_RELEASED);
 	}
 
 	std::vector<Visitor *>::iterator it = mVisitors.begin();
@@ -165,35 +141,6 @@ void UIButton::OnReleased()
 	if (!mUIScriptHandler.empty())
 	{
 		CallString(mUIScriptHandler.c_str(), "i", (int)UICT_RELEASED);
-	}
-}
-//----------------------------------------------------------------------------
-void UIButton::OnReleasedNotValied()
-{
-	ButtonState state = GetButtonState();
-
-	if (state == BS_PRESSED)
-	{
-		SetButtonState(BS_NORMAL);
-
-		GraphicsRoot::PlayType playType = PX2_GR.GetPlayType();
-		if (GraphicsRoot::PT_PLAY != playType) return;
-
-		if (mUICallback)
-		{
-			mUICallback(this, UICT_RELEASED_NOTVALIED);
-		}
-
-		std::vector<Visitor *>::iterator it = mVisitors.begin();
-		for (; it != mVisitors.end(); it++)
-		{
-			(*it)->Visit(this, (int)UICT_RELEASED_NOTVALIED);
-		}
-
-		if ("" != mUIScriptHandler)
-		{
-			CallString(mUIScriptHandler.c_str(), "i", (int)UICT_RELEASED_NOTVALIED);
-		}
 	}
 }
 //----------------------------------------------------------------------------
@@ -219,43 +166,6 @@ void UIButton::OnChildPicked(int info, Movable *child)
 	PX2_UNUSED(child);
 	PX2_UNUSED(info);
 
-	//if (!IsEnable())
-	//	return;
-
-	//UIFrame::OnChildPicked(info, child);
-
-	//ButtonState state = GetButtonState();
-
-	//if (1 == info)
-	//{
-	//	if (state == BS_NORMAL || state == BS_HOVERED)
-	//	{
-	//		SetButtonState(BS_PRESSED);
-	//		OnPressed();
-	//	}
-	//}
-	//else if (2 == info)
-	//{
-	//	ButtonState state = GetButtonState();
-
-	//	if (state == BS_PRESSED)
-	//	{
-	//		SetButtonState(BS_NORMAL);
-	//		OnReleased();
-	//	}
-	//}
-}
-//----------------------------------------------------------------------------
-void UIButton::OnNotPicked(int info)
-{
-	if (!IsEnable())
-		return;
-
-	PX2_UNUSED(info);
-}
-//----------------------------------------------------------------------------
-void UIButton::OnChildUIAfterPicked(int info, Movable *child)
-{
 	if (!IsEnable())
 		return;
 
@@ -263,7 +173,7 @@ void UIButton::OnChildUIAfterPicked(int info, Movable *child)
 
 	ButtonState state = GetButtonState();
 
-	if (1 == info)
+	if (UIPT_PRESSED == info)
 	{
 		if (state == BS_NORMAL || state == BS_HOVERED)
 		{
@@ -271,16 +181,27 @@ void UIButton::OnChildUIAfterPicked(int info, Movable *child)
 			OnPressed();
 		}
 	}
-	else if (2 == info)
+	else if (UIPT_RELEASED == info)
 	{
-		ButtonState state = GetButtonState();
-
 		if (state == BS_PRESSED)
 		{
-			SetButtonState(BS_NORMAL);
+			SetButtonState(BS_HOVERED);
 			OnReleased();
 		}
 	}
+	else if (UIPT_MOVED == info)
+	{
+		if (state == BS_NORMAL)
+		{
+			SetButtonState(BS_HOVERED);
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void UIButton::OnNotPicked(int info)
+{
+	if (!IsEnable())
+		return;
 }
 //----------------------------------------------------------------------------
 

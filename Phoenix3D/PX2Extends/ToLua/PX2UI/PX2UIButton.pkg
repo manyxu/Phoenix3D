@@ -23,5 +23,4 @@
 
 		void OnPressed();
 		void OnReleased();
-		void OnReleasedNotValied();
 	};
