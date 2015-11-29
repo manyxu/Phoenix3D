@@ -184,9 +184,26 @@ Texture *UIPicBox::GetTexture()
 //----------------------------------------------------------------------------
 void UIPicBox::SetUVRepeat(const Float2 &uvRepeat)
 {
-	ShaderFloat *constant = GetMaterialInstance()->GetPixelConstant(0, "UVParam");
+	MaterialInstance *mi = GetMaterialInstance();
+
+	ShaderFloat *constant = mi->GetPixelConstant(0, "UVParam");
 	(*constant)[0] = uvRepeat[0];
 	(*constant)[1] = uvRepeat[1];
+
+	if (uvRepeat[0] == 1.0f && uvRepeat[1] == 1.0f)
+	{
+		mi->GetMaterial()->GetPass(0, 0)->GetPixelShader()->SetCoordinate(
+			0, 0, Shader::SC_CLAMP);
+		mi->GetMaterial()->GetPass(0, 0)->GetPixelShader()->SetCoordinate(
+			0, 1, Shader::SC_CLAMP);
+	}
+	else
+	{
+		mi->GetMaterial()->GetPass(0, 0)->GetPixelShader()->SetCoordinate(
+			0, 0, Shader::SC_REPEAT);
+		mi->GetMaterial()->GetPass(0, 0)->GetPixelShader()->SetCoordinate(
+			0, 1, Shader::SC_REPEAT);
+	}
 }
 //----------------------------------------------------------------------------
 void UIPicBox::SetTexCornerSize(float width, float height)
@@ -527,20 +544,6 @@ void UIPicBox::UpdateIndexBuffer()
 	}
 }
 //----------------------------------------------------------------------------
-void UIPicBox::OnPicked(int info)
-{
-	UIFrame *frame = DynamicCast<UIFrame>(GetParent());
-	if (frame)
-	{
-		frame->OnChildPicked(info, this);
-	}
-}
-//----------------------------------------------------------------------------
-void UIPicBox::OnNotPicked(int pickInfo)
-{
-	PX2_UNUSED(pickInfo);
-}
-//----------------------------------------------------------------------------
 void UIPicBox::ReCreateVBuffer()
 {
 	VertexFormat *vFormat = PX2_GR.GetVertexFormat(GraphicsRoot::VFT_PT1);
@@ -580,12 +583,12 @@ void UIPicBox::OnForceBind()
 	}
 }
 //----------------------------------------------------------------------------
-void UIPicBox::UIAfterPicked(int info)
+void UIPicBox::UIPicked(int info)
 {
 	UIFrame *frame = DynamicCast<UIFrame>(GetParent());
 	if (frame)
 	{
-		frame->OnChildUIAfterPicked(info, this);
+		frame->OnUIPicked(info, this);
 	}
 }
 //----------------------------------------------------------------------------

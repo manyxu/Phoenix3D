@@ -34,12 +34,12 @@ void PluginManager::Load(const std::string &filename)
 	pFunc();
 }
 //----------------------------------------------------------------------------
-void PluginManager::TernamateAllPlugins()
+void PluginManager::TerminateAllPlugins()
 {
 	for (std::vector<Plugin *>::reverse_iterator i = mPlugins.rbegin();
 		i != mPlugins.rend(); ++i)
 	{
-		(*i)->OnTernamate();
+		(*i)->OnTerminate();
 	}
 }
 //----------------------------------------------------------------------------

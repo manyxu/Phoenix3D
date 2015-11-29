@@ -10,7 +10,8 @@ PX2_IMPLEMENT_FACTORY(UITree);
 //----------------------------------------------------------------------------
 UITree::UITree() :
 mItemHeight(20.0f),
-mIconArrowSpace(20.0f)
+mIconArrowSpace(20.0f),
+mIsShowRootItem(false)
 {
 	mRootItem = new UIItem();
 	AttachChild(mRootItem);
@@ -34,6 +35,24 @@ void UITree::SetItemHeight(float height)
 UIItem *UITree::AddItem(UIItem *parentItem, const std::string &label)
 {
 	return parentItem->AddItem(label);
+}
+//----------------------------------------------------------------------------
+void UITree::RemoveAllItemsExceptRoot()
+{
+	if (mRootItem)
+	{
+		mRootItem->RemoveAllChildItems();
+	}
+}
+//----------------------------------------------------------------------------
+void UITree::ShowRootItem(bool show)
+{
+	mIsShowRootItem = show;
+
+	if (mRootItem)
+	{
+		mRootItem->_ShowRootItem(show);
+	}
 }
 //----------------------------------------------------------------------------
 

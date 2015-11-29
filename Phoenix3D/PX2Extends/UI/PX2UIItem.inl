@@ -3,7 +3,7 @@
 //----------------------------------------------------------------------------
 inline int UIItem::GetNumChildItem() const
 {
-	return mNumChildItem;
+	return (int)mChildItems.size();
 }
 //----------------------------------------------------------------------------
 inline bool UIItem::IsExpand() const
@@ -41,9 +41,9 @@ inline UIPicBox *UIItem::GetIcon()
 	return mIcon;
 }
 //----------------------------------------------------------------------------
-inline UIText *UIItem::GetText()
+inline UIFText *UIItem::GetFText()
 {
-	return mText;
+	return mFText;
 }
 //----------------------------------------------------------------------------
 inline int UIItem::_GetLevel() const

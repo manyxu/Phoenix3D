@@ -2,7 +2,7 @@
 
 #include "PX2UICurveGroup.hpp"
 #include "PX2Edit.hpp"
-#include "PX2UIView.hpp"
+#include "PX2UICanvas.hpp"
 #include "PX2GraphicsRoot.hpp"
 #include "PX2Selection.hpp"
 using namespace PX2;
@@ -285,8 +285,11 @@ void UICurveGroup::OnNotPicked (int info)
 	}
 }
 //----------------------------------------------------------------------------
-void UICurveGroup::OnChildUIAfterPicked(int info, Movable *child)
+void UICurveGroup::OnUIPicked(int info, Movable *child)
 {
+	UICanvas *uiCanvas = DynamicCast<UICanvas>(GetFirstParentDerivedFromType(UICanvas::TYPE));
+	if (!uiCanvas) return;
+
 	if (1 == info)
 	{
 		if (mBackground == child)
@@ -294,10 +297,9 @@ void UICurveGroup::OnChildUIAfterPicked(int info, Movable *child)
 			UIFrame *uiFrame = DynamicCast<UIFrame>(GetTopestParent());
 			if (uiFrame)
 			{
-				UIView *uiView = uiFrame->GetUIView();
-				if (uiView)
+				if (uiCanvas)
 				{
-					int pickedSize = (int)uiView->GetPickedRenderables().size();
+					int pickedSize = (int)uiCanvas->GetPickedRenderables().size();
 					if (1 == pickedSize)
 					{
 						PX2_EDIT.GetTimeLineEdit()->SetSelectedUICurveGroup(this);

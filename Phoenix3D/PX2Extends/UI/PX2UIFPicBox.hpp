@@ -3,6 +3,7 @@
 #ifndef PX2UIFRAMEPICBOX_HPP
 #define PX2UIFRAMEPICBOX_HPP
 
+#include "PX2UIPre.hpp"
 #include "PX2UIFrame.hpp"
 #include "PX2UIPicBox.hpp"
 
@@ -23,6 +24,8 @@ namespace PX2
 		virtual void OnSizeChanged();
 
 	protected:
+		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
+
 		UIPicBoxPtr mPicBox;
 	};
 	

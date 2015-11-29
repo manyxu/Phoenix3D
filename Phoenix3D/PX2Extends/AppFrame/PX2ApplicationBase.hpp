@@ -20,7 +20,7 @@ namespace PX2
 
 		static bool IsInitlized ();
 		virtual bool Initlize ();
-		virtual bool Ternamate ();
+		virtual bool Terminate ();
 
 		virtual void SetTitle(const std::string &title);
 		const std::string &GetTitle() const;

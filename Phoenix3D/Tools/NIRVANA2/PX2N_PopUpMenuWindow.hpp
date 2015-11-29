@@ -14,7 +14,8 @@ namespace NA
 		 N_PopUpMenuWindow(wxWindow *parent);
 		 virtual ~N_PopUpMenuWindow();
 
-		 void Popup(wxWindow *focus);
+		 virtual void Popup(wxWindow *focus);
+		 virtual bool ProcessLeftDown(wxMouseEvent& event);
 
 	protected:
 		DECLARE_EVENT_TABLE()

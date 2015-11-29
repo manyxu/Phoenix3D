@@ -3,6 +3,6 @@
 //-----------------------------------------------------------------------------
 inline int ServerIocp::GetNumUsedOLBuffer()
 {
-	return mOLBufMgr.GetUsedBuffers();
+	return mServerBufMgr.GetUsedBuffers();
 }
 //-----------------------------------------------------------------------------

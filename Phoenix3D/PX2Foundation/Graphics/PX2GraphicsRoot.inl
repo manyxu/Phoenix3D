@@ -46,14 +46,14 @@ inline EnvirParam *GraphicsRoot::GetCurEnvirParam()
 	return mCurEnvirParam;
 }
 //----------------------------------------------------------------------------
-inline RenderStep *GraphicsRoot::GetRenderStepScene()
+inline Canvas *GraphicsRoot::GetCanvasScene()
 {
-	return mRenderStepScene;
+	return mCanvasScene;
 }
 //----------------------------------------------------------------------------
-inline RenderStep *GraphicsRoot::GetRenderStepUI()
+inline Canvas *GraphicsRoot::GetCanvasUI()
 {
-	return mRenderStepUI;
+	return mCanvasUI;
 }
 //----------------------------------------------------------------------------
 inline void GraphicsRoot::SetPlayType(PlayType type)

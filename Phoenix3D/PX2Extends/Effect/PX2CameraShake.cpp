@@ -196,7 +196,7 @@ void CameraShake::GenBuffers ()
 	}
 }
 //----------------------------------------------------------------------------
- void CameraShake::GetVisibleSet (Culler&, bool)
+ void CameraShake::OnGetVisibleSet (Culler&, bool)
  {
 	 /* Nothing to do. */
  }

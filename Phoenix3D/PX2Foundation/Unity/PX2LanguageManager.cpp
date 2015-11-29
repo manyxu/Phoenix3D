@@ -135,6 +135,16 @@ const std::string &LanguageManager::GetValue (const std::string &key, int index)
 	return mEmptyStr;
 }
 //----------------------------------------------------------------------------
+const std::string &LanguageManager::V(const std::string &key)
+{
+	return GetValue(key);
+}
+//----------------------------------------------------------------------------
+const std::string &LanguageManager::V(const std::string &key, int index)
+{
+	return GetValue(key, index);
+}
+//----------------------------------------------------------------------------
 LanguageManager::LanguageManager ()
 	:
 mLanguageIndex(0),

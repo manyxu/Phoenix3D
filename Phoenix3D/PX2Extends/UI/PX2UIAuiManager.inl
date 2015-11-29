@@ -6,8 +6,8 @@ inline UIAuiFrame *UIAuiManager::GetAuiFrame()
 	return mUIAuiFrame;
 }
 //----------------------------------------------------------------------------
-inline const std::string &UIAuiManager::GetActiveTableName() const
+inline UIFrame *UIAuiManager::GetActiveTableFrame()
 {
-	return mActiveTableName;
+	return mActiveTableContentFrame;
 }
 //----------------------------------------------------------------------------

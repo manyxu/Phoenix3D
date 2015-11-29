@@ -36,25 +36,25 @@ mZEnd(0.0f)
 //----------------------------------------------------------------------------
 EditRenderView_TimeLine::~EditRenderView_TimeLine()
 {
-	PX2_EDIT.GetTimeLineEdit()->SetTimeLineRenderStep_UIGroup(0);
-	PX2_EDIT.GetTimeLineEdit()->SetTimeLineRenderStep_Grid(0);
+	PX2_EDIT.GetTimeLineEdit()->SetTimeLineCanvas_UIGroup(0);
+	PX2_EDIT.GetTimeLineEdit()->SetTimeLineCanvas_Grid(0);
 
-	if (mRenderStep)
+	if (mCanvas)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStep);
-		mRenderStep = 0;
+		PX2_GR.RemoveCanvass(mCanvas);
+		mCanvas = 0;
 	}
 
-	if (mRenderStepCtrl)
+	if (mCanvasCtrl)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStepCtrl);
-		mRenderStepCtrl = 0;
+		PX2_GR.RemoveCanvass(mCanvasCtrl);
+		mCanvasCtrl = 0;
 	}
 
-	if (mRenderStepCtrl1)
+	if (mCanvasCtrl1)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStepCtrl1);
-		mRenderStepCtrl1 = 0;
+		PX2_GR.RemoveCanvass(mCanvasCtrl1);
+		mCanvasCtrl1 = 0;
 	}
 }
 //----------------------------------------------------------------------------
@@ -66,22 +66,21 @@ bool EditRenderView_TimeLine::InitlizeRendererStep(const std::string &name)
 
 	mSize = mPt_Size;
 
-	mUIViewGrid = new0 UIView(mRenderViewID);
-	mUIViewGrid->SetName(name);
-	mUIViewGrid->SetSize(mSize);
-	mUIViewGrid->SetCameraAutoAdjust(false);
-	PX2_EDIT.GetTimeLineEdit()->SetTimeLineRenderStep_Grid(mUIViewGrid);
-	mRenderStep = mUIViewGrid;
+	mUICanvasGrid = new0 UICanvas(mRenderViewID);
+	mUICanvasGrid->SetName(name);
+	mUICanvasGrid->SetSize(mSize);
+	PX2_EDIT.GetTimeLineEdit()->SetTimeLineCanvas_Grid(mUICanvasGrid);
+	mCanvas = mUICanvasGrid;
 
 	float rWidth = 2.0f*mSize.Width;
 	float scaleX = rWidth / 22.5f;
 	float scaleZ = scaleX * (mPixelOverCamIn / mPixelOverCamOut);
 	PX2_EDIT.GetTimeLineEdit()->SetCtrlsScale(Float2(scaleX, scaleZ));
 
-	mUIViewUIGroup = new UIView(mRenderViewID);
-	mUIViewUIGroup->SetPickAcceptRect(Rectf(0.0f, 0.0f, mLeftWidth, mSize.Height));
-	PX2_EDIT.GetTimeLineEdit()->SetTimeLineRenderStep_UIGroup(mUIViewUIGroup);
-	mRenderStepCtrl = mUIViewUIGroup;
+	mUICanvasUIGroup = new UICanvas(mRenderViewID);
+	mUICanvasUIGroup->SetPickAcceptRect(Rectf(0.0f, 0.0f, mLeftWidth, mSize.Height));
+	PX2_EDIT.GetTimeLineEdit()->SetTimeLineCanvas_UIGroup(mUICanvasUIGroup);
+	mCanvasCtrl = mUICanvasUIGroup;
 
 	SetRenderer(mRenderer);
 
@@ -96,11 +95,11 @@ void EditRenderView_TimeLine::Tick(double elapsedTime)
 
 	double tiemInSeconds = Time::GetTimeInSeconds();
 
-	mRenderStep->Update(tiemInSeconds, elapsedTime);
-	mRenderStep->ComputeVisibleSetAndEnv();
+	mCanvas->Update(tiemInSeconds, elapsedTime);
+	mCanvas->ComputeVisibleSetAndEnv();
 
-	mRenderStepCtrl->Update(tiemInSeconds, elapsedTime);
-	mRenderStepCtrl->ComputeVisibleSetAndEnv();
+	mCanvasCtrl->Update(tiemInSeconds, elapsedTime);
+	mCanvasCtrl->ComputeVisibleSetAndEnv();
 
 	if (mRenderer && mRenderer->PreDraw())
 	{
@@ -109,7 +108,7 @@ void EditRenderView_TimeLine::Tick(double elapsedTime)
 		mRenderer->SetClearColor(Float4::MakeColor(80, 80, 80, 255));
 		mRenderer->ClearBuffers();
 
-		mRenderStep->Draw();
+		mCanvas->Draw();
 
 		for (int i = 0; i < (int)mFontStrs.size(); i++)
 		{
@@ -123,7 +122,7 @@ void EditRenderView_TimeLine::Tick(double elapsedTime)
 		mRenderer->SetClearColor(Float4(0.6f, 0.6f, 0.6f, 1.0f));
 		mRenderer->ClearColorBuffer(0, 0, (int)mLeftWidth - 1, (int)mSize.Height + 1);
 
-		mRenderStepCtrl->Draw();
+		mCanvasCtrl->Draw();
 
 		mRenderer->PostDraw();
 		mRenderer->DisplayColorBuffer();
@@ -132,8 +131,8 @@ void EditRenderView_TimeLine::Tick(double elapsedTime)
 //----------------------------------------------------------------------------
 void EditRenderView_TimeLine::FitViewHorizontally()
 {
-	if (!mRenderStep) return;
-	Camera *camera = mRenderStep->GetCamera();
+	if (!mCanvas) return;
+	Camera *camera = mCanvas->GetCamera();
 
 	float inMin = Mathf::MAX_REAL;
 	float inMax = -Mathf::MAX_REAL;
@@ -170,16 +169,16 @@ void EditRenderView_TimeLine::FitViewHorizontally()
 	else
 		pos.X() = inMin + inLength / 2.0f - inLength*leftOverWidth;
 
-	mUIViewGrid->GetCameraNode()->LocalTransform.SetTranslate(pos);
-	mUIViewGrid->GetCameraNode()->Update(Time::GetTimeInSeconds(), 0.0f);
+	mUICanvasGrid->GetCameraNode()->LocalTransform.SetTranslate(pos);
+	mUICanvasGrid->GetCameraNode()->Update(Time::GetTimeInSeconds(), 0.0f);
 
 	_RefreshGrid(true);
 }
 //----------------------------------------------------------------------------
 void EditRenderView_TimeLine::FitViewVertically()
 {
-	if (!mRenderStep) return;
-	Camera *camera = mRenderStep->GetCamera();
+	if (!mCanvas) return;
+	Camera *camera = mCanvas->GetCamera();
 
 	float outMin = Mathf::MAX_REAL;
 	float outMax = -Mathf::MAX_REAL;
@@ -211,8 +210,8 @@ void EditRenderView_TimeLine::FitViewVertically()
 	else
 		pos.Z() = outMin + outLength / 2.0f;
 
-	mUIViewGrid->GetCameraNode()->LocalTransform.SetTranslate(pos);
-	mUIViewGrid->GetCameraNode()->Update(Time::GetTimeInSeconds(), 0.0f);
+	mUICanvasGrid->GetCameraNode()->LocalTransform.SetTranslate(pos);
+	mUICanvasGrid->GetCameraNode()->Update(Time::GetTimeInSeconds(), 0.0f);
 
 	_RefreshGrid(true);
 }
@@ -226,8 +225,8 @@ void EditRenderView_TimeLine::FitViewToAll()
 void EditRenderView_TimeLine::FitViewToSelected()
 {
 	CurveCtrl *ctrl = PX2_EDIT.GetTimeLineEdit()->GetSelectedCurveCtrl();
-	Camera *camera = mUIViewGrid->GetCamera();
-	CameraNode *cameraNode = mUIViewGrid->GetCameraNode();
+	Camera *camera = mUICanvasGrid->GetCamera();
+	CameraNode *cameraNode = mUICanvasGrid->GetCameraNode();
 
 	if (!ctrl) return;
 
@@ -275,15 +274,15 @@ void EditRenderView_TimeLine::FitViewToSelected()
 	APoint ctrPos = ctrl->GetOutVal();
 	camPos.X() = ctrPos.X();
 	camPos.Z() = ctrPos.Z();
-	mUIViewGrid->GetCameraNode()->LocalTransform.SetTranslate(camPos);
-	mUIViewGrid->GetCameraNode()->Update(Time::GetTimeInSeconds(), 0.0f);
+	mUICanvasGrid->GetCameraNode()->LocalTransform.SetTranslate(camPos);
+	mUICanvasGrid->GetCameraNode()->Update(Time::GetTimeInSeconds(), 0.0f);
 
 	_RefreshGrid(true);
 }
 //----------------------------------------------------------------------------
 void EditRenderView_TimeLine::ZoomCamera(float xDetal, float zDetal)
 {
-	Camera *camera = mUIViewGrid->GetCamera();
+	Camera *camera = mUICanvasGrid->GetCamera();
 
 	float dMin = 0.0f;
 	float dMax = 0.0f;
@@ -333,7 +332,7 @@ void EditRenderView_TimeLine::ZoomCameraTo(float xMax, float zMax)
 {
 	if (xMax <= 0.0f || zMax <= 0.0f) return;
 
-	Camera *camera = mUIViewGrid->GetCamera();
+	Camera *camera = mUICanvasGrid->GetCamera();
 
 	float dMin = 0.0f;
 	float dMax = 0.0f;
@@ -375,7 +374,7 @@ void EditRenderView_TimeLine::_RefreshGrid(bool doScale)
 
 	if (width <= 0 && height <= 0) return;
 
-	Camera *camera = mUIViewGrid->GetCamera();
+	Camera *camera = mUICanvasGrid->GetCamera();
 	APoint pos = camera->GetPosition();
 	float dMin = 0.0f;
 	float dMax = 0.0f;
@@ -438,8 +437,8 @@ void EditRenderView_TimeLine::_RefreshGrid(bool doScale)
 		vba.Position<Float3>(2 * segNum + 1) = Float3(mXEnd, 1.0f, zPosTemp);
 		vba.Color<Float3>(0, 2 * segNum + 1) = gray;
 
-		mRenderer->SetCamera(mUIViewGrid->GetCamera());
-		Vector2f scrv = mUIViewGrid->PointWorldToViewPort(APoint(0.0f, 0.0f, zPosTemp));
+		mRenderer->SetCamera(mUICanvasGrid->GetCamera());
+		Vector2f scrv = mUICanvasGrid->PointWorldToViewPort(APoint(0.0f, 0.0f, zPosTemp));
 		FontStr fs;
 		fs.x = iTemp + (int)mLeftWidth;
 		fs.y = height - (int)scrv.Y();
@@ -458,7 +457,7 @@ void EditRenderView_TimeLine::_RefreshGrid(bool doScale)
 		vba.Position<Float3>(2 * segNum + 1) = Float3(mXEnd, 1.0f, zPosTemp);
 		vba.Color<Float3>(0, 2 * segNum + 1) = gray;
 
-		Vector2f scrv = mUIViewGrid->PointWorldToViewPort(APoint(0.0f, 0.0f,
+		Vector2f scrv = mUICanvasGrid->PointWorldToViewPort(APoint(0.0f, 0.0f,
 			zPosTemp));
 		FontStr fs;
 		fs.x = iTemp + (int)mLeftWidth;
@@ -478,7 +477,7 @@ void EditRenderView_TimeLine::_RefreshGrid(bool doScale)
 		vba.Position<Float3>(2 * segNum + 1) = Float3(xPosTemp, 1.0f, mZEnd);
 		vba.Color<Float3>(0, 2 * segNum + 1) = gray;
 
-		Vector2f scrv = mUIViewGrid->PointWorldToViewPort(APoint(xPosTemp, 0.0f, 0.0f));
+		Vector2f scrv = mUICanvasGrid->PointWorldToViewPort(APoint(xPosTemp, 0.0f, 0.0f));
 		FontStr fs;
 		fs.x = (int)scrv.X() + iTemp;
 		fs.y = height - zTemp;
@@ -497,7 +496,7 @@ void EditRenderView_TimeLine::_RefreshGrid(bool doScale)
 		vba.Position<Float3>(2 * segNum + 1) = Float3(xPosTemp, 1.0f, mZEnd);
 		vba.Color<Float3>(0, 2 * segNum + 1) = gray;
 
-		Vector2f scrv = mUIViewGrid->PointWorldToViewPort(APoint(xPosTemp, 0.0f,
+		Vector2f scrv = mUICanvasGrid->PointWorldToViewPort(APoint(xPosTemp, 0.0f,
 			0.0f));
 		FontStr fs;
 		fs.x = (int)scrv.X() + iTemp;
@@ -522,7 +521,7 @@ void EditRenderView_TimeLine::_RefreshGrid(bool doScale)
 	vba.Color<Float3>(0, 2 * segNum + 1) = zeroLineColorBlue;
 	segNum++;
 
-	Vector2f scrv = mUIViewGrid->PointWorldToViewPort(APoint::ORIGIN);
+	Vector2f scrv = mUICanvasGrid->PointWorldToViewPort(APoint::ORIGIN);
 	FontStr fs;
 	fs.x = iTemp + (int)mLeftWidth;
 	fs.y = height - (int)scrv.Y();
@@ -556,7 +555,7 @@ void EditRenderView_TimeLine::_TrySelectCurveCtrlPoint(const APoint &pos)
 {
 	APoint origin;
 	AVector direction;
-	mRenderStep->GetPickRay(pos.X(), pos.Z(), origin, direction);
+	mCanvas->GetPickRay(pos.X(), pos.Z(), origin, direction);
 
 	Node *gridNode = PX2_EDIT.GetTimeLineEdit()->GetCurveEditNode_Grid();
 
@@ -598,8 +597,8 @@ void EditRenderView_TimeLine::OnSize(const Sizef& size)
 
 	FitViewToAll();
 
-	if (mUIViewUIGroup)
-		mUIViewUIGroup->SetPickAcceptRect(Rectf(0.0f, 0.0f, mLeftWidth, mSize.Height));
+	if (mUICanvasUIGroup)
+		mUICanvasUIGroup->SetPickAcceptRect(Rectf(0.0f, 0.0f, mLeftWidth, mSize.Height));
 }
 //----------------------------------------------------------------------------
 void EditRenderView_TimeLine::OnLeftDown(const APoint &pos)
@@ -627,10 +626,10 @@ void EditRenderView_TimeLine::OnLeftDClick(const APoint &pos)
 		UICurveGroup *uiCurveGroup = PX2_EDIT.GetTimeLineEdit()->GetSelectedUICurveGroup();
 		if (!uiCurveGroup) return;
 
-		Camera *camera = PX2_EDIT.GetTimeLineEdit()->GetTimeLineRenderStep_Grid()->GetCamera();
+		Camera *camera = PX2_EDIT.GetTimeLineEdit()->GetTimeLineCanvas_Grid()->GetCamera();
 
 		APoint camPos = camera->GetPosition();
-		Vector2f camScreenPos = mUIViewGrid->PointWorldToViewPort(camPos);
+		Vector2f camScreenPos = mUICanvasGrid->PointWorldToViewPort(camPos);
 		float xDissCam = pos.X() - camScreenPos.X();
 		float zDissCam = pos.Z() - camScreenPos.Y();
 		float xDissCamReal = xDissCam / mPixelOverCamIn;
@@ -683,10 +682,10 @@ void EditRenderView_TimeLine::OnMotion(const APoint &pos)
 
 	if (isCtrlDown && !leftContain && selectedCtrl && mIsLeftDown)
 	{
-		Camera *camera = mRenderStep->GetCamera();
+		Camera *camera = mCanvas->GetCamera();
 
 		const APoint &outVal = selectedCtrl->GetOutVal();
-		Vector2f posInViewPort = mUIViewGrid->PointWorldToViewPort(outVal);
+		Vector2f posInViewPort = mUICanvasGrid->PointWorldToViewPort(outVal);
 
 		float xDiss = pos.X() - posInViewPort.X();
 		float zDiss = pos.Z() - posInViewPort.Y();
@@ -731,7 +730,7 @@ void EditRenderView_TimeLine::OnMotion(const APoint &pos)
 		else if (CurveCtrl::SM_CENTER == selectedCtrl->GetSelectMode())
 		{
 			APoint camPos = camera->GetPosition();
-			Vector2f camScreenPos = mUIViewGrid->PointWorldToViewPort(camPos);
+			Vector2f camScreenPos = mUICanvasGrid->PointWorldToViewPort(camPos);
 			float xDissCam = pos.X() - camScreenPos.X();
 			float zDissCam = pos.Z() - camScreenPos.Y();
 			float xDissCamReal = xDissCam / mPixelOverCamIn;
@@ -758,10 +757,10 @@ void EditRenderView_TimeLine::OnMotion(const APoint &pos)
 	{
 		if (MM_PAN == mMoveMode)
 		{
-			APoint pos = mUIViewGrid->GetCameraNode()->LocalTransform.GetTranslate();
+			APoint pos = mUICanvasGrid->GetCameraNode()->LocalTransform.GetTranslate();
 			pos += AVector(movedX, 0.0f, movedZ);
-			mUIViewGrid->GetCameraNode()->LocalTransform.SetTranslate(pos);
-			mUIViewGrid->GetCameraNode()->Update(Time::GetTimeInSeconds(), 0.0f);
+			mUICanvasGrid->GetCameraNode()->LocalTransform.SetTranslate(pos);
+			mUICanvasGrid->GetCameraNode()->Update(Time::GetTimeInSeconds(), 0.0f);
 
 			_RefreshGrid(false);
 		}

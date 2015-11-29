@@ -67,7 +67,7 @@ void SwitchNode::Reset ()
 	//}
 }
 //----------------------------------------------------------------------------
-void SwitchNode::GetVisibleSet (Culler& culler, bool noCull)
+void SwitchNode::OnGetVisibleSet (Culler& culler, bool noCull)
 {
 	if (mActiveChild == SN_INVALID_CHILD)
 	{
@@ -77,7 +77,7 @@ void SwitchNode::GetVisibleSet (Culler& culler, bool noCull)
 	Movable* child = mChild[mActiveChild];
 	if (child)
 	{
-		child->OnGetVisibleSet(culler, noCull);
+		child->GetVisibleSet(culler, noCull);
 	}
 }
 //----------------------------------------------------------------------------

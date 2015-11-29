@@ -25,7 +25,7 @@
 		void SetScene(Scene *scene);
 		Scene *GetScene();
 		const std::string &GetSceneFilename() const;
-		RenderStep *GetSceneRenderStep();
+		Canvas *GetSceneCanvas();
 
 		// UI
 	public:

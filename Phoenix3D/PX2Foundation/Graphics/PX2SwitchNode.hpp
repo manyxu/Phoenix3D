@@ -36,7 +36,7 @@ namespace PX2
 		inline void DisableAllChildren ();
 
 	protected:
-		virtual void GetVisibleSet (Culler& culler, bool noCull);
+		virtual void OnGetVisibleSet (Culler& culler, bool noCull);
 
 		int mActiveChild;
 	};

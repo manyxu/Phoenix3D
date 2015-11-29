@@ -10,6 +10,20 @@ namespace PX2
 {
 
 	PX2_DECLARE_EVENT_BEGIN(PX2_EXTENDS_ITEM SimuES)
+	PX2_EVENT(NewProject)
+	PX2_EVENT(LoadedProject)
+	PX2_EVENT(SavedProject)
+	PX2_EVENT(CloseProject)
+	PX2_EVENT(NewScene)
+	PX2_EVENT(LoadedScene)
+	PX2_EVENT(SavedScene)
+	PX2_EVENT(CloseScene)
+	PX2_EVENT(NewUI)
+	PX2_EVENT(LoadedUI)
+	PX2_EVENT(CloseUI)
+	PX2_EVENT(NewLogic)
+	PX2_EVENT(LoadedLogic)
+
 	PX2_EVENT(GeneralString)
 	PX2_EVENT(Character_Die)
 	PX2_EVENT(Actor_Delete)

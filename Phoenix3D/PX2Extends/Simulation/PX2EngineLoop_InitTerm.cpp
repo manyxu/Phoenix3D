@@ -7,6 +7,7 @@
 #include "PX2LocalDateTime.hpp"
 #include "PX2PluginManager.hpp"
 #include "PX2ToLua.hpp"
+#include "PX2NetInitTerm.hpp"
 using namespace PX2;
 
 extern "C"
@@ -52,6 +53,8 @@ bool EngineLoop::Initlize()
 	PX2_LOG_INFO("Year:%d; Month:%d; Week:%d; Day:%d; DayOfWeek:%d; DayOfYear:%d; Hour:%d; Minute:%d; Second:%d; Millisecond:%d; Microsecond:%d",
 		year1, month1, week1, day1, dayOfWeek1, dayOfYear1, hour1, minute1, second1, millisecond1, microsecond1);
 
+	InitializeNetwork();
+
 	mDynLibMan = new0 DynLibManager();
 	PX2_UNUSED(mDynLibMan);
 	mPluginMan = new0 PluginManager();
@@ -90,6 +93,9 @@ bool EngineLoop::Initlize()
 	mURDoMan = new0 URDoManager();
 	PX2_UNUSED(mURDoMan);
 
+	mBPMan = new0 BPManager();
+	PX2_UNUSED(mBPMan);
+
 	mAccoutManager = new0 AccoutManager();
 
 	mVBIBManager = new0 VBIBManager();
@@ -100,6 +106,9 @@ bool EngineLoop::Initlize()
 
 	mEdit = new0 Edit();
 	mEdit->Initlize();
+
+	mSimuES_EventHandler = new0 SimuES_EventHandler();
+	PX2_EW.ComeIn(mSimuES_EventHandler);
 
 	LuaManager *luaMan = (LuaManager*)mScriptMan;
 	tolua_PX2_open(luaMan->GetLuaState());
@@ -176,18 +185,20 @@ void EngineLoop::DidEnterBackground()
 	mIsInBackground = true;
 }
 //----------------------------------------------------------------------------
-bool EngineLoop::Ternamate()
+bool EngineLoop::Terminate()
 {
+	mSimuES_EventHandler = 0;
+
 	Play(EngineLoop::PT_NONE);
 
 	PX2_EW.Shutdown(true);
 
-	PX2_PLUGINMAN.TernamateAllPlugins();
+	PX2_PLUGINMAN.TerminateAllPlugins();
 
 	Edit *edit = Edit::GetSingletonPtr();
 	if (edit)
 	{
-		edit->Ternamate();
+		edit->Terminate();
 		delete0(edit);
 		Edit::Set(0);
 	}
@@ -235,6 +246,12 @@ bool EngineLoop::Ternamate()
 		mADMan->Clear();
 		delete0(mADMan);
 		AddDeleteManager::Set(0);
+	}
+
+	if (mBPMan)
+	{
+		delete0(mBPMan);
+		BPManager::Set(0);
 	}
 
 	if (mAccoutManager)
@@ -317,7 +334,7 @@ bool EngineLoop::Ternamate()
 
 	if (mRendererInput)
 	{
-		mRendererInput->Ternamate();
+ 		mRendererInput->Terminate();
 
 		delete0(mRendererInput);
 		mRendererInput = 0;
@@ -335,6 +352,8 @@ bool EngineLoop::Ternamate()
 		delete0(mDynLibMan);
 		DynLibManager::Set(0);
 	}
+
+	TerminateNetwork();
 
 	Logger *logger = Logger::GetSingletonPtr();
 	if (logger)

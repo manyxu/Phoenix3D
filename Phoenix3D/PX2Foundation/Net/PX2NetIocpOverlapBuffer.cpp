@@ -6,6 +6,8 @@
 using namespace PX2;
 
 //-----------------------------------------------------------------------------
+// OverlapBuffer
+//-----------------------------------------------------------------------------
 void OverlapBuffer::Init(int op)
 {
 	assertion(4096 == (int)sizeof(OverlapBuffer), "");
@@ -119,13 +121,17 @@ void OverlapBuffer::DataAppended(int len)
 	assert(mDataLength <= MAX_OVERLAPBUF_SIZE);
 }
 //-----------------------------------------------------------------------------
-OverlapBufferMgr::OverlapBufferMgr(int max_olbuf) :
-mMaxBuffers(max_olbuf)
-{
-	mAllBuffers = new OverlapBuffer[max_olbuf];
 
-	mFreeBuffers.reserve(max_olbuf);
-	for (int i = 0; i < max_olbuf; i++)
+//-----------------------------------------------------------------------------
+// OverlapBufferMgr
+//-----------------------------------------------------------------------------
+OverlapBufferMgr::OverlapBufferMgr(int numMaxBuffer) :
+mMaxBuffers(numMaxBuffer)
+{
+	mAllBuffers = new OverlapBuffer[numMaxBuffer];
+
+	mFreeBuffers.reserve(numMaxBuffer);
+	for (int i = 0; i < numMaxBuffer; i++)
 	{
 		mFreeBuffers.push_back(mAllBuffers + i);
 	}

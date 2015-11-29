@@ -28,7 +28,7 @@ namespace PX2
 		};
 
 	public:
-		unsigned int mClientID;
+		unsigned int ClientID;
 		int mBufferSize;
 		int mDataLength;
 		char mBuffer[1];

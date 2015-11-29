@@ -3,7 +3,7 @@
 #include "PX2UIButton.hpp"
 #include "PX2ResourceManager.hpp"
 #include "PX2UIDefine.hpp"
-#include "PX2UIView.hpp"
+#include "PX2UICanvas.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIButtonBase, UIButton);
@@ -161,7 +161,7 @@ void UIButton::UpdateWorldData(double applicationTime, double elapsedTime)
 	}
 }
 //----------------------------------------------------------------------------
-void UIButton::OnChildPicked(int info, Movable *child)
+void UIButton::OnUIPicked(int info, Movable *child)
 {
 	PX2_UNUSED(child);
 	PX2_UNUSED(info);
@@ -169,7 +169,7 @@ void UIButton::OnChildPicked(int info, Movable *child)
 	if (!IsEnable())
 		return;
 
-	UIFrame::OnChildPicked(info, child);
+	UIFrame::OnUIPicked(info, child);
 
 	ButtonState state = GetButtonState();
 
@@ -198,10 +198,17 @@ void UIButton::OnChildPicked(int info, Movable *child)
 	}
 }
 //----------------------------------------------------------------------------
-void UIButton::OnNotPicked(int info)
+void UIButton::OnUINotPicked(int info)
 {
-	if (!IsEnable())
-		return;
+	ButtonState state = GetButtonState();
+
+	if (UIPT_MOVED == info)
+	{
+		if (state == BS_PRESSED || state == BS_HOVERED)
+		{
+			SetButtonState(BS_NORMAL);
+		}
+	}
 }
 //----------------------------------------------------------------------------
 

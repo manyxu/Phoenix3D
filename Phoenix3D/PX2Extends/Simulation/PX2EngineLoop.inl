@@ -41,3 +41,8 @@ inline EngineLoop::PlayType EngineLoop::GetPlayType() const
 	return mPlayType;
 }
 //----------------------------------------------------------------------------
+inline SimuES_EventHandler *EngineLoop::GetSimuES_EventHandler()
+{
+	return mSimuES_EventHandler;
+}
+//----------------------------------------------------------------------------

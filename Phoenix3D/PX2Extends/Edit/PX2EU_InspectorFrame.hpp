@@ -17,10 +17,8 @@ namespace PX2
 		EU_InspectorFrame();
 		virtual ~EU_InspectorFrame();
 
-		static float sItemSize;
-
 	protected:
-		UIItemPtr mRootItem;
+		UIFramePtr mToolFrame;
 	};
 
 	PX2_REGISTER_STREAM(EU_InspectorFrame);

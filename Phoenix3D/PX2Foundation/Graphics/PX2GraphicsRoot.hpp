@@ -11,7 +11,7 @@
 #include "PX2Rect.hpp"
 #include "PX2EnvirParam.hpp"
 #include "PX2VertexFormat.hpp"
-#include "PX2RenderStep.hpp"
+#include "PX2Canvas.hpp"
 #include "PX2FString.hpp"
 #include "PX2Projector.hpp"
 #include "PX2TriMesh.hpp"
@@ -70,25 +70,26 @@ namespace PX2
 	protected:
 		EnvirParamPtr mCurEnvirParam;
 
-		// RenderStep;
+		// Canvas;
 	public:
-		bool AddRenderStep(const char *name, RenderStep *step);
-		bool IsHasRenderStep(const char *name) const;
-		bool RemoveRenderStep(const char *name);
-		void RemoveRenderSteps(RenderStep *step);
-		RenderStep *GetRenderStep(const char *name);
-		RenderStep *GetRenderStepScene();
-		RenderStep *GetRenderStepUI();
+		bool AddCanvas(const char *name, Canvas *step);
+		bool IsHasCanvas(const char *name) const;
+		bool RemoveCanvas(const char *name);
+		void RemoveCanvass(Canvas *step);
+		Canvas *GetCanvas(const char *name);
+		Canvas *GetCanvasScene();
+		Canvas *GetCanvasUI();
+		void SortCanvass();
 
 		void Update(double appSeconds, double elapsedSeconds);
 		void ComputeVisibleSetAndEnv();
 		void Draw();
 
 	protected:
-		RenderStepPtr mRenderStepScene;
-		RenderStepPtr mRenderStepUI;
-		std::map<FString, RenderStepPtr> mRenderStepMap;
-		std::vector<RenderStep *> mRenderStepVec;
+		CanvasPtr mCanvasScene;
+		CanvasPtr mCanvasUI;
+		std::map<FString, CanvasPtr> mCanvasMap;
+		std::vector<Canvas *> mCanvasVec;
 
 		// Play
 	public:

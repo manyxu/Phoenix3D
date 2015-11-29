@@ -9,11 +9,6 @@
 // language
 #include "PX2LanguageManager.hpp"
 
-// MD5
-#include "PX2MD5.hpp"
-
-#include "PX2Crypt.hpp"
-
 // AddDelete
 #include "PX2AddDeleteManager.hpp"
 
@@ -21,6 +16,7 @@
 #include "PX2Font.hpp"
 #include "PX2FontManager.hpp"
 
+// IME
 #include "PX2IMEDelegate.hpp"
 #include "PX2IMEDispatcher.hpp"
 
@@ -31,9 +27,5 @@
 // script
 #include "PX2LuaManager.hpp"
 #include "PX2ScriptManager.hpp"
-
-// xml
-#include "PX2XMLData.hpp"
-#include "PX2XMLNode.hpp"
 
 #endif

@@ -55,7 +55,7 @@ bool ApplicationBase::OnIdle ()
 	return true;
 }
 //----------------------------------------------------------------------------
-bool ApplicationBase::Ternamate ()
+bool ApplicationBase::Terminate ()
 {
 	//mInfoFrame = 0;
 	//mBackPic = 0;
@@ -64,7 +64,7 @@ bool ApplicationBase::Ternamate ()
 	//mMaxTotalMemory = 0;
 	//mDebugText = 0;
 
-	PX2_ENGINELOOP.Ternamate();
+	PX2_ENGINELOOP.Terminate();
 
 	return true;
 }
@@ -113,8 +113,6 @@ bool ApplicationBase::_LoadProject(const std::string &projFilename)
 		{
 			newProj->LoadScene(sceneFilename);
 		}
-
-		ResourceManager::GetSingleton();
 
 		const std::string &uiFilename = newProj->GetUIFilename();
 		if (!uiFilename.empty())

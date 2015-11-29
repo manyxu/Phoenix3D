@@ -45,7 +45,7 @@ namespace PX2
 		void SetViewDetail(ViewDetail viewDetail);
 		ViewDetail GetViewDetail() const;
 
-		virtual void SetRenderStep(RenderStep *rs);
+		virtual void SetCanvas(Canvas *rs);
 
 	protected:
 		void _ClickSelect(const APoint &scrPos);

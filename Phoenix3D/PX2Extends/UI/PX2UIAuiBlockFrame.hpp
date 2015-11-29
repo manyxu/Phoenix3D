@@ -25,6 +25,11 @@ namespace PX2
 		virtual int AttachChild(Movable* child);
 		UITabFrame *GetUITabFrame();
 
+		virtual void OnSizeChanged();
+
+		void SetMinSize(const Sizef &minSize);
+		const Sizef &GetMinSize() const;
+
 	protected:
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
 		void _CalSideFrames(std::vector<UISplitterFramePtr> &frames);
@@ -36,34 +41,36 @@ namespace PX2
 		std::vector<UISplitterFramePtr > mSplitterFrames;
 		std::vector<UISplitterFramePtr> mSplitterFrames_Hor;
 		std::vector<UISplitterFramePtr> mSplitterFrames_Ver;
+		Sizef mMinSize;
 
 		// ËÄÌõ±ß
 	public:
-		void SetSideFrameHor0(UISplitterFrame *frame, bool isInner);
+		void SetSideFrameHor0(UISplitterFrame *frame);
 		UISplitterFrame *GetSideFrameHor0();
 		bool IsSideFrameInnerHor0() const;
 
-		void SetSideFrameHor1(UISplitterFrame *frame, bool isInner);
+		void SetSideFrameHor1(UISplitterFrame *frame);
 		UISplitterFrame *GetSideFrameHor1();
 		bool IsSideFrameInnerHor1() const;
 
-		void SetSideFrameVer0(UISplitterFrame *frame, bool isInner);
+		void SetSideFrameVer0(UISplitterFrame *frame);
 		UISplitterFrame *GetSideFrameVer0();
 		bool IsSideFrameInnerVer0() const;
 
-		void SetSideFrameVer1(UISplitterFrame *frame, bool isInner);
+		void SetSideFrameVer1(UISplitterFrame *frame);
 		UISplitterFrame *GetSideFrameVer1();
 		bool IsSideFrameInnerVer1() const;
 
+	public_internal:
+		static void _UpdateLayout(UIAuiBlockFrame *auiBlockFrame,
+			bool setToAuiBlockFrame = true,
+			Sizef *outSize = 0, APoint *outPos = 0);
+
 	protected:
 		UISplitterFrame *mSideFrameHor0;
-		bool mIsInnerHor0;
 		UISplitterFrame *mSideFrameHor1;
-		bool mIsInnerHor1;
 		UISplitterFrame *mSideFrameVer0;
-		bool mIsInnerVer0;
 		UISplitterFrame *mSideFrameVer1;
-		bool mIsInnerVer1;
 
 	protected:
 		virtual void UpdateLayout();

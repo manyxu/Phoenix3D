@@ -31,7 +31,7 @@ namespace PX2
 	protected:
 		UICurveGroup ();
 		virtual void OnChildPicked (int info, Movable *child);
-		virtual void OnChildUIAfterPicked(int info, Movable *child);
+		virtual void OnUIPicked(int info, Movable *child);
 		virtual void OnNotPicked (int info);
 		virtual void OnEvent (Event *event);
 

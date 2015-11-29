@@ -238,7 +238,7 @@ public_internal:
 		virtual void UpdateModelBound ();
 
 		// ³¡¾°²Ã¼ô
-		virtual void GetVisibleSet (Culler& culler, bool noCull);
+		virtual void OnGetVisibleSet (Culler& culler, bool noCull);
 
 	protected:
 		// äÖÈ¾×÷ÓÃ

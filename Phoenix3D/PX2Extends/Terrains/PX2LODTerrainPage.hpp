@@ -57,7 +57,7 @@ namespace PX2
 		void RenderBlocks ();
 
 		// ¿É¼û¼¯²Ã¼ô
-		virtual void GetVisibleSet (Culler &culler, bool noCull);
+		virtual void OnGetVisibleSet (Culler &culler, bool noCull);
 
 		float mTextureSpacing;
 

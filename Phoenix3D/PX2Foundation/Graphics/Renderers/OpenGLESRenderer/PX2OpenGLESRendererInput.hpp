@@ -15,7 +15,7 @@ namespace PX2
 		PdrRendererInput();
 		virtual ~PdrRendererInput();
 
-		virtual bool Ternamate();
+		virtual bool Terminate();
 
 #if defined(_WIN32) || defined(WIN32) || defined(__ANDROID__)
 		EGLNativeWindowType  mWindowHandle;

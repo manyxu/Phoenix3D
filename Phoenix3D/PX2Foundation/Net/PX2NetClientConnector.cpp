@@ -213,8 +213,11 @@ void ClientConnector::_InternalDisconnect()
 //----------------------------------------------------------------------------
 void ClientConnector::Disconnect()
 {
-	_InternalDisconnect();
-	SetConnectState(CONNSTATE_INIT);
+	if (CONNSTATE_CONNECTED == GetConnectState())
+	{
+		_InternalDisconnect();
+		SetConnectState(CONNSTATE_INIT);
+	}
 }
 //----------------------------------------------------------------------------
 int ClientConnector::Reconnect(BufferEvent *ent)

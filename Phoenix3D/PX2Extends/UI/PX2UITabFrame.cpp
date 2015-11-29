@@ -4,6 +4,7 @@
 #include "PX2UIButton.hpp"
 #include "PX2UIAuiBlockFrame.hpp"
 #include "PX2UIAuiManager.hpp"
+#include "PX2UISkinManager.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, UITabFrame);
@@ -12,16 +13,17 @@ PX2_IMPLEMENT_FACTORY(UITabFrame);
 
 //----------------------------------------------------------------------------
 UITabFrame::UITabFrame() :
+mLayoutPosType(LPT_TOP),
 mTabWidth(100.0f),
+mTabHeight(20.0f),
 mAuiBlockFrame(0),
-mIsTabsNeedReCal(true)
+mIsTabsNeedReCal(true),
+mIsSkinAui(true)
 {
-	float titleBarHeight = 20.0f;
-
 	SetAnchorHor(0.0f, 1.0f);
 	SetAnchorVer(0.0f, 1.0f);
 
-	SetPvoit(0.5f, 0.5f);
+	SetPivot(0.5f, 0.5f);
 
 	mFrame_TitleBar = new0 UIFrame();
 	AttachChild(mFrame_TitleBar);
@@ -30,24 +32,33 @@ mIsTabsNeedReCal(true)
 	UIPicBox *picBox = mFrame_TitleBar->CreateAddBackgroundPicBox();
 	picBox->SetTexture("Data/engine/white.png");
 	picBox->SetColor(Float3::MakeColor(60, 60, 60));
-	mFrame_TitleBar->SetSize(0.0f, titleBarHeight);
+	mFrame_TitleBar->SetSize(0.0f, mTabHeight);
 	mFrame_TitleBar->SetAnchorHor(Float2(0.0f, 1.0f));
 	mFrame_TitleBar->SetAnchorVer(Float2(1.0f, 1.0f));
-	mFrame_TitleBar->SetPvoit(0.5f, 1.0f);
+	mFrame_TitleBar->SetPivot(0.5f, 1.0f);
 
 	mFrame_Content = new0 UIFrame();
 	AttachChild(mFrame_Content);
 	mFrame_Content->SetName("Content");
 	mFrame_Content->SetAnchorHor(0.0f, 1.0f);
 	mFrame_Content->SetAnchorVer(0.0f, 1.0f);
-	mFrame_Content->SetAnchorParamVer(0.0f, titleBarHeight);
-	UIPicBox *contPicBox = mFrame_Content->CreateAddBackgroundPicBox();
-	contPicBox->SetTexture("Data/engine/white.png");
-	contPicBox->SetColor(Float3::MakeColor(37, 37, 38));
+	mFrame_Content->SetAnchorParamVer(0.0f, mTabHeight);
 }
 //----------------------------------------------------------------------------
 UITabFrame::~UITabFrame()
 {
+}
+//----------------------------------------------------------------------------
+void UITabFrame::SetLayoutPos(LayoutPosType posType)
+{
+	mLayoutPosType = posType;
+
+	mIsTabsNeedReCal = true;
+}
+//----------------------------------------------------------------------------
+void UITabFrame::SetSkinAui(bool isAui)
+{
+	mIsSkinAui = isAui;
 }
 //----------------------------------------------------------------------------
 void UITabFrame::SetTabWidth(float width)
@@ -57,32 +68,36 @@ void UITabFrame::SetTabWidth(float width)
 	mIsTabsNeedReCal = true;
 }
 //----------------------------------------------------------------------------
+void UITabFrame::SetTabHeight(float height)
+{
+	mTabHeight = height;
+	mIsTabsNeedReCal = true;
+}
+//----------------------------------------------------------------------------
 void UITabFrame::TabCallback(UIFrame *frame, UICallType type)
 {
 	const std::string &name = frame->GetName();
 	SetActiveTab(name);
 }
 //----------------------------------------------------------------------------
-void UITabFrame::AddTab(const std::string &name, UIFrame *tabFrame)
+void UITabFrame::AddTab(const std::string &name, UIFrame *tabContentFrame)
 {
-	if (!tabFrame) return;
+	if (!tabContentFrame) return;
 
-	std::map<std::string, UIFramePtr>::iterator it = mTabFrames.find(name);
-	if (it == mTabFrames.end())
+	std::map<std::string, UIFramePtr>::iterator it = mTabContentFrames.find(name);
+	if (it == mTabContentFrames.end())
 	{
-		UIAuiManager::GetSingleton().AddTabItemFrame(name, tabFrame);
+		tabContentFrame->Show(false);
 
-		tabFrame->Show(false);
-
-		mTabFrames[name] = tabFrame;
-		mFrame_Content->AttachChild(tabFrame);
+		mTabContentFrames[name] = tabContentFrame;
+		mFrame_Content->AttachChild(tabContentFrame);
 
 		UIButton *tabBut = new0 UIButton();	
 		mFrame_TitleBar->AttachChild(tabBut);
-		mTabTitles[name] = tabBut;
+		mTabButs.push_back(tabBut);
 		tabBut->LocalTransform.SetTranslateY(-5.0f);
 		tabBut->SetName(name);
-		tabBut->SetMemUIUICallback(this, (UIFrame::MemUICallback)(&UITabFrame::TabCallback));
+		tabBut->SetMemUICallback(this, (UIFrame::MemUICallback)(&UITabFrame::TabCallback));
 
 		UIText *text = tabBut->CreateAddText();
 		text->SetText(name);
@@ -90,11 +105,26 @@ void UITabFrame::AddTab(const std::string &name, UIFrame *tabFrame)
 
 		UIPicBox *picBoxNormal = tabBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL);
 		picBoxNormal->SetTexture("Data/engine/white.png");
-		picBoxNormal->SetColor(Float3::MakeColor(120, 120, 120));
+		if (mIsSkinAui)
+			picBoxNormal->SetColor(PX2_UISM.Color_AuiButTab_Normal);
+		else
+			picBoxNormal->SetColor(PX2_UISM.Color_ButTab_Normal);
+
+		UIPicBox *picBoxHovered = tabBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED);
+		picBoxHovered->SetTexture("Data/engine/white.png");
+		if (mIsSkinAui)
+			picBoxHovered->SetColor(PX2_UISM.Color_AuiButTab_Horvered);
+		else
+			picBoxHovered->SetColor(PX2_UISM.Color_ButTab_Horvered);
 
 		UIPicBox *picBoxPressed = tabBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED);
 		picBoxPressed->SetTexture("Data/engine/white.png");
-		picBoxPressed->SetColor(Float3::MakeColor(180, 180, 180));
+		if (mIsSkinAui)
+			picBoxPressed->SetColor(PX2_UISM.Color_AuiButTab_Pressed);
+		else
+			picBoxPressed->SetColor(PX2_UISM.Color_ButTab_Pressed);
+
+		UIAuiManager::GetSingleton().AddTabContentFrame(tabBut, tabContentFrame);
 
 		mIsTabsNeedReCal = true;
 	}
@@ -102,15 +132,15 @@ void UITabFrame::AddTab(const std::string &name, UIFrame *tabFrame)
 //----------------------------------------------------------------------------
 bool UITabFrame::IsHasTab(const std::string &name)
 {
-	std::map<std::string, UIFramePtr>::iterator it = mTabFrames.find(name);
+	std::map<std::string, UIFramePtr>::iterator it = mTabContentFrames.find(name);
 
-	return (it!=mTabFrames.end());
+	return (it!=mTabContentFrames.end());
 }
 //----------------------------------------------------------------------------
 UIFrame *UITabFrame::GetTab(const std::string &name)
 {
-	std::map<std::string, UIFramePtr>::iterator it = mTabFrames.find(name);
-	if (it != mTabFrames.end())
+	std::map<std::string, UIFramePtr>::iterator it = mTabContentFrames.find(name);
+	if (it != mTabContentFrames.end())
 	{
 		return it->second;
 	}
@@ -121,26 +151,44 @@ UIFrame *UITabFrame::GetTab(const std::string &name)
 void UITabFrame::RemoveTab(const std::string &name)
 {
 	// cot
-	std::map<std::string, UIFramePtr>::iterator it = mTabFrames.find(name);
-	if (it != mTabFrames.end())
+	std::map<std::string, UIFramePtr>::iterator it = mTabContentFrames.find(name);
+	if (it != mTabContentFrames.end())
 	{
 		mFrame_Content->DetachChild(it->second);
-		mTabFrames.erase(it);
+		mTabContentFrames.erase(it);
 	}
 
 	// tab but
-	std::map<std::string, UIFramePtr>::iterator it1 = mTabTitles.find(name);
-	if (it1 != mTabTitles.end())
+	std::vector<UIButtonPtr>::iterator it1 = mTabButs.begin();
+	for (; it1 != mTabButs.end();)
 	{
-		mFrame_TitleBar->DetachChild(it1->second);
-		mTabTitles.erase(it1);
+		if ((*it1)->GetName() == name)
+		{
+			it1 = mTabButs.erase(it1);
+		}
+		else
+		{
+			it1++;
+		}
 	}
 
 	mIsTabsNeedReCal = true;
 }
 //----------------------------------------------------------------------------
+UIButton *UITabFrame::GetTabButton(const std::string &name)
+{
+	for (int i = 0; i < (int)mTabButs.size(); i++)
+	{
+		if (mTabButs[i]->GetName() == name)
+			return mTabButs[i];
+	}
+
+	return 0;
+}
+//----------------------------------------------------------------------------
 void UITabFrame::SetActiveTab(const std::string &name)
 {
+	// tabFrame
 	if (mActiveTabFrame)
 		mActiveTabFrame->Show(false);
 
@@ -152,6 +200,44 @@ void UITabFrame::SetActiveTab(const std::string &name)
 
 	if (mActiveTabFrame)
 		mActiveTabFrame->Show(true);
+
+	// Button
+	UIButton *but = GetTabButton(name);
+	if (!but)
+		return;
+
+	if (IsSkinAui())
+	{
+		PX2_UIAUIM.SetActiveTableFrame(but, mActiveTabFrame);
+	}
+	else
+	{	
+		if (mActiveTabBut)
+		{
+			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetColor(
+				PX2_UISM.Color_ButTab_Normal);
+
+			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED)->SetColor(
+				PX2_UISM.Color_ButTab_Horvered);
+
+			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetColor(
+				PX2_UISM.Color_ButTab_Pressed);
+		}
+
+		mActiveTabBut = but;
+
+		if (mActiveTabBut)
+		{
+			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetColor(
+				PX2_UISM.Color_ButTab_Active);
+
+			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED)->SetColor(
+				PX2_UISM.Color_ButTab_Active);
+
+			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetColor(
+				PX2_UISM.Color_ButTab_Active);
+		}
+	}
 }
 //----------------------------------------------------------------------------
 void UITabFrame::UpdateWorldData(double applicationTime, double elapsedTime)
@@ -164,18 +250,37 @@ void UITabFrame::UpdateWorldData(double applicationTime, double elapsedTime)
 //----------------------------------------------------------------------------
 void UITabFrame::_CalTabs()
 {
-	int index = 0;
-
-	std::map<std::string, UIFramePtr>::iterator it = mTabTitles.begin();
-	for (; it != mTabTitles.end(); it++)
+	if (LPT_TOP == mLayoutPosType)
 	{
-		UIFrame *tabTitle = it->second;
-		tabTitle->SetSize(mTabWidth, mFrame_TitleBar->GetHeight());
-		tabTitle->SetAnchorHor(0.0f, 0.0f);
-		tabTitle->SetAnchorParamHor(mTabWidth*0.5f + mTabWidth*index, 0.0f);
-		tabTitle->SetAnchorVer(0.0f, 1.0f);
+		mFrame_TitleBar->SetAnchorHor(Float2(0.0f, 1.0f));
+		mFrame_TitleBar->SetAnchorVer(Float2(1.0f, 1.0f));
+		mFrame_TitleBar->SetPivot(0.5f, 1.0f);
+		mFrame_TitleBar->SetSize(0.0f, mTabHeight);
 
-		index++;
+		mFrame_Content->SetAnchorHor(0.0f, 1.0f);
+		mFrame_Content->SetAnchorVer(0.0f, 1.0f);
+		mFrame_Content->SetAnchorParamVer(0.0f, mTabHeight);
+	}
+	else if (LPT_BOTTOM == mLayoutPosType)
+	{
+		mFrame_TitleBar->SetAnchorHor(Float2(0.0f, 1.0f));
+		mFrame_TitleBar->SetAnchorVer(Float2(0.0f, 0.0f));
+		mFrame_TitleBar->SetPivot(0.5f, 0.0f);
+		mFrame_TitleBar->SetSize(0.0f, mTabHeight);
+
+		mFrame_Content->SetAnchorHor(0.0f, 1.0f);
+		mFrame_Content->SetAnchorVer(0.0f, 1.0f);
+		mFrame_Content->SetAnchorParamVer(mTabHeight, 0.0f);
+	}
+
+	for (int i = 0; i < (int)mTabButs.size(); i++)
+	{
+		UIFrame *tabTitle = mTabButs[i];
+		tabTitle->SetSize(mTabWidth, mTabHeight);
+		tabTitle->SetAnchorHor(0.0f, 0.0f);
+		tabTitle->SetAnchorParamHor(
+			mTabWidth*0.5f + mTabWidth*i + (i*1.0f), 0.0f);
+		tabTitle->SetAnchorVer(0.0f, 1.0f);
 	}
 
 	mIsTabsNeedReCal = false;
@@ -192,8 +297,10 @@ void UITabFrame::SetAuiBlockFrame(UIAuiBlockFrame *auiBlockFrame)
 //----------------------------------------------------------------------------
 UITabFrame::UITabFrame(LoadConstructor value) :
 UIFrame(value),
+mLayoutPosType(LPT_TOP),
 mAuiBlockFrame(0),
-mIsTabsNeedReCal(true)
+mIsTabsNeedReCal(true),
+mIsSkinAui(false)
 {
 }
 //----------------------------------------------------------------------------

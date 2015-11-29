@@ -11,7 +11,7 @@
 #include "PX2UIPicBox.hpp"
 #include "PX2UICheckButton.hpp"
 #include "PX2EngineLoop.hpp"
-#include "PX2UIView.hpp"
+#include "PX2UICanvas.hpp"
 #include "PX2InputManager.hpp"
 using namespace PX2;
 
@@ -79,22 +79,22 @@ mPreViewHeight(128.0f)
 //----------------------------------------------------------------------------
 EditRenderView_Res::~EditRenderView_Res()
 {
-	if (mRenderStep)
+	if (mCanvas)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStep);
-		mRenderStep = 0;
+		PX2_GR.RemoveCanvass(mCanvas);
+		mCanvas = 0;
 	}
 
-	if (mRenderStepCtrl)
+	if (mCanvasCtrl)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStepCtrl);
-		mRenderStepCtrl = 0;
+		PX2_GR.RemoveCanvass(mCanvasCtrl);
+		mCanvasCtrl = 0;
 	}
 
-	if (mRenderStepCtrl1)
+	if (mCanvasCtrl1)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStepCtrl1);
-		mRenderStepCtrl1 = 0;
+		PX2_GR.RemoveCanvass(mCanvasCtrl1);
+		mCanvasCtrl1 = 0;
 	}
 }
 //----------------------------------------------------------------------------
@@ -106,16 +106,16 @@ bool EditRenderView_Res::InitlizeRendererStep(const std::string &name)
 
 	mSize = mPt_Size;
 
-	mRenderStep = new0 UIView(mRenderViewID);
-	mRenderStep->SetName(name);
+	mCanvas = new0 UICanvas(mRenderViewID);
+	mCanvas->SetName(name);
 
 	SetRenderer(mRenderer);
 
-	mRenderStep->SetSize(mSize);
+	mCanvas->SetSize(mSize);
 
 	mIsRenderCreated = true;
 
-	mRenderStep->SetNode(mRootFrame);
+	mCanvas->AttachChild(mRootFrame);
 
 	return true;
 }
@@ -202,9 +202,9 @@ void EditRenderView_Res::OnSize(const Sizef& size)
 
 	EditRenderView::OnSize(size);
 
-	if (mRenderStep)
+	if (mCanvas)
 	{
-		mRenderStep->GetRenderer()->ResizeWindow((int)size.Width,
+		mCanvas->GetRenderer()->ResizeWindow((int)size.Width,
 			(int)size.Height);
 	}
 }

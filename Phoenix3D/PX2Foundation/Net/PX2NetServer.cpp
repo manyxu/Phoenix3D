@@ -3,6 +3,7 @@
 #include "PX2NetServer.hpp"
 #include "PX2Log.hpp"
 #include "PX2NetServerIocp.hpp"
+#include "PX2NetServerPoll.hpp"
 #include "PX2Time.hpp"
 #include "PX2System.hpp"
 using namespace PX2;
@@ -36,6 +37,11 @@ Server::Server(ServerType serverType, int port, int numMaxConnects,
 		mServerImp = new0 ServerIocp(mPort, mNumMaxConnects, mNumMaxMsgHandlers,
 			mBufferEventQue);
 	}
+	else if (ST_POLL == serverType)
+	{
+		mServerImp = new0 ServerPoll(mPort, mNumMaxConnects, mNumMaxMsgHandlers,
+			mBufferEventQue);
+	}
 	else
 	{
 		assertion(false, "not support now");
@@ -44,6 +50,11 @@ Server::Server(ServerType serverType, int port, int numMaxConnects,
 //-----------------------------------------------------------------------------
 Server::~Server()
 {
+	if (mBufferEventQue)
+	{
+		delete(mBufferEventQue);
+		mBufferEventQue = 0;
+	}
 }
 //-----------------------------------------------------------------------------
 const std::vector<int> &Server::GetThreadIDs() const
@@ -70,11 +81,11 @@ bool Server::Start()
 {
 	if (!mServerImp->Start())
 	{
-		PX2_LOG_ERROR("iocp server start failed\n");
+		PX2_LOG_ERROR("iocp server start failed");
 		return false;
 	}
 
-	PX2_LOG_INFO("server start succeeded\n");
+	PX2_LOG_INFO("server start succeeded");
 	
 	return true;
 }
@@ -86,12 +97,10 @@ void Server::Shutdown()
 //-----------------------------------------------------------------------------
 void Server::Run()
 {
-	while (true)
-	{
-		HandleClientEvents();
+	if (mServerImp)
+		mServerImp->OnRun();
 
-		System::SleepSeconds(0.1f);
-	}
+	HandleClientEvents();
 }
 //-----------------------------------------------------------------------------
 int Server::GetNumConnects()
@@ -115,7 +124,7 @@ int Server::HandleClientEvent(BufferEvent *ent)
 	if (!pfunc)
 		return CER_HANDLER_NULL;
 
-	return (this->*pfunc)(ent->mClientID,
+	return (this->*pfunc)(ent->ClientID,
 		((const char *)ent->mBuffer) + MSGID_BYTES,
 		ent->mDataLength - MSGID_BYTES);
 }
@@ -131,9 +140,9 @@ void Server::HandleClientEvents()
 		if (CER_SUCCEED != result)
 		{
 			PX2_LOG_ERROR("HandleClientEvent error, clientid=%d, result=%d，msgid=%d",
-				ent->mClientID, result, ReadMessageID(ent->mBuffer));
+				ent->ClientID, result, ReadMessageID(ent->mBuffer));
 			
-			mServerImp->DisconnectClient(ent->mClientID); //!!!是否应该断掉
+			mServerImp->DisconnectClient(ent->ClientID); //!!!是否应该断掉
 		}
 
 		mBufferEventQue->FreeBufferEvent(ent);
@@ -150,6 +159,8 @@ void Server::RegisterHandler(int msgid, MsgHandleFunc msgfunc)
 //----------------------------------------------------------------------------
 int Server::OnReservedMsg(unsigned int clientid, const void *pbuffer, int buflen)
 {
+	PX2_UNUSED(buflen);
+
 	char flags = *(const char *)pbuffer;
 
 	if (flags == 0) //connect

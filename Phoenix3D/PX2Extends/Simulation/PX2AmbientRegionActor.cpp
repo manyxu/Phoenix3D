@@ -3,7 +3,7 @@
 #include "PX2AmbientRegionActor.hpp"
 #include "PX2GraphicsRoot.hpp"
 #include "PX2AVector.hpp"
-#include "PX2RenderStepScene.hpp"
+#include "PX2SceneCanvas.hpp"
 #include "PX2Project.hpp"
 using namespace PX2;
 

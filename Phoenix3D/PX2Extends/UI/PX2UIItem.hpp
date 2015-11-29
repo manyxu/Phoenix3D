@@ -9,6 +9,7 @@
 #include "PX2UISplitterFrame.hpp"
 #include "PX2UIAuiBlockFrame.hpp"
 #include "PX2UIButton.hpp"
+#include "PX2UIFText.hpp"
 
 namespace PX2
 {
@@ -24,6 +25,8 @@ namespace PX2
 
 		UIItem *AddItem(const std::string &label);
 		virtual void OnChildAdded(Movable *child);
+		bool RemoveItem(UIItem *item);
+		void RemoveAllChildItems();
 		virtual void OnChildRemoved(Movable *child);
 		int GetNumChildItem() const;
 
@@ -48,13 +51,15 @@ namespace PX2
 		UIPicBox *GetIconArrow0();
 		UIPicBox *GetIconArrow1();
 		UIPicBox *GetIcon();
-		UIText *GetText();
+		UIFText *GetFText();
 
 		virtual void OnSizeChanged();
 
 	public_internal:
 		void _SetLevel(int level);
 		int _GetLevel() const;
+
+		void _ShowRootItem(bool show);
 
 	protected:
 		virtual void UpdateWorldData(double applicationTime,
@@ -74,11 +79,12 @@ namespace PX2
 		UIPicBoxPtr mIconArrow0;
 		UIPicBoxPtr mIconArrow1;
 		UIPicBoxPtr mIcon;
-		UITextPtr mText;
+		UIFTextPtr mFText;
+		bool mIsShowRootItem;
 
 		int mLevel;
 
-		int mNumChildItem;
+		std::vector<Pointer0<UIItem> > mChildItems;
 	};
 
 #include "PX2UIItem.inl"

@@ -25,9 +25,6 @@
     <Filter Include="UI\UIObj">
       <UniqueIdentifier>{0b0cf755-2e86-4453-b951-a25ec154683c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\UIObj\Frame">
-      <UniqueIdentifier>{2a6a3b8e-3832-4c35-8611-122ac5e87678}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\UIObj\Button">
       <UniqueIdentifier>{ea27d656-594a-4827-8063-1cd1bad446a1}</UniqueIdentifier>
     </Filter>
@@ -48,12 +45,6 @@
     </Filter>
     <Filter Include="Edit\EditUI">
       <UniqueIdentifier>{d76e3b97-25be-453a-b54c-63374195e0a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\UIObj\Frame\Control">
-      <UniqueIdentifier>{a2e076e7-247e-4d97-9687-6388ee66f7dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\UIObj\Frame\Aui">
-      <UniqueIdentifier>{aa64c59f-f56d-4b60-9d12-a4b906667b69}</UniqueIdentifier>
     </Filter>
     <Filter Include="Edit\Brush">
       <UniqueIdentifier>{f81cde22-4fbf-4b7d-ab1c-9161f76252c8}</UniqueIdentifier>
@@ -79,14 +70,89 @@
     <Filter Include="Edit\Factory">
       <UniqueIdentifier>{f9fb0ee3-ffee-4b88-b5c9-1cc8055e1486}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\UIObj\Frame\Item">
-      <UniqueIdentifier>{b2b28ac7-086f-4c73-af09-d7a2f992463f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Edit\EditUI\Project">
       <UniqueIdentifier>{402001c9-722e-439e-9889-33ec9707eb8f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Edit\EditUI\Res">
       <UniqueIdentifier>{79729d49-7b1c-49af-8f56-05b9168bb5b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\UIObj\Aui">
+      <UniqueIdentifier>{aa64c59f-f56d-4b60-9d12-a4b906667b69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\BluePrint">
+      <UniqueIdentifier>{90fd7ffd-0db4-4e90-87d2-3f2ad873f78a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Window">
+      <UniqueIdentifier>{834a7c63-51f2-4961-9ca8-fd92319ae7c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Accounts">
+      <UniqueIdentifier>{4b46d4da-4350-4051-adbc-b32a40db5168}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Actors">
+      <UniqueIdentifier>{2a2d3613-bf31-4801-8d24-475bfe087d70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\ActorPicker">
+      <UniqueIdentifier>{c1bfa4f0-8930-4d6e-8410-0ce5b8429b3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Animation">
+      <UniqueIdentifier>{041414cc-a3f3-4979-a268-e6bcac6abd1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\SpacePartition">
+      <UniqueIdentifier>{29d2fdc3-6e3e-49f2-9912-465aa967118e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Create">
+      <UniqueIdentifier>{eee568c4-e666-4d29-8810-f4501ae65794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\EngineLoop">
+      <UniqueIdentifier>{9044db3b-0988-4743-bbfb-c8b9daa929d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\PlatformSDK">
+      <UniqueIdentifier>{e0d00a29-d240-4132-883a-2ab9c5293515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Edit">
+      <UniqueIdentifier>{c580d05f-05a2-4f24-b592-385a0ad6135d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Project">
+      <UniqueIdentifier>{88c37016-1c7e-4fc0-bde7-081032f1ad48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Scene">
+      <UniqueIdentifier>{f1242dc5-376b-42a6-baae-ca88a640a18a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Events">
+      <UniqueIdentifier>{e81d9066-34e7-47bd-9cec-50954582d050}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\UIObj\Slider">
+      <UniqueIdentifier>{fdeab04a-772f-49b8-a6f8-d2dfc5321687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\UIObj\Frames">
+      <UniqueIdentifier>{2a6a3b8e-3832-4c35-8611-122ac5e87678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\UIObj\Frames\Control">
+      <UniqueIdentifier>{a2e076e7-247e-4d97-9687-6388ee66f7dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\UIObj\Item">
+      <UniqueIdentifier>{b2b28ac7-086f-4c73-af09-d7a2f992463f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Edit\EditUI\BluePrint">
+      <UniqueIdentifier>{dd984063-b8b6-4d4e-84df-3d1a86975153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Edit\EditUI\Inspector">
+      <UniqueIdentifier>{e29ba7c2-ad78-4fee-a20f-e9b8b0578661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Edit\EditUI\Console">
+      <UniqueIdentifier>{98d88420-401c-4666-8025-6e13954d620b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\UIObj\Table">
+      <UniqueIdentifier>{efe33bd7-26f4-4c94-a69f-15c93c5b4ac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Edit\EditUI\Create">
+      <UniqueIdentifier>{ae5c7ab6-b161-42ce-a267-c38ac0eeb76c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Canvas">
+      <UniqueIdentifier>{6ef6cf38-c72d-4f89-8950-7142be9fac57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Edit\EditUI\Stage">
+      <UniqueIdentifier>{171c7606-9850-4554-b0ac-6ce2085039bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -252,112 +318,13 @@
     <ClInclude Include="Terrains\PX2TerrainsPre.hpp">
       <Filter>Terrains</Filter>
     </ClInclude>
-    <ClInclude Include="Simulation\PX2AccoutManager.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2Actor.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2ActorPicker.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2ActorPickRecord.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2AmbientRegionActor.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2Animation.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2Animation3DSkeleton.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2AnimationFrames.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2AnimationObject.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2CameraActor.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2CellSpace.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2CellSpaceT.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2Character.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2Creater.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2EffectActor.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2EngineLoop.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2FramesMesh.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2LightActor.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2PlatformSDK.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2PlatformSDKEventType.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2Project.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2RedoUndo.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2RenderStepScene.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2Scene.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2Selection.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
     <ClInclude Include="Simulation\PX2Simulation.hpp">
       <Filter>Simulation</Filter>
     </ClInclude>
     <ClInclude Include="Simulation\PX2SimulationDataDefine.hpp">
       <Filter>Simulation</Filter>
     </ClInclude>
-    <ClInclude Include="Simulation\PX2SimulationEventType.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
     <ClInclude Include="Simulation\PX2SimulationPre.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2SkyActor.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2SkyMesh.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2TerrainActor.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2TriggerActor.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2User.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2UserActor.hpp">
-      <Filter>Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation\PX2VBIBObj.hpp">
       <Filter>Simulation</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UI.hpp">
@@ -366,15 +333,9 @@
     <ClInclude Include="UI\PX2UIPre.hpp">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="UI\PX2UIView.hpp">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="PX2ExtendsPre.hpp" />
     <ClInclude Include="UI\PX2UIFrame.hpp">
-      <Filter>UI\UIObj\Frame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIGridFrame.hpp">
-      <Filter>UI\UIObj\Frame</Filter>
+      <Filter>UI\UIObj\Frames</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UIButton.hpp">
       <Filter>UI\UIObj\Button</Filter>
@@ -393,9 +354,6 @@
     </ClInclude>
     <ClInclude Include="UI\PX2UIMenu.hpp">
       <Filter>UI\UIObj\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIPanel.hpp">
-      <Filter>UI\UIObj\Frame</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UIProgressBar.hpp">
       <Filter>UI\UIObj\ProgressBar</Filter>
@@ -421,29 +379,23 @@
     <ClInclude Include="UI\PX2UIMenuItem.hpp">
       <Filter>UI\UIObj\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="UI\PX2UIFPicBox.hpp">
-      <Filter>UI\UIObj\Frame</Filter>
-    </ClInclude>
     <ClInclude Include="UI\PX2UIFrameGridAlignControl.hpp">
-      <Filter>UI\UIObj\Frame\Control</Filter>
+      <Filter>UI\UIObj\Frames\Control</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UIAuiFrame.hpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UISplitterFrame.hpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UITabFrame.hpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UISkinManager.hpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UIDefine.hpp">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UIAuiBlockFrame.hpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </ClInclude>
     <ClInclude Include="Edit\PX2Brush.hpp">
       <Filter>Edit\Brush</Filter>
@@ -511,20 +463,14 @@
     <ClInclude Include="Edit\PX2GeoObjFactory.hpp">
       <Filter>Edit\Factory</Filter>
     </ClInclude>
-    <ClInclude Include="Edit\PX2EU_InspectorFrame.hpp">
-      <Filter>Edit\EditUI</Filter>
-    </ClInclude>
     <ClInclude Include="UI\PX2UIItem.hpp">
-      <Filter>UI\UIObj\Frame\Item</Filter>
+      <Filter>UI\UIObj\Item</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UITree.hpp">
-      <Filter>UI\UIObj\Frame\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Edit\PX2EU_ConsoleFrame.hpp">
-      <Filter>Edit\EditUI</Filter>
+      <Filter>UI\UIObj\Item</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UIList.hpp">
-      <Filter>UI\UIObj\Frame\Item</Filter>
+      <Filter>UI\UIObj\Item</Filter>
     </ClInclude>
     <ClInclude Include="Edit\PX2EU_ProjectFrame.hpp">
       <Filter>Edit\EditUI\Project</Filter>
@@ -533,13 +479,175 @@
       <Filter>Edit\EditUI\Project</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UIAuiManager.hpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </ClInclude>
     <ClInclude Include="Edit\PX2EU_ResFrame.hpp">
       <Filter>Edit\EditUI\Res</Filter>
     </ClInclude>
     <ClInclude Include="Edit\PX2EU_ResTree.hpp">
       <Filter>Edit\EditUI\Res</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit\PX2EditEventData.hpp">
+      <Filter>Edit\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2BPParam.hpp">
+      <Filter>Simulation\BluePrint</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2BPModule.hpp">
+      <Filter>Simulation\BluePrint</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2BPFile.hpp">
+      <Filter>Simulation\BluePrint</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2BPGroup.hpp">
+      <Filter>Simulation\BluePrint</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2BPManager.hpp">
+      <Filter>Simulation\BluePrint</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIWindow.hpp">
+      <Filter>UI\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2AccoutManager.hpp">
+      <Filter>Simulation\Accounts</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2Actor.hpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2ActorPicker.hpp">
+      <Filter>Simulation\ActorPicker</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2ActorPickRecord.hpp">
+      <Filter>Simulation\ActorPicker</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2AmbientRegionActor.hpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2Animation.hpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2Animation3DSkeleton.hpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2AnimationFrames.hpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2AnimationObject.hpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2CameraActor.hpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2CellSpace.hpp">
+      <Filter>Simulation\SpacePartition</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2CellSpaceT.hpp">
+      <Filter>Simulation\SpacePartition</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2Character.hpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2Creater.hpp">
+      <Filter>Simulation\Create</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2EngineLoop.hpp">
+      <Filter>Simulation\EngineLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2EffectActor.hpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2FramesMesh.hpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2LightActor.hpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2PlatformSDK.hpp">
+      <Filter>Simulation\PlatformSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2PlatformSDKEventType.hpp">
+      <Filter>Simulation\PlatformSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2RedoUndo.hpp">
+      <Filter>Simulation\Edit</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2Project.hpp">
+      <Filter>Simulation\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2Selection.hpp">
+      <Filter>Simulation\Edit</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2Scene.hpp">
+      <Filter>Simulation\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2SkyActor.hpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2SkyMesh.hpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2TerrainActor.hpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2TriggerActor.hpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2UserActor.hpp">
+      <Filter>Simulation\Accounts</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2User.hpp">
+      <Filter>Simulation\Accounts</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2VBIBObj.hpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2SimulationEventType.hpp">
+      <Filter>Simulation\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UISlider.hpp">
+      <Filter>UI\UIObj\Slider</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIFText.hpp">
+      <Filter>UI\UIObj\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIFPicBox.hpp">
+      <Filter>UI\UIObj\PicBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit\PX2EU_BluePrintFrame.hpp">
+      <Filter>Edit\EditUI\BluePrint</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit\PX2EU_InspectorFrame.hpp">
+      <Filter>Edit\EditUI\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit\PX2EU_ConsoleFrame.hpp">
+      <Filter>Edit\EditUI\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UITabFrame.hpp">
+      <Filter>UI\UIObj\Table</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit\PX2EU_CreateFrame.hpp">
+      <Filter>Edit\EditUI\Create</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit\PX2EU_CF_BluePrint.hpp">
+      <Filter>Edit\EditUI\Create</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit\PX2EU_BPFrame.hpp">
+      <Filter>Edit\EditUI\BluePrint</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2SceneCanvas.hpp">
+      <Filter>Simulation\EngineLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UICanvas.hpp">
+      <Filter>UI\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIGridFrame.hpp">
+      <Filter>UI\UIObj\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UICanvasController.hpp">
+      <Filter>UI\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation\PX2SimulationEventHandler.hpp">
+      <Filter>Simulation\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -675,128 +783,8 @@
     <ClCompile Include="Terrains\PX2TerrainPage.cpp">
       <Filter>Terrains</Filter>
     </ClCompile>
-    <ClCompile Include="Simulation\PX2AccoutManager.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Actor.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Actor_BitSet.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2ActorPicker.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2AmbientRegionActor.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Animation.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Animation3DSkeleton.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2AnimationFrames.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2AnimationObject.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2CameraActor.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2CellSpace.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Character.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Character_Anim.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Character_HPAP.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Creater.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2EffectActor.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2EngineLoop.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2EngineLoop_InitTerm.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2EngineLoop_Play.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2EngineLoop_Tick.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2FramesMesh.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2LightActor.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2PlatformSDK.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2PlatformSDKEventType.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Project.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2RedoUndo.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2RenderStepScene.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Scene.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Scene_Manager.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2Selection.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2SimulationEventType.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2SkyActor.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2SkyMesh.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2TerrainActor.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2TriggerActor.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2User.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2UserActor.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation\PX2VBIBObj.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIView.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="UI\PX2UIFrame.cpp">
-      <Filter>UI\UIObj\Frame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIGridFrame.cpp">
-      <Filter>UI\UIObj\Frame</Filter>
+      <Filter>UI\UIObj\Frames</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UIButton.cpp">
       <Filter>UI\UIObj\Button</Filter>
@@ -815,9 +803,6 @@
     </ClCompile>
     <ClCompile Include="UI\PX2UIMenu.cpp">
       <Filter>UI\UIObj\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIPanel.cpp">
-      <Filter>UI\UIObj\Frame</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UIProgressBar.cpp">
       <Filter>UI\UIObj\ProgressBar</Filter>
@@ -843,26 +828,20 @@
     <ClCompile Include="UI\PX2UIMenuItem.cpp">
       <Filter>UI\UIObj\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="UI\PX2UIFPicBox.cpp">
-      <Filter>UI\UIObj\Frame</Filter>
-    </ClCompile>
     <ClCompile Include="UI\PX2UIFrameGridAlignControl.cpp">
-      <Filter>UI\UIObj\Frame\Control</Filter>
+      <Filter>UI\UIObj\Frames\Control</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UIAuiFrame.cpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UISplitterFrame.cpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UITabFrame.cpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UISkinManager.cpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UIAuiBlockFrame.cpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </ClCompile>
     <ClCompile Include="Edit\PX2Brush.cpp">
       <Filter>Edit\Brush</Filter>
@@ -930,20 +909,14 @@
     <ClCompile Include="Edit\PX2GeoObjFactory.cpp">
       <Filter>Edit\Factory</Filter>
     </ClCompile>
-    <ClCompile Include="Edit\PX2EU_InspectorFrame.cpp">
-      <Filter>Edit\EditUI</Filter>
-    </ClCompile>
     <ClCompile Include="UI\PX2UIItem.cpp">
-      <Filter>UI\UIObj\Frame\Item</Filter>
+      <Filter>UI\UIObj\Item</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UITree.cpp">
-      <Filter>UI\UIObj\Frame\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Edit\PX2EU_ConsoleFrame.cpp">
-      <Filter>Edit\EditUI</Filter>
+      <Filter>UI\UIObj\Item</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UIList.cpp">
-      <Filter>UI\UIObj\Frame\Item</Filter>
+      <Filter>UI\UIObj\Item</Filter>
     </ClCompile>
     <ClCompile Include="Edit\PX2EU_ProjectFrame.cpp">
       <Filter>Edit\EditUI\Project</Filter>
@@ -952,13 +925,193 @@
       <Filter>Edit\EditUI\Project</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UIAuiManager.cpp">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </ClCompile>
     <ClCompile Include="Edit\PX2EU_ResFrame.cpp">
       <Filter>Edit\EditUI\Res</Filter>
     </ClCompile>
     <ClCompile Include="Edit\PX2EU_ResTree.cpp">
       <Filter>Edit\EditUI\Res</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit\PX2EditEventData.cpp">
+      <Filter>Edit\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2BPParam.cpp">
+      <Filter>Simulation\BluePrint</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2BPModule.cpp">
+      <Filter>Simulation\BluePrint</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2BPFile.cpp">
+      <Filter>Simulation\BluePrint</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2BPGroup.cpp">
+      <Filter>Simulation\BluePrint</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2BPManager.cpp">
+      <Filter>Simulation\BluePrint</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIWindow.cpp">
+      <Filter>UI\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2AccoutManager.cpp">
+      <Filter>Simulation\Accounts</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Actor.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Actor_BitSet.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2ActorPicker.cpp">
+      <Filter>Simulation\ActorPicker</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2AmbientRegionActor.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Animation.cpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Animation3DSkeleton.cpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2AnimationFrames.cpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2AnimationObject.cpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2CameraActor.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2CellSpace.cpp">
+      <Filter>Simulation\SpacePartition</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Character.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Character_Anim.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Character_HPAP.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Creater.cpp">
+      <Filter>Simulation\Create</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2EngineLoop.cpp">
+      <Filter>Simulation\EngineLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2EngineLoop_InitTerm.cpp">
+      <Filter>Simulation\EngineLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2EngineLoop_Play.cpp">
+      <Filter>Simulation\EngineLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2EngineLoop_Tick.cpp">
+      <Filter>Simulation\EngineLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2EffectActor.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2FramesMesh.cpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2LightActor.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2PlatformSDK.cpp">
+      <Filter>Simulation\PlatformSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2PlatformSDKEventType.cpp">
+      <Filter>Simulation\PlatformSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2RedoUndo.cpp">
+      <Filter>Simulation\Edit</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Project.cpp">
+      <Filter>Simulation\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Selection.cpp">
+      <Filter>Simulation\Edit</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Scene.cpp">
+      <Filter>Simulation\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2Scene_Manager.cpp">
+      <Filter>Simulation\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2SkyActor.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2SkyMesh.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2TerrainActor.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2TriggerActor.cpp">
+      <Filter>Simulation\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2UserActor.cpp">
+      <Filter>Simulation\Accounts</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2User.cpp">
+      <Filter>Simulation\Accounts</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2VBIBObj.cpp">
+      <Filter>Simulation\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2SimulationEventType.cpp">
+      <Filter>Simulation\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UISlider.cpp">
+      <Filter>UI\UIObj\Slider</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2EngineLoop_Map.cpp">
+      <Filter>Simulation\EngineLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIFText.cpp">
+      <Filter>UI\UIObj\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIFPicBox.cpp">
+      <Filter>UI\UIObj\PicBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit\PX2EU_BluePrintFrame.cpp">
+      <Filter>Edit\EditUI\BluePrint</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit\PX2EU_InspectorFrame.cpp">
+      <Filter>Edit\EditUI\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit\PX2EU_ConsoleFrame.cpp">
+      <Filter>Edit\EditUI\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UITabFrame.cpp">
+      <Filter>UI\UIObj\Table</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit\PX2EU_CreateFrame.cpp">
+      <Filter>Edit\EditUI\Create</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit\PX2EU_CF_BluePrint.cpp">
+      <Filter>Edit\EditUI\Create</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit\PX2EU_BPFrame.cpp">
+      <Filter>Edit\EditUI\BluePrint</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2SceneCanvas.cpp">
+      <Filter>Simulation\EngineLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UICanvas.cpp">
+      <Filter>UI\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIGridFrame.cpp">
+      <Filter>UI\UIObj\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UICanvasController.cpp">
+      <Filter>UI\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation\PX2SimulationEventHandler.cpp">
+      <Filter>Simulation\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1049,71 +1202,8 @@
     <None Include="Terrains\PX2TerrainPage.inl">
       <Filter>Terrains</Filter>
     </None>
-    <None Include="Simulation\PX2Actor.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2AmbientRegionActor.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2Animation.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2Animation3DSkeleton.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2AnimationFrames.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2AnimationObject.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2CameraActor.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2CellSpaceT.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2Character.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2EngineLoop.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2FramesMesh.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2LightActor.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2Project.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2Scene.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2Selection.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2SkyActor.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2SkyMesh.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2TerrainActor.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2TriggerActor.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="Simulation\PX2UserActor.inl">
-      <Filter>Simulation</Filter>
-    </None>
-    <None Include="UI\PX2UIView.inl">
-      <Filter>UI</Filter>
-    </None>
     <None Include="UI\PX2UIFrame.inl">
-      <Filter>UI\UIObj\Frame</Filter>
+      <Filter>UI\UIObj\Frames</Filter>
     </None>
     <None Include="UI\PX2UIButton.inl">
       <Filter>UI\UIObj\Button</Filter>
@@ -1151,32 +1241,122 @@
     <None Include="UI\PX2UIMenuItem.inl">
       <Filter>UI\UIObj\Menu</Filter>
     </None>
-    <None Include="UI\PX2UIFPicBox.inl">
-      <Filter>UI\UIObj\Frame</Filter>
-    </None>
     <None Include="UI\PX2UIFrameGridAlignControl.inl">
-      <Filter>UI\UIObj\Frame\Control</Filter>
+      <Filter>UI\UIObj\Frames\Control</Filter>
     </None>
     <None Include="UI\PX2UISplitterFrame.inl">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
-    </None>
-    <None Include="UI\PX2UITabFrame.inl">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </None>
     <None Include="UI\PX2UIAuiBlockFrame.inl">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
     </None>
     <None Include="UI\PX2UIItem.inl">
-      <Filter>UI\UIObj\Frame\Item</Filter>
+      <Filter>UI\UIObj\Item</Filter>
     </None>
     <None Include="UI\PX2UITree.inl">
-      <Filter>UI\UIObj\Frame\Item</Filter>
+      <Filter>UI\UIObj\Item</Filter>
     </None>
     <None Include="UI\PX2UIList.inl">
-      <Filter>UI\UIObj\Frame\Item</Filter>
+      <Filter>UI\UIObj\Item</Filter>
     </None>
     <None Include="UI\PX2UIAuiManager.inl">
-      <Filter>UI\UIObj\Frame\Aui</Filter>
+      <Filter>UI\UIObj\Aui</Filter>
+    </None>
+    <None Include="Simulation\PX2BPModule.inl">
+      <Filter>Simulation\BluePrint</Filter>
+    </None>
+    <None Include="Simulation\PX2BPFile.inl">
+      <Filter>Simulation\BluePrint</Filter>
+    </None>
+    <None Include="Simulation\PX2BPGroup.inl">
+      <Filter>Simulation\BluePrint</Filter>
+    </None>
+    <None Include="Simulation\PX2BPManager.inl">
+      <Filter>Simulation\BluePrint</Filter>
+    </None>
+    <None Include="Simulation\PX2BPParam.inl">
+      <Filter>Simulation\BluePrint</Filter>
+    </None>
+    <None Include="UI\PX2UIWindow.inl">
+      <Filter>UI\Window</Filter>
+    </None>
+    <None Include="Simulation\PX2Actor.inl">
+      <Filter>Simulation\Actors</Filter>
+    </None>
+    <None Include="Simulation\PX2AmbientRegionActor.inl">
+      <Filter>Simulation\Actors</Filter>
+    </None>
+    <None Include="Simulation\PX2Animation.inl">
+      <Filter>Simulation\Animation</Filter>
+    </None>
+    <None Include="Simulation\PX2Animation3DSkeleton.inl">
+      <Filter>Simulation\Animation</Filter>
+    </None>
+    <None Include="Simulation\PX2AnimationFrames.inl">
+      <Filter>Simulation\Animation</Filter>
+    </None>
+    <None Include="Simulation\PX2AnimationObject.inl">
+      <Filter>Simulation\Animation</Filter>
+    </None>
+    <None Include="Simulation\PX2CameraActor.inl">
+      <Filter>Simulation\Actors</Filter>
+    </None>
+    <None Include="Simulation\PX2CellSpaceT.inl">
+      <Filter>Simulation\SpacePartition</Filter>
+    </None>
+    <None Include="Simulation\PX2Character.inl">
+      <Filter>Simulation\Actors</Filter>
+    </None>
+    <None Include="Simulation\PX2EngineLoop.inl">
+      <Filter>Simulation\EngineLoop</Filter>
+    </None>
+    <None Include="Simulation\PX2FramesMesh.inl">
+      <Filter>Simulation\Animation</Filter>
+    </None>
+    <None Include="Simulation\PX2LightActor.inl">
+      <Filter>Simulation\Actors</Filter>
+    </None>
+    <None Include="Simulation\PX2Project.inl">
+      <Filter>Simulation\Project</Filter>
+    </None>
+    <None Include="Simulation\PX2Selection.inl">
+      <Filter>Simulation\Edit</Filter>
+    </None>
+    <None Include="Simulation\PX2Scene.inl">
+      <Filter>Simulation\Scene</Filter>
+    </None>
+    <None Include="Simulation\PX2SkyActor.inl">
+      <Filter>Simulation\Actors</Filter>
+    </None>
+    <None Include="Simulation\PX2SkyMesh.inl">
+      <Filter>Simulation\Actors</Filter>
+    </None>
+    <None Include="Simulation\PX2TerrainActor.inl">
+      <Filter>Simulation\Actors</Filter>
+    </None>
+    <None Include="Simulation\PX2TriggerActor.inl">
+      <Filter>Simulation\Actors</Filter>
+    </None>
+    <None Include="Simulation\PX2UserActor.inl">
+      <Filter>Simulation\Accounts</Filter>
+    </None>
+    <None Include="UI\PX2UISlider.inl">
+      <Filter>UI\UIObj\Slider</Filter>
+    </None>
+    <None Include="UI\PX2UIFText.inl">
+      <Filter>UI\UIObj\Text</Filter>
+    </None>
+    <None Include="UI\PX2UIFPicBox.inl">
+      <Filter>UI\UIObj\PicBox</Filter>
+    </None>
+    <None Include="UI\PX2UITabFrame.inl">
+      <Filter>UI\UIObj\Table</Filter>
+    </None>
+    <None Include="UI\PX2UICanvas.inl">
+      <Filter>UI\Canvas</Filter>
+    </None>
+    <None Include="UI\PX2UICanvasController.inl">
+      <Filter>UI\Canvas</Filter>
     </None>
   </ItemGroup>
 </Project>

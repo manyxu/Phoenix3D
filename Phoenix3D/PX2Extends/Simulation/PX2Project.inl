@@ -31,9 +31,9 @@ inline const std::string &Project::GetSceneFilename() const
 	return mSceneFilename;
 }
 //----------------------------------------------------------------------------
-inline RenderStepScene *Project::GetSceneRenderStep()
+inline SceneCanvas *Project::GetSceneCanvas()
 {
-	return mSceneRenderStep;
+	return mSceneCanvas;
 }
 //----------------------------------------------------------------------------
 inline UIFrame *Project::GetUIFrame()
@@ -46,9 +46,9 @@ inline const std::string &Project::GetUIFilename() const
 	return mUIFilename;
 }
 //----------------------------------------------------------------------------
-inline UIView *Project::GetUIRenderStep()
+inline UICanvas *Project::GetUICanvas()
 {
-	return mUIRenderStep;
+	return mUICanvas;
 }
 //----------------------------------------------------------------------------
 inline const Rectf &Project::GetViewRect() const

@@ -12,7 +12,7 @@ namespace PX2
 {
 
 	class Renderer;
-	class RenderStep;
+	class Canvas;
 
 	class PX2_EXTENDS_ITEM SceneNodeCtrl : public EventHandler
 	{
@@ -64,10 +64,10 @@ namespace PX2
 		void SetDragType(DragType type);
 		DragType GetDragType() { return mDragType; }
 
-		void OnLeftDown(RenderStep *renderStep, const PX2::APoint &pos);
-		void OnLeftUp(RenderStep *renderStep, const PX2::APoint &pos);
-		void OnMouseWheel(RenderStep *renderStep, float wheelDelta);
-		void OnMotion(bool leftDown, RenderStep *renderStep,
+		void OnLeftDown(Canvas *canvas, const PX2::APoint &pos);
+		void OnLeftUp(Canvas *canvas, const PX2::APoint &pos);
+		void OnMouseWheel(Canvas *canvas, float wheelDelta);
+		void OnMotion(bool leftDown, Canvas *canvas,
 			PX2::APoint posNow, PX2::APoint posBefore);
 
 		PX2::Node *GetCtrlsGroup() { return mCtrlsGroup; }
@@ -92,7 +92,7 @@ namespace PX2
 	private:
 		void UpdateCtrl();
 		void UpdateCtrlTrans();
-		SceneNodeCtrl::DragType GetDragType(RenderStep *renderStep, 
+		SceneNodeCtrl::DragType GetDragType(Canvas *canvas, 
 			const PX2::APoint &point);
 
 		AxisMode mAxisMode;

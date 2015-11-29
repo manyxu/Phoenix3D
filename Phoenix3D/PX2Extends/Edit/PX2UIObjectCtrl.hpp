@@ -12,7 +12,7 @@
 namespace PX2
 {
 
-	class RenderStep;
+	class Canvas;
 
 	class PX2_EXTENDS_ITEM UIObjectCtrl : public PX2::EventHandler
 	{
@@ -40,14 +40,14 @@ namespace PX2
 		// PX2 Event
 		virtual void DoExecute (PX2::Event *event);
 
-		void OnLeftDown(RenderStep *renderStep, const PX2::APoint &pos);
-		void OnLeftUp(RenderStep *renderStep, const PX2::APoint &pos);
-		void OnMotion(bool leftDown, RenderStep *renderStep,
+		void OnLeftDown(Canvas *canvas, const PX2::APoint &pos);
+		void OnLeftUp(Canvas *canvas, const PX2::APoint &pos);
+		void OnMotion(bool leftDown, Canvas *canvas,
 			PX2::APoint posNow, PX2::APoint posBefore);
 
 	protected:
 		void UpdateOnSelectUI();
-		int _GetDragIndex (RenderStep *renderStep, const PX2::APoint &pos);
+		int _GetDragIndex (Canvas *canvas, const PX2::APoint &pos);
 
 		ShapeType mShapeType;
 

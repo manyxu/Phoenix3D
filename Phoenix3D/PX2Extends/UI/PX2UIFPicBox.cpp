@@ -25,16 +25,23 @@ UIFPicBox::~UIFPicBox()
 //----------------------------------------------------------------------------
 void UIFPicBox::OnSizeChanged()
 {
-	if (mBackgroundPicBox)
+	if (mPicBox)
 	{
-		mBackgroundPicBox->SetSize(mSize);
+		mPicBox->SetSize(mSize);
 
-		float posX = mSize.Width * mPvoit[0];
-		float posZ = mSize.Height * mPvoit[1];
-		mBackgroundPicBox->LocalTransform.SetTranslateXZ(posX, posZ);
+		//mPicBox->SetPivot(mPvoit);
+
+		//float posX = mSize.Width * mPvoit[0];
+		//float posZ = mSize.Height * mPvoit[1];
+		//mPicBox->LocalTransform.SetTranslateXZ(posX, posZ);
 	}
 
 	UIFrame::OnSizeChanged();
+}
+//----------------------------------------------------------------------------
+void UIFPicBox::UpdateWorldData(double applicationTime, double elapsedTime)
+{
+	UIFrame::UpdateWorldData(applicationTime, elapsedTime);
 }
 //----------------------------------------------------------------------------
 
@@ -77,6 +84,11 @@ bool UIFPicBox::Register(OutStream& target) const
 {
 	if (UIFrame::Register(target))
 	{
+		if (mPicBox)
+		{
+			target.Register(mPicBox);
+		}
+
 		return true;
 	}
 
@@ -90,6 +102,8 @@ void UIFPicBox::Save(OutStream& target) const
 	UIFrame::Save(target);
 	PX2_VERSION_SAVE(target);
 
+	target.WritePointer(mPicBox);
+
 	PX2_END_DEBUG_STREAM_SAVE(UIFPicBox, target);
 }
 //----------------------------------------------------------------------------
@@ -97,6 +111,8 @@ int UIFPicBox::GetStreamingSize(Stream &stream) const
 {
 	int size = UIFrame::GetStreamingSize(stream);
 	size += PX2_VERSION_SIZE(mVersion);
+
+	size += PX2_POINTERSIZE(mPicBox);
 
 	return size;
 }

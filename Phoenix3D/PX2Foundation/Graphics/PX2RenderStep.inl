@@ -51,13 +51,3 @@ inline int RenderStep::GetPriority() const
 	return mPriority;
 }
 //----------------------------------------------------------------------------
-inline void RenderStep::SetDoDepthClear(bool clear)
-{
-	mIsDoClearDepth = clear;
-}
-//----------------------------------------------------------------------------
-inline bool RenderStep::IsDoDepthClear()
-{
-	return mIsDoClearDepth;
-}
-//----------------------------------------------------------------------------

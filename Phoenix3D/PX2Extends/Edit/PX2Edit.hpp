@@ -29,7 +29,7 @@ namespace PX2
 		bool Initlize();
 		bool LoadEditorTheme();
 		bool InitlizeEditor();
-		bool Ternamate();
+		bool Terminate();
 		void Reset();
 
 		Node *GetHelpNode() { return mHelpNode; }

@@ -14,7 +14,7 @@ PdrRendererInput::~PdrRendererInput()
 {
 }
 //----------------------------------------------------------------------------
-bool PdrRendererInput::Ternamate()
+bool PdrRendererInput::Terminate()
 {
 	return true;
 }

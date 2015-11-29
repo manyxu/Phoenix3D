@@ -152,6 +152,7 @@ void UIView::DoExecute(Event *event)
 		if (doPick)
 		{
 			_DoPick(data.MTPos.X(), data.MTPos.Z(), UIPT_MOVED, mPickedRenderables);
+			mCurPickPos = data.MTPos;
 		}
 	}
 	else if (InputEventSpace::IsEqual(event, InputEventSpace::MousePressed) ||
@@ -163,6 +164,7 @@ void UIView::DoExecute(Event *event)
 		{
 			_DoPick(data.MTPos.X(), data.MTPos.Z(), UIPT_PRESSED, mPickedRenderables);
 			mPressedPos = data.MTPos;
+			mCurPickPos = mPressedPos;
 		}
 	}
 	else if (InputEventSpace::IsEqual(event, InputEventSpace::MouseReleased) ||
@@ -173,7 +175,8 @@ void UIView::DoExecute(Event *event)
 		if (doPick)
 		{
 			_DoPick(data.MTPos.X(), data.MTPos.Z(), UIPT_RELEASED, mPickedRenderables);
-			mPressedPos = data.MTPos;
+			mReleasedPos = data.MTPos;
+			mCurPickPos = mReleasedPos;
 		}
 	}
 }
@@ -183,17 +186,45 @@ void UIView::SetNotPickedCallback(NotPickedCallback callback)
 	mNotPickedCallback = callback;
 }
 //----------------------------------------------------------------------------
+void UIView::_CollectFrames(Movable *mov, std::set<UIFramePtr> &frames)
+{
+	if (!mov) return;
+
+	Node *node = DynamicCast<Node>(mov);
+	UIFrame *frame = DynamicCast<UIFrame>(mov);
+	if (frame)
+	{
+		frames.insert(frame);
+	}
+
+	if (node)
+	{
+		for (int i = 0; i < node->GetNumChildren(); i++)
+		{
+			_CollectFrames(node->GetChild(i), frames);
+		}
+	}
+}
+//----------------------------------------------------------------------------
 void UIView::_DoPick(float x, float z, int pickInfo, 
 	std::vector<RenderablePtr> &vec)
 {
+	// clear
+	mPickedFrames.clear();
 	vec.clear();
 
+	// get pickMov
 	MovablePtr pickMov = 0;
 	MovablePtr topestMovable = GetTopestMovable();
 	if (topestMovable) pickMov = topestMovable;
 	else pickMov = mNode;
 	if (!pickMov) return;
 
+	// collect all frames
+	std::set<UIFramePtr> frames;
+	_CollectFrames(pickMov, frames);
+
+	// pick
 	APoint origin;
 	AVector direction;
 	GetPickRay(x, z, origin, direction);
@@ -212,12 +243,23 @@ void UIView::_DoPick(float x, float z, int pickInfo,
 	for (int i = 0; i < (int)vec.size(); i++)
 	{
 		UIPicBox *picBox = DynamicCast<UIPicBox>(vec[i]);
-		if (picBox) picBox->UIAfterPicked(pickInfo);
+		if (picBox) picBox->UIPicked(pickInfo);
 	}
 
 	if (vec.empty() && mNotPickedCallback)
 	{
 		mNotPickedCallback(pickInfo);
+	}
+
+	// un pick
+	std::set<UIFramePtr>::iterator it = frames.begin();
+	for (; it != frames.end(); it++)
+	{
+		UIFrame *frame = *it;
+		if (mPickedFrames.find(frame) == mPickedFrames.end())
+		{
+			frame->OnUINotPicked(pickInfo);
+		}
 	}
 }
 //----------------------------------------------------------------------------

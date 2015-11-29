@@ -6,7 +6,7 @@
 #include "PX2ResourceManager.hpp"
 #include "PX2StringTokenizer.hpp"
 #include "PX2Renderer.hpp"
-#include "PX2UIView.hpp"
+#include "PX2UICanvas.hpp"
 #include "PX2UIPicBox.hpp"
 #include "PX2EngineLoop.hpp"
 #include "PX2GraphicsRoot.hpp"
@@ -29,23 +29,24 @@ mScreenOrientation(SO_LANDSCAPE)
 	mBackgroundColor = Float4(0.5f, 0.5f, 0.5f, 1.0f);
 	mProjBackgroundColor = Float4::WHITE;
 	
-	mSceneRenderStep = new0 RenderStepScene();
-	mSceneRenderStep->SetPriority(20);
-	mSceneRenderStep->SetName("Scene");
-	mSceneRenderStep->SetRenderer(Renderer::GetDefaultRenderer());
-	PX2_GR.AddRenderStep(mSceneRenderStep->GetName().c_str(),
-		mSceneRenderStep);
+	mSceneCanvas = new0 SceneCanvas();
+	mSceneCanvas->SetPriority(20);
+	mSceneCanvas->SetName("Scene");
+	mSceneCanvas->SetRenderer(Renderer::GetDefaultRenderer());
+	SetSceneCanvas(mSceneCanvas);
 
-	mUIRenderStep = new0 UIView(0);
-	mUIRenderStep->SetPriority(10);
-	mUIRenderStep->SetDoDepthClear(true);
-	mUIRenderStep->SetName("UI");
-	mUIRenderStep->SetRenderer(Renderer::GetDefaultRenderer());
-	PX2_GR.AddRenderStep(mUIRenderStep->GetName().c_str(), mUIRenderStep);
+	mUICanvas = new0 UICanvas(0);
+	mUICanvas->SetPriority(10);
+	mUICanvas->SetBeforeDrawClear(false, true, false);
+	mUICanvas->SetName("UI");
+	mUICanvas->SetRenderer(Renderer::GetDefaultRenderer());
+	PX2_GR.AddCanvas(mUICanvas->GetName().c_str(), mUICanvas);
 
 	mUIFrame = new0 UIFrame();
-	mUIFrame->SetName("RootFrame");
 	SetUIFrame(mUIFrame);
+	mUIFrame->SetName("RootFrame");
+	mUIFrame->SetAnchorHor(0.0f, 1.0f);
+	mUIFrame->SetAnchorVer(0.0f, 1.0f);
 
 	mIsShowShadowBloomEveryPass = false;
 
@@ -56,11 +57,11 @@ Project::~Project ()
 {
 	GoOutEventWorld();
 
-	PX2_GR.RemoveRenderSteps(mSceneRenderStep);
-	mSceneRenderStep = 0;
+	PX2_GR.RemoveCanvass(mSceneCanvas);
+	mSceneCanvas = 0;
 
-	PX2_GR.RemoveRenderSteps(mUIRenderStep);
-	mUIRenderStep = 0;
+	PX2_GR.RemoveCanvass(mUICanvas);
+	mUICanvas = 0;
 
 	if (ScriptManager::GetSingletonPtr())
 		PX2_SM.SetUserTypePointer("PX2_PROJ", "Project", 0);
@@ -173,9 +174,9 @@ bool Project::SaveConfig(const std::string &filename)
 bool Project::Load(const std::string &filename)
 {
 	std::string name;
-	int width = 0;
 	int height = 0;
 	std::string sceneFilename;
+	int width = 0;
 	std::string uiFilename;
 	std::string languageFilename;
 
@@ -274,16 +275,17 @@ void Project::SetScene(Scene *scene)
 	{
 		mScene->GoOutEventWorld();
 		mScene = 0;
-		mSceneRenderStep->SetCamera(0);
+		mSceneCanvas->SetCamera(0);
 		PX2_GR.SetCurEnvirParam(0);
+
+		mSceneCanvas->DetachChild(mScene);
 	}
 
 	mScene = scene;
 
-	mSceneRenderStep->SetNode(mScene);
-
 	if (mScene)
 	{
+		mSceneCanvas->AttachChild(mScene);
 		mScene->ComeInEventWorld();
 
 		PX2_GR.SetCurEnvirParam(mScene->GetEnvirParam());
@@ -294,19 +296,17 @@ void Project::SetScene(Scene *scene)
 		{
 			Camera *camera = camActor->GetCamera();
 			Renderer::GetDefaultRenderer()->SetCamera(camera);
-			mSceneRenderStep->SetCamera(camera);
+			mSceneCanvas->SetCamera(camera);
 		}
 		else
 		{
-			mSceneRenderStep->SetCamera(0);
+			mSceneCanvas->SetCamera(0);
 		}
 	}
 	else
 	{
-		mSceneRenderStep->SetCamera(0);
+		mSceneCanvas->SetCamera(0);
 	}
-
-	//mSceneRenderStep->SetSize(mSize);
 }
 //----------------------------------------------------------------------------
 void Project::SetSceneFilename(const std::string &scenefilename)
@@ -314,10 +314,28 @@ void Project::SetSceneFilename(const std::string &scenefilename)
 	mSceneFilename = scenefilename;
 }
 //----------------------------------------------------------------------------
+void Project::SetSceneCanvas(SceneCanvas *sceneCanvas)
+{
+	if (mSceneCanvas)
+	{
+		PX2_GR.RemoveCanvas(mSceneCanvas->GetName().c_str());
+	}
+
+	mSceneCanvas = sceneCanvas;
+
+	if (mSceneCanvas)
+	{
+		PX2_GR.AddCanvas(mSceneCanvas->GetName().c_str(),
+			mSceneCanvas);
+
+		mSceneCanvas->SetRenderer(Renderer::GetDefaultRenderer());
+	}
+}
+//----------------------------------------------------------------------------
 void Project::SetUIFrame(UIFrame *ui)
 {
 	mUIFrame = ui;
-	mUIRenderStep->SetNode(mUIFrame);
+	mUICanvas->AttachChild(mUIFrame);
 }
 //----------------------------------------------------------------------------
 void Project::SetSize(float width, float height)
@@ -331,14 +349,14 @@ void Project::SetSize(const Sizef &size)
 
 	PX2_GR.SetProjectSize(size);
 
-	if (mSceneRenderStep)
+	if (mSceneCanvas)
 	{
-		mUIRenderStep->SetSize(mSize);
+		mUICanvas->SetSize(mSize);
 	}
 
-	if (mUIRenderStep)
+	if (mUICanvas)
 	{
-		mUIRenderStep->SetSize(mSize);
+		mUICanvas->SetSize(mSize);
 	}
 }
 //----------------------------------------------------------------------------
@@ -392,14 +410,14 @@ bool Project::LoadUI(const std::string &pathname)
 //----------------------------------------------------------------------------
 void Project::SetViewRect(const Rectf &viewRect)
 {
-	if (mSceneRenderStep)
+	if (mSceneCanvas)
 	{
-		mSceneRenderStep->SetViewPortAdjustWithScene(viewRect);
+		mSceneCanvas->SetViewPortAdjustWithScene(viewRect);
 	}
 
-	if (mUIRenderStep)
+	if (mUICanvas)
 	{
-		mUIRenderStep->SetViewPort(viewRect);
+		mUICanvas->SetViewPort(viewRect);
 	}
 }
 //----------------------------------------------------------------------------
@@ -421,9 +439,9 @@ void Project::SetShowShadowBloomEveryPass(
 {
 	mIsShowShadowBloomEveryPass = isShowShadowBloomEveryPass;
 
-	if (mSceneRenderStep)
+	if (mSceneCanvas)
 	{
-		mSceneRenderStep->SetShowShadowBloomEveryPass(
+		mSceneCanvas->SetShowShadowBloomEveryPass(
 			isShowShadowBloomEveryPass);
 	}
 }

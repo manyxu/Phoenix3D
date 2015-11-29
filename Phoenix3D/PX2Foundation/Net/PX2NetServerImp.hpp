@@ -7,24 +7,11 @@
 #include "PX2SmartPointer.hpp"
 #include "PX2StreamSocket.hpp"
 #include "PX2NetEventBuffer.hpp"
+#include "PX2NetServerBuffer.hpp"
+#include "PX2ClientContext.hpp"
 
 namespace PX2
 {
-
-
-	class PX2_FOUNDATION_ITEM ClientContext
-	{
-	public:
-		void Init(px2_socket_t s, unsigned int clientID);
-
-	public:
-		px2_socket_t mSocket;
-		unsigned int mClientID;
-		long mNumPendingIO;
-
-		BufferEvent *mBufferEvent;
-		int mPackageTotalLength;
-	};
 
 	class PX2_FOUNDATION_ITEM ServerImp
 	{
@@ -35,18 +22,24 @@ namespace PX2
 
 		virtual bool Start() = 0;
 		virtual void Shutdown() = 0;
+		virtual void OnRun() = 0;
 
 		const std::vector<int> &GetThreadIDs() const;
 
 		virtual void DisconnectClient(unsigned int clientID) = 0;
 		virtual void DisconnectAll() = 0;
-		virtual bool PostWrite(unsigned int clientid, char *psrc, int srclen) = 0;
+		virtual bool PostWrite(unsigned int clientid, char *psrc, int srclen);
 
 		int GetNumUsedContext();
 		int GetClientMapSize();
 
 	protected:
-		ClientContext *_AllocContext(px2_socket_t socket);
+		virtual bool _AddClientSocket(Socket &s) = 0;
+		virtual void _CloseClientSocket(ClientContext *pcontext) = 0;
+		virtual bool _PostRead(ClientContext *pcontext, ServerBuffer *pbuf) = 0;
+		virtual bool _PostWrite(ClientContext *pcontext, char *psrc, int srclen) = 0;
+
+		ClientContext *_AllocContext(Socket &socket);
 		void _FreeContext(ClientContext *pcontext);
 		ClientContext *_GetClientContext(unsigned int clientid);
 
@@ -73,6 +66,8 @@ namespace PX2
 		Mutex mContextLock;
 
 		BufferEventQueue *mBufferEventQue;
+
+		ServerBufferMgr mServerBufMgr;
 	};
 	typedef Pointer0<ServerImp> ServerImpPtr;
 

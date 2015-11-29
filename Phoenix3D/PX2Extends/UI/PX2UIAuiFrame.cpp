@@ -22,7 +22,7 @@ UIAuiFrame::UIAuiFrame()
 	SpLeft->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpLeft->SetAnchorVer(Float2(0.0f, 1.0f));
 	SpLeft->SetAnchorParamVer(Float2(spliterSize, spliterSize));
-	SpLeft->SetPvoit(0.0f, 0.5f);
+	SpLeft->SetPivot(0.0f, 0.5f);
 	SpLeft->SetDragable(false);
 
 	// right
@@ -34,7 +34,7 @@ UIAuiFrame::UIAuiFrame()
 	SpRight->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpRight->SetAnchorVer(Float2(0.0f, 1.0f));
 	SpRight->SetAnchorParamVer(Float2(spliterSize, spliterSize));
-	SpRight->SetPvoit(1.0f, 0.5f);
+	SpRight->SetPivot(1.0f, 0.5f);
 	SpRight->SetDragable(false);
 
 	// bottom
@@ -46,7 +46,7 @@ UIAuiFrame::UIAuiFrame()
 	SpBottom->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpBottom->SetAnchorVer(Float2(0.0f, 0.0f));
 	SpBottom->SetAnchorParamVer(Float2(0.0f, 0.0f));
-	SpBottom->SetPvoit(0.5f, 0.0f);
+	SpBottom->SetPivot(0.5f, 0.0f);
 	SpBottom->SetDragable(false);
 
 	// top
@@ -58,7 +58,7 @@ UIAuiFrame::UIAuiFrame()
 	SpTop->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpTop->SetAnchorVer(Float2(1.0f, 1.0f));
 	SpTop->SetAnchorParamVer(Float2(0.0f, 0.0f));
-	SpTop->SetPvoit(0.5f, 1.0f);
+	SpTop->SetPivot(0.5f, 1.0f);
 	SpTop->SetDragable(false);
 
 	SpLeft->SetLinkFrame0(SpBottom);
@@ -73,10 +73,10 @@ UIAuiFrame::UIAuiFrame()
 	// default
 	AuiBlockDefault = new0 UIAuiBlockFrame(UILPT_CENTER);
 	AttachChild(AuiBlockDefault);
-	AuiBlockDefault->SetSideFrameHor0(SpBottom, false);
-	AuiBlockDefault->SetSideFrameHor1(SpTop, false);
-	AuiBlockDefault->SetSideFrameVer0(SpLeft, false);
-	AuiBlockDefault->SetSideFrameVer1(SpRight, false);
+	AuiBlockDefault->SetSideFrameHor0(SpBottom);
+	AuiBlockDefault->SetSideFrameHor1(SpTop);
+	AuiBlockDefault->SetSideFrameVer0(SpLeft);
+	AuiBlockDefault->SetSideFrameVer1(SpRight);
 }
 //----------------------------------------------------------------------------
 UIAuiFrame::~UIAuiFrame()

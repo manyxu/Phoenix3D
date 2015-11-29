@@ -51,28 +51,28 @@ mPreViewType(PVT_NONE)
 //----------------------------------------------------------------------------
 EditRenderView_PreView::~EditRenderView_PreView()
 {
-	if (mRenderStep)
+	if (mCanvas)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStep);
-		mRenderStep = 0;
+		PX2_GR.RemoveCanvass(mCanvas);
+		mCanvas = 0;
 	}
 
-	if (mRenderStepCtrl)
+	if (mCanvasCtrl)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStepCtrl);
-		mRenderStepCtrl = 0;
+		PX2_GR.RemoveCanvass(mCanvasCtrl);
+		mCanvasCtrl = 0;
 	}
 
-	if (mRenderStepCtrl1)
+	if (mCanvasCtrl1)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStepCtrl1);
-		mRenderStepCtrl1 = 0;
+		PX2_GR.RemoveCanvass(mCanvasCtrl1);
+		mCanvasCtrl1 = 0;
 	}
 
-	if (mRenderStepScene)
+	if (mSceneCanvas)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStepScene);
-		mRenderStepScene = 0;
+		PX2_GR.RemoveCanvass(mSceneCanvas);
+		mSceneCanvas = 0;
 	}
 }
 //----------------------------------------------------------------------------
@@ -84,19 +84,19 @@ bool EditRenderView_PreView::InitlizeRendererStep(const std::string &name)
 
 	mSize = mPt_Size;
 
-	mUIView = new0 UIView(mRenderViewID);
-	mRenderStep = mUIView;
-	mRenderStep->SetName(name);
-	mRenderer->SetCamera(mUIView->GetCamera());
+	mUICanvas = new0 UICanvas(mRenderViewID);
+	mCanvas = mUICanvas;
+	mCanvas->SetName(name);
+	mRenderer->SetCamera(mUICanvas->GetCamera());
 	SetRenderer(mRenderer);
-	mRenderStep->SetSize(mSize);
-	mRenderStep->SetNode(mPicFrame);
+	mCanvas->SetSize(mSize);
+	mCanvas->AttachChild(mPicFrame);
 
-	mRenderStepScene = new0 RenderStepScene();
-	mRenderStepScene->SetRenderer(mRenderer);
-	mRenderStepScene->SetNode(mModelScene);
-	mRenderStepScene->SetCamera(mModelCameraActor->GetCamera());
-	mRenderStepScene->SetSize(mSize);
+	mSceneCanvas = new0 SceneCanvas();
+	mSceneCanvas->SetRenderer(mRenderer);
+	mSceneCanvas->AttachChild(mModelScene);
+	mSceneCanvas->SetCamera(mModelCameraActor->GetCamera());
+	mSceneCanvas->SetSize(mSize);
 
 	mIsRenderCreated = true;
 
@@ -107,13 +107,13 @@ void EditRenderView_PreView::Tick(double elapsedTime)
 {
 	if (!IsEnable()) return;
 
-	if (mRenderStep && mIsRenderCreated)
+	if (mCanvas && mIsRenderCreated)
 	{
 		double tiemInSeconds = Time::GetTimeInSeconds();
 
 		if (PVT_NONE == mPreViewType)
 		{
-			Renderer *renderer = mRenderStep->GetRenderer();
+			Renderer *renderer = mCanvas->GetRenderer();
 			if (renderer && renderer->PreDraw())
 			{
 				renderer->ClearBuffers();
@@ -124,16 +124,16 @@ void EditRenderView_PreView::Tick(double elapsedTime)
 		}
 		else if (PVT_TEXTURE == mPreViewType)
 		{
-			mRenderStep->Update(tiemInSeconds, elapsedTime);
-			mRenderStep->ComputeVisibleSetAndEnv();
+			mCanvas->Update(tiemInSeconds, elapsedTime);
+			mCanvas->ComputeVisibleSetAndEnv();
 
-			Renderer *renderer = mRenderStep->GetRenderer();
+			Renderer *renderer = mCanvas->GetRenderer();
 			if (renderer && renderer->PreDraw())
 			{
 				renderer->InitRenderStates();
 				renderer->ClearBuffers();
 
-				mRenderStep->Draw();
+				mCanvas->Draw();
 
 				renderer->PostDraw();
 				renderer->DisplayColorBuffer();
@@ -141,16 +141,16 @@ void EditRenderView_PreView::Tick(double elapsedTime)
 		}
 		else if (PVT_MODEL == mPreViewType)
 		{
-			mRenderStepScene->Update(tiemInSeconds, elapsedTime);
-			mRenderStepScene->ComputeVisibleSetAndEnv();
+			mSceneCanvas->Update(tiemInSeconds, elapsedTime);
+			mSceneCanvas->ComputeVisibleSetAndEnv();
 
-			Renderer *renderer = mRenderStepScene->GetRenderer();
+			Renderer *renderer = mSceneCanvas->GetRenderer();
 			if (renderer && renderer->PreDraw())
 			{
 				renderer->InitRenderStates();
 				renderer->ClearBuffers();
 
-				mRenderStepScene->Draw();
+				mSceneCanvas->Draw();
 
 				renderer->PostDraw();
 				renderer->DisplayColorBuffer();
@@ -217,14 +217,14 @@ void EditRenderView_PreView::OnSize(const Sizef& size)
 
 	_ReSizeTexture();
 
-	if (mRenderStep)
+	if (mCanvas)
 	{
-		mRenderStep->GetRenderer()->ResizeWindow((int)size.Width, (int)size.Height);
+		mCanvas->GetRenderer()->ResizeWindow((int)size.Width, (int)size.Height);
 	}
 
-	if (mRenderStepScene)
+	if (mSceneCanvas)
 	{
-		mRenderStepScene->SetSize(size);
+		mSceneCanvas->SetSize(size);
 	}
 }
 //----------------------------------------------------------------------------

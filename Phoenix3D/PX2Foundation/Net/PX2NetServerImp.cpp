@@ -7,19 +7,6 @@
 using namespace PX2;
 
 //-----------------------------------------------------------------------------
-// ClientContext
-//-----------------------------------------------------------------------------
-void ClientContext::Init(px2_socket_t s, unsigned int clientID)
-{
-	mSocket = s;
-	mClientID = clientID;
-	mNumPendingIO = 0;
-	mBufferEvent = 0;
-	mPackageTotalLength = 0;
-}
-//-----------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------------
 // ServerImp
 //-----------------------------------------------------------------------------
 ServerImp::ServerImp(int port, int numMaxConnects, int numMaxMsgHandlers,
@@ -31,12 +18,30 @@ mNumMaxWorkers(numMaxMsgHandlers),
 mBufferEventQue(peventque),
 mCurClientID(0),
 mNumListenThread(0),
-mNumIOWorkerThread(0)
+mNumIOWorkerThread(0),
+mServerBufMgr(50000)
 {
+	mAllContext = new ClientContext[numMaxConnects];
+	mFreeContext.reserve(numMaxConnects);
+
+	for (int i = 0; i < numMaxConnects; i++)
+	{
+		mFreeContext.push_back(&mAllContext[i]);
+	}
 }
 //-----------------------------------------------------------------------------
 ServerImp::~ServerImp()
 {
+	delete [] mAllContext;
+	mAllContext = 0;
+}
+//----------------------------------------------------------------------------
+bool ServerImp::PostWrite(unsigned int clientid, char *psrc, int srclen)
+{
+	ScopedCS cs(&mContextMapMutex);
+
+	ClientContext *pcontext = _GetClientContext(clientid);
+	return _PostWrite(pcontext, psrc, srclen);
 }
 //-----------------------------------------------------------------------------
 const std::vector<int> &ServerImp::GetThreadIDs() const
@@ -58,7 +63,7 @@ int ServerImp::GetClientMapSize()
 	return int(mClientMap.size());
 }
 //-----------------------------------------------------------------------------
-ClientContext *ServerImp::_AllocContext(px2_socket_t socket)
+ClientContext *ServerImp::_AllocContext(Socket &socket)
 {
 	ScopedCS cs(&mContextMapMutex);
 
@@ -94,15 +99,15 @@ void ServerImp::_FreeContext(ClientContext *pcontext)
 	ScopedCS cs(&mContextMapMutex);
 
 	//!!!
-	assertion(INVALID_SOCKET==pcontext->mSocket, "");
+	assertion(!pcontext->TheSocket.IsValid(), "");
 
-	if (pcontext->mBufferEvent)
+	if (pcontext->BufferEvent)
 	{
-		mBufferEventQue->FreeBufferEvent(pcontext->mBufferEvent);
-		pcontext->mBufferEvent = NULL;
+		mBufferEventQue->FreeBufferEvent(pcontext->BufferEvent);
+		pcontext->BufferEvent = NULL;
 	}
 
-	mClientMap.erase(pcontext->mClientID);
+	mClientMap.erase(pcontext->ClientID);
 	mFreeContext.push_back(pcontext);
 }
 //-----------------------------------------------------------------------------
@@ -126,7 +131,7 @@ void ServerImp::_EnterPendingIO(ClientContext *pcontext)
 {
 	ScopedCS cs(&mContextLock);
 
-	pcontext->mNumPendingIO++;
+	pcontext->NumPendingIO++;
 }
 //----------------------------------------------------------------------------
 void ServerImp::_LeavePendingIO(ClientContext *pcontext)
@@ -135,15 +140,16 @@ void ServerImp::_LeavePendingIO(ClientContext *pcontext)
 	{
 		ScopedCS tmplock(&mContextLock);
 
-		pcontext->mNumPendingIO--;
+		pcontext->NumPendingIO--;
 
-		if (pcontext->mNumPendingIO == 0 && pcontext->mSocket == PX2_INVALID_SOCKET)
+		if (pcontext->NumPendingIO == 0 && pcontext->TheSocket.GetSocket()
+			== PX2_INVALID_SOCKET)
 			needfree = true;
 	}
 
 	if (needfree)
 	{
-		mBufferEventQue->PostDisconnectEvent(pcontext->mClientID);
+		mBufferEventQue->PostDisconnectEvent(pcontext->ClientID);
 
 		_FreeContext(pcontext);
 	}

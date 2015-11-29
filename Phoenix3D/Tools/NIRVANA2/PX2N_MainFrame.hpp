@@ -5,6 +5,7 @@
 
 #include "PX2N_Pre.hpp"
 #include "PX2N_GeneralWindow.hpp"
+#include "PX2N_RenderView.hpp"
 
 namespace NA
 {
@@ -25,6 +26,35 @@ namespace NA
 		void OnLeftDown(wxMouseEvent& e);
 		void OnLeftUp(wxMouseEvent& e);
 		void OnMotion(wxMouseEvent& e);
+
+		// emnu
+	public:
+		wxMenu *AddMainMenuItem(const std::string &title);
+		wxMenuItem *AddMenuItem(wxMenu *menu, 
+			const std::string &title, 
+			const std::string &script, 
+			const std::string &tag = "");
+		void AddSeparater(wxMenu *menu);
+		void EnableMenusTag(const std::string &tag, bool enable);
+
+	protected:
+		void _CreateMenu();
+		void OnCommondItem(wxCommandEvent &e);
+
+		wxMenuBar *mMainMenuBar;
+		std::map<int, std::string> mIDScripts;
+		std::map<std::string, std::vector<wxMenuItem*> > mTagMenuItems;
+
+		// event
+	public:
+		virtual void DoExecute(PX2::Event *event);
+
+		// renderview
+	public:
+		RenderView *GetMainRenderView();
+
+	protected:
+		RenderView *mMainRenderView;
 
 	protected:
 		DECLARE_EVENT_TABLE()

@@ -15,7 +15,7 @@ PdrRendererInput::~PdrRendererInput()
 {
 }
 //----------------------------------------------------------------------------
-bool PdrRendererInput::Ternamate()
+bool PdrRendererInput::Terminate()
 {
 	if (mDriver)
 		mDriver->Release();

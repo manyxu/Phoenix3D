@@ -31,8 +31,7 @@ namespace PX2
 		enum ServerType
 		{
 			ST_IOCP,
-			ST_EPOLL,
-			ST_SELECT,
+			ST_POLL,
 			ST_MAX_TYPE
 		};
 		Server(ServerType serverType, int port, int numMaxConnects, 
@@ -50,12 +49,14 @@ namespace PX2
 		void LogStatus();
 
 		int GetNumConnects();
-		void DisconnectClient(unsigned int clientid);
-		int HandleClientEvent(BufferEvent *ent);
-		void HandleClientEvents();
 
 		// register msg handle
 		void RegisterHandler(int msgid, MsgHandleFunc msgfunc);
+
+	protected:
+		void HandleClientEvents();
+		int HandleClientEvent(BufferEvent *ent);
+		void DisconnectClient(unsigned int clientid);
 
 		// Send
 	public:
@@ -78,7 +79,7 @@ namespace PX2
 		}
 
 		template<class T>
-		int BroadMsgToClient(int msgid, T&msg)
+		int BroadMsgToClients(int msgid, T&msg)
 		{
 			char buffer[4096];
 			int nbytes = MsgToRawBuffer(msgid, msg, buffer, sizeof(buffer));

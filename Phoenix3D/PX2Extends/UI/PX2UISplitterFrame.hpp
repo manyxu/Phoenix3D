@@ -59,14 +59,15 @@ namespace PX2
 public_internal:
 		void _AddAuiBlockFrame(UIAuiBlockFrame *blockframe);
 		void _RemoveAuiBlockFrame(UIAuiBlockFrame *blockframe);
+		bool _IsCanMakeBlcokFramesChange();
 		void _MarkBlockFramesChange();
 
 	protected:
 		std::vector<UIAuiBlockFrame*> mAuiBlockFrames;
 
 public_internal:
-		virtual void OnChildPicked(int info, Movable *child);
 		virtual void OnNotPicked(int info);
+		virtual void OnUIPicked(int info, Movable *child);
 
 		virtual void DoExecute(Event *event);
 	};

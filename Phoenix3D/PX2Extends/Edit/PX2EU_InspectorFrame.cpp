@@ -1,6 +1,7 @@
 // EU_InspectorFrame.cpp
 
 #include "PX2EU_InspectorFrame.hpp"
+#include "PX2UISkinManager.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, EU_InspectorFrame);
@@ -8,10 +9,18 @@ PX2_IMPLEMENT_STREAM(EU_InspectorFrame);
 PX2_IMPLEMENT_FACTORY(EU_InspectorFrame);
 
 //----------------------------------------------------------------------------
-float EU_InspectorFrame::sItemSize = 20.0f;
-//----------------------------------------------------------------------------
 EU_InspectorFrame::EU_InspectorFrame()
 {
+	mToolFrame = new0 UIFrame();
+	AttachChild(mToolFrame);
+	mToolFrame->LocalTransform.SetTranslateY(-1.0f);
+	UIPicBox *picBox = mToolFrame->CreateAddBackgroundPicBox();
+	picBox->SetTexture("Data/engine/white.png");
+	picBox->SetColor(PX2_UISM.Color_ToolBar);
+	mToolFrame->SetAnchorHor(0.0f, 1.0f);
+	mToolFrame->SetAnchorVer(1.0f, 1.0f);
+	mToolFrame->SetPivot(0.5f, 1.0f);
+	mToolFrame->SetSize(Sizef(0.0f, PX2_UISM.Size_ToolBar));
 }
 //----------------------------------------------------------------------------
 EU_InspectorFrame::~EU_InspectorFrame()

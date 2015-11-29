@@ -6,6 +6,7 @@
 #include "PX2PVWMatrixConstant.hpp"
 #include "PX2VMatrixConstant.hpp"
 #include "PX2WMatrixConstant.hpp"
+#include "PX2VWMatrixConstant.hpp"
 #include "PX2ProjectorMatrixConstant.hpp"
 #include "PX2ShineEmissiveConstant.hpp"
 #include "PX2ShineAmbientConstant.hpp"
@@ -167,6 +168,10 @@ ShaderFloat *MaterialManager::CreateShaderFloat(const FString &name, int numRegi
 	else if (FString("VMatrix") == name)
 	{
 		shaderFloat = new0 VMatrixConstant();
+	}
+	else if (FString("VWMatrix") == name)
+	{
+		shaderFloat = new0 VWMatrixConstant();
 	}
 	else if (FString("ProjectPVBSMatrix_Dir") == name)
 	{

@@ -15,6 +15,44 @@ static BYTE s_hibyte;
 
 #define GET_WHEEL_DELTA_WPARAM(wParam) ((short)HIWORD(wParam))
 
+/*
+* VK_0 - VK_9 are the same as ASCII '0' - '9' (0x30 - 0x39)
+* 0x40 : unassigned
+* VK_A - VK_Z are the same as ASCII 'A' - 'Z' (0x41 - 0x5A)
+*/
+//----------------------------------------------------------------------------
+KeyCode ConverKeyCode(WPARAM wParam)
+{
+	KeyCode code = KC_UNASSIGNED;
+	if (0x41 == wParam) code = KC_A;
+	else if (0x42 == wParam) code = KC_B;
+	else if (0x43 == wParam) code = KC_C;
+	else if (0x44 == wParam) code = KC_D;
+	else if (0x45 == wParam) code = KC_E;
+	else if (0x46 == wParam) code = KC_F;
+	else if (0x47 == wParam) code = KC_G;
+	else if (0x48 == wParam) code = KC_H;
+	else if (0x49 == wParam) code = KC_I;
+	else if (0x4A == wParam) code = KC_J;
+	else if (0x4B == wParam) code = KC_K;
+	else if (0x4C == wParam) code = KC_L;
+	else if (0x4D == wParam) code = KC_M;
+	else if (0x4E == wParam) code = KC_N;
+	else if (0x4F == wParam) code = KC_O;
+	else if (0x50 == wParam) code = KC_P;
+	else if (0x51 == wParam) code = KC_Q;
+	else if (0x52 == wParam) code = KC_R;
+	else if (0x53 == wParam) code = KC_S;
+	else if (0x54 == wParam) code = KC_T;
+	else if (0x55 == wParam) code = KC_U;
+	else if (0x56 == wParam) code = KC_V;
+	else if (0x57 == wParam) code = KC_W;
+	else if (0x58 == wParam) code = KC_X;
+	else if (0x59 == wParam) code = KC_Y;
+	else if (0x5A == wParam) code = KC_Z;
+	return code;
+}
+
 LRESULT CALLBACK MsWindowEventHandler (HWND handle, UINT message,
 	WPARAM wParam, LPARAM lParam)
 {
@@ -23,6 +61,7 @@ LRESULT CALLBACK MsWindowEventHandler (HWND handle, UINT message,
 	static bool firsttime = true;
 	static bool isCreated = false;
 	float wheeldelta = 0.0f;
+	KeyCode keyCode = KC_UNASSIGNED;
 
 	switch (message) 
 	{
@@ -69,9 +108,39 @@ LRESULT CALLBACK MsWindowEventHandler (HWND handle, UINT message,
 			APoint((float)LOWORD(lParam), 0.0f, PX2_GR.GetScreenSize().Height - (float)HIWORD(lParam)));
 
 		break;
+	case WM_RBUTTONDOWN:
+		if (MK_RBUTTON == wParam)
+		{
+			POINT point = { (short)LOWORD(lParam), (short)HIWORD(lParam) };
+
+			PX2_INPUTMAN.GetDefaultListener()->MousePressed(MBID_RIGHT,
+				APoint((float)point.x, 0.0f, PX2_GR.GetScreenSize().Height - (float)point.y));
+		}
+		break;
+	case WM_RBUTTONUP:
+
+		PX2_INPUTMAN.GetDefaultListener()->MouseReleased(MBID_RIGHT,
+			APoint((float)LOWORD(lParam), 0.0f, PX2_GR.GetScreenSize().Height - (float)HIWORD(lParam)));
+
+		break;
+	case WM_MOUSEMOVE:
+		PX2_INPUTMAN.GetDefaultListener()->MouseMoved(APoint((float)LOWORD(lParam), 0.0f, 
+			PX2_GR.GetScreenSize().Height - (float)HIWORD(lParam)));
+
+		break;
 	case WM_MOUSEWHEEL:
 		wheeldelta = (float)GET_WHEEL_DELTA_WPARAM(wParam);
 		PX2_INPUTMAN.GetDefaultListener()->MouseWheeled(wheeldelta);
+		break;
+	case WM_KEYDOWN:
+		keyCode = ConverKeyCode(wParam);
+		PX2_INPUTMAN.GetDefaultListener()->KeyPressed(keyCode);
+
+		break;
+	case WM_KEYUP:
+		keyCode = ConverKeyCode(wParam);
+		PX2_INPUTMAN.GetDefaultListener()->KeyReleased(keyCode);
+
 		break;
 	case WM_IME_CHAR:	
 		if (wParam > 0x7f) 
@@ -215,7 +284,7 @@ int Application::Main (int numArguments, char** arguments)
 		}
 	}
 
-	Ternamate ();
+	Terminate ();
 
 	return 0;
 }
@@ -315,13 +384,20 @@ bool Application::Initlize()
 	return true;
 }
 //----------------------------------------------------------------------------
-bool Application::Ternamate()
+bool Application::Terminate()
 {
-	return ApplicationBase::Ternamate();
+	return ApplicationBase::Terminate();
 }
 //----------------------------------------------------------------------------
 void Application::SetTitle(const std::string &title)
 {
 	ApplicationBase::SetTitle(title);
+
+#if defined(_WIN32) || defined(WIN32)
+	if (0 != mhWnd)
+	{
+		::SetWindowText(mhWnd, title.c_str());
+	}
+#endif
 }
 //----------------------------------------------------------------------------

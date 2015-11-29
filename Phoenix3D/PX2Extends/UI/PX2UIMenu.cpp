@@ -50,7 +50,7 @@ UIMenuItem *UIMenu::AddMainItem(const std::string &name,
 	item->SetSize(mMainItemSize);
 	item->SetAnchorHor(Float2(0.0f, 0.0f));
 	item->SetAnchorVer(Float2(0.5f, 0.5f));
-	item->SetPvoit(0.5f, 0.5f);
+	item->SetPivot(0.5f, 0.5f);
 	item->SetAnchorParamHor(Float2(mMainItemSize.Width/2.0f + mMainItemSize.Width*GetNunMainItems(), 0.0f));
 
 	item->GetText()->SetFontWidthHeight(mItemFontSize, mItemFontSize);

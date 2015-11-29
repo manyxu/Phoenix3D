@@ -10,8 +10,8 @@
 #include "PX2UIFrame.hpp"
 #include "PX2UIPicBox.hpp"
 #include "PX2UIText.hpp"
-#include "PX2UIView.hpp"
-#include "PX2RenderStepScene.hpp"
+#include "PX2UICanvas.hpp"
+#include "PX2SceneCanvas.hpp"
 #include "PX2Scene.hpp"
 
 namespace PX2
@@ -40,12 +40,12 @@ namespace PX2
 	protected:
 		void _ReSizeTexture();
 
-		UIViewPtr mUIView;
+		UICanvasPtr mUICanvas;
 		UIFramePtr mPicFrame;
 		UIPicBoxPtr mUIPicBox;
 		UITextPtr mUIText;
 
-		RenderStepScenePtr mRenderStepScene;
+		SceneCanvasPtr mSceneCanvas;
 		ScenePtr mModelScene;
 		CameraActorPtr mModelCameraActor;
 		InterpCurveRotateControllerPtr mModelCameraRolateCtrl;

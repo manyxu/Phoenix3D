@@ -3,6 +3,7 @@
 #include "PX2NetInitTerm.hpp"
 #include "PX2Assert.hpp"
 #include "PX2Log.hpp"
+#include "google/protobuf/stubs/common.h"
 
 namespace PX2
 {
@@ -24,6 +25,8 @@ namespace PX2
 	//----------------------------------------------------------------------------
 	void TerminateNetwork()
 	{
+		google::protobuf::ShutdownProtobufLibrary();
+
 #if defined(_WIN32) || defined(WIN32)
 		WSACleanup();
 #endif

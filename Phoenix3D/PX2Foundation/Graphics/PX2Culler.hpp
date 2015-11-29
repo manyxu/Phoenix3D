@@ -10,6 +10,8 @@
 
 namespace PX2
 {
+
+	class Canvas;
 	
 	/// 场景裁剪器类
 	class PX2_FOUNDATION_ITEM Culler
@@ -32,6 +34,8 @@ namespace PX2
 		void SetFrustum (const float* frustum);
 		inline const float* GetFrustum () const;
 		inline VisibleSet& GetVisibleSet ();
+		std::vector<Canvas*> &GetVisibleCanvas();
+		void Clear();
 
 		/// 插入可见对象到可见列表
 		/**
@@ -58,6 +62,7 @@ namespace PX2
 		* 见集。
 		*/
 		void ComputeVisibleSet (Movable* scene);
+		Movable *GetCurCullingScene();
 
 	protected:
 		// 裁剪器需要的相机
@@ -86,6 +91,16 @@ namespace PX2
 
 		/// 可见集
 		VisibleSet mVisibleSet;
+		std::vector<Canvas*> mVisibleCanvas;
+
+		Movable *mCurCullingScene;
+
+	public_internal:
+		void SetInternalCanvas(bool isInternal);
+		bool IsInternalCanvas() const;
+
+	protected:
+		bool mIsInternalCanvas;
 	};
 
 #include "PX2Culler.inl"

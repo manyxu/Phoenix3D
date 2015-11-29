@@ -191,19 +191,19 @@ void UIObjectCtrl::SetDragIndex (int index)
 	mDragIndex = index;
 }
 //----------------------------------------------------------------------------
-void UIObjectCtrl::OnLeftDown(RenderStep *renderStep, const PX2::APoint &pos)
+void UIObjectCtrl::OnLeftDown(Canvas *canvas, const PX2::APoint &pos)
 {
-	int index = _GetDragIndex(renderStep, pos);
+	int index = _GetDragIndex(canvas, pos);
 	SetDragIndex(index);
 	UpdateOnSelectUI();
 }
 //----------------------------------------------------------------------------
-void UIObjectCtrl::OnLeftUp(RenderStep *renderStep, const PX2::APoint &pos)
+void UIObjectCtrl::OnLeftUp(Canvas *canvas, const PX2::APoint &pos)
 {
 
 }
 //----------------------------------------------------------------------------
-void UIObjectCtrl::OnMotion(bool leftDown, RenderStep *renderStep,
+void UIObjectCtrl::OnMotion(bool leftDown, Canvas *canvas,
 	PX2::APoint posNow, PX2::APoint posBefore)
 {
 	//if (leftDown)
@@ -282,7 +282,7 @@ void UIObjectCtrl::OnMotion(bool leftDown, RenderStep *renderStep,
 	//}
 }
 //----------------------------------------------------------------------------
-int UIObjectCtrl::_GetDragIndex(RenderStep *renderStep, const PX2::APoint &pos)
+int UIObjectCtrl::_GetDragIndex(Canvas *canvas, const PX2::APoint &pos)
 {
 	Project *proj = Project::GetSingletonPtr();
 	if (!proj) return -1;
@@ -291,7 +291,7 @@ int UIObjectCtrl::_GetDragIndex(RenderStep *renderStep, const PX2::APoint &pos)
 
 	APoint origin;
 	AVector direction;
-	renderStep->GetPickRay(pos[0], pos[2], origin, direction);
+	canvas->GetPickRay(pos[0], pos[2], origin, direction);
 
 	ObjectPtr curSelectObj = PX2_SELECTION.GetFirstObject();
 

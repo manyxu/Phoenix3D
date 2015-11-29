@@ -57,11 +57,14 @@
 		void SetPriority(int priority); // 越大月在前
 		int GetPriority() const;
 
-		void SetDoDepthClear(bool clear);
-		bool IsDoDepthClear();
+		void SetBeforeDrawClear(bool color, bool depth, bool stencil);
+		void GetBeforeDrawClear(bool &color, bool &depth, bool &stencil);
 
 		virtual void ComputeVisibleSetAndEnv();
 		virtual void Draw();
+
+		void SetAfterDrawClear(bool color, bool depth, bool stencil);
+		void GetAfterDrawClear(bool &color, bool &depth, bool &stencil);
 
 		// Help
 	public:

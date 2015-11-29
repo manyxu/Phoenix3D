@@ -139,8 +139,8 @@ namespace PX2
 
 public_internal:
 		// 场景裁剪
-		void OnGetVisibleSet (Culler& culler, bool noCull);
-		virtual void GetVisibleSet (Culler& culler, bool noCull) = 0;
+		void GetVisibleSet (Culler& culler, bool noCull);
+		virtual void OnGetVisibleSet (Culler& culler, bool noCull) = 0;
 
 		// 设置父节点，节点在attach/detach的时候调用此函数。
 		virtual void SetParent (Movable* parent);

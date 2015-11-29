@@ -52,7 +52,7 @@ namespace PX2
 		inline float GetX (int x) const;
 		inline float GetY (int y) const;
 		inline float GetHeight (int index) const; //< iIndex表网格顶点索引
-		virtual void GetVisibleSet (Culler& culler, bool noCull);
+		virtual void OnGetVisibleSet (Culler& culler, bool noCull);
 		bool IsHole (int index);
 
 		// 高程参数及数据

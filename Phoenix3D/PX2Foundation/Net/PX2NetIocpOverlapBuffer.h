@@ -44,7 +44,7 @@ namespace PX2
 	class OverlapBufferMgr
 	{
 	public:
-		OverlapBufferMgr(int max_olbuf);
+		OverlapBufferMgr(int numMaxBuffer);
 		~OverlapBufferMgr();
 
 		OverlapBuffer *AllocBuffer(int op);

@@ -9,10 +9,10 @@
 #include "PX2Scene.hpp"
 #include "PX2Size.hpp"
 #include "PX2Float4.hpp"
-#include "PX2RenderStep.hpp"
+#include "PX2Canvas.hpp"
 #include "PX2UIFrame.hpp"
-#include "PX2UIView.hpp"
-#include "PX2RenderStepScene.hpp"
+#include "PX2UICanvas.hpp"
+#include "PX2SceneCanvas.hpp"
 
 namespace PX2
 {
@@ -77,7 +77,8 @@ namespace PX2
 		void SetScene(Scene *scene);
 		Scene *GetScene();
 		const std::string &GetSceneFilename() const;
-		RenderStepScene *GetSceneRenderStep();
+		void SetSceneCanvas(SceneCanvas *sceneCanvas);
+		SceneCanvas *GetSceneCanvas();
 
 	public_internal:
 		void SetSceneFilename(const std::string &scenefilename);
@@ -85,7 +86,7 @@ namespace PX2
 	protected:
 		std::string mSceneFilename;
 		ScenePtr mScene;
-		RenderStepScenePtr mSceneRenderStep;
+		SceneCanvasPtr mSceneCanvas;
 
 		// UI
 	public:
@@ -93,12 +94,12 @@ namespace PX2
 		void SetUIFrame(UIFrame *ui);
 		UIFrame *GetUIFrame();
 		const std::string &GetUIFilename() const;
-		UIView *GetUIRenderStep();
+		UICanvas *GetUICanvas();
 
 	protected:
 		std::string mUIFilename;
 		UIFramePtr mUIFrame;
-		UIViewPtr mUIRenderStep;
+		UICanvasPtr mUICanvas;
 
 		// Screen Adjust
 	public:

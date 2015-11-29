@@ -34,7 +34,7 @@ namespace PX2
 	protected:
 		void SelectLevelOfDetail (const Camera* camera);
 
-		virtual void GetVisibleSet (Culler& culler, bool noCull);
+		virtual void OnGetVisibleSet (Culler& culler, bool noCull);
 
 		APoint mModelLodCenter;
 		APoint mWorldLodCenter;

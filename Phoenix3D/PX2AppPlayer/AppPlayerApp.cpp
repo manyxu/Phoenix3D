@@ -40,6 +40,9 @@ bool AppPlayerApp::Initlize()
 
 			// Load Project
 			_LoadProject(projectPath);
+
+			Project *proj = Project::GetSingletonPtr();
+			if (proj) SetTitle(proj->GetName());
 		}
 
 		return true;

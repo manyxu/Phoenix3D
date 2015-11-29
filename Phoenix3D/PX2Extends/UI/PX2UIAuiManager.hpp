@@ -6,6 +6,7 @@
 #include "PX2Singleton_NeedNew.hpp"
 #include "PX2UIAuiBlockFrame.hpp"
 #include "PX2UIAuiFrame.hpp"
+#include "PX2UIButton.hpp"
 
 namespace PX2
 {
@@ -16,19 +17,42 @@ namespace PX2
 		UIAuiManager();
 		virtual ~UIAuiManager();
 
+		std::string GenName(const std::string &tag);
+
 		void SetAuiFrame(UIAuiFrame *frame);
 		UIAuiFrame *GetAuiFrame();
 
-		void SetActiveTableName(const std::string &tabName);
-		const std::string &GetActiveTableName() const;
+		// frames collect
+		// aui block
+		void AddUIAuiBlockFrame(UIAuiBlockFrame *auiBlockFrame);
+		void RemoveUIAuiBlockFrame(UIAuiBlockFrame *auiBlockframe);
 
-		void AddTabItemFrame(const std::string &name, UIFrame *frame);
+		// tab frame
+		void AddTabFrame(const std::string &name, UITabFrame *tab);
+		void RemoveTabFrame(const std::string &name);
+		void RemoveTabFrame(UITabFrame *tabFrame);
+		UITabFrame *GetTabFrame(const std::string &name);
+
+		// tab content frame
+		void AddTabContentFrame(UIButton *tabBut, UIFrame *frame);
+
+		// active
+		void SetActiveTableFrame(UIButton *tabBut, UIFrame *tableFrame);
+		UIFrame *GetActiveTableFrame();
 
 	protected:
-		UIAuiFramePtr mUIAuiFrame;
-		std::map<std::string, UIFramePtr> mAuiItemFrames;
+		static int msNameID;
 
-		std::string mActiveTableName;
+		UIAuiFramePtr mUIAuiFrame;
+		std::vector<UIAuiBlockFramePtr> mUIAuiBlockFrames;
+
+		std::vector<UIAuiBlockFramePtr> mAuiBlockFrames;
+		std::map<std::string, UITabFramePtr> mAuiTabFrames;
+
+		std::map<UIButton *, UIFramePtr> mAuiContentFrames;
+
+		UIButtonPtr mActiveTableBut;
+		UIFramePtr mActiveTableContentFrame;
 	};
 
 

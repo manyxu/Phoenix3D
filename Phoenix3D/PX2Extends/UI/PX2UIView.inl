@@ -41,3 +41,23 @@ inline std::vector<RenderablePtr> &UIView::GetPickedRenderables()
 	return mPickedRenderables;
 }
 //----------------------------------------------------------------------------
+inline bool UIView::IsPressed() const
+{
+	return mIsPressed;
+}
+//----------------------------------------------------------------------------
+inline const APoint &UIView::GetCurPickPos() const
+{
+	return mCurPickPos;
+}
+//----------------------------------------------------------------------------
+inline const APoint &UIView::GetPressedPos() const
+{
+	return mPressedPos;
+}
+//----------------------------------------------------------------------------
+inline const APoint &UIView::GetReleasedPos() const
+{
+	return mReleasedPos;
+}
+//----------------------------------------------------------------------------

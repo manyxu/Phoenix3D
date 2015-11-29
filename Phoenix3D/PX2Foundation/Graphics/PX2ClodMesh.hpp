@@ -37,7 +37,7 @@ namespace PX2
 		void SelectLevelOfDetail ();
 
 	protected:
-		virtual void GetVisibleSet (Culler& culler, bool noCull);
+		virtual void OnGetVisibleSet (Culler& culler, bool noCull);
 
 		int mCurrentRecord, mTargetRecord;
 		CollapseRecordArrayPtr mRecordArray;

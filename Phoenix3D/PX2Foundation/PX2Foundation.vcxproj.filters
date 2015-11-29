@@ -10,14 +10,41 @@
     <Filter Include="Graphics">
       <UniqueIdentifier>{e498890d-7b4b-49b1-9a00-720c63dc7ac4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{6f86c5ea-4830-455c-a7bd-3690af8628bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\google">
+      <UniqueIdentifier>{63c1e46c-d63e-49f1-9902-65eebb319790}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\google\protobuf">
+      <UniqueIdentifier>{1f7965c3-a667-45c1-85ab-9f50a774d018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\google\protobuf\io">
+      <UniqueIdentifier>{bd8c5d22-e419-4325-b7bc-c89b93b44d34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\google\protobuf\stubs">
+      <UniqueIdentifier>{7ecd6f8b-9d00-4079-830a-2f8461129382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\google\protobuf\testing">
+      <UniqueIdentifier>{66844416-63e3-46df-951b-823c0196069f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Renderers">
+      <UniqueIdentifier>{581b77e2-89f3-43dc-81b7-b436f9b41ff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Renderers\Dx9Renderer">
+      <UniqueIdentifier>{5c23be37-a875-453e-8166-b975f7e1594e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Renderers\OpenGLESRenderer">
+      <UniqueIdentifier>{a917b062-b209-45a3-91b3-6a374ec31f8e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Unity">
       <UniqueIdentifier>{a9ec6aca-4443-4c60-9b60-01004fc2c136}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\RapidXML">
-      <UniqueIdentifier>{73520121-df1d-4a5c-9309-cc6efc2038a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Unity\ZLib">
       <UniqueIdentifier>{e03504c1-2d33-4ca9-9655-a0946ccd7a61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\ZLib\minzip">
+      <UniqueIdentifier>{4cbff77d-301d-4330-b0ae-8244827c9bea}</UniqueIdentifier>
     </Filter>
     <Filter Include="Unity\Lua">
       <UniqueIdentifier>{8ea7c9ad-dbff-446c-a8a0-f53a516512c8}</UniqueIdentifier>
@@ -36,9 +63,6 @@
     </Filter>
     <Filter Include="Unity\FreeType">
       <UniqueIdentifier>{9c7ded49-0c21-482c-acab-9d714985acd4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Unity\ZLib\minzip">
-      <UniqueIdentifier>{4cbff77d-301d-4330-b0ae-8244827c9bea}</UniqueIdentifier>
     </Filter>
     <Filter Include="Unity\FreeType\include">
       <UniqueIdentifier>{a0f4caf0-9cff-4eb7-9b60-2d9f76db5062}</UniqueIdentifier>
@@ -73,316 +97,220 @@
     <Filter Include="Unity\FreeType\src\truetype">
       <UniqueIdentifier>{b0dfbf77-e785-42bd-b4e3-88e7fd8b83b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Net">
-      <UniqueIdentifier>{6f86c5ea-4830-455c-a7bd-3690af8628bb}</UniqueIdentifier>
+    <Filter Include="Unity\Font">
+      <UniqueIdentifier>{c83c8de4-e2a3-4304-95e6-96263ef75aae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Net\google">
-      <UniqueIdentifier>{63c1e46c-d63e-49f1-9902-65eebb319790}</UniqueIdentifier>
+    <Filter Include="Unity\DynLib">
+      <UniqueIdentifier>{2b881a3b-f4b8-4cf4-8d0b-89d8425bed57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Net\google\protobuf">
-      <UniqueIdentifier>{1f7965c3-a667-45c1-85ab-9f50a774d018}</UniqueIdentifier>
+    <Filter Include="Unity\CSV">
+      <UniqueIdentifier>{80985654-912d-4754-b360-18492591cbf7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Net\google\protobuf\io">
-      <UniqueIdentifier>{bd8c5d22-e419-4325-b7bc-c89b93b44d34}</UniqueIdentifier>
+    <Filter Include="Unity\Resource">
+      <UniqueIdentifier>{10bac729-78f6-4f07-bac5-e465ad9ebbe5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Net\google\protobuf\stubs">
-      <UniqueIdentifier>{7ecd6f8b-9d00-4079-830a-2f8461129382}</UniqueIdentifier>
+    <Filter Include="Unity\Sound">
+      <UniqueIdentifier>{80d43f96-825a-4940-a56c-fae95285ba39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Net\google\protobuf\testing">
-      <UniqueIdentifier>{66844416-63e3-46df-951b-823c0196069f}</UniqueIdentifier>
+    <Filter Include="Unity\IME">
+      <UniqueIdentifier>{eb9bb664-b282-425e-8a1c-e68a76437ea2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Renderers">
-      <UniqueIdentifier>{581b77e2-89f3-43dc-81b7-b436f9b41ff0}</UniqueIdentifier>
+    <Filter Include="Unity\Script">
+      <UniqueIdentifier>{4c61b61c-9db3-4b0b-957e-b381e84ad143}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Renderers\Dx9Renderer">
-      <UniqueIdentifier>{5c23be37-a875-453e-8166-b975f7e1594e}</UniqueIdentifier>
+    <Filter Include="Unity\Tools">
+      <UniqueIdentifier>{20f8dcf6-179d-438b-b9f7-80d32426528c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Renderers\OpenGLESRenderer">
-      <UniqueIdentifier>{a917b062-b209-45a3-91b3-6a374ec31f8e}</UniqueIdentifier>
+    <Filter Include="Unity\Serial">
+      <UniqueIdentifier>{a101a4f9-4c8a-451c-b7a7-0d5348c1e483}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Assert">
+      <UniqueIdentifier>{c8f200e3-dd83-4756-9519-9ce861ff176b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DataTypes">
+      <UniqueIdentifier>{8c88dd6b-f756-4c90-8df3-23fd2108b0bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Design">
+      <UniqueIdentifier>{4a4932c3-065c-48ac-8bdc-a7845a8e7d2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Exception">
+      <UniqueIdentifier>{c6f5f390-c33a-4eb0-a638-2db02b20a1af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Log">
+      <UniqueIdentifier>{503a37fe-3fd5-424c-a5bf-7ff534acf69a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\ObjectSystem">
+      <UniqueIdentifier>{3b5e136c-9556-4be1-b138-5bacd2539510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\System">
+      <UniqueIdentifier>{db04f5e0-f9f6-4c17-ab77-f073001319f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Thread">
+      <UniqueIdentifier>{f840d313-6ba8-4436-9063-fb3fc1541970}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Time">
+      <UniqueIdentifier>{39c823f0-3d5f-4c4c-822f-3b508664670c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Timer">
+      <UniqueIdentifier>{9fd0e0fb-443a-43ac-b739-5cf20cc79343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Untity">
+      <UniqueIdentifier>{cd4b9f52-2295-407f-b027-2f45039eb6c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\XML">
+      <UniqueIdentifier>{07a91b33-9af2-4b17-9353-bd66a4fc77d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Event">
+      <UniqueIdentifier>{66f931ed-e508-4d99-a536-8c8f5cd3c59c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Memory">
+      <UniqueIdentifier>{a465ff97-cc47-4742-9c95-4c370c7beb12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Script">
+      <UniqueIdentifier>{389fde87-1361-4eca-9369-7db3efc0f9c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\FileStream">
+      <UniqueIdentifier>{11198003-aa50-495a-9603-9563d05f7d2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\XML\RapidXML">
+      <UniqueIdentifier>{73520121-df1d-4a5c-9309-cc6efc2038a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\CurvesSurfaces">
+      <UniqueIdentifier>{1ff3bc0a-6832-4053-ac09-596316f9f742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DataTypes">
+      <UniqueIdentifier>{8ec200c5-b3c9-4339-8404-b21c63b072f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Detail">
+      <UniqueIdentifier>{38a6abd4-b2a6-44bc-9147-520d2cdca76f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\GlobalMaterials">
+      <UniqueIdentifier>{80e68061-98b5-4e7f-83dd-0eaa626a497e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\ImageProcessing">
+      <UniqueIdentifier>{5a6e6505-60df-467a-9a4f-1deee01f3e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\LocalMaterials">
+      <UniqueIdentifier>{e3e9bae3-62b3-4ba4-9516-6eb92a4c58ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Resources">
+      <UniqueIdentifier>{a9edd224-dbf7-472d-9b01-5f5b899b1346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\SceneGraph">
+      <UniqueIdentifier>{3c42fb5b-825e-486a-be94-5c3581bf36dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\ShaderFloats">
+      <UniqueIdentifier>{01335155-cc31-466f-bf0e-816e287268bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shaders">
+      <UniqueIdentifier>{58f6c0b2-1aca-4059-9dff-ae4d2c82b1a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DynamicBuffer">
+      <UniqueIdentifier>{c71fcb67-13b6-4f15-8bc2-7c5410253602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\LocalMaterials\Ligthting">
+      <UniqueIdentifier>{e1931dff-0329-406b-9905-de8557351635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\LocalMaterials\NotUse">
+      <UniqueIdentifier>{baee5a09-7bd7-49a7-ba79-2f83f7fdfe75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Controllers">
+      <UniqueIdentifier>{3bfe893c-0671-4b84-81ae-642f3dc3bef0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Controllers\ActionCtrl">
+      <UniqueIdentifier>{d39cdc6e-6794-4d7c-a9f8-c41dcccbc79a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Controllers\InterpCurveCtrls">
+      <UniqueIdentifier>{15d4cfca-237f-4020-8d8c-4f68f6d22be7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Controllers\InterpCurveCtrls\Float">
+      <UniqueIdentifier>{d6a4d539-6bef-4a50-b213-f8dc4950c4ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Controllers\InterpCurveCtrls\Float3">
+      <UniqueIdentifier>{49c7a70f-1be4-43c7-bec9-0a30b0a43691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Events">
+      <UniqueIdentifier>{7b6f9d41-8d34-4b44-af43-34770ec9f622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\IME\Input">
+      <UniqueIdentifier>{2ba7fed1-42f2-416b-b1a0-b69d0811f8b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\IME\Input\Language">
+      <UniqueIdentifier>{7a353a88-7698-4e0f-a614-6286a174ba30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Address">
+      <UniqueIdentifier>{040e61a0-1195-4b4f-9c57-0f5cb2c12b00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Base">
+      <UniqueIdentifier>{e363cd8d-a407-46d5-be4d-be65f6d1cd59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Clinet">
+      <UniqueIdentifier>{bbac70b8-7c7f-4195-8fd3-7d2bf5130695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Error">
+      <UniqueIdentifier>{73217cd8-c98f-44f5-ad74-8b4159ee65cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\EventBuffer">
+      <UniqueIdentifier>{782ce85d-413f-43eb-8136-6734b39652c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\InitTerm">
+      <UniqueIdentifier>{1942a645-5d6e-4124-8bfc-201e4d6a7a06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Sockets">
+      <UniqueIdentifier>{ca9c3b81-ed21-40e0-adc0-9f481b505c20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Address\IPAddr">
+      <UniqueIdentifier>{294e1349-53bd-4a01-a61e-6261d34c13f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Address\SocketAddr">
+      <UniqueIdentifier>{08055a7e-27f1-4a40-bbfd-0c3f62ea8198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Server">
+      <UniqueIdentifier>{31c0145f-2756-45ca-84cc-af1f62f7b631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Server\Imp">
+      <UniqueIdentifier>{841be4b6-5648-445d-8589-365542623eb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Server\Imp\PollServer">
+      <UniqueIdentifier>{aca94897-11c9-442e-a244-60e144ad3d5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Server\Imp\IOCPServer">
+      <UniqueIdentifier>{58cbd7de-5697-4c3a-a4d8-bbcd874da320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Server\Info">
+      <UniqueIdentifier>{f806abd4-c5f4-4225-be2b-3bc14ff11715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Server\User">
+      <UniqueIdentifier>{4843b6d9-e00d-416a-ab3e-7b97ad83d9c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Server\ServerSocket">
+      <UniqueIdentifier>{65bb203b-ce86-4492-881f-ea11020c70cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Canvas">
+      <UniqueIdentifier>{93116300-7071-49d5-a365-fd2a1c530b60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\SceneGraph\Node">
+      <UniqueIdentifier>{f585ddfa-6335-4963-87e5-63431dcd51f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\PX2Any.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Ascii.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Assert.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2BufferIO.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Core\PX2Core.hpp">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Core\PX2CorePre.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\PX2Crypt.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2DateTime.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2DoubleChainList.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Endian.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Environment.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Event.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventChannel.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventData.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventFactory.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventFactoryImplement.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventHandler.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventHandlerObject.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventSpace.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventSpaceRegister.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventSpaceRegisterMCR.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventSystem.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Eventt.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2EventWorld.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Exception.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2FileIO.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2FixMemoryObject.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2FixMemoryPool.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Format.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2FString.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Function.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2GeneralAlloctor.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2GeneralAlloctorObject.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2HashTable.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Helps.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2InitTerm.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2InStream.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2LocalDateTime.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Log.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2LogConsoleHandler.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2LogFileHandler.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2LogOutputWindowHandler.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2MD5.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Memory.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2MinHeap.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2MsgQueue.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Mutex.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2MutexType.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2NameID.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Noncopyable.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2NotFreeObjectPool.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Object.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ObjectCopyPool.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ObjectPool.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2OutStream.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2PriorityQueue.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Property.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2PropModify.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Rtti.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Runnable.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ScopedCS.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ScopedCSUN.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ScriptManager.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Semaphore.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Singleton.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Singleton_NeedNew.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2SmartPointer.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Smoother.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Stream.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2StringHelp.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2StringTokenizer.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2System.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Table.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Thread.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ThreadLocal.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ThreadPool.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ThreadServer.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ThreadTarget.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ThreadType.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Time.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Timer.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2TimerManager.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Timespan.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Timestamp.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2TimeZone.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Tuple.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Visitor.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2WeakPointer.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2XMLData.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2XMLNode.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Core\RapidXML\rapidxml.hpp">
-      <Filter>Core\RapidXML</Filter>
+      <Filter>Core\XML\RapidXML</Filter>
     </ClInclude>
     <ClInclude Include="Core\RapidXML\rapidxml_iterators.hpp">
-      <Filter>Core\RapidXML</Filter>
+      <Filter>Core\XML\RapidXML</Filter>
     </ClInclude>
     <ClInclude Include="Core\RapidXML\rapidxml_print.hpp">
-      <Filter>Core\RapidXML</Filter>
+      <Filter>Core\XML\RapidXML</Filter>
     </ClInclude>
     <ClInclude Include="Core\RapidXML\rapidxml_utils.hpp">
-      <Filter>Core\RapidXML</Filter>
+      <Filter>Core\XML\RapidXML</Filter>
     </ClInclude>
     <ClInclude Include="Mathematics\PX2APoint.hpp">
       <Filter>Mathematics</Filter>
@@ -546,112 +474,7 @@
     <ClInclude Include="Mathematics\PX2Vector4.hpp">
       <Filter>Mathematics</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\PX2AlphaProperty.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2BillboardNode.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2BlendTransformController.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Bound.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2BoxSurface.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Buffer.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Camera.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CameraModelDVectorConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CameraModelPositionConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CameraNode.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CameraWorldDVectorConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CameraWorldPositionConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ClodMesh.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CollapseRecord.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CollapseRecordArray.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Color.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Controlledable.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Controller.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CreateClodMesh.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Culler.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CullProperty.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CurveMesh.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2CurveSegment.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2DepthProperty.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2DlodNode.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2DynamicBufferManager.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2DynamicBufferObject.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2EnvirParam.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Float2Array.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2FloatArray.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2FogColorDistConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2FogColorHeightConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2FogParamConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2GlobalMaterial.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\PX2Graphics.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2GraphicsEventType.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\PX2GraphicsPre.hpp">
@@ -659,393 +482,6 @@
     </ClInclude>
     <ClInclude Include="Graphics\PX2GraphicsRoot.hpp">
       <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2HalfFloat.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ImageProcessing.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ImageProcessing2.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2IndexBuffer.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveAlphaCtrl.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveColorCtrl.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveController.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveFloat3Controller.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveFloatController.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveRotateCtrl.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveScaleCtrl.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveShakeCtrl.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveSpeedCtrl.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveTranslateCtrl.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2InterpCurveUniformScaleCtrl.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2KeyframeController.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Light.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightAmbientConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightAttenuationConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightDiffuseConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightGroupConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightModelDVectorConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightModelPositionConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightNode.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightSpecularConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightSpotConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightWorldDVectorConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2LightWorldPositionConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Material.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2MaterialInstance.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2MaterialManager.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2MaterialPass.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2MaterialTechnique.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Movable.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2MtlTexObj.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Node.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2OffsetProperty.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Picker.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2PickRecord.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2PixelShader.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2PMatrixConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Polypoint.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Polysegment.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Projector.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ProjectorMatrixConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ProjectorWorldPositionConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2PushTransformController.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2PVMatrixConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2PVWMatrixConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Renderable.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Renderer.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2RendererInput.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Renderers.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2RenderStep.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2RenderTarget.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ScreenTarget.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Shader.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ShaderFloat.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ShaderKeys.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ShaderParameters.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ShaderStruct.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ShadowMapMaterial.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Shine.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ShineAmbientConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ShineDiffuseConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ShineEmissiveConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2ShineSpecularConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2SkinController.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2SkinMatrixConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2SpecializedIO.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2StandardMesh.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2StencilProperty.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2SwitchNode.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2TargetTransformController.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2TexPackData.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Texture.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Texture1D.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Texture2D.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Texture3D.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2TextureCube.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Transform.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2TransformController.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2Triangles.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2TriFan.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2TriMesh.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2TriStrip.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2UserConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2VertexBuffer.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2VertexBufferAccessor.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2VertexColor4Material.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2VertexFormat.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2VertexShader.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2VisibleSet.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2VMatrixConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2VWMatrixConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2WireProperty.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PX2WMatrixConstant.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2AddDeleteManager.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2CharCoding.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2CharCodingGBK.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2CharCodingUTF8.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2CSVParser.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2DynLib.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2DynLibManager.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2Font.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2FontBitmapImpl.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2FontCommonImpl.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2FontDefine.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2FontGlyphMap.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2FontGlyphMapFreeType.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2FontGlyphMapTrueType.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2FontManager.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2IMEDelegate.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2IMEDispatcher.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2Importer.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2InputEvent.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2InputEventData.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2InputEventListener.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2InputManager.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2InputPushTransformController.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2LanguageManager.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2LuaManager.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2Plugin.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2PluginManager.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2ResourceManager.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2ResourceUpdate.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2Sound.hpp">
-      <Filter>Unity</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2SoundSystem.hpp">
-      <Filter>Unity</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2Unity.hpp">
       <Filter>Unity</Filter>
@@ -1197,91 +633,13 @@
     <ClInclude Include="Unity\FreeType\include\ft2build.h">
       <Filter>Unity\FreeType\include</Filter>
     </ClInclude>
-    <ClInclude Include="Net\PX2DNS.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2HostEntry.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2IPAddress.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2IPAddressImpl.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2IPv4AddressImpl.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2IPv4SocketAddressImpl.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2IPv6AddressImpl.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2IPv6SocketAddressImpl.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
     <ClInclude Include="Net\PX2Net.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2NetClientConnector.hpp">
       <Filter>Net</Filter>
     </ClInclude>
     <ClInclude Include="Net\PX2NetDefine.hpp">
       <Filter>Net</Filter>
     </ClInclude>
-    <ClInclude Include="Net\PX2NetError.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2NetEventBuffer.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2NetInitTerm.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2NetIocpOverlapBuffer.h">
-      <Filter>Net</Filter>
-    </ClInclude>
     <ClInclude Include="Net\PX2NetPre.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2NetServer.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2NetServerImp.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2NetServerIocp.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2ServerInfo.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2ServerInfoManager.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2ServerSocket.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2ServerSocketImpl.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2Socket.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2SocketAddress.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2SocketAddressImpl.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2SocketImpl.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2StreamSocket.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\PX2StreamSocketImpl.hpp">
       <Filter>Net</Filter>
     </ClInclude>
     <ClInclude Include="Net\google\protobuf\io\zero_copy_stream.h">
@@ -1350,16 +708,7 @@
     <ClInclude Include="Net\google\protobuf\testing\file.h">
       <Filter>Net\google\protobuf\testing</Filter>
     </ClInclude>
-    <ClInclude Include="Net\google\protobuf\testing\googletest.h">
-      <Filter>Net\google\protobuf\testing</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\google\protobuf\arena.h">
-      <Filter>Net\google\protobuf</Filter>
-    </ClInclude>
     <ClInclude Include="Net\google\protobuf\arenastring.h">
-      <Filter>Net\google\protobuf</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\google\protobuf\descriptor.h">
       <Filter>Net\google\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="Net\google\protobuf\descriptor.pb.h">
@@ -1378,9 +727,6 @@
       <Filter>Net\google\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="Net\google\protobuf\generated_message_util.h">
-      <Filter>Net\google\protobuf</Filter>
-    </ClInclude>
-    <ClInclude Include="Net\google\protobuf\map_field.h">
       <Filter>Net\google\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="Net\google\protobuf\message.h">
@@ -1512,218 +858,878 @@
     <ClInclude Include="Graphics\Renderers\OpenGLESRenderer\PX2OpenGLESVertexShader.hpp">
       <Filter>Graphics\Renderers\OpenGLESRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="Unity\PX2LanguageManager.hpp">
+      <Filter>Unity\IME\Input\Language</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2CharCoding.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2CharCodingGBK.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2CharCodingUTF8.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2CSVParser.hpp">
+      <Filter>Unity\CSV</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2DynLib.hpp">
+      <Filter>Unity\DynLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2DynLibManager.hpp">
+      <Filter>Unity\DynLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2Font.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2FontBitmapImpl.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2FontCommonImpl.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2FontDefine.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2FontGlyphMap.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2FontGlyphMapFreeType.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2FontGlyphMapTrueType.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2FontManager.hpp">
+      <Filter>Unity\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2InputEvent.hpp">
+      <Filter>Unity\IME\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2InputEventData.hpp">
+      <Filter>Unity\IME\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2InputEventListener.hpp">
+      <Filter>Unity\IME\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2InputManager.hpp">
+      <Filter>Unity\IME\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2InputPushTransformController.hpp">
+      <Filter>Unity\IME\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2Plugin.hpp">
+      <Filter>Unity\DynLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2PluginManager.hpp">
+      <Filter>Unity\DynLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2ResourceManager.hpp">
+      <Filter>Unity\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2ResourceUpdate.hpp">
+      <Filter>Unity\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2Sound.hpp">
+      <Filter>Unity\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2SoundSystem.hpp">
+      <Filter>Unity\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2IMEDelegate.hpp">
+      <Filter>Unity\IME</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2IMEDispatcher.hpp">
+      <Filter>Unity\IME</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2LuaManager.hpp">
+      <Filter>Unity\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2AddDeleteManager.hpp">
+      <Filter>Unity\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2Importer.hpp">
+      <Filter>Unity\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2Serial.hpp">
+      <Filter>Unity\Serial</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Any.hpp">
+      <Filter>Core\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Ascii.hpp">
+      <Filter>Core\Untity</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Assert.hpp">
+      <Filter>Core\Assert</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2BufferIO.hpp">
+      <Filter>Core\FileStream</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Crypt.hpp">
+      <Filter>Core\Untity</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2DateTime.hpp">
+      <Filter>Core\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2DoubleChainList.hpp">
+      <Filter>Core\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Environment.hpp">
+      <Filter>Core\Untity</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Event.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventChannel.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventData.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventFactory.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventFactoryImplement.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventHandler.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventHandlerObject.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventSpace.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventSpaceRegister.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventSpaceRegisterMCR.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventSystem.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2EventWorld.hpp">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2FileIO.hpp">
+      <Filter>Core\FileStream</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Endian.hpp">
+      <Filter>Core\FileStream</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Exception.hpp">
+      <Filter>Core\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2FixMemoryObject.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2FixMemoryPool.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Eventt.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2FString.hpp">
+      <Filter>Core\Untity</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Function.hpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2GeneralAlloctor.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2GeneralAlloctorObject.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2InStream.hpp">
+      <Filter>Core\FileStream</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Log.hpp">
+      <Filter>Core\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2LogConsoleHandler.hpp">
+      <Filter>Core\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2LogFileHandler.hpp">
+      <Filter>Core\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2LogOutputWindowHandler.hpp">
+      <Filter>Core\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2LocalDateTime.hpp">
+      <Filter>Core\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2MD5.hpp">
+      <Filter>Core\Untity</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Format.hpp">
+      <Filter>Core\Untity</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Memory.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2HashTable.hpp">
+      <Filter>Core\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2InitTerm.hpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2MsgQueue.hpp">
+      <Filter>Core\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Mutex.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2MutexType.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Object.hpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ObjectCopyPool.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ObjectPool.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2OutStream.hpp">
+      <Filter>Core\FileStream</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2MinHeap.hpp">
+      <Filter>Core\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2NameID.hpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Noncopyable.hpp">
+      <Filter>Core\Design</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Property.hpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Runnable.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Rtti.hpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Helps.hpp">
+      <Filter>Core\Untity</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ScopedCS.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ScopedCSUN.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Thread.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ThreadLocal.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ThreadPool.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ThreadServer.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ThreadTarget.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ThreadType.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2SmartPointer.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Smoother.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Semaphore.hpp">
+      <Filter>Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2System.hpp">
+      <Filter>Core\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ScriptManager.hpp">
+      <Filter>Core\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Singleton.hpp">
+      <Filter>Core\Design</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Singleton_NeedNew.hpp">
+      <Filter>Core\Design</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2PriorityQueue.hpp">
+      <Filter>Core\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2NotFreeObjectPool.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Stream.hpp">
+      <Filter>Core\FileStream</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2StringTokenizer.hpp">
+      <Filter>Core\Untity</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2StringHelp.hpp">
+      <Filter>Core\Untity</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Time.hpp">
+      <Filter>Core\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Timer.hpp">
+      <Filter>Core\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2TimerManager.hpp">
+      <Filter>Core\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Timestamp.hpp">
+      <Filter>Core\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Timespan.hpp">
+      <Filter>Core\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2TimeZone.hpp">
+      <Filter>Core\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2XMLData.hpp">
+      <Filter>Core\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2XMLNode.hpp">
+      <Filter>Core\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Table.hpp">
+      <Filter>Core\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Tuple.hpp">
+      <Filter>Core\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2PropModify.hpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2WeakPointer.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Visitor.hpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2PushTransformController.hpp">
+      <Filter>Graphics\Controllers\ActionCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2BlendTransformController.hpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2BillboardNode.hpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Bound.hpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2BoxSurface.hpp">
+      <Filter>Graphics\CurvesSurfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CurveMesh.hpp">
+      <Filter>Graphics\CurvesSurfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CurveSegment.hpp">
+      <Filter>Graphics\CurvesSurfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CameraModelDVectorConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CameraModelPositionConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CameraWorldDVectorConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CameraWorldPositionConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Color.hpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Float2Array.hpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2FloatArray.hpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2HalfFloat.hpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Transform.hpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ClodMesh.hpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CollapseRecord.hpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CollapseRecordArray.hpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2DlodNode.hpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2SwitchNode.hpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2DynamicBufferManager.hpp">
+      <Filter>Graphics\DynamicBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2DynamicBufferObject.hpp">
+      <Filter>Graphics\DynamicBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2GlobalMaterial.hpp">
+      <Filter>Graphics\GlobalMaterials</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ImageProcessing.hpp">
+      <Filter>Graphics\ImageProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ImageProcessing2.hpp">
+      <Filter>Graphics\ImageProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Renderer.hpp">
+      <Filter>Graphics\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Renderers.hpp">
+      <Filter>Graphics\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Buffer.hpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2IndexBuffer.hpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2RenderTarget.hpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Texture1D.hpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Texture2D.hpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Texture3D.hpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2TextureCube.hpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2VertexFormat.hpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2VertexBufferAccessor.hpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2VertexBuffer.hpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Camera.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Culler.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Light.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2FogColorDistConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2FogColorHeightConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2FogParamConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightAmbientConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightAttenuationConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightDiffuseConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightGroupConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightModelDVectorConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightModelPositionConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightSpecularConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightSpotConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightWorldDVectorConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightWorldPositionConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ProjectorWorldPositionConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2PVMatrixConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2PVWMatrixConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ProjectorMatrixConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ShineAmbientConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ShineDiffuseConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ShineEmissiveConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ShineSpecularConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2SkinMatrixConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2WMatrixConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2VWMatrixConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2VMatrixConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CullProperty.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2DepthProperty.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2KeyframeController.hpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Controller.hpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Controlledable.hpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2WireProperty.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CreateClodMesh.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2EnvirParam.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2GraphicsEventType.hpp">
+      <Filter>Graphics\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Material.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2MaterialInstance.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2MaterialManager.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2MaterialPass.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2MaterialTechnique.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Movable.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2MtlTexObj.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2OffsetProperty.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2PixelShader.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ShaderFloat.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Shader.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ShaderKeys.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ShaderParameters.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ShaderStruct.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2VertexColor4Material.hpp">
+      <Filter>Graphics\LocalMaterials</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2AlphaProperty.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2PMatrixConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2PickRecord.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Picker.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Polypoint.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Polysegment.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Projector.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Renderable.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2RendererInput.hpp">
+      <Filter>Graphics\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ShadowMapMaterial.hpp">
+      <Filter>Graphics\GlobalMaterials</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Shine.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2TargetTransformController.hpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2SkinController.hpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Texture.hpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2SpecializedIO.hpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2ScreenTarget.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2StandardMesh.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2StencilProperty.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2TexPackData.hpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2TriFan.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2TriMesh.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2TriStrip.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Triangles.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2VisibleSet.hpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2VertexShader.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2UserConstant.hpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2TransformController.hpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveController.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveAlphaCtrl.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveSpeedCtrl.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveUniformScaleCtrl.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveColorCtrl.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveFloat3Controller.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveFloatController.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveRotateCtrl.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveScaleCtrl.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveShakeCtrl.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveTranslateCtrl.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LinearDepthMaterial.hpp">
+      <Filter>Graphics\GlobalMaterials</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2Socket.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2SocketImpl.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2StreamSocket.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2StreamSocketImpl.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2NetInitTerm.hpp">
+      <Filter>Net\InitTerm</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2NetEventBuffer.hpp">
+      <Filter>Net\EventBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2NetError.hpp">
+      <Filter>Net\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2NetClientConnector.hpp">
+      <Filter>Net\Clinet</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2DNS.hpp">
+      <Filter>Net\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2HostEntry.hpp">
+      <Filter>Net\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2IPAddress.hpp">
+      <Filter>Net\Address\IPAddr</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2IPAddressImpl.hpp">
+      <Filter>Net\Address\IPAddr</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2IPv4AddressImpl.hpp">
+      <Filter>Net\Address\IPAddr</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2IPv6AddressImpl.hpp">
+      <Filter>Net\Address\IPAddr</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2IPv4SocketAddressImpl.hpp">
+      <Filter>Net\Address\SocketAddr</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2IPv6SocketAddressImpl.hpp">
+      <Filter>Net\Address\SocketAddr</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2SocketAddress.hpp">
+      <Filter>Net\Address\SocketAddr</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2SocketAddressImpl.hpp">
+      <Filter>Net\Address\SocketAddr</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2NetServer.hpp">
+      <Filter>Net\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\google\protobuf\descriptor.h">
+      <Filter>Net\google\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\google\protobuf\unknown_field_set.h">
+      <Filter>Net\google\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2NetServerIocp.hpp">
+      <Filter>Net\Server\Imp\IOCPServer</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2NetServerPoll.hpp">
+      <Filter>Net\Server\Imp\PollServer</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2NetServerBuffer.hpp">
+      <Filter>Net\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2NetServerImp.hpp">
+      <Filter>Net\Server\Imp</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2ClientContext.hpp">
+      <Filter>Net\Server\Imp</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2ServerDBManager.hpp">
+      <Filter>Net\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2ServerLoop.hpp">
+      <Filter>Net\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2ServerPre.hpp">
+      <Filter>Net\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2ServerInfo.hpp">
+      <Filter>Net\Server\Info</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2ServerInfoManager.hpp">
+      <Filter>Net\Server\Info</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2ServerUser.hpp">
+      <Filter>Net\Server\User</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2ServerUserManager.hpp">
+      <Filter>Net\Server\User</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2ServerSocketImpl.hpp">
+      <Filter>Net\Server\ServerSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\PX2ServerSocket.hpp">
+      <Filter>Net\Server\ServerSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Canvas.hpp">
+      <Filter>Graphics\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2Node.hpp">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2SizeNode.hpp">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CameraNode.hpp">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2LightNode.hpp">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\PX2Ascii.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Assert.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2BufferIO.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Crypt.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2DateTime.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Endian.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Environment.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Event.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2EventChannel.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2EventFactory.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2EventFactoryImplement.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2EventHandler.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2EventHandlerObject.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2EventSpace.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Eventt.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2EventWorld.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Exception.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2FileIO.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Format.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2FString.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2GeneralAlloctor.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2HashTable.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2InitTerm.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2InStream.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2LocalDateTime.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Log.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2LogConsoleHandler.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2LogFileHandler.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2LogOutputWindowHandler.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2MD5.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Memory.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Mutex.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object_Event.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object_Function.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object_NameID.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object_Property.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object_Resource.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object_Rtti.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object_Script.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object_Stream.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object_UserData.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2ObjectCopyPool.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2OutStream.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Rtti.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Runnable.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2ScopedCS.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2ScopedCSUN.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2ScriptManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Semaphore.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2SmartPointer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Stream.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2StringHelp.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2StringTokenizer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2System.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Thread.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2ThreadLocal.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2ThreadPool.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2ThreadServer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2ThreadTarget.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Time.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Timer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2TimerManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Timespan.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Timestamp.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2TimeZone.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Visitor.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2WeakPointer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2XMLData.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2XMLNode.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Mathematics\PX2APoint.cpp">
       <Filter>Mathematics</Filter>
     </ClCompile>
@@ -1823,479 +1829,8 @@
     <ClCompile Include="Mathematics\PX2Vector4.cpp">
       <Filter>Mathematics</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\PX2AlphaProperty.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2BillboardNode.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2BlendTransformController.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Bound.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2BoxSurface.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Buffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Camera.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CameraModelDVectorConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CameraModelPositionConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CameraNode.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CameraWorldDVectorConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CameraWorldPositionConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ClodMesh.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CollapseRecord.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CollapseRecordArray.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Color.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Controlledable.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Controller.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CreateClodMesh.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Culler.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CullProperty.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CurveMesh.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2CurveSegment.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2DepthProperty.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2DlodNode.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2DynamicBufferManager.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2DynamicBufferObject.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2EnvirParam.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Float2Array.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2FloatArray.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2FogColorDistConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2FogColorHeightConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2FogParamConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2GlobalMaterial.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2GraphicsEventType.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\PX2GraphicsRoot.cpp">
       <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2HalfFloat.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ImageProcessing.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ImageProcessing2.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2IndexBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveAlphaCtrl.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveColorCtrl.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveController.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveFloat3Controller.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveFloatController.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveRotateCtrl.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveScaleCtrl.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveShakeCtrl.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveSpeedCtrl.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveTranslateCtrl.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2InterpCurveUniformScaleCtrl.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2KeyframeController.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Light.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightAmbientConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightAttenuationConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightDiffuseConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightGroupConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightModelDVectorConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightModelPositionConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightNode.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightSpecularConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightSpotConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightWorldDVectorConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2LightWorldPositionConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Material.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2MaterialInstance.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2MaterialManager.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2MaterialPass.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2MaterialTechnique.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Movable.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2MtlTexObj.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Node.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2OffsetProperty.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Picker.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2PickRecord.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2PixelShader.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2PMatrixConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Polypoint.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Polysegment.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Projector.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ProjectorMatrixConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ProjectorWorldPositionConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2PushTransformController.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2PVMatrixConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2PVWMatrixConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Renderable.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2RendererInput.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2RenderStep.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2RenderTarget.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ScreenTarget.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Shader.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ShaderFloat.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ShaderParameters.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ShaderStruct.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ShadowMapMaterial.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Shine.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ShineAmbientConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ShineDiffuseConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ShineEmissiveConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2ShineSpecularConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2SkinController.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2SkinMatrixConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2SpecializedIO.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2StandardMesh.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2StencilProperty.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2SwitchNode.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2TargetTransformController.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2TexPackData.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Texture.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Texture1D.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Texture2D.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Texture3D.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2TextureCube.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Transform.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2TransformController.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Triangles.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2TriFan.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2TriMesh.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2TriStrip.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2UserConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2VertexBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2VertexBufferAccessor.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2VertexColor4Material.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2VertexFormat.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2VertexShader.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2VisibleSet.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2VMatrixConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2VWMatrixConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2WireProperty.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2WMatrixConstant.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2AddDeleteManager.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2CharCodingGBK.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2CharCodingUTF8.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2CSVParser.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2DynLib.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2DynLibManager.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2Font.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2FontBitmapImpl.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2FontCommonImpl.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2FontGlyphMapFreeType.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2FontGlyphMapTrueType.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2FontManager.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2IMEDelegate.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2IMEDispatcher.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2Importer.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2InputEvent.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2InputEventData.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2InputEventListener.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2InputManager.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2InputPushTransformController.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2LanguageManager.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2LuaManager.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2PluginManager.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2ResourceManager.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2ResourceUpdate.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2Sound.cpp">
-      <Filter>Unity</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2SoundSystem.cpp">
-      <Filter>Unity</Filter>
     </ClCompile>
     <ClCompile Include="Unity\ImageLibs\PNG\png.c">
       <Filter>Unity\ImageLibs\PNG</Filter>
@@ -2561,84 +2096,6 @@
     <ClCompile Include="Unity\FreeType\src\truetype\truetype.c">
       <Filter>Unity\FreeType\src\truetype</Filter>
     </ClCompile>
-    <ClCompile Include="Net\PX2DNS.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2HostEntry.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2IPAddress.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2IPAddressImpl.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2IPv4AddressImpl.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2IPv4SocketAddressImpl.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2IPv6AddressImpl.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2IPv6SocketAddressImpl.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2NetClientConnector.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2NetError.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2NetEventBuffer.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2NetInitTerm.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2NetIocpOverlapBuffer.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2NetServer.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2NetServerImp.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2NetServerIocp.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2ServerInfo.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2ServerInfoManager.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2ServerSocket.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2ServerSocketImpl.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2Socket.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2SocketAddress.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2SocketAddressImpl.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2SocketImpl.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2StreamSocket.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\PX2StreamSocketImpl.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
     <ClCompile Include="Net\google\protobuf\io\coded_stream.cc">
       <Filter>Net\google\protobuf\io</Filter>
     </ClCompile>
@@ -2666,17 +2123,11 @@
     <ClCompile Include="Net\google\protobuf\stubs\stringprintf.cc">
       <Filter>Net\google\protobuf\stubs</Filter>
     </ClCompile>
-    <ClCompile Include="Net\google\protobuf\stubs\structurally_valid.cc">
-      <Filter>Net\google\protobuf\stubs</Filter>
-    </ClCompile>
     <ClCompile Include="Net\google\protobuf\stubs\strutil.cc">
       <Filter>Net\google\protobuf\stubs</Filter>
     </ClCompile>
     <ClCompile Include="Net\google\protobuf\stubs\substitute.cc">
       <Filter>Net\google\protobuf\stubs</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\google\protobuf\descriptor.cc">
-      <Filter>Net\google\protobuf</Filter>
     </ClCompile>
     <ClCompile Include="Net\google\protobuf\descriptor.pb.cc">
       <Filter>Net\google\protobuf</Filter>
@@ -2726,23 +2177,8 @@
     <ClCompile Include="Net\google\protobuf\stubs\atomicops_internals_x86_msvc.cc">
       <Filter>Net\google\protobuf\stubs</Filter>
     </ClCompile>
-    <ClCompile Include="Net\google\protobuf\stubs\structurally_valid.cpp">
-      <Filter>Net\google\protobuf\stubs</Filter>
-    </ClCompile>
     <ClCompile Include="Net\google\protobuf\testing\file.cc">
       <Filter>Net\google\protobuf\testing</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\google\protobuf\testing\googletest.cc">
-      <Filter>Net\google\protobuf\testing</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\google\protobuf\arena.cc">
-      <Filter>Net\google\protobuf</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\google\protobuf\arenastring.cc">
-      <Filter>Net\google\protobuf</Filter>
-    </ClCompile>
-    <ClCompile Include="Net\google\protobuf\map_field.cc">
-      <Filter>Net\google\protobuf</Filter>
     </ClCompile>
     <ClCompile Include="Net\google\protobuf\message_lite.cc">
       <Filter>Net\google\protobuf</Filter>
@@ -2755,9 +2191,6 @@
     </ClCompile>
     <ClCompile Include="Unity\FreeType\src\base\ftstroke.c">
       <Filter>Unity\FreeType\src\base</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PX2Renderer.cpp">
-      <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Renderers\Dx9Renderer\PX2Dx9IndexBuffer.cpp">
       <Filter>Graphics\Renderers\Dx9Renderer</Filter>
@@ -2849,104 +2282,803 @@
     <ClCompile Include="Graphics\Renderers\OpenGLESRenderer\PX2OpenGLESVertexShader.cpp">
       <Filter>Graphics\Renderers\OpenGLESRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="Unity\PX2LanguageManager.cpp">
+      <Filter>Unity\IME\Input\Language</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2CharCodingGBK.cpp">
+      <Filter>Unity\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2CharCodingUTF8.cpp">
+      <Filter>Unity\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2CSVParser.cpp">
+      <Filter>Unity\CSV</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2DynLib.cpp">
+      <Filter>Unity\DynLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2DynLibManager.cpp">
+      <Filter>Unity\DynLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2Font.cpp">
+      <Filter>Unity\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2FontBitmapImpl.cpp">
+      <Filter>Unity\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2FontCommonImpl.cpp">
+      <Filter>Unity\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2FontGlyphMapFreeType.cpp">
+      <Filter>Unity\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2FontGlyphMapTrueType.cpp">
+      <Filter>Unity\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2FontManager.cpp">
+      <Filter>Unity\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2InputEvent.cpp">
+      <Filter>Unity\IME\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2InputEventData.cpp">
+      <Filter>Unity\IME\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2InputEventListener.cpp">
+      <Filter>Unity\IME\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2InputManager.cpp">
+      <Filter>Unity\IME\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2InputPushTransformController.cpp">
+      <Filter>Unity\IME\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2PluginManager.cpp">
+      <Filter>Unity\DynLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2ResourceManager.cpp">
+      <Filter>Unity\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2ResourceUpdate.cpp">
+      <Filter>Unity\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2Sound.cpp">
+      <Filter>Unity\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2SoundSystem.cpp">
+      <Filter>Unity\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2IMEDelegate.cpp">
+      <Filter>Unity\IME</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2IMEDispatcher.cpp">
+      <Filter>Unity\IME</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2LuaManager.cpp">
+      <Filter>Unity\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2AddDeleteManager.cpp">
+      <Filter>Unity\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2Importer.cpp">
+      <Filter>Unity\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2Serial.cpp">
+      <Filter>Unity\Serial</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Ascii.cpp">
+      <Filter>Core\Untity</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Assert.cpp">
+      <Filter>Core\Assert</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2BufferIO.cpp">
+      <Filter>Core\FileStream</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Crypt.cpp">
+      <Filter>Core\Untity</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2DateTime.cpp">
+      <Filter>Core\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Environment.cpp">
+      <Filter>Core\Untity</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Event.cpp">
+      <Filter>Core\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2EventChannel.cpp">
+      <Filter>Core\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2EventFactory.cpp">
+      <Filter>Core\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2EventFactoryImplement.cpp">
+      <Filter>Core\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2EventHandler.cpp">
+      <Filter>Core\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2EventHandlerObject.cpp">
+      <Filter>Core\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2EventSpace.cpp">
+      <Filter>Core\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2EventWorld.cpp">
+      <Filter>Core\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2FileIO.cpp">
+      <Filter>Core\FileStream</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Endian.cpp">
+      <Filter>Core\FileStream</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Exception.cpp">
+      <Filter>Core\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Eventt.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2FString.cpp">
+      <Filter>Core\Untity</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2GeneralAlloctor.cpp">
+      <Filter>Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2InStream.cpp">
+      <Filter>Core\FileStream</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Log.cpp">
+      <Filter>Core\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2LogConsoleHandler.cpp">
+      <Filter>Core\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2LogFileHandler.cpp">
+      <Filter>Core\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2LogOutputWindowHandler.cpp">
+      <Filter>Core\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2LocalDateTime.cpp">
+      <Filter>Core\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2MD5.cpp">
+      <Filter>Core\Untity</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Format.cpp">
+      <Filter>Core\Untity</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Memory.cpp">
+      <Filter>Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2HashTable.cpp">
+      <Filter>Core\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2InitTerm.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Mutex.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object_Event.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object_Function.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object_NameID.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object_Property.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object_Resource.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object_Rtti.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object_Script.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object_UserData.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object_Stream.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2ObjectCopyPool.cpp">
+      <Filter>Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2OutStream.cpp">
+      <Filter>Core\FileStream</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Runnable.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Rtti.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2ScopedCS.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2ScopedCSUN.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Thread.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2ThreadLocal.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2ThreadPool.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2ThreadServer.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2ThreadTarget.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2SmartPointer.cpp">
+      <Filter>Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Semaphore.cpp">
+      <Filter>Core\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2System.cpp">
+      <Filter>Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2ScriptManager.cpp">
+      <Filter>Core\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Stream.cpp">
+      <Filter>Core\FileStream</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2StringTokenizer.cpp">
+      <Filter>Core\Untity</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2StringHelp.cpp">
+      <Filter>Core\Untity</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Time.cpp">
+      <Filter>Core\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Timer.cpp">
+      <Filter>Core\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2TimerManager.cpp">
+      <Filter>Core\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Timestamp.cpp">
+      <Filter>Core\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Timespan.cpp">
+      <Filter>Core\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2TimeZone.cpp">
+      <Filter>Core\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2XMLData.cpp">
+      <Filter>Core\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2XMLNode.cpp">
+      <Filter>Core\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2WeakPointer.cpp">
+      <Filter>Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Visitor.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2PushTransformController.cpp">
+      <Filter>Graphics\Controllers\ActionCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2BlendTransformController.cpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2BillboardNode.cpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Bound.cpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2BoxSurface.cpp">
+      <Filter>Graphics\CurvesSurfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CurveMesh.cpp">
+      <Filter>Graphics\CurvesSurfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CurveSegment.cpp">
+      <Filter>Graphics\CurvesSurfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CameraModelDVectorConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CameraModelPositionConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CameraWorldDVectorConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CameraWorldPositionConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Color.cpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Float2Array.cpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2FloatArray.cpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2HalfFloat.cpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Transform.cpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ClodMesh.cpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CollapseRecord.cpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CollapseRecordArray.cpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2DlodNode.cpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2SwitchNode.cpp">
+      <Filter>Graphics\Detail</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2DynamicBufferManager.cpp">
+      <Filter>Graphics\DynamicBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2DynamicBufferObject.cpp">
+      <Filter>Graphics\DynamicBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2GlobalMaterial.cpp">
+      <Filter>Graphics\GlobalMaterials</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ImageProcessing.cpp">
+      <Filter>Graphics\ImageProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ImageProcessing2.cpp">
+      <Filter>Graphics\ImageProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Renderer.cpp">
+      <Filter>Graphics\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Buffer.cpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2IndexBuffer.cpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2RenderTarget.cpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Texture1D.cpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Texture2D.cpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Texture3D.cpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2TextureCube.cpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2VertexFormat.cpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2VertexBufferAccessor.cpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2VertexBuffer.cpp">
+      <Filter>Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Camera.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Culler.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Light.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2FogColorDistConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2FogColorHeightConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2FogParamConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightAmbientConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightAttenuationConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightDiffuseConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightGroupConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightModelDVectorConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightModelPositionConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightSpecularConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightSpotConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightWorldDVectorConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightWorldPositionConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ProjectorWorldPositionConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2PVMatrixConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2PVWMatrixConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ProjectorMatrixConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ShineAmbientConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ShineDiffuseConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ShineEmissiveConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ShineSpecularConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2SkinMatrixConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2WMatrixConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2VWMatrixConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2VMatrixConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CullProperty.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2DepthProperty.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2KeyframeController.cpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Controller.cpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Controlledable.cpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2WireProperty.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CreateClodMesh.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2EnvirParam.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2GraphicsEventType.cpp">
+      <Filter>Graphics\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2MaterialInstance.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Material.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2MaterialManager.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2MaterialPass.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2MaterialTechnique.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Movable.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2MtlTexObj.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2OffsetProperty.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2PixelShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ShaderFloat.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Shader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ShaderParameters.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ShaderStruct.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2VertexColor4Material.cpp">
+      <Filter>Graphics\LocalMaterials</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2AlphaProperty.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2PMatrixConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2PickRecord.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Picker.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Polypoint.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Polysegment.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Projector.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Renderable.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2RendererInput.cpp">
+      <Filter>Graphics\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ShadowMapMaterial.cpp">
+      <Filter>Graphics\GlobalMaterials</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Shine.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2TargetTransformController.cpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2SkinController.cpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Texture.cpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2SpecializedIO.cpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2ScreenTarget.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2StandardMesh.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2StencilProperty.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2TexPackData.cpp">
+      <Filter>Graphics\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2TriFan.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2TriMesh.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2TriStrip.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Triangles.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2VisibleSet.cpp">
+      <Filter>Graphics\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2VertexShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2UserConstant.cpp">
+      <Filter>Graphics\ShaderFloats</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2TransformController.cpp">
+      <Filter>Graphics\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveController.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveAlphaCtrl.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveSpeedCtrl.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveUniformScaleCtrl.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveColorCtrl.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveFloat3Controller.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveFloatController.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveRotateCtrl.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveScaleCtrl.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveShakeCtrl.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveTranslateCtrl.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LinearDepthMaterial.cpp">
+      <Filter>Graphics\GlobalMaterials</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2Socket.cpp">
+      <Filter>Net\Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2SocketImpl.cpp">
+      <Filter>Net\Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2StreamSocket.cpp">
+      <Filter>Net\Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2StreamSocketImpl.cpp">
+      <Filter>Net\Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2NetInitTerm.cpp">
+      <Filter>Net\InitTerm</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2NetEventBuffer.cpp">
+      <Filter>Net\EventBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2NetError.cpp">
+      <Filter>Net\Error</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2NetClientConnector.cpp">
+      <Filter>Net\Clinet</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2DNS.cpp">
+      <Filter>Net\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2HostEntry.cpp">
+      <Filter>Net\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2IPAddress.cpp">
+      <Filter>Net\Address\IPAddr</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2IPAddressImpl.cpp">
+      <Filter>Net\Address\IPAddr</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2IPv4AddressImpl.cpp">
+      <Filter>Net\Address\IPAddr</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2IPv6AddressImpl.cpp">
+      <Filter>Net\Address\IPAddr</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2IPv4SocketAddressImpl.cpp">
+      <Filter>Net\Address\SocketAddr</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2IPv6SocketAddressImpl.cpp">
+      <Filter>Net\Address\SocketAddr</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2SocketAddress.cpp">
+      <Filter>Net\Address\SocketAddr</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2SocketAddressImpl.cpp">
+      <Filter>Net\Address\SocketAddr</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2NetServer.cpp">
+      <Filter>Net\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\google\protobuf\descriptor.cc">
+      <Filter>Net\google\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2NetServerIocp.cpp">
+      <Filter>Net\Server\Imp\IOCPServer</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2NetServerPoll.cpp">
+      <Filter>Net\Server\Imp\PollServer</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\google\protobuf\stubs\structurally_valid.cc">
+      <Filter>Net\google\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2NetServerBuffer.cpp">
+      <Filter>Net\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2NetServerImp.cpp">
+      <Filter>Net\Server\Imp</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2ClientContext.cpp">
+      <Filter>Net\Server\Imp</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2ServerDBManager.cpp">
+      <Filter>Net\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2ServerLoop.cpp">
+      <Filter>Net\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2ServerInfo.cpp">
+      <Filter>Net\Server\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2ServerInfoManager.cpp">
+      <Filter>Net\Server\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2ServerUser.cpp">
+      <Filter>Net\Server\User</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2ServerUserManager.cpp">
+      <Filter>Net\Server\User</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2ServerSocketImpl.cpp">
+      <Filter>Net\Server\ServerSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\PX2ServerSocket.cpp">
+      <Filter>Net\Server\ServerSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Canvas.cpp">
+      <Filter>Graphics\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2Node.cpp">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2SizeNode.cpp">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CameraNode.cpp">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2LightNode.cpp">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\PX2Ascii.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2BufferIO.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2DateTime.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2DoubleChainList.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2Event.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2EventChannel.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2EventHandler.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2EventSpace.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2EventSpaceRegister.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2FileIO.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2FixMemoryPool.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2GeneralAlloctor.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2InStream.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2LocalDateTime.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2Memory.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2MinHeap.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2MsgQueue.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2NotFreeObjectPool.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2Object.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2ObjectPool.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2OutStream.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2PriorityQueue.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2Rtti.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2SmartPointer.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2Stream.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2StringTokenizer.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2Table.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2Thread.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2Timespan.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2Timestamp.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2Tuple.inl">
-      <Filter>Core</Filter>
-    </None>
-    <None Include="Core\PX2WeakPointer.inl">
-      <Filter>Core</Filter>
-    </None>
     <None Include="Mathematics\PX2APoint.inl">
       <Filter>Mathematics</Filter>
     </None>
@@ -3046,242 +3178,344 @@
     <None Include="Mathematics\PX2Vector4.inl">
       <Filter>Mathematics</Filter>
     </None>
-    <None Include="Graphics\PX2BillboardNode.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2BlendTransformController.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Bound.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2BoxSurface.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Buffer.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Camera.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2CameraNode.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2ClodMesh.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2CollapseRecordArray.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Color.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Controlledable.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Controller.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Culler.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2DlodNode.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2EnvirParam.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Float2Array.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2FloatArray.inl">
-      <Filter>Graphics</Filter>
-    </None>
     <None Include="Graphics\PX2GraphicsRoot.inl">
       <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2ImageProcessing.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2ImageProcessing2.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2IndexBuffer.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2InterpCurveController.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2InterpCurveFloat3Controller.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2InterpCurveFloatController.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2InterpCurveShakeCtrl.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2InterpCurveSpeedCtrl.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2KeyframeController.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Light.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2LightNode.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Material.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2MaterialInstance.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2MaterialPass.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2MaterialTechnique.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Movable.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Node.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2PickRecord.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Polypoint.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Polysegment.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2PushTransformController.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Renderable.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Renderer.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2RenderStep.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2RenderTarget.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Shader.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2ShaderFloat.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2ShaderParameters.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2SkinController.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2SwitchNode.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2TargetTransformController.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2TexPackData.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Texture.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Texture1D.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Texture2D.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Texture3D.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2TextureCube.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Transform.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2TransformController.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2Triangles.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2VertexBuffer.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2VertexBufferAccessor.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2VertexFormat.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2VertexShader.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Graphics\PX2VisibleSet.inl">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="Unity\PX2CSVParser.inl">
-      <Filter>Unity</Filter>
-    </None>
-    <None Include="Unity\PX2Font.inl">
-      <Filter>Unity</Filter>
-    </None>
-    <None Include="Unity\PX2FontCommonImpl.inl">
-      <Filter>Unity</Filter>
-    </None>
-    <None Include="Unity\PX2FontManager.inl">
-      <Filter>Unity</Filter>
-    </None>
-    <None Include="Unity\PX2InputManager.inl">
-      <Filter>Unity</Filter>
-    </None>
-    <None Include="Unity\PX2InputPushTransformController.inl">
-      <Filter>Unity</Filter>
-    </None>
-    <None Include="Unity\PX2LuaManager.inl">
-      <Filter>Unity</Filter>
-    </None>
-    <None Include="Unity\PX2ResourceManager.inl">
-      <Filter>Unity</Filter>
-    </None>
-    <None Include="Unity\PX2ResourceUpdate.inl">
-      <Filter>Unity</Filter>
-    </None>
-    <None Include="Unity\PX2SoundSystem.inl">
-      <Filter>Unity</Filter>
     </None>
     <None Include="Unity\Lua\Makefile">
       <Filter>Unity\Lua</Filter>
     </None>
-    <None Include="Net\PX2NetClientConnector.inl">
-      <Filter>Net</Filter>
+    <None Include="Unity\PX2CSVParser.inl">
+      <Filter>Unity\CSV</Filter>
     </None>
-    <None Include="Net\PX2NetEventBuffer.inl">
-      <Filter>Net</Filter>
+    <None Include="Unity\PX2Font.inl">
+      <Filter>Unity\Font</Filter>
     </None>
-    <None Include="Net\PX2NetServerIocp.inl">
-      <Filter>Net</Filter>
+    <None Include="Unity\PX2FontCommonImpl.inl">
+      <Filter>Unity\Font</Filter>
+    </None>
+    <None Include="Unity\PX2FontManager.inl">
+      <Filter>Unity\Font</Filter>
+    </None>
+    <None Include="Unity\PX2InputManager.inl">
+      <Filter>Unity\IME\Input</Filter>
+    </None>
+    <None Include="Unity\PX2InputPushTransformController.inl">
+      <Filter>Unity\IME\Input</Filter>
+    </None>
+    <None Include="Unity\PX2ResourceManager.inl">
+      <Filter>Unity\Resource</Filter>
+    </None>
+    <None Include="Unity\PX2ResourceUpdate.inl">
+      <Filter>Unity\Resource</Filter>
+    </None>
+    <None Include="Unity\PX2SoundSystem.inl">
+      <Filter>Unity\Sound</Filter>
+    </None>
+    <None Include="Unity\PX2LuaManager.inl">
+      <Filter>Unity\Script</Filter>
+    </None>
+    <None Include="Core\PX2Ascii.inl">
+      <Filter>Core\Untity</Filter>
+    </None>
+    <None Include="Core\PX2BufferIO.inl">
+      <Filter>Core\FileStream</Filter>
+    </None>
+    <None Include="Core\PX2DateTime.inl">
+      <Filter>Core\Time</Filter>
+    </None>
+    <None Include="Core\PX2DoubleChainList.inl">
+      <Filter>Core\DataTypes</Filter>
+    </None>
+    <None Include="Core\PX2Event.inl">
+      <Filter>Core\Event</Filter>
+    </None>
+    <None Include="Core\PX2EventChannel.inl">
+      <Filter>Core\Event</Filter>
+    </None>
+    <None Include="Core\PX2EventHandler.inl">
+      <Filter>Core\Event</Filter>
+    </None>
+    <None Include="Core\PX2EventSpace.inl">
+      <Filter>Core\Event</Filter>
+    </None>
+    <None Include="Core\PX2EventSpaceRegister.inl">
+      <Filter>Core\Event</Filter>
+    </None>
+    <None Include="Core\PX2FileIO.inl">
+      <Filter>Core\FileStream</Filter>
+    </None>
+    <None Include="Core\PX2FixMemoryPool.inl">
+      <Filter>Core\Memory</Filter>
+    </None>
+    <None Include="Core\PX2GeneralAlloctor.inl">
+      <Filter>Core\Memory</Filter>
+    </None>
+    <None Include="Core\PX2InStream.inl">
+      <Filter>Core\FileStream</Filter>
+    </None>
+    <None Include="Core\PX2LocalDateTime.inl">
+      <Filter>Core\Time</Filter>
+    </None>
+    <None Include="Core\PX2Memory.inl">
+      <Filter>Core\Memory</Filter>
+    </None>
+    <None Include="Core\PX2MsgQueue.inl">
+      <Filter>Core\DataTypes</Filter>
+    </None>
+    <None Include="Core\PX2Object.inl">
+      <Filter>Core\ObjectSystem</Filter>
+    </None>
+    <None Include="Core\PX2ObjectPool.inl">
+      <Filter>Core\Memory</Filter>
+    </None>
+    <None Include="Core\PX2OutStream.inl">
+      <Filter>Core\FileStream</Filter>
+    </None>
+    <None Include="Core\PX2MinHeap.inl">
+      <Filter>Core\DataTypes</Filter>
+    </None>
+    <None Include="Core\PX2Rtti.inl">
+      <Filter>Core\ObjectSystem</Filter>
+    </None>
+    <None Include="Core\PX2Thread.inl">
+      <Filter>Core\Thread</Filter>
+    </None>
+    <None Include="Core\PX2SmartPointer.inl">
+      <Filter>Core\Memory</Filter>
+    </None>
+    <None Include="Core\PX2PriorityQueue.inl">
+      <Filter>Core\DataTypes</Filter>
+    </None>
+    <None Include="Core\PX2NotFreeObjectPool.inl">
+      <Filter>Core\Memory</Filter>
+    </None>
+    <None Include="Core\PX2Stream.inl">
+      <Filter>Core\FileStream</Filter>
+    </None>
+    <None Include="Core\PX2StringTokenizer.inl">
+      <Filter>Core\Untity</Filter>
+    </None>
+    <None Include="Core\PX2Timestamp.inl">
+      <Filter>Core\Time</Filter>
+    </None>
+    <None Include="Core\PX2Timespan.inl">
+      <Filter>Core\Time</Filter>
+    </None>
+    <None Include="Core\PX2Table.inl">
+      <Filter>Core\DataTypes</Filter>
+    </None>
+    <None Include="Core\PX2Tuple.inl">
+      <Filter>Core\DataTypes</Filter>
+    </None>
+    <None Include="Core\PX2WeakPointer.inl">
+      <Filter>Core\Memory</Filter>
+    </None>
+    <None Include="Graphics\PX2PushTransformController.inl">
+      <Filter>Graphics\Controllers\ActionCtrl</Filter>
+    </None>
+    <None Include="Graphics\PX2BlendTransformController.inl">
+      <Filter>Graphics\Controllers</Filter>
+    </None>
+    <None Include="Graphics\PX2BillboardNode.inl">
+      <Filter>Graphics\Detail</Filter>
+    </None>
+    <None Include="Graphics\PX2Bound.inl">
+      <Filter>Graphics\DataTypes</Filter>
+    </None>
+    <None Include="Graphics\PX2BoxSurface.inl">
+      <Filter>Graphics\CurvesSurfaces</Filter>
+    </None>
+    <None Include="Graphics\PX2Color.inl">
+      <Filter>Graphics\DataTypes</Filter>
+    </None>
+    <None Include="Graphics\PX2Float2Array.inl">
+      <Filter>Graphics\DataTypes</Filter>
+    </None>
+    <None Include="Graphics\PX2FloatArray.inl">
+      <Filter>Graphics\DataTypes</Filter>
+    </None>
+    <None Include="Graphics\PX2Transform.inl">
+      <Filter>Graphics\DataTypes</Filter>
+    </None>
+    <None Include="Graphics\PX2ClodMesh.inl">
+      <Filter>Graphics\Detail</Filter>
+    </None>
+    <None Include="Graphics\PX2CollapseRecordArray.inl">
+      <Filter>Graphics\Detail</Filter>
+    </None>
+    <None Include="Graphics\PX2DlodNode.inl">
+      <Filter>Graphics\Detail</Filter>
+    </None>
+    <None Include="Graphics\PX2SwitchNode.inl">
+      <Filter>Graphics\Detail</Filter>
+    </None>
+    <None Include="Graphics\PX2ImageProcessing.inl">
+      <Filter>Graphics\ImageProcessing</Filter>
+    </None>
+    <None Include="Graphics\PX2ImageProcessing2.inl">
+      <Filter>Graphics\ImageProcessing</Filter>
+    </None>
+    <None Include="Graphics\PX2Renderer.inl">
+      <Filter>Graphics\Renderers</Filter>
+    </None>
+    <None Include="Graphics\PX2Buffer.inl">
+      <Filter>Graphics\Resources</Filter>
+    </None>
+    <None Include="Graphics\PX2IndexBuffer.inl">
+      <Filter>Graphics\Resources</Filter>
+    </None>
+    <None Include="Graphics\PX2RenderTarget.inl">
+      <Filter>Graphics\Resources</Filter>
+    </None>
+    <None Include="Graphics\PX2Texture1D.inl">
+      <Filter>Graphics\Resources</Filter>
+    </None>
+    <None Include="Graphics\PX2Texture2D.inl">
+      <Filter>Graphics\Resources</Filter>
+    </None>
+    <None Include="Graphics\PX2Texture3D.inl">
+      <Filter>Graphics\Resources</Filter>
+    </None>
+    <None Include="Graphics\PX2TextureCube.inl">
+      <Filter>Graphics\Resources</Filter>
+    </None>
+    <None Include="Graphics\PX2VertexFormat.inl">
+      <Filter>Graphics\Resources</Filter>
+    </None>
+    <None Include="Graphics\PX2VertexBufferAccessor.inl">
+      <Filter>Graphics\Resources</Filter>
+    </None>
+    <None Include="Graphics\PX2VertexBuffer.inl">
+      <Filter>Graphics\Resources</Filter>
+    </None>
+    <None Include="Graphics\PX2Camera.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2Culler.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2Light.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2KeyframeController.inl">
+      <Filter>Graphics\Controllers</Filter>
+    </None>
+    <None Include="Graphics\PX2Controller.inl">
+      <Filter>Graphics\Controllers</Filter>
+    </None>
+    <None Include="Graphics\PX2Controlledable.inl">
+      <Filter>Graphics\Controllers</Filter>
+    </None>
+    <None Include="Graphics\PX2EnvirParam.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2Material.inl">
+      <Filter>Graphics\Shaders</Filter>
+    </None>
+    <None Include="Graphics\PX2MaterialInstance.inl">
+      <Filter>Graphics\Shaders</Filter>
+    </None>
+    <None Include="Graphics\PX2MaterialPass.inl">
+      <Filter>Graphics\Shaders</Filter>
+    </None>
+    <None Include="Graphics\PX2MaterialTechnique.inl">
+      <Filter>Graphics\Shaders</Filter>
+    </None>
+    <None Include="Graphics\PX2Movable.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2ShaderFloat.inl">
+      <Filter>Graphics\Shaders</Filter>
+    </None>
+    <None Include="Graphics\PX2Shader.inl">
+      <Filter>Graphics\Shaders</Filter>
+    </None>
+    <None Include="Graphics\PX2ShaderParameters.inl">
+      <Filter>Graphics\Shaders</Filter>
+    </None>
+    <None Include="Graphics\PX2PickRecord.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2Polypoint.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2Polysegment.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2Renderable.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2TargetTransformController.inl">
+      <Filter>Graphics\Controllers</Filter>
+    </None>
+    <None Include="Graphics\PX2SkinController.inl">
+      <Filter>Graphics\Controllers</Filter>
+    </None>
+    <None Include="Graphics\PX2Texture.inl">
+      <Filter>Graphics\DataTypes</Filter>
+    </None>
+    <None Include="Graphics\PX2TexPackData.inl">
+      <Filter>Graphics\DataTypes</Filter>
+    </None>
+    <None Include="Graphics\PX2Triangles.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2VisibleSet.inl">
+      <Filter>Graphics\SceneGraph</Filter>
+    </None>
+    <None Include="Graphics\PX2VertexShader.inl">
+      <Filter>Graphics\Shaders</Filter>
+    </None>
+    <None Include="Graphics\PX2TransformController.inl">
+      <Filter>Graphics\Controllers</Filter>
+    </None>
+    <None Include="Graphics\PX2InterpCurveController.inl">
+      <Filter>Graphics\Controllers\InterpCurveCtrls</Filter>
+    </None>
+    <None Include="Graphics\PX2InterpCurveSpeedCtrl.inl">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </None>
+    <None Include="Graphics\PX2InterpCurveFloat3Controller.inl">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float3</Filter>
+    </None>
+    <None Include="Graphics\PX2InterpCurveFloatController.inl">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </None>
+    <None Include="Graphics\PX2InterpCurveShakeCtrl.inl">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
     </None>
     <None Include="Net\PX2Socket.inl">
-      <Filter>Net</Filter>
+      <Filter>Net\Sockets</Filter>
     </None>
     <None Include="Net\PX2SocketImpl.inl">
-      <Filter>Net</Filter>
+      <Filter>Net\Sockets</Filter>
+    </None>
+    <None Include="Net\PX2NetEventBuffer.inl">
+      <Filter>Net\EventBuffer</Filter>
+    </None>
+    <None Include="Net\PX2NetClientConnector.inl">
+      <Filter>Net\Clinet</Filter>
+    </None>
+    <None Include="Net\PX2NetServerIocp.inl">
+      <Filter>Net\Server\Imp\IOCPServer</Filter>
+    </None>
+    <None Include="Net\PX2ServerUser.inl">
+      <Filter>Net\Server\User</Filter>
+    </None>
+    <None Include="Graphics\PX2Canvas.inl">
+      <Filter>Graphics\Canvas</Filter>
+    </None>
+    <None Include="Graphics\PX2Node.inl">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </None>
+    <None Include="Graphics\PX2SizeNode.inl">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </None>
+    <None Include="Graphics\PX2CameraNode.inl">
+      <Filter>Graphics\SceneGraph\Node</Filter>
+    </None>
+    <None Include="Graphics\PX2LightNode.inl">
+      <Filter>Graphics\SceneGraph\Node</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 #include "PX2UIItem.hpp"
 #include "PX2UITree.hpp"
+#include "PX2UISkinManager.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, UIItem);
@@ -15,28 +16,34 @@ mIsExpand(true),
 mIsNumAllChildExpandNeedRecal(true),
 mNumAllChildExpand(0),
 mLevel(0),
-mNumChildItem(0)
+mIsShowRootItem(true)
 {
 	mButBack = new0 UIButton();
 	AttachChild(mButBack);
 	mButBack->LocalTransform.SetTranslateY(-5.0f);
 	UIPicBox *picBoxNormal = mButBack->GetPicBoxAtState(UIButtonBase::BS_NORMAL);
 	picBoxNormal->SetTexture("Data/engine/white.png");
-	picBoxNormal->SetColor(Float3::MakeColor(52, 52, 52));
+	picBoxNormal->SetColor(PX2_UISM.Color_ViewBackground);
+	UIPicBox *picBoxHovered = mButBack->GetPicBoxAtState(UIButtonBase::BS_HOVERED);
+	picBoxHovered->SetTexture("Data/engine/white.png");
+	picBoxHovered->SetColor(PX2_UISM.Color_AuiButTab_Horvered);
 	UIPicBox *picBoxPressed = mButBack->GetPicBoxAtState(UIButtonBase::BS_PRESSED);
 	picBoxPressed->SetTexture("Data/engine/white.png");
-	picBoxPressed->SetColor(Float3::MakeColor(128, 128, 128));
+	picBoxPressed->SetColor(PX2_UISM.Color_AuiButTab_Pressed);
 	mButBack->SetAnchorHor(0.0f, 1.0f);
 	mButBack->SetAnchorVer(0.0f, 1.0f);
 	mButBack->SetAnchorParamVer(1.0f, 0.0f);
 
-	mText = new0 UIText();
-	AttachChild(mText);
-	mText->LocalTransform.SetTranslateY(-10.0f);
-	mText->SetRectUseage(UIText::RU_ALIGNS);
-	mText->SetAligns(TEXTALIGN_LEFT | TEXTALIGN_VCENTER);
-	mText->SetFontScale(0.6f);
-	mText->SetFontColor(Float3::MakeColor(120, 120, 120));
+	mFText = new0 UIFText();
+	AttachChild(mFText);
+	mFText->GetText()->SetAligns(TEXTALIGN_LEFT | TEXTALIGN_VCENTER);
+	mFText->SetAnchorHor(0.0f, 1.0f);
+	mFText->SetAnchorVer(0.0f, 1.0f);
+	mFText->LocalTransform.SetTranslateY(-6.0f);
+	mFText->GetText()->SetFontScale(0.6f);
+	mFText->GetText()->SetFontColor(Float3::MakeColor(120, 120, 120));
+	
+	SetPivot(0.5f, 0.5f);
 }
 //----------------------------------------------------------------------------
 UIItem::~UIItem()
@@ -49,8 +56,7 @@ UIItem *UIItem::AddItem(const std::string &label)
 	AttachChild(item);
 	item->SetName(label);
 	item->SetSize(GetSize());
-	item->_SetLevel(_GetLevel() + 1);
-	item->GetText()->SetText(label);
+	item->GetFText()->GetText()->SetText(label);
 
 	return item;
 }
@@ -63,7 +69,7 @@ void UIItem::OnChildAdded(Movable *child)
 		mIsNeedRecal = true;
 		mIsNumAllChildExpandNeedRecal = true;
 
-		mNumChildItem++;
+		mChildItems.push_back(item);
 	}
 
 	_TellParentChildrenRecal();
@@ -76,11 +82,37 @@ void UIItem::OnChildRemoved(Movable *child)
 	{
 		mIsNeedRecal = true;
 		mIsNumAllChildExpandNeedRecal = true;
-
-		mNumChildItem--;
 	}
 
 	_TellParentChildrenRecal();
+}
+//----------------------------------------------------------------------------
+bool UIItem::RemoveItem(UIItem *item)
+{
+	// remove item
+	std::vector<Pointer0<UIItem> >::iterator it = mChildItems.begin();
+	for (; it != mChildItems.end();)
+	{
+		if (item == *it)
+		{
+			it = mChildItems.erase(it);
+			DetachChild(item);
+
+			return true;
+		}
+	}
+
+	return false;
+}
+//----------------------------------------------------------------------------
+void UIItem::RemoveAllChildItems()
+{
+	for (int i = 0; i < (int)mChildItems.size(); i++)
+	{
+		DetachChild(mChildItems[i]);
+	}
+
+	mChildItems.clear();
 }
 //----------------------------------------------------------------------------
 void UIItem::Expand(bool expand)
@@ -116,20 +148,17 @@ void UIItem::_TellParentChildrenRecal()
 //----------------------------------------------------------------------------
 void UIItem::SetLabel(const std::string &label)
 {
-	mText->SetText(label);
+	mFText->GetText()->SetText(label);
 }
 //----------------------------------------------------------------------------
 const std::string &UIItem::GetLabel() const
 {
-	return mText->GetText();
+	return mFText->GetText()->GetText();
 }
 //----------------------------------------------------------------------------
 void UIItem::OnSizeChanged()
 {
 	UIFrame::OnSizeChanged();
-
-	mText->SetRect(Rectf(-mSize.Width / 2.0f, -mSize.Height / 2.0f,
-		mSize.Height / 2.0f, mSize.Height / 2.0f));
 }
 //----------------------------------------------------------------------------
 void UIItem::SetIconArrowState(IconArrowState state)
@@ -159,8 +188,7 @@ void UIItem::_RecalNumChildExpand()
 	mIsNumAllChildExpandNeedRecal = false;
 
 	int numChildren = GetNumChildren();
-
-	for (int i = 0; i < GetNumChildren(); i++)
+	for (int i = 0; i < numChildren; i++)
 	{
 		UIItem *item = DynamicCast<UIItem>(GetChild(i));
 		if (item)
@@ -199,6 +227,10 @@ void UIItem::_Recal()
 		float iconArrowSpace = tree->GetIconArrowSpace();
 		float itemHeight = tree->GetItemHeight();
 
+		float selfVerOffset = -itemHeight / 2.0f;
+		if (!mIsShowRootItem)
+			selfVerOffset += itemHeight;
+
 		int numItemExtend = 0;
 		for (int i = 0; i < GetNumChildren(); i++)
 		{
@@ -207,10 +239,13 @@ void UIItem::_Recal()
 			{
 				item->SetAnchorHor(0.0f, 1.0f);
 				item->SetAnchorVer(1.0f, 1.0f);
+				item->_SetLevel(_GetLevel() + 1);
+
+				// -itemHeight/2.0f is this item height
 				item->SetAnchorParamVer(
-					-itemHeight / 2.0f - itemHeight * (numItemExtend + 1), 0.0f);
+					selfVerOffset - itemHeight * (numItemExtend + 1), 0.0f);
 				int itemLevel = item->_GetLevel();
-				UIText *text = item->GetText();
+				UIText *text = item->GetFText()->GetText();
 				text->SetOffset(Float2(itemLevel*iconArrowSpace, 0.0f));
 
 				item->Show(mIsExpand);
@@ -226,6 +261,32 @@ void UIItem::_SetLevel(int level)
 	mLevel = level;
 }
 //----------------------------------------------------------------------------
+void UIItem::_ShowRootItem(bool show)
+{
+	if (mIsShowRootItem != show)
+	{
+		mIsShowRootItem = show;
+
+		if (mButBack)
+		{
+			mButBack->Show(mIsShowRootItem);
+		}
+
+		if (mFText)
+		{
+			mFText->Show(mIsShowRootItem);
+		}
+
+		if (mIsShowRootItem)
+			mLevel = 0;
+		else
+			mLevel = -1;
+	}
+
+	mIsNeedRecal = true;
+	mIsNumAllChildExpandNeedRecal = true;
+}
+//----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
 // 持久化支持
@@ -237,7 +298,7 @@ mIsExpand(true),
 mIsNumAllChildExpandNeedRecal(true),
 mNumAllChildExpand(0),
 mLevel(0),
-mNumChildItem(0)
+mIsShowRootItem(true)
 {
 }
 //----------------------------------------------------------------------------

@@ -12,7 +12,7 @@ RendererInput::~RendererInput()
 {
 }
 //----------------------------------------------------------------------------
-bool RendererInput::Ternamate()
+bool RendererInput::Terminate()
 {
 	return true;
 }

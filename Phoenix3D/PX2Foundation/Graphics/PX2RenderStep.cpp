@@ -13,7 +13,12 @@ mIsUpdated(false),
 mIsShow(true),
 mIsSizeChangeReAdjustCamera(true),
 mPriority(0),
-mIsDoClearDepth(false)
+mBeforeDoClearColor(false),
+mBeforeDoClearDepth(false),
+mBeforeDoClearStencil(false),
+mAfterDoClearColor(false),
+mAfterDoClearDepth(false),
+mAfterDoClearStencil(false)
 {
 	mSize.Set(1024.0f, 768.0f);
 
@@ -218,13 +223,57 @@ void RenderStep::Draw()
 		if (viewPort.IsEmpty()) viewPort = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
 		mRenderer->SetViewport(viewPort);
 
-		if (mIsDoClearDepth) mRenderer->ClearDepthBuffer();
+		if (mBeforeDoClearColor)
+			mRenderer->ClearColorBuffer();
+
+		if (mBeforeDoClearDepth)
+			mRenderer->ClearDepthBuffer();
+
+		if (mBeforeDoClearStencil)
+			mRenderer->ClearStencilBuffer();
 
 		mRenderer->SetCamera(mCamera);
 		mRenderer->Draw(mCuller.GetVisibleSet());
 
 		mRenderer->SetCamera(beforeCamer);
+
+		if (mAfterDoClearColor)
+			mRenderer->ClearColorBuffer();
+
+		if (mAfterDoClearDepth)
+			mRenderer->ClearDepthBuffer();
+
+		if (mAfterDoClearStencil)
+			mRenderer->ClearStencilBuffer();
 	}
+}
+//----------------------------------------------------------------------------
+void RenderStep::SetBeforeDrawClear(bool color, bool depth, bool stencil)
+{
+	mBeforeDoClearColor = color;
+	mBeforeDoClearDepth = depth;
+	mBeforeDoClearStencil = stencil;
+}
+//----------------------------------------------------------------------------
+void RenderStep::GetBeforeDrawClear(bool &color, bool &depth, bool &stencil)
+{
+	color = mBeforeDoClearColor;
+	depth = mBeforeDoClearDepth;
+	stencil = mBeforeDoClearStencil;
+}
+//----------------------------------------------------------------------------
+void RenderStep::SetAfterDrawClear(bool color, bool depth, bool stencil)
+{
+	mAfterDoClearColor = color;
+	mAfterDoClearDepth = depth;
+	mAfterDoClearStencil = stencil;
+}
+//----------------------------------------------------------------------------
+void RenderStep::GetAfterDrawClear(bool &color, bool &depth, bool &stencil)
+{
+	color = mAfterDoClearColor;
+	depth = mAfterDoClearDepth;
+	stencil = mAfterDoClearStencil;
 }
 //----------------------------------------------------------------------------
 bool RenderStep::LessThan(const RenderStep *step0, const RenderStep *step1)

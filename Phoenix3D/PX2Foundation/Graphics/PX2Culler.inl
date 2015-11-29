@@ -26,9 +26,14 @@ inline const float* Culler::GetFrustum () const
 	return mFrustum;
 }
 //----------------------------------------------------------------------------
-inline VisibleSet& Culler::GetVisibleSet ()
+inline VisibleSet& Culler::GetVisibleSet()
 {
 	return mVisibleSet;
+}
+//----------------------------------------------------------------------------
+inline std::vector<Canvas*> &Culler::GetVisibleCanvas()
+{
+	return mVisibleCanvas;
 }
 //----------------------------------------------------------------------------
 inline int Culler::GetPlaneQuantity () const
@@ -66,5 +71,15 @@ inline void Culler::PopPlane ()
 	{
 		--mPlaneQuantity;
 	}
+}
+//----------------------------------------------------------------------------
+inline Movable *Culler::GetCurCullingScene()
+{
+	return mCurCullingScene;
+}
+//----------------------------------------------------------------------------
+inline bool Culler::IsInternalCanvas() const
+{
+	return mIsInternalCanvas;
 }
 //----------------------------------------------------------------------------

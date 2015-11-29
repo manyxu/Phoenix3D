@@ -31,8 +31,8 @@ UIItem *UIList::AddItem(const std::string &text)
 	AttachChild(item);
 	mItems.push_back(item);
 
-	item->GetText()->SetText(text);
-	item->GetText()->SetAutoWarp(true);
+	item->GetFText()->GetText()->SetText(text);
+	item->GetFText()->GetText()->SetAutoWarp(true);
 
 	return item;
 }
@@ -80,8 +80,8 @@ void UIList::_Recal()
 
 		if (item)
 		{
-			item->GetText()->SetRect(Rectf(-mSize.Width/2.0f,
-				-mSize.Height/2.0f, mSize.Width/2.0f, mSize.Height/2.0f));
+			item->GetFText()->GetText()->SetRect(Rectf(-mSize.Width / 2.0f,
+				-mSize.Height / 2.0f, mSize.Width / 2.0f, mSize.Height / 2.0f));
 			item->SetAnchorHor(0.0f, 1.0f);
 			item->SetAnchorVer(1.0f, 1.0f);
 			item->SetAnchorParamVer(

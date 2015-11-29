@@ -103,18 +103,26 @@ namespace PX2
 		void SetPriority(int priority); // 越大月在前
 		int GetPriority() const;
 
-		void SetDoDepthClear(bool clear);
-		bool IsDoDepthClear();
+		void SetBeforeDrawClear(bool color, bool depth, bool stencil);
+		void GetBeforeDrawClear(bool &color, bool &depth, bool &stencil);
 
 		virtual void ComputeVisibleSetAndEnv();
 		virtual void Draw();
+
+		void SetAfterDrawClear(bool color, bool depth, bool stencil);
+		void GetAfterDrawClear(bool &color, bool &depth, bool &stencil);
 
 	public_internal:
 		static bool LessThan(const RenderStep *step0, const RenderStep *step1);
 
 	protected:
 		int mPriority;
-		bool mIsDoClearDepth;
+		bool mBeforeDoClearColor;
+		bool mBeforeDoClearDepth;
+		bool mBeforeDoClearStencil;
+		bool mAfterDoClearColor;
+		bool mAfterDoClearDepth;
+		bool mAfterDoClearStencil;
 
 	public_internal:
 		// 编辑器中调用

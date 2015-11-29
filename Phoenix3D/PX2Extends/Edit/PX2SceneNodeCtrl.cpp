@@ -8,7 +8,7 @@
 #include "PX2Time.hpp"
 #include "PX2Renderer.hpp"
 #include "PX2Picker.hpp"
-#include "PX2RenderStep.hpp"
+#include "PX2Canvas.hpp"
 #include "PX2Selection.hpp"
 #include "PX2GraphicsRoot.hpp"
 #include "PX2TriMesh.hpp"
@@ -82,16 +82,16 @@ void SceneNodeCtrl::SetDragType(DragType type)
 	mDragType = type;
 }
 //----------------------------------------------------------------------------
-void SceneNodeCtrl::OnLeftDown(RenderStep *renderStep, const PX2::APoint &pos)
+void SceneNodeCtrl::OnLeftDown(Canvas *canvas, const PX2::APoint &pos)
 {
 	Edit::EditType editType = PX2_EDIT.GetEditType();
 	if (Edit::ET_SCENE != editType) return;
 
-	DragType dt = GetDragType(renderStep, pos);
+	DragType dt = GetDragType(canvas, pos);
 	SetDragType(dt);
 }
 //----------------------------------------------------------------------------
-void SceneNodeCtrl::OnLeftUp(RenderStep *renderStep, const PX2::APoint &pos)
+void SceneNodeCtrl::OnLeftUp(Canvas *canvas, const PX2::APoint &pos)
 {
 	SetDragType(DT_NONE);
 
@@ -100,9 +100,9 @@ void SceneNodeCtrl::OnLeftUp(RenderStep *renderStep, const PX2::APoint &pos)
 	EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
 }
 //----------------------------------------------------------------------------
-void SceneNodeCtrl::OnMouseWheel(RenderStep *renderStep, float wheelDelta)
+void SceneNodeCtrl::OnMouseWheel(Canvas *canvas, float wheelDelta)
 {
-	Camera *camera = renderStep->GetCamera();
+	Camera *camera = canvas->GetCamera();
 	float rmax = camera->GetRMax();
 	APoint camPosition = camera->GetPosition();
 	APoint ctrlPosition = GetPosition();
@@ -127,21 +127,21 @@ void SceneNodeCtrl::OnMouseWheel(RenderStep *renderStep, float wheelDelta)
 	}
 }
 //----------------------------------------------------------------------------
-void SceneNodeCtrl::OnMotion(bool leftDown, RenderStep *renderStep,
+void SceneNodeCtrl::OnMotion(bool leftDown, Canvas *canvas,
 	PX2::APoint posNow, PX2::APoint posBefore)
 {
 	PX2_UNUSED(leftDown);
-	PX2_UNUSED(renderStep);
+	PX2_UNUSED(canvas);
 
-	Renderer *renderer = renderStep->GetRenderer();
-	Camera *camera = renderStep->GetCamera();
+	Renderer *renderer = canvas->GetRenderer();
+	Camera *camera = canvas->GetCamera();
 
 	// 光标移动更新
 	if (DT_NONE == mDragType)
 	{
 		GeoObjFactory factory;
 
-		DragType dt = GetDragType(renderStep, posNow);
+		DragType dt = GetDragType(canvas, posNow);
 		Movable *ctrlMov = 0;
 		Float4 colorYellowAlpha = Float4(1.0f, 1.0f, 0.0f, 0.3f);
 
@@ -267,11 +267,11 @@ void SceneNodeCtrl::OnMotion(bool leftDown, RenderStep *renderStep,
 	// get pick ray
 	APoint rayOrigin_Now;
 	AVector rayDir_Now;
-	renderStep->GetPickRay(posNow.X(), posNow.Z(), rayOrigin_Now, rayDir_Now);
+	canvas->GetPickRay(posNow.X(), posNow.Z(), rayOrigin_Now, rayDir_Now);
 
 	APoint rayOrigin_Before;
 	AVector rayDir_Before;
-	renderStep->GetPickRay(posBefore.X(), posBefore.Z(), rayOrigin_Before, rayDir_Before);
+	canvas->GetPickRay(posBefore.X(), posBefore.Z(), rayOrigin_Before, rayDir_Before);
 
 	// pick
 	Picker pickerNow;
@@ -806,12 +806,12 @@ void SceneNodeCtrl::UpdateCtrlTrans()
 	mCtrlsGroup->Update(Time::GetTimeInSeconds(), false);
 }
 //----------------------------------------------------------------------------
-SceneNodeCtrl::DragType SceneNodeCtrl::GetDragType(RenderStep *renderStep,
+SceneNodeCtrl::DragType SceneNodeCtrl::GetDragType(Canvas *canvas,
 	const PX2::APoint &point)
 {
 	APoint origin;
 	AVector direction;
-	renderStep->GetPickRay(point.X(), point.Z(), origin, direction);
+	canvas->GetPickRay(point.X(), point.Z(), origin, direction);
 
 	PX2::Picker picker;
 

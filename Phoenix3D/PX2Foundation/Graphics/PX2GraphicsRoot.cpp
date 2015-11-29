@@ -108,8 +108,8 @@ bool GraphicsRoot::Terminate ()
 
 	PX2_MATERIALMAN.Terminate();
 
-	mRenderStepMap.clear();
-	mRenderStepVec.clear();
+	mCanvasMap.clear();
+	mCanvasVec.clear();
 
 	mCreatedVFs.clear();
 
@@ -124,46 +124,46 @@ void GraphicsRoot::SetScreenSize(const Sizef &size)
 {
 	mScreenSize = size;
 
-	std::map<FString, RenderStepPtr>::iterator it = mRenderStepMap.begin();
-	for (; it != mRenderStepMap.end(); it++)
+	std::map<FString, CanvasPtr>::iterator it = mCanvasMap.begin();
+	for (; it != mCanvasMap.end(); it++)
 	{
-		RenderStep *renderStep = it->second;
+		Canvas *renderStep = it->second;
 		renderStep->SetScreenSize(size);
 	}
 }
 //----------------------------------------------------------------------------
-bool GraphicsRoot::AddRenderStep(const char *name, RenderStep *step)
+bool GraphicsRoot::AddCanvas(const char *name, Canvas *step)
 {
-	if (IsHasRenderStep(name))
+	if (IsHasCanvas(name))
 		return false;
 
-	if ("Scene" == std::string(name)) mRenderStepScene = step;
-	if ("UI" == std::string(name)) mRenderStepUI = step;
+	if ("Scene" == std::string(name)) mCanvasScene = step;
+	if ("UI" == std::string(name)) mCanvasUI = step;
 
-	mRenderStepMap[name] = step;
-	mRenderStepVec.push_back(step);
+	mCanvasMap[name] = step;
+	mCanvasVec.push_back(step);
 
-	std::sort(mRenderStepVec.begin(), mRenderStepVec.end(), RenderStep::LessThan);
+	SortCanvass();
 
 	return true;
 }
 //----------------------------------------------------------------------------
-bool GraphicsRoot::IsHasRenderStep(const char *name) const
+bool GraphicsRoot::IsHasCanvas(const char *name) const
 {
-	return mRenderStepMap.find(name) != mRenderStepMap.end();
+	return mCanvasMap.find(name) != mCanvasMap.end();
 }
 //----------------------------------------------------------------------------
-bool GraphicsRoot::RemoveRenderStep(const char *name)
+bool GraphicsRoot::RemoveCanvas(const char *name)
 {
-	std::map<FString, RenderStepPtr>::iterator it = mRenderStepMap.find(name);
-	if (it != mRenderStepMap.end())
+	std::map<FString, CanvasPtr>::iterator it = mCanvasMap.find(name);
+	if (it != mCanvasMap.end())
 	{
-		std::vector<RenderStep*>::iterator itVec = mRenderStepVec.begin();
-		for (; itVec != mRenderStepVec.end();)
+		std::vector<Canvas*>::iterator itVec = mCanvasVec.begin();
+		for (; itVec != mCanvasVec.end();)
 		{
 			if (*itVec == it->second)
 			{
-				itVec = mRenderStepVec.erase(itVec);
+				itVec = mCanvasVec.erase(itVec);
 			}
 			else
 			{
@@ -171,7 +171,7 @@ bool GraphicsRoot::RemoveRenderStep(const char *name)
 			}
 		}
 
-		mRenderStepMap.erase(it);
+		mCanvasMap.erase(it);
 		
 		return true;
 	}
@@ -179,14 +179,14 @@ bool GraphicsRoot::RemoveRenderStep(const char *name)
 	return false;
 }
 //----------------------------------------------------------------------------
-void GraphicsRoot::RemoveRenderSteps(RenderStep *step)
+void GraphicsRoot::RemoveCanvass(Canvas *step)
 {
-	std::vector<RenderStep*>::iterator itVec = mRenderStepVec.begin();
-	for (; itVec != mRenderStepVec.end();)
+	std::vector<Canvas*>::iterator itVec = mCanvasVec.begin();
+	for (; itVec != mCanvasVec.end();)
 	{
 		if (*itVec == step)
 		{
-			itVec = mRenderStepVec.erase(itVec);
+			itVec = mCanvasVec.erase(itVec);
 		}
 		else
 		{
@@ -194,22 +194,28 @@ void GraphicsRoot::RemoveRenderSteps(RenderStep *step)
 		}
 	}
 
-	std::map<FString, RenderStepPtr>::iterator it = mRenderStepMap.begin();
-	for (; it != mRenderStepMap.end(); it++)
+	std::map<FString, CanvasPtr>::iterator it = mCanvasMap.begin();
+	for (; it != mCanvasMap.end(); it++)
 	{
 		if (it->second == step)
 		{
-			mRenderStepMap.erase(it);
+			mCanvasMap.erase(it);
 			return;
 		}
 	}
 }
 //----------------------------------------------------------------------------
-RenderStep *GraphicsRoot::GetRenderStep(const char *name)
+void GraphicsRoot::SortCanvass()
 {
-	std::map<FString, RenderStepPtr>::iterator it = mRenderStepMap.find(name);
+	std::sort(mCanvasVec.begin(), mCanvasVec.end(),
+		Canvas::LessThan);
+}
+//----------------------------------------------------------------------------
+Canvas *GraphicsRoot::GetCanvas(const char *name)
+{
+	std::map<FString, CanvasPtr>::iterator it = mCanvasMap.find(name);
 
-	if (it != mRenderStepMap.end())
+	if (it != mCanvasMap.end())
 		return it->second;
 
 	return 0;
@@ -217,25 +223,44 @@ RenderStep *GraphicsRoot::GetRenderStep(const char *name)
 //----------------------------------------------------------------------------
 void GraphicsRoot::Update(double appSeconds, double elapsedSeconds)
 {
-	for (int i = 0; i < (int)mRenderStepVec.size(); i++)
+	for (int i = 0; i < (int)mCanvasVec.size(); i++)
 	{
-		mRenderStepVec[i]->Update(appSeconds, elapsedSeconds);
+		if (!mCanvasVec[i]->GetParent())
+		{
+			mCanvasVec[i]->Update(appSeconds, elapsedSeconds);
+		}
 	}
 }
 //----------------------------------------------------------------------------
 void GraphicsRoot::ComputeVisibleSetAndEnv()
 {
-	for (int i = 0; i < (int)mRenderStepVec.size(); i++)
+	for (int i = 0; i < (int)mCanvasVec.size(); i++)
 	{
-		mRenderStepVec[i]->ComputeVisibleSetAndEnv();
+		mCanvasVec[i]->ClearVisibleSet();
+		mCanvasVec[i]->ComputeVisibleSetAndEnv();
 	}
 }
 //----------------------------------------------------------------------------
 void GraphicsRoot::Draw()
 {
-	for (int i = 0; i < (int)mRenderStepVec.size(); i++)
+	for (int i = 0; i < (int)mCanvasVec.size(); i++)
 	{
-		mRenderStepVec[i]->Draw();
+		if (!mCanvasVec[i]->GetParent())
+		{
+			std::vector<Canvas*> childCanvas =
+				mCanvasVec[i]->GetCuller().GetVisibleCanvas();
+			mCanvasVec[i]->Draw();
+
+			for (int i = 0; i < (int)childCanvas.size(); i++)
+			{
+				childCanvas[i]->Draw();
+
+				if (childCanvas[i]->GetCuller().GetVisibleSet().GetNumVisible() > 0)
+				{
+					int aa = 0;
+				}
+			}
+		}
 	}
 }
 //----------------------------------------------------------------------------

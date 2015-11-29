@@ -3,11 +3,11 @@
 	class TimeLineEdit
 	{
 	public:
-		void SetTimeLineRenderStep_UIGroup(RenderStep *renderStep);
-		RenderStep *GetTimeLineRenderStep_UIGroup() const;
+		void SetTimeLineCanvas_UIGroup(Canvas *canvas);
+		Canvas *GetTimeLineCanvas_UIGroup() const;
 
-		void SetTimeLineRenderStep_Grid(RenderStep *renderStep);
-		RenderStep *GetTimeLineRenderStep_Grid() const;
+		void SetTimeLineCanvas_Grid(Canvas *canvas);
+		Canvas *GetTimeLineCanvas_Grid() const;
 
 		Node *GetCurveEditNode_Grid() { return mCurveEditNode_Grid; }
 		PX2::Polysegment *GetGridPoly() { return mGridPoly; }

@@ -1,7 +1,7 @@
-// PX2ShadowMap_Material.hpp
+// PX2ShadowMapMaterial.hpp
 
-#ifndef PX2SHADOWMAP_MATERIAL_HPP
-#define PX2SHADOWMAP_MATERIAL_HPP
+#ifndef PX2SHADOWMAPMATERIAL_HPP
+#define PX2SHADOWMAPMATERIAL_HPP
 
 #include "PX2GlobalMaterial.hpp"
 

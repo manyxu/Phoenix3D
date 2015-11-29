@@ -615,7 +615,7 @@ void LODTerrainPage::RenderBlocks ()
 	Renderer::UpdateAll(mIBuffer);
 }
 //----------------------------------------------------------------------------
-void LODTerrainPage::GetVisibleSet (Culler &culler, bool noCull)
+void LODTerrainPage::OnGetVisibleSet (Culler &culler, bool noCull)
 {
 	if (mNeedsTessellation)
 	{
@@ -625,7 +625,7 @@ void LODTerrainPage::GetVisibleSet (Culler &culler, bool noCull)
 
 	if (mIBuffer->GetNumElements() > 0)
 	{
-		TerrainPage::GetVisibleSet(culler, noCull);
+		TerrainPage::OnGetVisibleSet(culler, noCull);
 	}
 }
 //----------------------------------------------------------------------------

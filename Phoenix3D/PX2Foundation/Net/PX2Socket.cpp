@@ -4,6 +4,7 @@
 #include "PX2NetDefine.hpp"
 #include "PX2StreamSocketImpl.hpp"
 #include "PX2Log.hpp"
+#include "PX2NetError.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------
@@ -48,6 +49,19 @@ void Socket::Close()
 {
 	if (mImpl)
 		mImpl->Close();
+}
+//----------------------------------------------------------------------------
+bool Socket::IsValid() const
+{
+	if (!mImpl)
+		return false;
+
+	return PX2_INVALID_SOCKET != mImpl->GetSocket();
+}
+//----------------------------------------------------------------------------
+bool Socket::Poll(const Timespan& timeout, int mode) const
+{
+	return mImpl->Poll(timeout, mode);
 }
 //----------------------------------------------------------------------------
 int Socket::Select (SocketList& readList, SocketList& writeList, 
@@ -101,6 +115,7 @@ int Socket::Select (SocketList& readList, SocketList& writeList,
 	if (rc < 0) 
 	{
 		PX2_LOG_ERROR("select error");
+		NetError::Error();
 	}
 
 	SocketList readyReadList;

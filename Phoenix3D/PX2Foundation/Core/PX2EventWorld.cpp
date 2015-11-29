@@ -191,6 +191,16 @@ void EventWorld::_UpdateEvent(float detalTime)
 			}
 			else
 			{ // 没有接收者，轮询
+
+				// 加入新加Handlers
+				for (int i = 0; i < (int)mHandlersComingIn.size(); i++)
+				{
+					mHandlers.push_back(mHandlersComingIn[i]);
+					mHandlersComingIn[i]->Enter(this);
+				}
+				mHandlersComingIn.clear();
+
+				// 遍历Handlers
 				EventHandlerList::iterator itHandler;
 				for (itHandler=mHandlers.begin();
 					itHandler!=mHandlers.end();

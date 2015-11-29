@@ -22,12 +22,16 @@
 #include "PX2AccoutManager.hpp"
 #include "PX2VBIBObj.hpp"
 #include "PX2Project.hpp"
+#include "PX2BPManager.hpp"
 #include "PX2UIAuiManager.hpp"
 #include "PX2UISkinManager.hpp"
 #include "PX2Edit.hpp"
+#include "PX2SimulationEventHandler.hpp"
 
 namespace PX2
 {
+
+	typedef void(*TickCallback) (double appSeconds, double elapsedSeconds);
 
 	class RendererInput;
 
@@ -54,7 +58,7 @@ namespace PX2
 		void WillEnterForeground(bool isFirstTime);
 		void DidEnterBackground();
 
-		bool Ternamate();
+		bool Terminate();
 
 	private:
 		RendererInput *mRendererInput;
@@ -74,6 +78,7 @@ namespace PX2
 		Selection *mSelection;
 		Creater *mCreater;
 		URDoManager *mURDoMan;
+		BPManager *mBPMan;
 		AccoutManager *mAccoutManager;
 		VBIBManager *mVBIBManager;
 		Edit *mEdit;
@@ -112,6 +117,31 @@ namespace PX2
 		std::string mProjectName;
 		PlayLogicMode mPlayLogicMode;
 
+		// project scene
+	public:
+		void NewProject(const std::string &pathname,
+			const std::string &projName, int so, int width, int height);
+		bool LoadProject(const std::string &pathname);
+		bool SaveProject();
+		bool SaveProjectAs(const std::string &pathname);
+		void CloseProject();
+		std::string GetProjectFilePath() { return mProjectFilePath; }
+
+		void NewScene();
+		bool LoadScene(const std::string &pathname);
+		bool SaveScene(const std::string &pathname);
+		bool SaveSceneAs(const std::string &pathname);
+		void CloseScene();
+
+		bool LoadUI(const std::string &pathname);
+		void CloseUI();
+
+	protected:
+		std::string _CalSavePath(const std::string &pathname);
+		bool _SaveSceneInternal(const std::string &pathname);
+
+		std::string mProjectFilePath;
+
 		// screen adjust
 	public:
 		void SetScreenSize(const Sizef &screenSize);
@@ -132,10 +162,16 @@ namespace PX2
 		void Tick();
 		float GetElapsedTime();
 
+		void AddTickCallback(TickCallback callback);
+		bool IsHasTickCallback(TickCallback callback);
+		void RemoveTickCallback(TickCallback callback);
+		void ClearTickCallbacks();
+
 	private:
 		double mAppTime;
 		double mLastAppTime;
 		double mElapsedTime;
+		std::vector<TickCallback> mTickCallbacks;
 
 		// Play
 	public:
@@ -164,6 +200,13 @@ namespace PX2
 		// Event
 	public:
 		void FireEventGeneralString(const std::string &str, float timeDelay=0.0f);
+
+		// SimuEventHandler
+		public:
+			SimuES_EventHandler *GetSimuES_EventHandler();
+
+		protected:
+			SimuES_EventHandlerPtr mSimuES_EventHandler;
 	};
 
 #include "PX2EngineLoop.inl"

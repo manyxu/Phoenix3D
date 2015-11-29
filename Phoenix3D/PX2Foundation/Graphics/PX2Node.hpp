@@ -79,7 +79,7 @@ namespace PX2
 		virtual void UpdateWorldBound ();
 
 		// 场景继承裁剪
-		virtual void GetVisibleSet (Culler& culler, bool noCull);
+		virtual void OnGetVisibleSet (Culler& culler, bool noCull);
 
 		// 孩子列表
 		std::vector<MovablePtr> mChild;

@@ -22,22 +22,22 @@ EditRenderView(RVT_SCENEUI)
 //----------------------------------------------------------------------------
 EditRenderView_UI::~EditRenderView_UI()
 {
-	if (mRenderStep)
+	if (mCanvas)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStep);
-		mRenderStep = 0;
+		PX2_GR.RemoveCanvass(mCanvas);
+		mCanvas = 0;
 	}
 
-	if (mRenderStepCtrl)
+	if (mCanvasCtrl)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStepCtrl);
-		mRenderStepCtrl = 0;
+		PX2_GR.RemoveCanvass(mCanvasCtrl);
+		mCanvasCtrl = 0;
 	}
 
-	if (mRenderStepCtrl1)
+	if (mCanvasCtrl1)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStepCtrl1);
-		mRenderStepCtrl1 = 0;
+		PX2_GR.RemoveCanvass(mCanvasCtrl1);
+		mCanvasCtrl1 = 0;
 	}
 }
 //----------------------------------------------------------------------------
@@ -56,12 +56,12 @@ void EditRenderView_UI::_CreateGridGeometry()
 	mRangeNode = new0 Node();
 	mRangeNode->AttachChild(mProjRangeSegment);
 
-	mRenderStepCtrl = new0 RenderStep();
-	mRenderStepCtrl->SetPriority(-5);
-	mRenderStepCtrl->SetName("UIRangeSegmentRenderStep");
-	mRenderStepCtrl->SetSizeChangeReAdjustCamera(false);
-	mRenderStepCtrl->SetNode(mRangeNode);
-	PX2_GR.AddRenderStep(mRenderStepCtrl->GetName().c_str(), mRenderStepCtrl);
+	mCanvasCtrl = new0 Canvas();
+	mCanvasCtrl->SetPriority(-5);
+	mCanvasCtrl->SetName("UIRangeSegmentCanvas");
+	mCanvasCtrl->SetSizeChangeReAdjustCamera(false);
+	mCanvasCtrl->AttachChild(mRangeNode);
+	PX2_GR.AddCanvas(mCanvasCtrl->GetName().c_str(), mCanvasCtrl);
 }
 //----------------------------------------------------------------------------
 void EditRenderView_UI::_CreateNodeCtrl()
@@ -73,12 +73,12 @@ void EditRenderView_UI::_CreateNodeCtrl()
 	mUIObjectNode->AttachChild(mUIObjectCtrl->GetCtrlsGroup());
 	mUIObjectNode->Update(Time::GetTimeInSeconds(), 0.0f, true);
 
-	mRenderStepCtrl1 = new0 RenderStep();
-	mRenderStepCtrl1->SetPriority(-10);
-	mRenderStepCtrl1->SetDoDepthClear(true);
-	mRenderStepCtrl1->SetName("UICtrlRenderStep");
-	mRenderStepCtrl1->SetNode(mUIObjectNode);
-	PX2_GR.AddRenderStep(mRenderStepCtrl1->GetName().c_str(), mRenderStepCtrl1);
+	mCanvasCtrl1 = new0 Canvas();
+	mCanvasCtrl1->SetPriority(-10);
+	mCanvasCtrl1->SetBeforeDrawClear(false,true, false);
+	mCanvasCtrl1->SetName("UICtrlCanvas");
+	mCanvasCtrl1->AttachChild(mUIObjectNode);
+	PX2_GR.AddCanvas(mCanvasCtrl1->GetName().c_str(), mCanvasCtrl1);
 }
 //----------------------------------------------------------------------------
 void EditRenderView_UI::_UpdateProjectRange()
@@ -112,8 +112,6 @@ void EditRenderView_UI::_AdjustCameraPercent()
 
 	float uiCameraPercent = proj->GetEdit_UICameraPercent();
 	Sizef size = Sizef(mSize.Width*uiCameraPercent, mSize.Height*uiCameraPercent);
-
-	proj->GetUIRenderStep()->SetCameraFrustumSize(size);
 }
 //----------------------------------------------------------------------------
 void EditRenderView_UI::OnSize(const Sizef& size)
@@ -135,7 +133,7 @@ void EditRenderView_UI::OnLeftDown(const APoint &pos)
 	_PickPos();
 
 	if (mUIObjectCtrl)
-		mUIObjectCtrl->OnLeftDown(mRenderStepCtrl1, pos);
+		mUIObjectCtrl->OnLeftDown(mCanvasCtrl1, pos);
 }
 //----------------------------------------------------------------------------
 void EditRenderView_UI::OnLeftUp(const APoint &pos)
@@ -143,7 +141,7 @@ void EditRenderView_UI::OnLeftUp(const APoint &pos)
 	EditRenderView::OnLeftUp(pos);
 
 	if (mUIObjectCtrl)
-		mUIObjectCtrl->OnLeftUp(mRenderStepCtrl1, pos);
+		mUIObjectCtrl->OnLeftUp(mCanvasCtrl1, pos);
 }
 //----------------------------------------------------------------------------
 void EditRenderView_UI::OnMiddleDown(const APoint &pos)
@@ -199,16 +197,16 @@ void EditRenderView_UI::OnMotion(const APoint &pos)
 		detalMove.X() *= mPixelToWorld.second;
 		detalMove.Z() *= mPixelToWorld.second;
 
-		UIView *uiView = PX2_PROJ.GetUIRenderStep();
+		UICanvas *uiCanvas = PX2_PROJ.GetUICanvas();
 
-		CameraNode *cameraNode = uiView->GetCameraNode();
+		CameraNode *cameraNode = uiCanvas->GetCameraNode();
 		APoint trans = cameraNode->LocalTransform.GetTranslate();
 		trans -= detalMove;
 
 		cameraNode->LocalTransform.SetTranslate(trans);
 
 		if (mUIObjectCtrl)
-			mUIObjectCtrl->OnMotion(mIsLeftDown, mRenderStepCtrl, curPos, lastPos);
+			mUIObjectCtrl->OnMotion(mIsLeftDown, mCanvasCtrl, curPos, lastPos);
 	}
 }
 //----------------------------------------------------------------------------
@@ -236,7 +234,7 @@ void EditRenderView_UI::_PickPos()
 {
 	APoint origin;
 	AVector direction;
-	mRenderStep->GetPickRay(mLastMousePoint.X(), mLastMousePoint.Z(), origin, direction);
+	mCanvas->GetPickRay(mLastMousePoint.X(), mLastMousePoint.Z(), origin, direction);
 
 	TriMesh *xzPlane = PX2_GR.GetXZPlane();
 

@@ -70,12 +70,18 @@ namespace PX2
 
 		std::vector<RenderablePtr> &GetPickedRenderables();
 
+		bool IsPressed() const;
+		const APoint &GetCurPickPos() const;
+		const APoint &GetPressedPos() const;
+		const APoint &GetReleasedPos() const;
+
 	public_internal:
-		std::list<UIFramePtr > mPickedFrames;
+		std::set<UIFramePtr > mPickedFrames;
 
 	protected:
 		void _DoPick(float x, float z, int pickInfo,
 			std::vector<RenderablePtr> &vec);
+		void _CollectFrames(Movable *mov, std::set<UIFramePtr> &frames);
 
 		Rectf mPickAcceptRect;
 
@@ -83,7 +89,9 @@ namespace PX2
 		float mMoveAdjugeParamSquare;
 
 		bool mIsPressed;
+		APoint mCurPickPos;
 		APoint mPressedPos;
+		APoint mReleasedPos;
 
 		std::vector<RenderablePtr> mPickedRenderables;
 		NotPickedCallback mNotPickedCallback;

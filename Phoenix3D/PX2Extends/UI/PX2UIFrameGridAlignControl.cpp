@@ -97,7 +97,7 @@ int UIFrameGridAlignControl::_UpdateAlignItems()
 		if (uiFrame)
 		{
 			frames.push_back(uiFrame);
-			uiFrame->SetPvoit(0.5f, 0.5f);
+			uiFrame->SetPivot(0.5f, 0.5f);
 		}
 	}
 

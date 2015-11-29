@@ -19,6 +19,7 @@ namespace PX2
 		virtual ~EU_ConcoleFrame();
 
 	protected:
+		UIFramePtr mToolFrame;
 		UIListPtr mList;
 	};
 

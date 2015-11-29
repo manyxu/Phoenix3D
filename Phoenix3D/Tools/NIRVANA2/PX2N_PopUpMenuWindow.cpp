@@ -23,3 +23,8 @@ void N_PopUpMenuWindow::Popup(wxWindow *focus)
 		CaptureMouse();
 }
 //----------------------------------------------------------------------------
+bool N_PopUpMenuWindow::ProcessLeftDown(wxMouseEvent& event)
+{
+	return false;
+}
+//----------------------------------------------------------------------------

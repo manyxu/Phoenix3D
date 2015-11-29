@@ -25,6 +25,8 @@ namespace PX2
 		bool HasValue (const std::string &key) const;
 		const std::string &GetValue (const std::string &key);
 		const std::string &GetValue (const std::string &key, int index);
+		const std::string &V(const std::string &key);
+		const std::string &V(const std::string &key, int index);
 		void Clear ();
 
 	protected:

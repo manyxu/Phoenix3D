@@ -235,9 +235,9 @@ void TerrainPage::RemoveJunglerPoints (Jungler *jungler, APoint center,
 	jungler->Remove(indexsRemoves);
 }
 //----------------------------------------------------------------------------
-void TerrainPage::GetVisibleSet (Culler& culler, bool noCull)
+void TerrainPage::OnGetVisibleSet (Culler& culler, bool noCull)
 {
-	TriMesh::GetVisibleSet(culler, noCull);
+	TriMesh::OnGetVisibleSet(culler, noCull);
 
 	for (int i=0; i<(int)mJunglers.size(); i++)
 	{

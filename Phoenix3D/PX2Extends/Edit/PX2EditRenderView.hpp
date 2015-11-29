@@ -6,7 +6,7 @@
 #include "PX2EditPre.hpp"
 #include "PX2Node.hpp"
 #include "PX2Renderable.hpp"
-#include "PX2RenderStep.hpp"
+#include "PX2Canvas.hpp"
 #include "PX2EditDefine.hpp"
 #include "PX2SceneNodeCtrl.hpp"
 #include "PX2Renderer.hpp"
@@ -29,7 +29,7 @@ namespace PX2
 		const Sizef &GetPt_Size() const;
 
 		virtual bool InitlizeRendererStep(const std::string &name);
-		bool IsRenderStepCreated() const;
+		bool IsCanvasCreated() const;
 
 	protected:
 		int mRenderViewID;
@@ -40,10 +40,10 @@ namespace PX2
 	public:
 		void SetRenderer(Renderer *renderer);
 		void SetCamera(Camera *camera);
-		virtual void SetRenderStep(RenderStep *rs);
-		RenderStep *GetRenderStep();
-		RenderStep *GetRenderStepCtrl();
-		RenderStep *GetRenderStepCtrl1();
+		virtual void SetCanvas(Canvas *rs);
+		Canvas *GetCanvas();
+		Canvas *GetCanvasCtrl();
+		Canvas *GetCanvasCtrl1();
 		virtual void Tick(double elapsedTime);
 
 		void Enable(bool enable);
@@ -55,10 +55,10 @@ namespace PX2
 	protected:
 		RendererInput *mRendererInput;
 		Renderer *mRenderer;
-		RenderStepPtr mRenderStep;
+		CanvasPtr mCanvas;
 
-		RenderStepPtr mRenderStepCtrl;
-		RenderStepPtr mRenderStepCtrl1;
+		CanvasPtr mCanvasCtrl;
+		CanvasPtr mCanvasCtrl1;
 		bool mIsRenderCreated;
 
 		bool mIsEnable;

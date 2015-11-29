@@ -7,7 +7,7 @@
 		~Edit();
 
 		bool Initlize();
-		bool Ternamate();
+		bool Terminate();
 		void Reset();
 
 	public:

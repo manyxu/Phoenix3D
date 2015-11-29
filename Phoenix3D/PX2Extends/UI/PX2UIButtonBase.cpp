@@ -18,7 +18,7 @@ UIButtonBase::~UIButtonBase()
 {
 }
 //----------------------------------------------------------------------------
-void UIButtonBase::SetPvoit(const Float2 &pvoit)
+void UIButtonBase::SetPivot(const Float2 &pvoit)
 {
 	if (mPicBoxNormal)
 		mPicBoxNormal->SetPivot(pvoit);
@@ -32,7 +32,7 @@ void UIButtonBase::SetPvoit(const Float2 &pvoit)
 	if (mPicBoxDisabled)
 		mPicBoxDisabled->SetPivot(pvoit);
 		
-	UIFrame::SetPvoit(pvoit);
+	UIFrame::SetPivot(pvoit);
 }
 //----------------------------------------------------------------------------
 void UIButtonBase::SetButtonState(ButtonState state)

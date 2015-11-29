@@ -507,7 +507,7 @@ void Node::UpdateWorldBound ()
     }
 }
 //----------------------------------------------------------------------------
-void Node::GetVisibleSet (Culler& culler, bool noCull)
+void Node::OnGetVisibleSet (Culler& culler, bool noCull)
 {
     std::vector<MovablePtr>::iterator iter = mChild.begin();
     std::vector<MovablePtr>::iterator end = mChild.end();
@@ -516,7 +516,7 @@ void Node::GetVisibleSet (Culler& culler, bool noCull)
         Movable* child = *iter;
         if (child)
         {
-            child->OnGetVisibleSet(culler, noCull);
+			child->GetVisibleSet(culler, noCull);
         }
     }
 }

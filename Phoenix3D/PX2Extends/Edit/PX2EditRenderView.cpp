@@ -35,19 +35,19 @@ bool EditRenderView::InitlizeRendererStep(const std::string &name)
 
 	mSize = mPt_Size;
 
-	mRenderStep = new0 RenderStep();
-	mRenderStep->SetName(name);
+	mCanvas = new0 Canvas();
+	mCanvas->SetName(name);
 
 	SetRenderer(mRenderer);
 
-	mRenderStep->SetSize(mSize);
+	mCanvas->SetSize(mSize);
 
 	mIsRenderCreated = true;
 	
 	return true;
 }
 //----------------------------------------------------------------------------
-bool EditRenderView::IsRenderStepCreated() const
+bool EditRenderView::IsCanvasCreated() const
 {
 	return mIsRenderCreated;
 }
@@ -61,7 +61,7 @@ EditRenderView::~EditRenderView()
 		delete0(mRenderer);
 		mRenderer = 0;
 
-		mRendererInput->Ternamate();
+		mRendererInput->Terminate();
 		delete0(mRendererInput);
 		mRendererInput = 0;
 	}
@@ -91,67 +91,67 @@ void EditRenderView::SetRenderer(Renderer *renderer)
 {
 	mRenderer = renderer;
 
-	if (mRenderStep)
-		mRenderStep->SetRenderer(renderer);
+	if (mCanvas)
+		mCanvas->SetRenderer(renderer);
 
-	if (mRenderStepCtrl)
-		mRenderStepCtrl->SetRenderer(renderer);
+	if (mCanvasCtrl)
+		mCanvasCtrl->SetRenderer(renderer);
 
-	if (mRenderStepCtrl1)
-		mRenderStepCtrl1->SetRenderer(renderer);
+	if (mCanvasCtrl1)
+		mCanvasCtrl1->SetRenderer(renderer);
 }
 //----------------------------------------------------------------------------
 void EditRenderView::SetCamera(Camera *camera)
 {
-	if (mRenderStep)
-		mRenderStep->SetCamera(camera);
+	if (mCanvas)
+		mCanvas->SetCamera(camera);
 
-	if (mRenderStepCtrl)
-		mRenderStepCtrl->SetCamera(camera);
+	if (mCanvasCtrl)
+		mCanvasCtrl->SetCamera(camera);
 	
-	if (mRenderStepCtrl1)
-		mRenderStepCtrl1->SetCamera(camera);
+	if (mCanvasCtrl1)
+		mCanvasCtrl1->SetCamera(camera);
 }
 //----------------------------------------------------------------------------
-void EditRenderView::SetRenderStep(RenderStep *rs)
+void EditRenderView::SetCanvas(Canvas *rs)
 {
-	mRenderStep = rs;
+	mCanvas = rs;
 }
 //----------------------------------------------------------------------------
-RenderStep *EditRenderView::GetRenderStep()
+Canvas *EditRenderView::GetCanvas()
 {
-	return mRenderStep;
+	return mCanvas;
 }
 //----------------------------------------------------------------------------
-RenderStep *EditRenderView::GetRenderStepCtrl()
+Canvas *EditRenderView::GetCanvasCtrl()
 {
-	return mRenderStepCtrl;
+	return mCanvasCtrl;
 }
 //----------------------------------------------------------------------------
-RenderStep *EditRenderView::GetRenderStepCtrl1()
+Canvas *EditRenderView::GetCanvasCtrl1()
 {
-	return mRenderStepCtrl1;
+	return mCanvasCtrl1;
 }
 //----------------------------------------------------------------------------
 void EditRenderView::Tick(double elapsedTime)
 {
 	//if (!IsEnable()) return;
 
-	if (mRenderStep && mIsRenderCreated)
+	if (mCanvas && mIsRenderCreated)
 	{
 		double tiemInSeconds = Time::GetTimeInSeconds();
 
-		mRenderStep->Update(tiemInSeconds, elapsedTime);
+		mCanvas->Update(tiemInSeconds, elapsedTime);
 
-		mRenderStep->ComputeVisibleSetAndEnv();
+		mCanvas->ComputeVisibleSetAndEnv();
 
-		Renderer *renderer = mRenderStep->GetRenderer();
+		Renderer *renderer = mCanvas->GetRenderer();
 		if (renderer && renderer->PreDraw())
 		{
 			renderer->InitRenderStates();
 			renderer->ClearBuffers();
 
-			mRenderStep->Draw();
+			mCanvas->Draw();
 
 			renderer->PostDraw();
 			renderer->DisplayColorBuffer();
@@ -163,19 +163,19 @@ void EditRenderView::Enable(bool enable)
 {
 	mIsEnable = enable;
 
-	if (mRenderStep)
+	if (mCanvas)
 	{
-		mRenderStep->Enable(enable);
+		mCanvas->Enable(enable);
 	}
 
-	if (mRenderStepCtrl)
+	if (mCanvasCtrl)
 	{
-		mRenderStepCtrl->Enable(enable);
+		mCanvasCtrl->Enable(enable);
 	}
 
-	if (mRenderStepCtrl1)
+	if (mCanvasCtrl1)
 	{
-		mRenderStepCtrl1->Enable(enable);
+		mCanvasCtrl1->Enable(enable);
 	}
 }
 //----------------------------------------------------------------------------
@@ -188,19 +188,19 @@ void EditRenderView::Show(bool show)
 {
 	mIsShow = show;
 
-	if (mRenderStep)
+	if (mCanvas)
 	{
-		mRenderStep->Show(show);
+		mCanvas->Show(show);
 	}
 
-	if (mRenderStepCtrl)
+	if (mCanvasCtrl)
 	{
-		mRenderStepCtrl->Show(show);
+		mCanvasCtrl->Show(show);
 	}
 
-	if (mRenderStepCtrl1)
+	if (mCanvasCtrl1)
 	{
-		mRenderStepCtrl1->Show(show);
+		mCanvasCtrl1->Show(show);
 	}
 }
 //----------------------------------------------------------------------------
@@ -213,14 +213,14 @@ void EditRenderView::OnSize(const Sizef& size)
 {
 	mSize = size;
 
-	if (mRenderStep)
-		mRenderStep->SetSize(mSize);
+	if (mCanvas)
+		mCanvas->SetSize(mSize);
 
-	if (mRenderStepCtrl)
-		mRenderStepCtrl->SetSize(mSize);
+	if (mCanvasCtrl)
+		mCanvasCtrl->SetSize(mSize);
 
-	if (mRenderStepCtrl1)
-		mRenderStepCtrl1->SetSize(mSize);
+	if (mCanvasCtrl1)
+		mCanvasCtrl1->SetSize(mSize);
 }
 //----------------------------------------------------------------------------
 void EditRenderView::OnLeftDown(const APoint &pos)
@@ -228,8 +228,8 @@ void EditRenderView::OnLeftDown(const APoint &pos)
 	mIsLeftDown = true;
 	mLastMousePoint = pos;
 
-	if (mRenderStepCtrl)
-		mPixelToWorld = mRenderStepCtrl->CalPixelToWorld();
+	if (mCanvasCtrl)
+		mPixelToWorld = mCanvasCtrl->CalPixelToWorld();
 }
 //----------------------------------------------------------------------------
 void EditRenderView::OnLeftUp(const APoint &pos)
@@ -248,8 +248,8 @@ void EditRenderView::OnMiddleDown(const APoint &pos)
 	mIsMiddleDown = true;
 	mLastMousePoint = pos;
 
-	if (mRenderStepCtrl)
-		mPixelToWorld = mRenderStepCtrl->CalPixelToWorld();
+	if (mCanvasCtrl)
+		mPixelToWorld = mCanvasCtrl->CalPixelToWorld();
 }
 //----------------------------------------------------------------------------
 void EditRenderView::OnMiddleUp(const APoint &pos)
@@ -268,8 +268,8 @@ void EditRenderView::OnRightDown(const APoint &pos)
 	mIsRightDown = true;
 	mLastMousePoint = pos;
 
-	if (mRenderStepCtrl)
-		mPixelToWorld = mRenderStepCtrl->CalPixelToWorld();
+	if (mCanvasCtrl)
+		mPixelToWorld = mCanvasCtrl->CalPixelToWorld();
 }
 //----------------------------------------------------------------------------
 void EditRenderView::OnRightUp(const APoint &pos)

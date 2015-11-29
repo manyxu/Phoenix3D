@@ -75,7 +75,7 @@ public_internal:
 
 	protected:
 		virtual void UpdateWorldData (double applicationTime, double elapsedTime);
-		virtual void GetVisibleSet (Culler& culler, bool);
+		virtual void OnGetVisibleSet (Culler& culler, bool);
 
 		SourceType mSourceType;
 		int mMusicChannel;

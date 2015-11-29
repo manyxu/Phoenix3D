@@ -42,7 +42,7 @@ namespace PX2
 		SortFun mSortFun;
 		int mNumVisible;
 		std::vector<Renderable*> mVisible;
-	};
+ 	};
 
 #include "PX2VisibleSet.inl"
 

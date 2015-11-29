@@ -20,20 +20,20 @@ namespace PX2
 		~TimeLineEdit();
 
 	public:
-		void SetTimeLineRenderStep_UIGroup(RenderStep *renderStep);
-		RenderStep *GetTimeLineRenderStep_UIGroup() const;
+		void SetTimeLineCanvas_UIGroup(Canvas *canvas);
+		Canvas *GetTimeLineCanvas_UIGroup() const;
 
-		void SetTimeLineRenderStep_Grid(RenderStep *renderStep);
-		RenderStep *GetTimeLineRenderStep_Grid() const;
+		void SetTimeLineCanvas_Grid(Canvas *canvas);
+		Canvas *GetTimeLineCanvas_Grid() const;
 
 		Node *GetCurveEditNode_Grid() { return mCurveEditNode_Grid; }
 		PX2::Polysegment *GetGridPoly() { return mGridPoly; }
 
 	protected:
-		RenderStepPtr mTimeLineRenderStep_UIGroup;
+		CanvasPtr mTimeLineCanvas_UIGroup;
 		UIFramePtr mCurveEditNode_UIGroup;
 
-		RenderStepPtr mTimeLineRenderStep_Grid;
+		CanvasPtr mTimeLineCanvas_Grid;
 		NodePtr mCurveEditNode_GridRoot;
 		NodePtr mCurveEditNode_Grid;
 
@@ -90,7 +90,7 @@ namespace PX2
 		void _AddGroup(CurveGroup *group);
 		int _GetNumGroups() const;
 
-		PX2::UICurveGroup *_GetUICurveGroupFormUIView(PX2::Node *frame, CurveGroup *group);
+		PX2::UICurveGroup *_GetUICurveGroupFormUICanvas(PX2::Node *frame, CurveGroup *group);
 
 		int mNumSamples;
 		float mMaxRange;

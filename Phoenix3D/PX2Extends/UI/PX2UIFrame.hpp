@@ -4,7 +4,7 @@
 #define PX2UIFRAME_HPP
 
 #include "PX2UIPre.hpp"
-#include "PX2Node.hpp"
+#include "PX2SizeNode.hpp"
 #include "PX2Size.hpp"
 #include "PX2UIDefine.hpp"
 #include "PX2InputPushTransformController.hpp"
@@ -14,9 +14,9 @@
 namespace PX2
 {
 
-	class UIView;
+	class UICanvas;
 
-	class PX2_EXTENDS_ITEM UIFrame : public Node
+	class PX2_EXTENDS_ITEM UIFrame : public SizeNode
 	{
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_PROPERTY;
@@ -26,96 +26,31 @@ namespace PX2
 		UIFrame();
 		virtual ~UIFrame();
 
-		typedef int (UIFrame::*MemUICallback)(UIFrame *frame, UICallType type);
+		typedef void (UIFrame::*MemUICallback)(UIFrame *frame, UICallType type);
 
 		virtual int AttachChild (Movable* child);
 
-	protected:
-		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
-
-		// Size
 	public:
-		void SetSize(float width, float height);
-		void SetSize(const Sizef &size);
-		const Sizef &GetSize() const;
-		void SetWidth(float width);
-		float GetWidth() const;
-		void SetHeight(float height);
-		float GetHeight() const;
-
-		void SetBorderSize(float width, float height);
-		void SetBorderSize(const Sizef &size);
-		const Sizef &GetBorderSize() const;
-		void SetBorderWidth(float width);
-		float GetBorderWidth() const;
-		void SetBorderHeight(float height);
-		float GetBorderHeight() const;
-
 		virtual void OnSizeChanged();
-		virtual void OnBorderSizeChanged();
+		virtual void OnPvoitChanged();
 
 		UIPicBox *CreateAddBackgroundPicBox();
 
 	protected:
-		Sizef mSize;
-		Sizef mBorderSize;
 		Pointer0<UIPicBox> mBackgroundPicBox;
-
-		// Pvoit
-	public:
-		void SetPvoit(float x, float y);
-		virtual void SetPvoit(const Float2 &pvoit);
-		const Float2 &GetPvoit() const;
-
-	protected:
-		Float2 mPvoit;
-
-		// Anchor Layout
-	public:
-		void EnableAnchorLayout(bool enable);
-		const bool IsAnchorLayoutEnable() const;
-
-		void SetAnchorHor(float anchorX, float anchorY);
-		void SetAnchorHor(const Float2 &anchor);
-		const Float2 &GetAnchorHor() const;
-		void SetAnchorParamHor(float param0, float param1);
-		void SetAnchorParamHor(const Float2 &param);
-		const Float2 &GetAnchorParamHor() const;
-
-		void SetAnchorVer(float anchorX, float anchorY);
-		void SetAnchorVer(const Float2 &anchor);
-		const Float2 &GetAnchorVer() const;
-		void SetAnchorParamVer(float param0, float param1);
-		void SetAnchorParamVer(const Float2 &param);
-		const Float2 &GetAnchorParamVer() const;
-
-	public_internal:
-		void MarkRelatvieChange();
-		AVector LeftBottomCornerOffset;
-
-	protected:
-		bool mIsAnchorLayoutEnable;
-		Float2 mAnchorHor;
-		Float2 mAnchorVer;
-		Float2 mAnchorParamHor;
-		Float2 mAnchorParamVer;
-
-	protected:
-		virtual void UpdateLayout();
-
-		bool mIsLayoutChanged;
 
 	public_internal:
 		// info为1表示Pressed，为2表示Released
-		virtual void OnChildPicked(int info, Movable *child);
-		virtual void OnChildUIAfterPicked(int info, Movable *child);
+		virtual void OnUIBeforePicked(int info);
+		virtual void OnUIPicked(int info, Movable *child);
+		virtual void OnUINotPicked(int info);
 
 		// calls
 	public:
 		void SetUICallback(UICallback callback);
 		UICallback GetUICallback() const;
 
-		void SetMemUIUICallback(UIFrame *object, MemUICallback callback);
+		void SetMemUICallback(UIFrame *object, MemUICallback callback);
 		MemUICallback GetMemUICallback() const;
 
 		void SetScriptHandler(const std::string &scriptHandler);
@@ -126,13 +61,6 @@ namespace PX2
 		UIFrame *mMemObject;
 		MemUICallback mMemUICallback;
 		std::string mUIScriptHandler;
-
-	public_internal:
-		void SetUIView(UIView *uiView);
-		UIView *GetUIView();
-
-	protected:
-		UIView *mUIView;
 
 		// InputTrans
 	public:

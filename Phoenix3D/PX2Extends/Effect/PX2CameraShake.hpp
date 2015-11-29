@@ -70,7 +70,7 @@ public_internal:
 		virtual void GenBuffers ();
 	
 	protected:
-		virtual void GetVisibleSet (Culler& culler, bool);
+		virtual void OnGetVisibleSet (Culler& culler, bool);
 
 		bool mIsUseX;
 		bool mIsUseY;

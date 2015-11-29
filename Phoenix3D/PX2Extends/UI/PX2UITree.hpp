@@ -26,11 +26,15 @@ namespace PX2
 
 		UIItem *GetRootItem();
 		UIItem *AddItem(UIItem *parentItem, const std::string &label);
+		void RemoveAllItemsExceptRoot();
+		void ShowRootItem(bool show);
+		bool IsShowRootItem() const;
 
 	protected:
 		float mItemHeight;
 		float mIconArrowSpace;
 		UIItemPtr mRootItem;
+		bool mIsShowRootItem;
 	};
 
 #include "PX2UITree.inl"

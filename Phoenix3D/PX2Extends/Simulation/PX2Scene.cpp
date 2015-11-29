@@ -81,10 +81,10 @@ void Scene::SetUseCameraActor(CameraActor *cameraActor)
 	Project *proj = Project::GetSingletonPtr();
 	if (proj && mCameraActor)
 	{
-		RenderStep *renderStep = proj->GetSceneRenderStep();
-		if (renderStep)
+		Canvas *canvas = proj->GetSceneCanvas();
+		if (canvas)
 		{
-			renderStep->SetCamera(mCameraActor->GetCamera());
+			canvas->SetCamera(mCameraActor->GetCamera());
 		}
 	}
 }

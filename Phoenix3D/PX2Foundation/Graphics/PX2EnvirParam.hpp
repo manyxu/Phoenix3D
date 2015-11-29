@@ -51,6 +51,8 @@ namespace PX2
 
 		// Fog
 	public:
+		// Float4(-10.0f, 0.0f, 0.0f, 120.0f);
+		// 高度从低到高，远度从近到远
 		void SetFogParam(const Float4 &param);
 		const Float4 &GetFogParam() const;
 		void SetFogColorHeight(const Float4 &fogColor);

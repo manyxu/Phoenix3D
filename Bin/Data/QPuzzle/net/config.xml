@@ -1,0 +1,3 @@
+<servers>
+	<server_walle name="server_walle" ip="10.67.83.36" wwwaddr="" port="8987" nummaxconnect="10"/>
+</servers>

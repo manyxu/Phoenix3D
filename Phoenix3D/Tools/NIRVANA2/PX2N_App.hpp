@@ -8,11 +8,12 @@
 namespace NA
 {
 
-	class N_MainFrame;
+	class N_Frame;
 	class N_PopUpMenuWindow;
 	class N_GeneralFrame;
+	class PX2::Event;
 
-	class N_App : public wxApp
+	class N_App : public wxApp, public PX2::EventHandler
 	{
 	public:
 		N_App();
@@ -21,9 +22,10 @@ namespace NA
 		virtual bool OnInit();
 		virtual int OnExit();
 
+		virtual void DoExecute(PX2::Event *event);
+
 	protected:
-		N_MainFrame *mMainFrame;
-		N_PopUpMenuWindow *mMainMenuWindow;
+		N_Frame *CreateMainFrame(const std::string &name);
 	};
 
 	DECLARE_APP(N_App)

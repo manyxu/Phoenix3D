@@ -294,7 +294,7 @@ void Soundable::UpdateWorldData(double applicationTime, double elapsedTime)
 	}
 }
 //----------------------------------------------------------------------------
-void Soundable::GetVisibleSet (Culler&, bool)
+void Soundable::OnGetVisibleSet (Culler&, bool)
 {
 	/* Nothing to do. */
 }

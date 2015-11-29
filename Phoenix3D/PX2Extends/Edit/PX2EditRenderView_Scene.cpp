@@ -39,22 +39,22 @@ mCurCameraMoveSpeed_D(0.0f)
 EditRenderView_Scene::~EditRenderView_Scene()
 {
 	// do not remove scene renderstep
-	//if (mRenderStep)
+	//if (mCanvas)
 	//{
-	//	PX2_GR.RemoveRenderStep(mRenderStep);
-	//	mRenderStep = 0;
+	//	PX2_GR.RemoveCanvas(mCanvas);
+	//	mCanvas = 0;
 	//}
 
-	//if (mRenderStepCtrl)
+	//if (mCanvasCtrl)
 	//{
-	//	PX2_GR.RemoveRenderSteps(mRenderStepCtrl);
-	//	mRenderStepCtrl = 0;
+	//	PX2_GR.RemoveCanvass(mCanvasCtrl);
+	//	mCanvasCtrl = 0;
 	//}
 
-	if (mRenderStepCtrl1)
+	if (mCanvasCtrl1)
 	{
-		PX2_GR.RemoveRenderSteps(mRenderStepCtrl1);
-		mRenderStepCtrl1 = 0;
+		PX2_GR.RemoveCanvass(mCanvasCtrl1);
+		mCanvasCtrl1 = 0;
 	}
 
 	if (mSceneNodeCtrl)
@@ -191,21 +191,21 @@ void EditRenderView_Scene::_CreateGridGeometry()
 	mGridNode->AttachChild(mGrid);
 	mGridNode->Update(Time::GetTimeInSeconds(), true);
 
-	mRenderStepCtrl = new0 RenderStep();
-	mRenderStepCtrl->SetPriority(30);
-	mRenderStepCtrl->SetName("SceneGridRenderStep");
-	mRenderStepCtrl->SetNode(mGridNode);
-	//PX2_GR.AddRenderStep(mRenderStepCtrl->GetName().c_str(), mRenderStepCtrl);
+	mCanvasCtrl = new0 Canvas();
+	mCanvasCtrl->SetPriority(30);
+	mCanvasCtrl->SetName("SceneGridCanvas");
+	mCanvasCtrl->AttachChild(mGridNode);
+	//PX2_GR.AddCanvas(mCanvasCtrl->GetName().c_str(), mCanvasCtrl);
 }
 //----------------------------------------------------------------------------
-void EditRenderView_Scene::SetRenderStep(RenderStep *rs)
+void EditRenderView_Scene::SetCanvas(Canvas *rs)
 {
-	EditRenderView::SetRenderStep(rs);
+	EditRenderView::SetCanvas(rs);
 
-	RenderStepScene *renderStepScene = DynamicCast<RenderStepScene>(rs);
+	SceneCanvas *renderStepScene = DynamicCast<SceneCanvas>(rs);
 	if (renderStepScene)
 	{
-		renderStepScene->SetHelpGridRenderStep(mRenderStepCtrl);
+		renderStepScene->SetHelpGridCanvas(mCanvasCtrl);
 	}
 }
 //----------------------------------------------------------------------------
@@ -226,7 +226,7 @@ void EditRenderView_Scene::_ClickSelectScene(const APoint &scrPos,
 	SelectMode mode)
 {
 	Scene *scene = PX2_PROJ.GetScene();
-	RenderStep *renderStep = PX2_PROJ.GetSceneRenderStep();
+	Canvas *canvas = PX2_PROJ.GetSceneCanvas();
 
 	// pre
 	std::map<Actor*, bool> actorsPickable;
@@ -242,7 +242,7 @@ void EditRenderView_Scene::_ClickSelectScene(const APoint &scrPos,
 
 	APoint origin;
 	AVector direction;
-	renderStep->GetPickRay(scrPos.X(), scrPos.Z(), origin, direction);
+	canvas->GetPickRay(scrPos.X(), scrPos.Z(), origin, direction);
 
 	ActorPicker actorPicker;
 	actorPicker.Execute(scene, origin, direction, 0.0f, Mathf::MAX_REAL);
@@ -303,11 +303,11 @@ void EditRenderView_Scene::_ClickSelectScene(const APoint &scrPos,
 void EditRenderView_Scene::_ClickSelectPos(const APoint &scrPos)
 {
 	Scene *scene = PX2_PROJ.GetScene();
-	RenderStep *renderStep = PX2_PROJ.GetSceneRenderStep();
+	Canvas *canvas = PX2_PROJ.GetSceneCanvas();
 
 	APoint origin;
 	AVector direction;
-	renderStep->GetPickRay(scrPos.X(), scrPos.Z(), origin, direction);
+	canvas->GetPickRay(scrPos.X(), scrPos.Z(), origin, direction);
 
 	ActorPicker actorPicker;
 	actorPicker.Execute(scene, origin, direction, 0.0f, Mathf::MAX_REAL);
@@ -352,7 +352,7 @@ void EditRenderView_Scene::OnLeftDown(const APoint &pos)
 	if (Edit::ET_SCENE == et)
 	{
 		if (mSceneNodeCtrl)
-			mSceneNodeCtrl->OnLeftDown(mRenderStepCtrl, pos);
+			mSceneNodeCtrl->OnLeftDown(mCanvasCtrl, pos);
 
 		SceneNodeCtrl::DragType dargType = mSceneNodeCtrl->GetDragType();
 		if (SceneNodeCtrl::DT_NONE == dargType)
@@ -375,7 +375,7 @@ void EditRenderView_Scene::OnLeftUp(const APoint &pos)
 	EditRenderView::OnLeftUp(pos);
 
 	if (mSceneNodeCtrl)
-		mSceneNodeCtrl->OnLeftUp(mRenderStepCtrl, pos);
+		mSceneNodeCtrl->OnLeftUp(mCanvasCtrl, pos);
 
 	Edit::EditMode em = PX2_EDIT.GetEditMode();
 	if ((Edit::EM_TRANSLATE == em || Edit::EM_ROLATE == em 
@@ -407,7 +407,7 @@ void EditRenderView_Scene::OnMouseWheel(float delta)
 	_ZoomCamera(delta1);
 
 	if (mSceneNodeCtrl)
-		mSceneNodeCtrl->OnMouseWheel(mRenderStepCtrl, delta);
+		mSceneNodeCtrl->OnMouseWheel(mCanvasCtrl, delta);
 }
 //----------------------------------------------------------------------------
 void EditRenderView_Scene::OnRightDown(const APoint &pos)
@@ -491,7 +491,7 @@ void EditRenderView_Scene::OnMotion(const APoint &pos)
 	if ((Edit::EM_TRANSLATE == em || Edit::EM_ROLATE == em || Edit::EM_SCALE == em))
 	{
 		if (mSceneNodeCtrl)
-			mSceneNodeCtrl->OnMotion(mIsLeftDown, mRenderStepCtrl, curPos, lastPos);
+			mSceneNodeCtrl->OnMotion(mIsLeftDown, mCanvasCtrl, curPos, lastPos);
 
 		if (mIsLeftDown)
 		{
@@ -588,8 +588,8 @@ void EditRenderView_Scene::_PanCamera(const float &horz, const float &vert)
 //----------------------------------------------------------------------------
 void EditRenderView_Scene::_ZoomCamera(float zoom)
 {
-	RenderStep *renderStep = PX2_PROJ.GetSceneRenderStep();
-	const Sizef &size = renderStep->GetSize();
+	Canvas *canvas = PX2_PROJ.GetSceneCanvas();
+	const Sizef &size = canvas->GetSize();
 
 	Scene *scene = PX2_PROJ.GetScene();
 	if (!scene) return;
@@ -749,12 +749,12 @@ void EditRenderView_Scene::_CreateNodeCtrl()
 
 	mSceneCtrlNode->AttachChild(PX2_EDIT.GetHelpNode());
 
-	mRenderStepCtrl1 = new0 RenderStep();
-	mRenderStepCtrl1->SetPriority(-5);
-	mRenderStepCtrl1->SetDoDepthClear(true);
-	mRenderStepCtrl1->SetName("SceneCtrlNodeRenderStep");
-	mRenderStepCtrl1->SetNode(mSceneCtrlNode);
-	PX2_GR.AddRenderStep(mRenderStepCtrl1->GetName().c_str(), mRenderStepCtrl1);
+	mCanvasCtrl1 = new0 Canvas();
+	mCanvasCtrl1->SetPriority(-5);
+	mCanvasCtrl1->SetBeforeDrawClear(false, true, false);
+	mCanvasCtrl1->SetName("SceneCtrlNodeCanvas");
+	mCanvasCtrl1->AttachChild(mSceneCtrlNode);
+	PX2_GR.AddCanvas(mCanvasCtrl1->GetName().c_str(), mCanvasCtrl1);
 }
 //----------------------------------------------------------------------------
 void EditRenderView_Scene::_UpdateBrushPos(const APoint &pos)
@@ -772,7 +772,7 @@ void EditRenderView_Scene::_UpdateBrushPos(const APoint &pos)
 
 	APoint origin;
 	AVector dir;
-	mRenderStep->GetPickRay(pos.X(), pos.Z(), origin, dir);
+	mCanvas->GetPickRay(pos.X(), pos.Z(), origin, dir);
 
 	Movable *pickObject = terrain;
 

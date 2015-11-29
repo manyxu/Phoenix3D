@@ -27,7 +27,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -47,6 +47,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>PX2Foundation</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -54,7 +57,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;WIN32_LEAN_AND_MEAN;FT2_BUILD_LIBRARY;PX2_FOUNDATION_DLL_EXPORT;PX2_USE_DX9;PX2_USE_FMOD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;WIN32_LEAN_AND_MEAN;FT2_BUILD_LIBRARY;PX2_FOUNDATION_DLL_EXPORT;PX2_USE_DX9;PX2_USE_FMOD;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./;./Core;./Core/RapidXML;./Mathematics;./Graphics;./Graphics/Renderers/Dx9Renderer;./Unity;./Unity/ZLib;./Unity/ZLib/minzip;./Unity/Lua;./Unity/ToLua;./Unity/SoundFMod;./Unity/ImageLibs/PNG;./Unity/FreeType;./Unity/FreeType/include;./Unity/FreeType/include/freetype;./Unity/FreeType/include/config;./Unity/FreeType/include/internal;./Unity/FreeType/src/base;./Unity/FreeType/src/autofit;./Unity/FreeType/src/cff;./Unity/FreeType/src/pshinter;./Unity/FreeType/src/psnames;./Unity/FreeType/src/truetype;./Unity/FreeType/src/smooth;./Unity/FreeType/src/sfnt;./Unity/FreeType/src/raster;./Unity/CURL/config;./Unity/CURL/config/win32;./Unity/CURL/src;./Net;./Net/google/vsprojects;../ThirdPartiesLibs/Microsoft DirectX SDK June 2010/Include;../ThirdPartiesLibs/FMOD/FMOD Studio API Windows/api/lowlevel/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
@@ -84,20 +87,54 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;PX2FOUNDATION_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;WIN32_LEAN_AND_MEAN;FT2_BUILD_LIBRARY;PX2_FOUNDATION_DLL_EXPORT;PX2_USE_DX9;PX2_USE_FMOD;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;./Core;./Core/RapidXML;./Mathematics;./Graphics;./Graphics/Renderers/Dx9Renderer;./Unity;./Unity/ZLib;./Unity/ZLib/minzip;./Unity/Lua;./Unity/ToLua;./Unity/SoundFMod;./Unity/ImageLibs/PNG;./Unity/FreeType;./Unity/FreeType/include;./Unity/FreeType/include/freetype;./Unity/FreeType/include/config;./Unity/FreeType/include/internal;./Unity/FreeType/src/base;./Unity/FreeType/src/autofit;./Unity/FreeType/src/cff;./Unity/FreeType/src/pshinter;./Unity/FreeType/src/psnames;./Unity/FreeType/src/truetype;./Unity/FreeType/src/smooth;./Unity/FreeType/src/sfnt;./Unity/FreeType/src/raster;./Unity/CURL/config;./Unity/CURL/config/win32;./Unity/CURL/src;./Net;./Net/google/vsprojects;../ThirdPartiesLibs/Microsoft DirectX SDK June 2010/Include;../ThirdPartiesLibs/FMOD/FMOD Studio API Windows/api/lowlevel/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\ThirdPartiesLibs\Microsoft DirectX SDK June 2010\Lib\x86;..\ThirdPartiesLibs\FMOD\FMOD Studio API Windows\api\lowlevel\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxerr.lib;dinput8.lib;dxguid.lib;fmod_vc.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>mkdir ..\PX2SDK\Include
+
+xcopy /DY .\Core\*.hpp ..\PX2SDK\Include
+
+xcopy /DY .\Core\*.inl ..\PX2SDK\Include
+
+xcopy /DY .\Mathematics\*.hpp ..\PX2SDK\Include
+
+xcopy /DY .\Mathematics\*.inl ..\PX2SDK\Include
+
+xcopy /DY .\Graphics\*.hpp ..\PX2SDK\Include
+
+xcopy /DY .\Graphics\*.inl ..\PX2SDK\Include
+
+xcopy /DY .\Unity\*.hpp ..\PX2SDK\Include
+
+xcopy /DY .\Unity\*.inl ..\PX2SDK\Include
+
+xcopy /DY .\Net\*.hpp ..\PX2SDK\Include
+
+xcopy /DY .\Net\*.inl ..\PX2SDK\Include
+
+mkdir ..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+
+xcopy /DY "$(TargetPath)" ..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+
+xcopy /DY "$(OutDir)$(TargetName).lib" ..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+
+xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Core\PX2Any.hpp" />
@@ -261,6 +298,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Graphics\PX2LightSpotConstant.hpp" />
     <ClInclude Include="Graphics\PX2LightWorldDVectorConstant.hpp" />
     <ClInclude Include="Graphics\PX2LightWorldPositionConstant.hpp" />
+    <ClInclude Include="Graphics\PX2LinearDepthMaterial.hpp" />
     <ClInclude Include="Graphics\PX2Material.hpp" />
     <ClInclude Include="Graphics\PX2MaterialInstance.hpp" />
     <ClInclude Include="Graphics\PX2MaterialManager.hpp" />
@@ -286,7 +324,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Graphics\PX2Renderer.hpp" />
     <ClInclude Include="Graphics\PX2RendererInput.hpp" />
     <ClInclude Include="Graphics\PX2Renderers.hpp" />
-    <ClInclude Include="Graphics\PX2RenderStep.hpp" />
+    <ClInclude Include="Graphics\PX2Canvas.hpp" />
     <ClInclude Include="Graphics\PX2RenderTarget.hpp" />
     <ClInclude Include="Graphics\PX2ScreenTarget.hpp" />
     <ClInclude Include="Graphics\PX2Shader.hpp" />
@@ -300,6 +338,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Graphics\PX2ShineDiffuseConstant.hpp" />
     <ClInclude Include="Graphics\PX2ShineEmissiveConstant.hpp" />
     <ClInclude Include="Graphics\PX2ShineSpecularConstant.hpp" />
+    <ClInclude Include="Graphics\PX2SizeNode.hpp" />
     <ClInclude Include="Graphics\PX2SkinController.hpp" />
     <ClInclude Include="Graphics\PX2SkinMatrixConstant.hpp" />
     <ClInclude Include="Graphics\PX2SpecializedIO.hpp" />
@@ -415,7 +454,6 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Mathematics\PX2Vector2.hpp" />
     <ClInclude Include="Mathematics\PX2Vector3.hpp" />
     <ClInclude Include="Mathematics\PX2Vector4.hpp" />
-    <ClInclude Include="Net\google\protobuf\arena.h" />
     <ClInclude Include="Net\google\protobuf\arenastring.h" />
     <ClInclude Include="Net\google\protobuf\descriptor.h" />
     <ClInclude Include="Net\google\protobuf\descriptor.pb.h" />
@@ -434,7 +472,6 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Net\google\protobuf\io\zero_copy_stream.h" />
     <ClInclude Include="Net\google\protobuf\io\zero_copy_stream_impl.h" />
     <ClInclude Include="Net\google\protobuf\io\zero_copy_stream_impl_lite.h" />
-    <ClInclude Include="Net\google\protobuf\map_field.h" />
     <ClInclude Include="Net\google\protobuf\message.h" />
     <ClInclude Include="Net\google\protobuf\message_lite.h" />
     <ClInclude Include="Net\google\protobuf\package_info.h" />
@@ -455,11 +492,12 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Net\google\protobuf\stubs\template_util.h" />
     <ClInclude Include="Net\google\protobuf\stubs\type_traits.h" />
     <ClInclude Include="Net\google\protobuf\testing\file.h" />
-    <ClInclude Include="Net\google\protobuf\testing\googletest.h" />
     <ClInclude Include="Net\google\protobuf\text_format.h" />
+    <ClInclude Include="Net\google\protobuf\unknown_field_set.h" />
     <ClInclude Include="Net\google\protobuf\wire_format.h" />
     <ClInclude Include="Net\google\protobuf\wire_format_lite.h" />
     <ClInclude Include="Net\google\protobuf\wire_format_lite_inl.h" />
+    <ClInclude Include="Net\PX2ClientContext.hpp" />
     <ClInclude Include="Net\PX2DNS.hpp" />
     <ClInclude Include="Net\PX2HostEntry.hpp" />
     <ClInclude Include="Net\PX2IPAddress.hpp" />
@@ -474,15 +512,21 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Net\PX2NetError.hpp" />
     <ClInclude Include="Net\PX2NetEventBuffer.hpp" />
     <ClInclude Include="Net\PX2NetInitTerm.hpp" />
-    <ClInclude Include="Net\PX2NetIocpOverlapBuffer.h" />
+    <ClInclude Include="Net\PX2NetServerBuffer.hpp" />
     <ClInclude Include="Net\PX2NetPre.hpp" />
     <ClInclude Include="Net\PX2NetServer.hpp" />
     <ClInclude Include="Net\PX2NetServerImp.hpp" />
     <ClInclude Include="Net\PX2NetServerIocp.hpp" />
+    <ClInclude Include="Net\PX2NetServerPoll.hpp" />
+    <ClInclude Include="Net\PX2ServerDBManager.hpp" />
     <ClInclude Include="Net\PX2ServerInfo.hpp" />
     <ClInclude Include="Net\PX2ServerInfoManager.hpp" />
+    <ClInclude Include="Net\PX2ServerLoop.hpp" />
+    <ClInclude Include="Net\PX2ServerPre.hpp" />
     <ClInclude Include="Net\PX2ServerSocket.hpp" />
     <ClInclude Include="Net\PX2ServerSocketImpl.hpp" />
+    <ClInclude Include="Net\PX2ServerUser.hpp" />
+    <ClInclude Include="Net\PX2ServerUserManager.hpp" />
     <ClInclude Include="Net\PX2Socket.hpp" />
     <ClInclude Include="Net\PX2SocketAddress.hpp" />
     <ClInclude Include="Net\PX2SocketAddressImpl.hpp" />
@@ -549,6 +593,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Unity\PX2PluginManager.hpp" />
     <ClInclude Include="Unity\PX2ResourceManager.hpp" />
     <ClInclude Include="Unity\PX2ResourceUpdate.hpp" />
+    <ClInclude Include="Unity\PX2Serial.hpp" />
     <ClInclude Include="Unity\PX2Sound.hpp" />
     <ClInclude Include="Unity\PX2SoundSystem.hpp" />
     <ClInclude Include="Unity\PX2Unity.hpp" />
@@ -707,6 +752,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Graphics\PX2LightSpotConstant.cpp" />
     <ClCompile Include="Graphics\PX2LightWorldDVectorConstant.cpp" />
     <ClCompile Include="Graphics\PX2LightWorldPositionConstant.cpp" />
+    <ClCompile Include="Graphics\PX2LinearDepthMaterial.cpp" />
     <ClCompile Include="Graphics\PX2Material.cpp" />
     <ClCompile Include="Graphics\PX2MaterialInstance.cpp" />
     <ClCompile Include="Graphics\PX2MaterialManager.cpp" />
@@ -731,7 +777,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Graphics\PX2Renderable.cpp" />
     <ClCompile Include="Graphics\PX2Renderer.cpp" />
     <ClCompile Include="Graphics\PX2RendererInput.cpp" />
-    <ClCompile Include="Graphics\PX2RenderStep.cpp" />
+    <ClCompile Include="Graphics\PX2Canvas.cpp" />
     <ClCompile Include="Graphics\PX2RenderTarget.cpp" />
     <ClCompile Include="Graphics\PX2ScreenTarget.cpp" />
     <ClCompile Include="Graphics\PX2Shader.cpp" />
@@ -744,6 +790,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Graphics\PX2ShineDiffuseConstant.cpp" />
     <ClCompile Include="Graphics\PX2ShineEmissiveConstant.cpp" />
     <ClCompile Include="Graphics\PX2ShineSpecularConstant.cpp" />
+    <ClCompile Include="Graphics\PX2SizeNode.cpp" />
     <ClCompile Include="Graphics\PX2SkinController.cpp" />
     <ClCompile Include="Graphics\PX2SkinMatrixConstant.cpp" />
     <ClCompile Include="Graphics\PX2SpecializedIO.cpp" />
@@ -837,8 +884,6 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Mathematics\PX2Vector2.cpp" />
     <ClCompile Include="Mathematics\PX2Vector3.cpp" />
     <ClCompile Include="Mathematics\PX2Vector4.cpp" />
-    <ClCompile Include="Net\google\protobuf\arena.cc" />
-    <ClCompile Include="Net\google\protobuf\arenastring.cc" />
     <ClCompile Include="Net\google\protobuf\descriptor.cc" />
     <ClCompile Include="Net\google\protobuf\descriptor.pb.cc" />
     <ClCompile Include="Net\google\protobuf\descriptor_database.cc" />
@@ -855,7 +900,6 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Net\google\protobuf\io\zero_copy_stream.cc" />
     <ClCompile Include="Net\google\protobuf\io\zero_copy_stream_impl.cc" />
     <ClCompile Include="Net\google\protobuf\io\zero_copy_stream_impl_lite.cc" />
-    <ClCompile Include="Net\google\protobuf\map_field.cc" />
     <ClCompile Include="Net\google\protobuf\message.cc" />
     <ClCompile Include="Net\google\protobuf\message_lite.cc" />
     <ClCompile Include="Net\google\protobuf\reflection_ops.cc" />
@@ -866,15 +910,14 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Net\google\protobuf\stubs\once.cc" />
     <ClCompile Include="Net\google\protobuf\stubs\stringprintf.cc" />
     <ClCompile Include="Net\google\protobuf\stubs\structurally_valid.cc" />
-    <ClCompile Include="Net\google\protobuf\stubs\structurally_valid.cpp" />
     <ClCompile Include="Net\google\protobuf\stubs\strutil.cc" />
     <ClCompile Include="Net\google\protobuf\stubs\substitute.cc" />
     <ClCompile Include="Net\google\protobuf\testing\file.cc" />
-    <ClCompile Include="Net\google\protobuf\testing\googletest.cc" />
     <ClCompile Include="Net\google\protobuf\text_format.cc" />
     <ClCompile Include="Net\google\protobuf\unknown_field_set.cc" />
     <ClCompile Include="Net\google\protobuf\wire_format.cc" />
     <ClCompile Include="Net\google\protobuf\wire_format_lite.cc" />
+    <ClCompile Include="Net\PX2ClientContext.cpp" />
     <ClCompile Include="Net\PX2DNS.cpp" />
     <ClCompile Include="Net\PX2HostEntry.cpp" />
     <ClCompile Include="Net\PX2IPAddress.cpp" />
@@ -887,14 +930,19 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Net\PX2NetError.cpp" />
     <ClCompile Include="Net\PX2NetEventBuffer.cpp" />
     <ClCompile Include="Net\PX2NetInitTerm.cpp" />
-    <ClCompile Include="Net\PX2NetIocpOverlapBuffer.cpp" />
+    <ClCompile Include="Net\PX2NetServerBuffer.cpp" />
     <ClCompile Include="Net\PX2NetServer.cpp" />
     <ClCompile Include="Net\PX2NetServerImp.cpp" />
     <ClCompile Include="Net\PX2NetServerIocp.cpp" />
+    <ClCompile Include="Net\PX2NetServerPoll.cpp" />
+    <ClCompile Include="Net\PX2ServerDBManager.cpp" />
     <ClCompile Include="Net\PX2ServerInfo.cpp" />
     <ClCompile Include="Net\PX2ServerInfoManager.cpp" />
+    <ClCompile Include="Net\PX2ServerLoop.cpp" />
     <ClCompile Include="Net\PX2ServerSocket.cpp" />
     <ClCompile Include="Net\PX2ServerSocketImpl.cpp" />
+    <ClCompile Include="Net\PX2ServerUser.cpp" />
+    <ClCompile Include="Net\PX2ServerUserManager.cpp" />
     <ClCompile Include="Net\PX2Socket.cpp" />
     <ClCompile Include="Net\PX2SocketAddress.cpp" />
     <ClCompile Include="Net\PX2SocketAddressImpl.cpp" />
@@ -991,6 +1039,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Unity\PX2PluginManager.cpp" />
     <ClCompile Include="Unity\PX2ResourceManager.cpp" />
     <ClCompile Include="Unity\PX2ResourceUpdate.cpp" />
+    <ClCompile Include="Unity\PX2Serial.cpp" />
     <ClCompile Include="Unity\PX2Sound.cpp" />
     <ClCompile Include="Unity\PX2SoundSystem.cpp" />
     <ClCompile Include="Unity\SoundFMod\PX2FMODSound.cpp" />
@@ -1092,11 +1141,12 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="Graphics\PX2PushTransformController.inl" />
     <None Include="Graphics\PX2Renderable.inl" />
     <None Include="Graphics\PX2Renderer.inl" />
-    <None Include="Graphics\PX2RenderStep.inl" />
+    <None Include="Graphics\PX2Canvas.inl" />
     <None Include="Graphics\PX2RenderTarget.inl" />
     <None Include="Graphics\PX2Shader.inl" />
     <None Include="Graphics\PX2ShaderFloat.inl" />
     <None Include="Graphics\PX2ShaderParameters.inl" />
+    <None Include="Graphics\PX2SizeNode.inl" />
     <None Include="Graphics\PX2SkinController.inl" />
     <None Include="Graphics\PX2SwitchNode.inl" />
     <None Include="Graphics\PX2TargetTransformController.inl" />
@@ -1150,6 +1200,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="Net\PX2NetClientConnector.inl" />
     <None Include="Net\PX2NetEventBuffer.inl" />
     <None Include="Net\PX2NetServerIocp.inl" />
+    <None Include="Net\PX2ServerUser.inl" />
     <None Include="Net\PX2Socket.inl" />
     <None Include="Net\PX2SocketImpl.inl" />
     <None Include="Unity\Lua\Makefile" />

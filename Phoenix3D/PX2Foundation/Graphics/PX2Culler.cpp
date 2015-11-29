@@ -9,7 +9,9 @@ using namespace PX2;
 Culler::Culler (const Camera* camera) :
 mCamera(camera),
 mPlaneQuantity(6),
-mFlag_CastShadow(0)
+mFlag_CastShadow(0),
+mCurCullingScene(0),
+mIsInternalCanvas(false)
 {
 }
 //----------------------------------------------------------------------------
@@ -135,17 +137,33 @@ bool Culler::IsVisible (const Bound& bound)
 	return true;
 }
 //----------------------------------------------------------------------------
+void Culler::Clear()
+{
+	mVisibleSet.Clear();
+	mVisibleCanvas.clear();
+}
+//----------------------------------------------------------------------------
 void Culler::ComputeVisibleSet (Movable* scene)
 {
 	if (mCamera && scene)
 	{
+		mCurCullingScene = scene;
+
 		SetFrustum(mCamera->GetFrustum());
 		mVisibleSet.Clear();
-		scene->OnGetVisibleSet(*this, false);
+		mVisibleCanvas.clear();
+		scene->GetVisibleSet(*this, false);
+
+		mCurCullingScene = 0;
 	}
 	else
 	{
 		assertion(false, "A camera and a scene are required for culling\n");
 	}
+}
+//----------------------------------------------------------------------------
+void Culler::SetInternalCanvas(bool isInternal)
+{
+	mIsInternalCanvas = isInternal;
 }
 //----------------------------------------------------------------------------

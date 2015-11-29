@@ -18,7 +18,7 @@ namespace PX2
 		PdrRendererInput();
 		virtual ~PdrRendererInput();
 
-		virtual bool Ternamate();
+		virtual bool Terminate();
 
 		IDirect3D9* mDriver;
 		HWND mWindowHandle;

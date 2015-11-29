@@ -92,7 +92,7 @@ namespace PX2
 		virtual void OnForceBind();
 
 	public_internal:
-		void UIAfterPicked(int info);
+		void UIPicked(int info);
 
 	protected:
 		void _Init();
@@ -102,9 +102,6 @@ namespace PX2
 		void UpdateVertexBuffer(float elapsedTime, const std::vector<Float2> &uvs);
 		void UpdateIndexBuffer();
 		void ReCreateVBuffer();
-
-		virtual void OnPicked(int info);
-		virtual void OnNotPicked(int pickInfo);
 
 		bool mIsDynamic;
 

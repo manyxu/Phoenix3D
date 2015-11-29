@@ -1,7 +1,7 @@
 // PX2UISplitterFrame.cpp
 
 #include "PX2UISplitterFrame.hpp"
-#include "PX2UIView.hpp"
+#include "PX2UICanvas.hpp"
 #include "PX2InputManager.hpp"
 #include "PX2UISkinManager.hpp"
 #include "PX2UIAuiBlockFrame.hpp"
@@ -199,11 +199,22 @@ void UISplitterFrame::UpdateWorldData(double applicationTime, double elapsedTime
 	UIFrame::UpdateWorldData(applicationTime, elapsedTime);
 }
 //----------------------------------------------------------------------------
-void UISplitterFrame::OnChildPicked(int info, Movable *child)
+void UISplitterFrame::OnNotPicked(int info)
+{
+	//if (mIsDraging)
+	//{
+	//	if (UIPT_PRESSED == info || UIPT_RELEASED==info)
+	//	{
+	//		SetDraging(false);
+	//	}
+	//}
+}
+//----------------------------------------------------------------------------
+void UISplitterFrame::OnUIPicked(int info, Movable *child)
 {
 	if (!IsEnable()) return;
 
-	UIFrame::OnChildPicked(info, child);
+	UIFrame::OnUIPicked(info, child);
 
 	if (UIPT_PRESSED == info)
 	{
@@ -220,17 +231,6 @@ void UISplitterFrame::OnChildPicked(int info, Movable *child)
 	}
 }
 //----------------------------------------------------------------------------
-void UISplitterFrame::OnNotPicked(int info)
-{
-	if (mIsDraging)
-	{
-		if (UIPT_PRESSED == info || UIPT_RELEASED==info)
-		{
-			SetDraging(false);
-		}
-	}
-}
-//----------------------------------------------------------------------------
 void UISplitterFrame::DoExecute(Event *event)
 {
 	if (InputEventSpace::IsEqual(event, InputEventSpace::MouseMoved) ||
@@ -243,18 +243,19 @@ void UISplitterFrame::DoExecute(Event *event)
 			UIFrame *parent = DynamicCast<UIFrame>(GetParent());
 			Sizef parSize = parent->GetSize();
 
-			UIFrame *topestParent = DynamicCast<UIFrame>(GetTopestParent());
-			if (topestParent)
+			Movable *mov = GetFirstParentDerivedFromType(UICanvas::TYPE);
+			UICanvas *uiCanvas = DynamicCast<UICanvas>(mov);
+			if (uiCanvas)
 			{
-				UIView *uiView = topestParent->GetUIView();
-				if (uiView)
+				int viewID = uiCanvas->GetViewID();
+				InputEventListener *iel = PX2_INPUTMAN.GetInputListener(viewID);
+				if (iel)
 				{
-					InputEventData &ied = PX2_INPUTMAN.GetDefaultListener()
-						->mCurInputEventData;
+					InputEventData &ied = iel->mCurInputEventData;
 
 					APoint origin;
 					AVector direction;
-					if (uiView->GetPickRay(ied.MTPos.X(), ied.MTPos.Z(),
+					if (uiCanvas->GetPickRay(ied.MTPos.X(), ied.MTPos.Z(),
 						origin, direction))
 					{
 						Transform inverTrans = parent->WorldTransform.InverseTransform();
@@ -265,17 +266,19 @@ void UISplitterFrame::DoExecute(Event *event)
 							float framePosOrigin = parent->LeftBottomCornerOffset.Z() + parSize.Height * GetAnchorVer()[0];
 							float paramZ = localPos.Z() - framePosOrigin;
 
-							//if (mSideFrame0 && mSideFrame1)
+							float beforeParamVer = GetAnchorParamVer()[0];
+							SetAnchorParamVer(Float2(paramZ, 0.0f));
+
+							UpdateWorldData(Time::GetTimeInSeconds(), 0.0);
+							bool isCanMake = _IsCanMakeBlcokFramesChange();
+							if (isCanMake)
 							{
-								//float botPending = sizeSP*0.5f + sizeSP * (1.0f-mSideFrame0->GetPvoit()[1]);
-								//float topPending = sizeSP*0.5f + sizeSP * mSideFrame1->GetPvoit()[1];
-
-								//if (localPos.Z()>(mSideFrame0->LocalTransform.GetTranslate().Z() + botPending) &&
-								//	localPos.Z()<(mSideFrame1->LocalTransform.GetTranslate().Z() - topPending))
-									SetAnchorParamVer(Float2(paramZ, 0.0f));
-
 								_MarkLinkMeFramesChange();
 								_MarkBlockFramesChange();
+							}
+							else
+							{
+								SetAnchorParamVer(Float2(beforeParamVer, 0.0f));
 							}
 						}
 						else
@@ -283,22 +286,31 @@ void UISplitterFrame::DoExecute(Event *event)
 							float framePosOrigin = parent->LeftBottomCornerOffset.X() + parSize.Width * GetAnchorHor()[0];
 							float paramX = localPos.X() - framePosOrigin;
 
-							//if (mSideFrame0 && mSideFrame1)
-							{
-								//float leftPending = sizeSP*0.5f + sizeSP * (1.0f-mSideFrame0->GetPvoit()[0]);
-								//float rightPending = sizeSP*0.5f + sizeSP * mSideFrame1->GetPvoit()[0];
+							float beforeParamHor = GetAnchorParamHor()[0];
+							SetAnchorParamHor(Float2(paramX, 0.0f));
 
-								//if (localPos.X()>(mSideFrame0->LocalTransform.GetTranslate().X() + leftPending) &&
-								//	localPos.X()<(mSideFrame1->LocalTransform.GetTranslate().X() - rightPending))
-									SetAnchorParamHor(Float2(paramX, 0.0f));
-								
+							UpdateWorldData(Time::GetTimeInSeconds(), 0.0);
+							bool isCanMake = _IsCanMakeBlcokFramesChange();
+							if (isCanMake)
+							{
 								_MarkLinkMeFramesChange();
 								_MarkBlockFramesChange();
+							}
+							else
+							{
+								SetAnchorParamHor(Float2(beforeParamHor, 0.0f));
 							}
 						}
 					}
 				}
 			}
+		}
+	}
+	else if (InputEventSpace::IsEqual(event, InputEventSpace::MouseReleased))
+	{
+		if (IsDraging())
+		{
+			SetDraging(false);
 		}
 	}
 }
@@ -352,11 +364,34 @@ void UISplitterFrame::_RemoveAuiBlockFrame(UIAuiBlockFrame *blockframe)
 	}
 }
 //----------------------------------------------------------------------------
+bool UISplitterFrame::_IsCanMakeBlcokFramesChange()
+{
+	for (int i = 0; i < (int)mAuiBlockFrames.size(); i++)
+	{
+		const Sizef &minSize = mAuiBlockFrames[i]->GetMinSize();
+		if (!minSize.IsEmpty())
+		{
+			Sizef outSize;
+			APoint outPos;
+			UIAuiBlockFrame::_UpdateLayout(mAuiBlockFrames[i], false,
+				&outSize, &outPos);
+
+			if (outSize.Width < minSize.Width ||
+				outSize.Height < minSize.Height)
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+//----------------------------------------------------------------------------
 void UISplitterFrame::_MarkBlockFramesChange()
 {
 	for (int i=0; i<(int)mAuiBlockFrames.size(); i++)
 	{
-		mAuiBlockFrames[i]->MarkRelatvieChange();
+		mAuiBlockFrames[i]->_MarkRelatvieChange();
 	}
 }
 //----------------------------------------------------------------------------

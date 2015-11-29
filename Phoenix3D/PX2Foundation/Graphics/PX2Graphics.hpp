@@ -56,7 +56,7 @@
 
 // Renderers
 #include "PX2Renderer.hpp"
-#include "PX2RenderStep.hpp"
+#include "PX2Canvas.hpp"
 
 // Resources
 #include "PX2Buffer.hpp"

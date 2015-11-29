@@ -264,7 +264,7 @@ void Movable::PropagateBoundToRoot ()
     }
 }
 //----------------------------------------------------------------------------
-void Movable::OnGetVisibleSet (Culler& culler, bool noCull)
+void Movable::GetVisibleSet (Culler& culler, bool noCull)
 {
 	int flag_CastShadow = culler.GetFlag_CastShadow();
 	if (0 == flag_CastShadow)
@@ -292,7 +292,7 @@ void Movable::OnGetVisibleSet (Culler& culler, bool noCull)
     unsigned int savePlaneState = culler.GetPlaneState();
     if (noCull || culler.IsVisible(WorldBound))
     {
-        GetVisibleSet(culler, noCull);
+        OnGetVisibleSet(culler, noCull);
     }
     culler.SetPlaneState(savePlaneState);
 }

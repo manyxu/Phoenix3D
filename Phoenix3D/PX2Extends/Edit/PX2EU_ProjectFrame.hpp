@@ -18,7 +18,11 @@ namespace PX2
 		virtual ~EU_ProjectFrame();
 
 	protected:
-		EU_ProjectTreePtr mTree;
+		UIFramePtr mProjFrame;
+		EU_ProjectTreePtr mTreeProject;
+		EU_ProjectTreePtr mTreeScene;
+		EU_ProjectTreePtr mTreeUI;
+		UITabFramePtr mTableFrame;
 	};
 
 	PX2_REGISTER_STREAM(EU_ProjectFrame);

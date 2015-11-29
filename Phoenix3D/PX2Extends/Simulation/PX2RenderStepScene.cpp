@@ -19,7 +19,7 @@ mIsShadowMapChanged(true)
 	mScreenCamera->SetAxes(AVector::UNIT_Y, AVector::UNIT_Z, AVector::UNIT_X);
 
 	mEffect_UIView = new0 UIView(-1);
-	mEffect_UIView->SetDoDepthClear(true);
+	mEffect_UIView->SetBeforeDrawClear(false, true, false);
 	mEffect_UIView->SetName("Effect_UI");
 
 	mEffect_UIFrame = new0 UIFrame();

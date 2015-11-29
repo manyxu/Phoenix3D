@@ -51,8 +51,6 @@ Edit::~Edit()
 //----------------------------------------------------------------------------
 bool Edit::Initlize()
 {
-	PX2_GR.SetInEditor(true);
-
 	mEditMap = new0 EditMap();
 
 	mGeoObjFactory = new0 GeoObjFactory();
@@ -78,13 +76,13 @@ bool Edit::InitlizeEditor()
 	return true;
 }
 //----------------------------------------------------------------------------
-bool Edit::Ternamate()
+bool Edit::Terminate()
 {
 	mEditParams->Save("DataEditor/config/editconfig.xml");
 
 	if (mEU_Man)
 	{
-		mEU_Man->Ternamate();
+		mEU_Man->Terminate();
 		delete0(mEU_Man);
 	}
 
@@ -119,72 +117,72 @@ void Edit::Reset()
 //----------------------------------------------------------------------------
 void Edit::SetEditType(EditType type)
 {
-	Project *proj = Project::GetSingletonPtr();
-	if (!proj) return;
+	//Project *proj = Project::GetSingletonPtr();
+	//if (!proj) return;
 
-	if (mEditType == type) return;
+	//if (mEditType == type) return;
 
-	// disable old
-	if (ET_SCENE == mEditType) 
-	{
-	}
-	else if (ET_TERRAIN == mEditType)
-	{
-		mTerrainEdit->SetTerrain(0);
-		mTerrainEdit->GetBrush()->GetRenderable()->Show(false);
-	}
-	else if (ET_UI == mEditType)
-	{
-	}
-	else if (ET_SIMULATE == mEditType)
-	{
-		PX2_ENGINELOOP.Play(EngineLoop::PT_NONE);
-		GetEditMap()->LoadProject(GetEditMap()->GetProjectFilePath().c_str());
-	}
-	else if (ET_PLAY == mEditType)
-	{
-		PX2_ENGINELOOP.Play(EngineLoop::PT_NONE);
-		GetEditMap()->LoadProject(GetEditMap()->GetProjectFilePath().c_str());
-	}
+	//// disable old
+	//if (ET_SCENE == mEditType) 
+	//{
+	//}
+	//else if (ET_TERRAIN == mEditType)
+	//{
+	//	mTerrainEdit->SetTerrain(0);
+	//	mTerrainEdit->GetBrush()->GetRenderable()->Show(false);
+	//}
+	//else if (ET_UI == mEditType)
+	//{
+	//}
+	//else if (ET_SIMULATE == mEditType)
+	//{
+	//	PX2_ENGINELOOP.Play(EngineLoop::PT_NONE);
+	//	LoadProject(GetProjectFilePath().c_str());
+	//}
+	//else if (ET_PLAY == mEditType)
+	//{
+	//	PX2_ENGINELOOP.Play(EngineLoop::PT_NONE);
+	//	LoadProject(GetProjectFilePath().c_str());
+	//}
 
-	mEditType = type;
+	//mEditType = type;
 
-	Scene *scene = proj->GetScene();
+	//Scene *scene = proj->GetScene();
 
-	// set new
-	if (ET_TERRAIN == type)
-	{
-		mTerrainEdit->GetBrush()->GetRenderable()->Show(true);
-		TerrainActor *terrainActor = scene->GetTerrainActor();
-		if (terrainActor) mTerrainEdit->SetTerrain(terrainActor->GetRawTerrain());
-	}
-	else if (ET_SIMULATE == type || ET_PLAY == type)
-	{
-		if (proj)
-		{
-			std::string path = proj->GetSceneFilename();
+	//// set new
+	//if (ET_TERRAIN == type)
+	//{
+	//	mTerrainEdit->GetBrush()->GetRenderable()->Show(true);
+	//	TerrainActor *terrainActor = scene->GetTerrainActor();
+	//	if (terrainActor) mTerrainEdit->SetTerrain(terrainActor->GetRawTerrain());
+	//}
+	//else if (ET_SIMULATE == type || ET_PLAY == type)
+	//{
+	//	if (proj)
+	//	{
+	//		std::string path = proj->GetSceneFilename();
 
-			Scene *scene = proj->GetScene();
-			if (scene && !path.empty())
-			{
-				PX2_EDIT.GetEditMap()->SaveScene(path.c_str());
-			}
-		}
+	//		Scene *scene = proj->GetScene();
+	//		if (scene && !path.empty())
+	//		{
+	//			PX2_EDIT.SaveScene(path.c_str());
+	//		}
+	//	}
 
-		GetEditMap()->SaveProject();
+	//	SaveProject();
 
-		if (ET_SIMULATE == type)
-		{
-			PX2_ENGINELOOP.Play(EngineLoop::PT_SIMULATE);
-		}
-		else if (ET_PLAY == type)
-		{
-			PX2_ENGINELOOP.Play(EngineLoop::PT_PLAY);
-		}
-	}
+	//	if (ET_SIMULATE == type)
+	//	{
+	//		PX2_ENGINELOOP.Play(EngineLoop::PT_SIMULATE);
+	//	}
+	//	else if (ET_PLAY == type)
+	//	{
+	//		PX2_ENGINELOOP.Play(EngineLoop::PT_PLAY);
+	//	}
+	//}
 
-	Event *ent = EditEventSpace::CreateEventX(EditEventSpace::SetEditType);
-	EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
+	//Event *ent = EditEventSpace::CreateEventX(EditEventSpace::SetEditType);
+	//EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
 }
 //----------------------------------------------------------------------------
 void Edit::SetEditAxisMode(EditAxisMode mode)

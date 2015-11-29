@@ -126,9 +126,9 @@ void UICheckButton::UpdateWorldData(double applicationTime,
 	UIButtonBase::UpdateWorldData(applicationTime, elapsedTime);
 }
 //----------------------------------------------------------------------------
-void UICheckButton::OnChildUIAfterPicked(int info, Movable *child)
+void UICheckButton::OnUIPicked(int info, Movable *child)
 {
-	UIButtonBase::OnChildUIAfterPicked(info, child);
+	UIButtonBase::OnUIPicked(info, child);
 
 	PX2_UNUSED(child);
 

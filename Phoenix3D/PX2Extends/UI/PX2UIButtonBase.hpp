@@ -21,7 +21,7 @@ namespace PX2
 	public:
 		virtual ~UIButtonBase();
 
-		virtual void SetPvoit(const Float2 &pvoit);
+		virtual void SetPivot(const Float2 &pvoit);
 
 		enum ButtonState
 		{

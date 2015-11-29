@@ -8,20 +8,8 @@ using namespace PX2;
 //----------------------------------------------------------------------------
 ServerIocp::ServerIocp(int port, int numMaxConnects, int numMaxMsgHandlers,
 	BufferEventQueue *peventque) :
-	ServerImp(port, numMaxConnects, numMaxMsgHandlers, peventque),
-mOLBufMgr(50000)
+	ServerImp(port, numMaxConnects, numMaxMsgHandlers, peventque)
 {
-	int numMaxContext = numMaxConnects;
-
-	mAllContext = new ClientContext[numMaxContext];
-	mFreeContext.reserve(numMaxContext);
-
-	for (int i = 0; i < numMaxContext; i++)
-	{
-		mFreeContext.push_back(&mAllContext[i]);
-	}
-
-	mCurClientID = 0;
 }
 //----------------------------------------------------------------------------
 ServerIocp::~ServerIocp()
@@ -84,6 +72,10 @@ void ServerIocp::Shutdown()
 	}
 }
 //----------------------------------------------------------------------------
+void ServerIocp::OnRun()
+{
+}
+//----------------------------------------------------------------------------
 void ServerIocp::DisconnectClient(unsigned int clientID)
 {
 	ScopedCS cs(&mContextMapMutex);
@@ -116,14 +108,6 @@ void ServerIocp::DisconnectAll()
 		PostQueuedCompletionStatus(mhCompletionPort, 0xffffffff, 
 			(ULONG_PTR)pcontext, NULL);
 	}
-}
-//----------------------------------------------------------------------------
-bool ServerIocp::PostWrite(unsigned int clientid, char *psrc, int srclen)
-{
-	ScopedCS cs(&mContextMapMutex);
-
-	ClientContext *pcontext = _GetClientContext(clientid);
-	return _PostWrite(pcontext, psrc, srclen);
 }
 //----------------------------------------------------------------------------
 bool ServerIocp::_SetupIOWorkers()
@@ -169,7 +153,7 @@ unsigned int ServerIocp::_DoIOWork()
 	DWORD iobytes = 0;
 	ClientContext *pcontext = 0;
 	LPOVERLAPPED poverlapped = 0;
-	OverlapBuffer *polbuf = 0;
+	ServerBuffer *polbuf = 0;
 	UINT error_code = 0;
 
 	InterlockedIncrement(&mNumIOWorkerThread);
@@ -187,13 +171,13 @@ unsigned int ServerIocp::_DoIOWork()
 
 		if (!b || 0==iobytes)
 		{
-			PX2_LOG_ERROR("GetQueuedCompletionStatus error, ret=%d, iobytes=%d", (int)b, (int)iobytes);
+			PX2_LOG_INFO("GetQueuedCompletionStatus iobytes zero, ret=%d, iobytes=%d", (int)b, (int)iobytes);
 			_CloseClientSocket(pcontext);
 
 			if (poverlapped != NULL)
 			{
-				polbuf = CONTAINING_RECORD(poverlapped, OverlapBuffer, mSysData);
-				mOLBufMgr.FreeBuffer(polbuf);
+				polbuf = CONTAINING_RECORD(poverlapped, ServerBuffer, mSysData);
+				mServerBufMgr.FreeBuffer(polbuf);
 			}
 		}
 		else
@@ -206,14 +190,14 @@ unsigned int ServerIocp::_DoIOWork()
 			else if (poverlapped != NULL)
 			{
 				bool op_succeed = false;
-				polbuf = CONTAINING_RECORD(poverlapped, OverlapBuffer, mSysData);
+				polbuf = CONTAINING_RECORD(poverlapped, ServerBuffer, mSysData);
 				switch (polbuf->GetOperation())
 				{
-				case IOCP_READ:
+				case IOSERVER_READ:
 					op_succeed = _OnRead(pcontext, polbuf, iobytes);
 					break;
 
-				case IOCP_WRITE:
+				case IOSERVER_WRITE:
 					op_succeed = _OnWrite(pcontext, polbuf, iobytes);
 					break;
 				default:
@@ -272,7 +256,7 @@ bool ServerIocp::_SetupListener()
 		return false;
 	}
 
-	HANDLE h = CreateThread(NULL, 0, _ListnerThreadProc, this, 0, NULL);
+	HANDLE h = CreateThread(NULL, 0, _ListenThreadProc, this, 0, NULL);
 	if (NULL == h)
 	{
 		return false;
@@ -282,7 +266,7 @@ bool ServerIocp::_SetupListener()
 	return true;
 }
 //----------------------------------------------------------------------------
-DWORD WINAPI ServerIocp::_ListnerThreadProc(LPVOID pParam)
+DWORD WINAPI ServerIocp::_ListenThreadProc(LPVOID pParam)
 {
 	ServerIocp *pthis = reinterpret_cast<ServerIocp *>(pParam);
 	if (pthis)
@@ -329,7 +313,8 @@ unsigned int ServerIocp::_DoListen()
 				}
 				else
 				{
-					_AddClientSocket(s);
+					Socket ss(s);
+					_AddClientSocket(ss);
 				}
 			}
 			else
@@ -362,18 +347,18 @@ static void _MyCloseSocket(SOCKET s, bool gracefull = true)
 	closesocket(s);
 }
 //----------------------------------------------------------------------------
-bool ServerIocp::_AddClientSocket(px2_socket_t s)
+bool ServerIocp::_AddClientSocket(Socket &s)
 {
-	assertion(s != INVALID_SOCKET, "socket must valid");
+	assertion(s.IsValid(), "socket must valid");
 
 	ClientContext* pcontext = _AllocContext(s);
 	if (pcontext == NULL)
 	{
-		_MyCloseSocket(s, false);
+		_MyCloseSocket(s.GetSocket(), false);
 		return false;
 	}
 
-	if (CreateIoCompletionPort((HANDLE)s, mhCompletionPort, (ULONG_PTR)pcontext, 0) == NULL)
+	if (CreateIoCompletionPort((HANDLE)s.GetSocket(), mhCompletionPort, (ULONG_PTR)pcontext, 0) == NULL)
 	{
 		PX2_LOG_ERROR("add socket to completion port error");
 		goto error_handle;
@@ -385,13 +370,13 @@ bool ServerIocp::_AddClientSocket(px2_socket_t s)
 		goto error_handle;
 	}
 
-	mBufferEventQue->PostConnectEvent(pcontext->mClientID);
+	mBufferEventQue->PostConnectEvent(pcontext->ClientID);
 	
 	return true;
 
 error_handle:
 
-	DisconnectClient(pcontext->mClientID);
+	DisconnectClient(pcontext->ClientID);
 
 	return false;
 }
@@ -403,31 +388,15 @@ void ServerIocp::_CloseClientSocket(ClientContext *pcontext)
 	{
 		ScopedCS cs(&mContextLock);
 
-		if (pcontext->mSocket != INVALID_SOCKET)
+		if (pcontext->TheSocket.IsValid())
 		{
-			tmp_s = pcontext->mSocket;
-			pcontext->mSocket = INVALID_SOCKET;
+			tmp_s = pcontext->TheSocket.GetSocket();
+			pcontext->TheSocket = Socket(INVALID_SOCKET);
 		}
 	}
 
 	if (tmp_s != INVALID_SOCKET)
 		_MyCloseSocket(tmp_s);
-}
-//----------------------------------------------------------------------------
-ClientContext *ServerIocp::_GetClientContext(unsigned int clientid)
-{
-	ScopedCS cs(&mContextLock);
-
-	std::map<unsigned int, ClientContext *>::iterator iter = 
-		mClientMap.find(clientid);
-	if (iter == mClientMap.end())
-	{
-		return 0;
-	}
-	else
-	{
-		return iter->second;
-	}
 }
 //----------------------------------------------------------------------------
 const char *WindowsWSAErrorCode2Text(unsigned int dw)
@@ -505,7 +474,7 @@ void ServerIocp::_EnterPendingIO(ClientContext *pcontext)
 {
 	ScopedCS cs(&mContextLock);
 
-	pcontext->mNumPendingIO++;
+	pcontext->NumPendingIO++;
 }
 //----------------------------------------------------------------------------
 void ServerIocp::_LeavePendingIO(ClientContext *pcontext)
@@ -514,25 +483,25 @@ void ServerIocp::_LeavePendingIO(ClientContext *pcontext)
 	{
 		ScopedCS cs(&mContextLock);
 
-		pcontext->mNumPendingIO--;
+		pcontext->NumPendingIO--;
 
-		if (pcontext->mNumPendingIO == 0 && pcontext->mSocket == INVALID_SOCKET) 
+		if (pcontext->NumPendingIO == 0 && !pcontext->TheSocket.IsValid())
 			needfree = true;
 	}
 
 	if (needfree)
 	{
-		mBufferEventQue->PostDisconnectEvent(pcontext->mClientID);
+		mBufferEventQue->PostDisconnectEvent(pcontext->ClientID);
 
 		_FreeContext(pcontext);
 	}
 }
 //----------------------------------------------------------------------------
-bool ServerIocp::_PostRead(ClientContext *pcontext, OverlapBuffer *pbuf)
+bool ServerIocp::_PostRead(ClientContext *pcontext, ServerBuffer *pbuf)
 {
 	if (0 == pbuf)
 	{
-		pbuf = mOLBufMgr.AllocBuffer(IOCP_READ);
+		pbuf = mServerBufMgr.AllocBuffer(IOSERVER_READ);
 		
 		if (pbuf == NULL)
 		{
@@ -550,11 +519,11 @@ bool ServerIocp::_PostRead(ClientContext *pcontext, OverlapBuffer *pbuf)
 
 	_EnterPendingIO(pcontext);
 
-	int ret = WSARecv(pcontext->mSocket, &pbuf->mWSABuf, 1, &recvbytes, &flags, &pbuf->mSysData, 0);
+	int ret = WSARecv(pcontext->TheSocket.GetSocket(), &pbuf->mWSABuf, 1, &recvbytes, &flags, &pbuf->mSysData, 0);
 
 	if (ret == SOCKET_ERROR && WSAGetLastError() != WSA_IO_PENDING)
 	{
-		mOLBufMgr.FreeBuffer(pbuf);
+		mServerBufMgr.FreeBuffer(pbuf);
 		
 		_LeavePendingIO(pcontext);
 
@@ -570,7 +539,7 @@ bool ServerIocp::_PostRead(ClientContext *pcontext, OverlapBuffer *pbuf)
 //----------------------------------------------------------------------------
 bool ServerIocp::_PostWrite(ClientContext *pcontext, char *psrc, int srclen)
 {
-	if (pcontext == NULL || pcontext->mSocket == PX2_INVALID_SOCKET)
+	if (pcontext == NULL || !pcontext->TheSocket.IsValid())
 	{
 		return false;
 	}
@@ -578,7 +547,7 @@ bool ServerIocp::_PostWrite(ClientContext *pcontext, char *psrc, int srclen)
 	int cursor = 0;
 	while (cursor < srclen)
 	{
-		OverlapBuffer *pbuf = mOLBufMgr.AllocBuffer(IOCP_WRITE);
+		ServerBuffer *pbuf = mServerBufMgr.AllocBuffer(IOSERVER_WRITE);
 		if (pbuf == 0)
 		{
 			PX2_LOG_ERROR("AllocBuffer error");
@@ -594,7 +563,7 @@ bool ServerIocp::_PostWrite(ClientContext *pcontext, char *psrc, int srclen)
 
 		_EnterPendingIO(pcontext);
 
-		int ret = WSASend(pcontext->mSocket, &pbuf->mWSABuf, 1, &sendbytes, flags, &pbuf->mSysData, NULL);
+		int ret = WSASend(pcontext->TheSocket.GetSocket(), &pbuf->mWSABuf, 1, &sendbytes, flags, &pbuf->mSysData, NULL);
 		if (ret == 0)
 		{
 		}
@@ -605,7 +574,7 @@ bool ServerIocp::_PostWrite(ClientContext *pcontext, char *psrc, int srclen)
 			{
 				PX2_LOG_ERROR("WSASend error");
 				_LeavePendingIO(pcontext);
-				mOLBufMgr.FreeBuffer(pbuf);
+				mServerBufMgr.FreeBuffer(pbuf);
 				
 				return false;
 			}
@@ -617,69 +586,68 @@ bool ServerIocp::_PostWrite(ClientContext *pcontext, char *psrc, int srclen)
 	return true;
 }
 //----------------------------------------------------------------------------
-#define PACKAGE_LEN_BYTES 2
-bool ServerIocp::_OnRead(ClientContext *pcontext, OverlapBuffer *pbuf, 
+bool ServerIocp::_OnRead(ClientContext *pcontext, ServerBuffer *pbuf, 
 	unsigned int nbytes)
 {
 	pbuf->DataAppended(nbytes);
 
 	for (;;)
 	{
-		int num_readbytes = 0;
+		int numReadBytes = 0;
 		int srclen = pbuf->GetDataLen();
 
-		if (pcontext->mBufferEvent)
+		if (pcontext->BufferEvent)
 		{
-			int need_len = pcontext->mPackageTotalLength - pcontext->mBufferEvent->mDataLength;
-			num_readbytes = need_len <= srclen ? need_len : srclen;
+			int need_len = pcontext->PackageTotalLength - pcontext->BufferEvent->mDataLength;
+			numReadBytes = need_len <= srclen ? need_len : srclen;
 		}
-		else if (srclen >= PACKAGE_LEN_BYTES)
+		else if (srclen >= MSGLEN_BYTES)
 		{
 			int pkglen = pbuf->PopUShort();
 			srclen = pbuf->GetDataLen();
-			pcontext->mPackageTotalLength = pkglen;
+			pcontext->PackageTotalLength = pkglen;
 
 			BufferEvent *pevent = mBufferEventQue->AllocBufferEvent(pkglen);
-			if (pevent == NULL)
+			if (!pevent)
 			{
 				PX2_LOG_ERROR("AllocBufferEvent error");
-				mOLBufMgr.FreeBuffer(pbuf);
+				mServerBufMgr.FreeBuffer(pbuf);
 
 				return false;
 			}
 
-			pevent->mClientID = pcontext->mClientID;
-			pcontext->mBufferEvent = pevent;
+			pevent->ClientID = pcontext->ClientID;
+			pcontext->BufferEvent = pevent;
 
-			num_readbytes = pkglen <= srclen ? pkglen : srclen;
+			numReadBytes = pkglen <= srclen ? pkglen : srclen;
 		}
 		else
 		{
 			break;
 		}
 
-		if (num_readbytes > 0)
+		if (numReadBytes > 0)
 		{
-			assertion(0!=pcontext->mBufferEvent, "");
+			assertion(0!=pcontext->BufferEvent, "");
 
-			char *pdest = pcontext->mBufferEvent->PrepareDataSpace(num_readbytes);
+			char *pdest = pcontext->BufferEvent->PrepareDataSpace(numReadBytes);
 			if (0 != pdest)
 			{
-				pbuf->PopData(pdest, num_readbytes);
+				pbuf->PopDataTo(pdest, numReadBytes);
 			}
 
-			if (pcontext->mBufferEvent->mDataLength >= pcontext->mPackageTotalLength)
+			if (pcontext->BufferEvent->mDataLength >= pcontext->PackageTotalLength)
 			{
-				if (pcontext->mBufferEvent->mDataLength != pcontext->mPackageTotalLength)
+				if (pcontext->BufferEvent->mDataLength != pcontext->PackageTotalLength)
 				{
-					mOLBufMgr.FreeBuffer(pbuf);
-					PX2_LOG_ERROR("wrong data received, datalen=%d, pkglen=%d",	pcontext->mBufferEvent->mDataLength, pcontext->mPackageTotalLength);
+					mServerBufMgr.FreeBuffer(pbuf);
+					PX2_LOG_ERROR("wrong data received, datalen=%d, pkglen=%d",	pcontext->BufferEvent->mDataLength, pcontext->PackageTotalLength);
 					return false;
 				}
 
-				mBufferEventQue->PostBufferEvent(pcontext->mBufferEvent);
+				mBufferEventQue->PostBufferEvent(pcontext->BufferEvent);
 				
-				pcontext->mBufferEvent = NULL;
+				pcontext->BufferEvent = 0;
 			}
 		}
 		else break;
@@ -688,7 +656,7 @@ bool ServerIocp::_OnRead(ClientContext *pcontext, OverlapBuffer *pbuf,
 	return _PostRead(pcontext, pbuf);
 }
 //----------------------------------------------------------------------------
-bool ServerIocp::_OnWrite(ClientContext *pcontext, OverlapBuffer *pbuf,
+bool ServerIocp::_OnWrite(ClientContext *pcontext, ServerBuffer *pbuf,
 	unsigned int nbytes)
 {
 	PX2_UNUSED(pcontext);
@@ -697,12 +665,12 @@ bool ServerIocp::_OnWrite(ClientContext *pcontext, OverlapBuffer *pbuf,
 	{
 		PX2_LOG_ERROR("write error");
 
-		mOLBufMgr.FreeBuffer(pbuf);
+		mServerBufMgr.FreeBuffer(pbuf);
 
 		return false;
 	}
 
-	mOLBufMgr.FreeBuffer(pbuf);
+	mServerBufMgr.FreeBuffer(pbuf);
 
 	return true;
 }

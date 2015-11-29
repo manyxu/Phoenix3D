@@ -16,3 +16,8 @@ inline UIItem *UITree::GetRootItem()
 	return mRootItem;
 }
 //----------------------------------------------------------------------------
+inline bool UITree::IsShowRootItem() const
+{
+	return mIsShowRootItem;
+}
+//----------------------------------------------------------------------------

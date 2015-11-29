@@ -5,6 +5,8 @@
 #include "PX2EngineLoop.hpp"
 #include "PX2InputManager.hpp"
 #include "PX2EU_Manager.hpp"
+#include "PX2EditEventType.hpp"
+#include "PX2EditEventData.hpp"
 using namespace NA;
 using namespace PX2;
 
@@ -25,7 +27,8 @@ N_MainFrame::N_MainFrame(const std::string &title, int xPos, int yPos,
 	int width, int height):
 	wxFrame((wxFrame*)0, -1, title, wxPoint(xPos, yPos), wxSize(width, height)),
 	mIsInitlized(false),
-	mIsSized(false)
+	mIsSized(false),
+	mMainRenderView(0)
 {
 }
 //----------------------------------------------------------------------------
@@ -38,9 +41,29 @@ bool N_MainFrame::Initlize()
 	mTimer.SetOwner(this, sID_ENGINELOOPTIMER);
 	mTimer.Start(25);
 
+	_CreateMenu();
+
+	mMainRenderView = new RenderView(0, this);
+	PX2_ENGINELOOP.SetPt_Data(mMainRenderView->GetHandle());
+	PX2_ENGINELOOP.SetPt_Size(Sizef(1024.0f, 768.0f));
+	PX2_ENGINELOOP.InitlizeRenderer();
+
 	mIsInitlized = true;
 
 	return true;
+}
+//----------------------------------------------------------------------------
+void N_MainFrame::DoExecute(Event *event)
+{
+	if (EditEventSpace::IsEqual(event, EditEventSpace::AddMainMenu))
+	{
+		EED_AddMenu_Main data = event->GetData<EED_AddMenu_Main>();
+		
+		if (data.IsMain_Main)
+		{
+			AddMainMenuItem(data.Title);
+		}
+	}
 }
 //----------------------------------------------------------------------------
 void N_MainFrame::OnTimer(wxTimerEvent& e)
@@ -49,77 +72,44 @@ void N_MainFrame::OnTimer(wxTimerEvent& e)
 
 	if (!mIsInitlized) return;
 	if (!mIsSized) return;
-
-	PX2_EDIT.IsAltDown = wxGetKeyState(WXK_ALT);
-	PX2_EDIT.IsCtrlDown = wxGetKeyState(WXK_CONTROL);
-	PX2_EDIT.IsShiftDown = wxGetKeyState(WXK_SHIFT);
-
-	PX2_EDIT.IsKeyDown_W = wxGetKeyState((wxKeyCode)87) || wxGetKeyState((wxKeyCode)119);
-	PX2_EDIT.IsKeyDown_S = wxGetKeyState((wxKeyCode)83) || wxGetKeyState((wxKeyCode)115);
-	PX2_EDIT.IsKeyDown_A = wxGetKeyState((wxKeyCode)65) || wxGetKeyState((wxKeyCode)97);
-	PX2_EDIT.IsKeyDown_D = wxGetKeyState((wxKeyCode)68) || wxGetKeyState((wxKeyCode)100);
-
-	PX2_EDIT.IsLeftMouseDown = wxGetMouseState().LeftIsDown();
-	PX2_EDIT.IsRightMouseDown = wxGetMouseState().RightIsDown();
-	PX2_EDIT.IsMidMouseDown = wxGetMouseState().MiddleIsDown();
-
-	PX2_ENGINELOOP.Tick();
 }
 //----------------------------------------------------------------------------
 void N_MainFrame::OnSize(wxSizeEvent& e)
 {
-	if (!mIsInitlized) return;
-
-	mSize  = GetClientSize();
-	Sizef sz = Sizef((float)mSize.GetWidth(), (float)mSize.GetHeight());
-
-	PX2_ENGINELOOP.SetScreenSize(sz);
-	PX2_EDIT.GetEU_Manager()->GetView_Main()->SetSize(sz);
+	wxSize size = GetClientSize();
+	if (mMainRenderView)
+		mMainRenderView->SetSize(0, 0, size.x, size.y);
 
 	mIsSized = true;
 }
 //----------------------------------------------------------------------------
 void N_MainFrame::OnEnterWindow(wxMouseEvent& e)
 {
-	InputEventListener *listener = PX2_INPUTMAN.GetDefaultListener();
-	if (listener) listener->EnterView();
+	PX2_UNUSED(e);
 }
 //----------------------------------------------------------------------------
 void N_MainFrame::OnLeaveWindow(wxMouseEvent& e)
 {
-	InputEventListener *listener = PX2_INPUTMAN.GetDefaultListener();
-	if (listener) listener->LevelView();
-}
-//----------------------------------------------------------------------------
-PX2::APoint wxPointToAPointLeftAxis(wxPoint &point, wxSize &size)
-{
-	return PX2::APoint((float)point.x, 0.0f, (float)(size.GetHeight() - point.y));
+	PX2_UNUSED(e);
 }
 //----------------------------------------------------------------------------
 void N_MainFrame::OnLeftDown(wxMouseEvent& e)
 {
-	wxPoint mousePos = e.GetPosition();
-	APoint pos = wxPointToAPointLeftAxis(mousePos, mSize);
-
-	InputEventListener *listener = PX2_INPUTMAN.GetDefaultListener();
-	if (listener) listener->MousePressed(MBID_LEFT, pos);
+	PX2_UNUSED(e);
 }
 //----------------------------------------------------------------------------
 void N_MainFrame::OnLeftUp(wxMouseEvent& e)
 {
-	wxPoint mousePos = e.GetPosition();
-	APoint pos = wxPointToAPointLeftAxis(mousePos, mSize);
-
-	InputEventListener *listener = PX2_INPUTMAN.GetDefaultListener();
-	if (listener) listener->MouseReleased(MBID_LEFT, pos);
+	PX2_UNUSED(e);
 }
 //----------------------------------------------------------------------------
 void N_MainFrame::OnMotion(wxMouseEvent& e)
 {
-	wxPoint mousePos = e.GetPosition();
-	APoint pos = wxPointToAPointLeftAxis(mousePos, mSize);
-
-	InputEventListener *listener = PX2_INPUTMAN.GetDefaultListener();
-	if (listener) listener->MouseMoved(pos);
+	PX2_UNUSED(e);
+}
+//----------------------------------------------------------------------------
+RenderView *N_MainFrame::GetMainRenderView()
+{
+	return mMainRenderView;
 }
 //----------------------------------------------------------------------------

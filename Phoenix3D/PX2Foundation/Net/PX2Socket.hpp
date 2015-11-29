@@ -26,12 +26,16 @@ namespace PX2
 
 		void Close();
 
+		bool IsValid() const;
+
 		enum SelectMode
 		{
 			SELECT_READ  = 1,
 			SELECT_WRITE = 2,
 			SELECT_ERROR = 4
 		};
+		bool Poll(const Timespan& timeout, int mode) const;
+
 		static int Select (SocketList& readList, SocketList& writeList, 
 			SocketList &exceptList, const Timespan& timeout);
 

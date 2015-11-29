@@ -5,7 +5,7 @@
 
 #include "PX2Node.hpp"
 #include "PX2Actor.hpp"
-#include "PX2RenderStep.hpp"
+#include "PX2Canvas.hpp"
 #include "PX2CameraActor.hpp"
 #include "PX2AmbientRegionActor.hpp"
 #include "PX2TerrainActor.hpp"

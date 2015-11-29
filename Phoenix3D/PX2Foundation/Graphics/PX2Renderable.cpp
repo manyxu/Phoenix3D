@@ -336,7 +336,7 @@ void Renderable::UpdateModelBound ()
 	mModelBound.ComputeFromData(numVertices, stride, data + posOffset);
 }
 //----------------------------------------------------------------------------
-void Renderable::GetVisibleSet (Culler& culler, bool)
+void Renderable::OnGetVisibleSet (Culler& culler, bool)
 {
 	int flag_CastShadow = culler.GetFlag_CastShadow();
 	if (0 == flag_CastShadow)

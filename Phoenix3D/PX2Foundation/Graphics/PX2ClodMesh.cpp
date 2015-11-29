@@ -98,10 +98,10 @@ void ClodMesh::SelectLevelOfDetail ()
 	}
 }
 //----------------------------------------------------------------------------
-void ClodMesh::GetVisibleSet (Culler& culler, bool noCull)
+void ClodMesh::OnGetVisibleSet (Culler& culler, bool noCull)
 {
 	SelectLevelOfDetail();
-	TriMesh::GetVisibleSet(culler, noCull);
+	TriMesh::OnGetVisibleSet(culler, noCull);
 }
 //----------------------------------------------------------------------------
 

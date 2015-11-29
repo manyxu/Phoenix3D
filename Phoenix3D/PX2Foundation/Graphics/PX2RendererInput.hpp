@@ -14,7 +14,7 @@ namespace PX2
 		RendererInput();
 		virtual ~RendererInput();
 
-		virtual bool Ternamate();
+		virtual bool Terminate();
 	};
 
 	typedef Pointer0<RendererInput> RendererInputPtr;

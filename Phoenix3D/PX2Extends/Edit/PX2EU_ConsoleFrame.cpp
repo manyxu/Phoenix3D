@@ -1,6 +1,7 @@
 // PX2EU_Console.cpp
 
 #include "PX2EU_ConsoleFrame.hpp"
+#include "PX2UISkinManager.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, EU_ConcoleFrame);
@@ -10,14 +11,24 @@ PX2_IMPLEMENT_FACTORY(EU_ConcoleFrame);
 //----------------------------------------------------------------------------
 EU_ConcoleFrame::EU_ConcoleFrame()
 {
+	mToolFrame = new0 UIFrame();
+	AttachChild(mToolFrame);
+	mToolFrame->LocalTransform.SetTranslateY(-1.0f);
+	UIPicBox *picBox = mToolFrame->CreateAddBackgroundPicBox();
+	picBox->SetTexture("Data/engine/white.png");
+	picBox->SetColor(PX2_UISM.Color_ToolBar);
+	mToolFrame->SetAnchorHor(0.0f, 1.0f);
+	mToolFrame->SetAnchorVer(1.0f, 1.0f);
+	mToolFrame->SetPivot(0.5f, 1.0f);
+	mToolFrame->SetSize(Sizef(0.0f, PX2_UISM.Size_ToolBar));
+
 	mList = new0 UIList();
 	AttachChild(mList);
 	mList->SetAnchorHor(0.0f, 1.0f);
 	mList->SetAnchorVer(0.0f, 1.0f);
+	mList->SetAnchorParamVer(0.0f, PX2_UISM.Size_ToolBar);
 
-	mList->AddItem("abcdfdajgdsajgldsajgasdgkjdsag");
-	mList->AddItem("abcdfdajgds");
-	mList->AddItem("abcdfdajgdsajgldsag");
+	mList->AddItem("Welcome to Phoenix3D NIRVANA2");
 }
 //----------------------------------------------------------------------------
 EU_ConcoleFrame::~EU_ConcoleFrame()

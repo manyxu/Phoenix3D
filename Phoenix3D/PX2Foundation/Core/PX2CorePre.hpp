@@ -50,6 +50,9 @@
 // stdint.h provides on Unix platforms.
 #include <climits>
 
+#if _MSC_VER >= 1600
+#include <stdint.h>
+#else
 typedef __int8              int8_t;
 typedef __int16             int16_t;
 typedef __int32             int32_t;
@@ -71,6 +74,8 @@ typedef unsigned __int64    uint64_t;
 #define UINT16_MAX          _UI16_MAX
 #define UINT32_MAX          _UI32_MAX
 #define UINT64_MAX          _UI64_MAX
+#endif
+
 #endif
 
 #endif

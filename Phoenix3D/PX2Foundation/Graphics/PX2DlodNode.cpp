@@ -66,10 +66,10 @@ void DlodNode::SelectLevelOfDetail (const Camera* camera)
     }
 }
 //----------------------------------------------------------------------------
-void DlodNode::GetVisibleSet (Culler& culler, bool noCull)
+void DlodNode::OnGetVisibleSet (Culler& culler, bool noCull)
 {
     SelectLevelOfDetail(culler.GetCamera());
-    SwitchNode::GetVisibleSet(culler, noCull);
+    SwitchNode::OnGetVisibleSet(culler, noCull);
 }
 //----------------------------------------------------------------------------
 

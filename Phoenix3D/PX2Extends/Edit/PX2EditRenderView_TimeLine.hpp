@@ -7,7 +7,7 @@
 #include "PX2EditRenderView.hpp"
 #include "PX2Polysegment.hpp"
 #include "PX2UIFrame.hpp"
-#include "PX2UIView.hpp"
+#include "PX2UICanvas.hpp"
 
 namespace PX2
 {
@@ -43,8 +43,8 @@ namespace PX2
 		};
 		MoveMode mMoveMode;
 
-		UIViewPtr mUIViewUIGroup;
-		UIViewPtr mUIViewGrid;
+		UICanvasPtr mUICanvasUIGroup;
+		UICanvasPtr mUICanvasGrid;
 		float mLeftWidth;
 
 		float mPixelOverCamIn;

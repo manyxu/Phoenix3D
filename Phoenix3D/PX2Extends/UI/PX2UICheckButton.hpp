@@ -31,7 +31,7 @@ namespace PX2
 
 	protected:
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
-		virtual void OnChildUIAfterPicked(int info, Movable *child);
+		virtual void OnUIPicked(int info, Movable *child);
 		virtual void OnNotPicked(int info);
 	};
 
