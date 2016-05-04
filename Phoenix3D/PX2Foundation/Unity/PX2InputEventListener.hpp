@@ -18,8 +18,12 @@ namespace PX2
 		void OnInputEventData(InputEventData &data);
 		InputEventData mCurInputEventData;
 
+		void SetViewSize(const Sizef &size);
+		const Sizef &GetViewSize() const;
+
 	protected:
 		int mViewID;
+		Sizef mViewSize;
 
 		// all
 	public:
@@ -35,7 +39,7 @@ namespace PX2
 		virtual void MousePressed(MouseButtonID id, const APoint &pos);
 		virtual void MouseDoublePressed(MouseButtonID id, const APoint &pos);
 		virtual void MouseReleased(MouseButtonID id, const APoint &pos);
-		virtual void MouseWheeled(float val);
+		virtual void MouseWheeled(float val, const APoint &pos);
 
 		// android 
 	public:

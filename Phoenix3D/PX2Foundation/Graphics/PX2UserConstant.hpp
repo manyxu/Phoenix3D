@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(UserConstant);
-	typedef Pointer0<UserConstant> UserConstantPtr;
+	typedef PointerRef<UserConstant> UserConstantPtr;
 
 }
 

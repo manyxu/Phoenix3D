@@ -1,0 +1,8 @@
+// PX2BPModule.pkg
+
+	class BPModule : public UIFrame
+	{
+	public:
+		BPModule();
+		virtual ~BPModule();
+	};

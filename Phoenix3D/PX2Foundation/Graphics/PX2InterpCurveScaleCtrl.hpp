@@ -27,7 +27,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(InterpCurveScaleController);
-	typedef Pointer0<InterpCurveScaleController> InterpCurveScaleControllerPtr;
+	typedef PointerRef<InterpCurveScaleController> InterpCurveScaleControllerPtr;
 
 }
 

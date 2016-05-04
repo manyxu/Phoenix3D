@@ -1,6 +1,7 @@
 // PX2TimerManager.cpp
 
 #include "PX2TimerManager.hpp"
+#include "PX2Memory.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------

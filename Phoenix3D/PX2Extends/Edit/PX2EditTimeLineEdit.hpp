@@ -20,20 +20,14 @@ namespace PX2
 		~TimeLineEdit();
 
 	public:
-		void SetTimeLineCanvas_UIGroup(Canvas *canvas);
-		Canvas *GetTimeLineCanvas_UIGroup() const;
-
-		void SetTimeLineCanvas_Grid(Canvas *canvas);
-		Canvas *GetTimeLineCanvas_Grid() const;
-
+		UIFrame *GetCurveEditNode_UIGroup() { return mCurveEditNode_UIGroup; }
+		Node *GetCurEditNode_GridRoot() { return mCurveEditNode_GridRoot; }
 		Node *GetCurveEditNode_Grid() { return mCurveEditNode_Grid; }
 		PX2::Polysegment *GetGridPoly() { return mGridPoly; }
 
 	protected:
-		CanvasPtr mTimeLineCanvas_UIGroup;
 		UIFramePtr mCurveEditNode_UIGroup;
 
-		CanvasPtr mTimeLineCanvas_Grid;
 		NodePtr mCurveEditNode_GridRoot;
 		NodePtr mCurveEditNode_Grid;
 

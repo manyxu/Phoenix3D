@@ -43,7 +43,7 @@ void DynLib::Load()
 //----------------------------------------------------------------------------
 void DynLib::Unload()
 {
-	PX2_LOG_INFO("Unloading library %s", mName.c_str());
+	PX2_LOG_INFO("Unload library %s", mName.c_str());
 
 	if (PLUGIN_UNLOAD(mhInst))
 	{

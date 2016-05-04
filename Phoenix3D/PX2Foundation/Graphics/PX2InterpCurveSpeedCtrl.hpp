@@ -37,7 +37,7 @@ namespace PX2
 #include "PX2InterpCurveSpeedCtrl.inl"
 
 	PX2_REGISTER_STREAM(InterpCurveSpeedController);
-	typedef Pointer0<InterpCurveSpeedController> InterpCurveSpeedControllerPtr;
+	typedef PointerRef<InterpCurveSpeedController> InterpCurveSpeedControllerPtr;
 
 }
 

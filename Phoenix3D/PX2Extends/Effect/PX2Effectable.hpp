@@ -130,7 +130,7 @@ namespace PX2
 
 		// texpack anim
 		bool SetTexPackAnim (const std::string &texPackFilename);
-		const std::string GetTexPackAnim () const;
+		const std::string &GetTexPackAnim () const;
 		bool AddTexPackAnim_Frame (const std::string &texPackFilename,
 			const std::string &eleName);
 
@@ -150,7 +150,7 @@ namespace PX2
 
 		// mask
 		void SetMaskTex (const std::string &filename);
-		const std::string GetMaskTex () const;
+		const std::string &GetMaskTex () const;
 
 		// uv
 		void SetEmitUV0_Offset (const Float2 &offset);
@@ -243,7 +243,7 @@ public_internal:
 	};
 
 	PX2_REGISTER_STREAM(Effectable);
-	typedef Pointer0<Effectable> EffectablePtr;
+	typedef PointerRef<Effectable> EffectablePtr;
 #include "PX2Effectable.inl"
 
 }

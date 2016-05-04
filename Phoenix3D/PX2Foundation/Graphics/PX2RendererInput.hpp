@@ -3,7 +3,7 @@
 #ifndef PX2RENDERINPUT_HPP
 #define PX2RENDERINPUT_HPP
 
-#include "PX2SmartPointer.hpp"
+#include "PX2SmartPointerRef.hpp"
 
 namespace PX2
 {
@@ -17,7 +17,7 @@ namespace PX2
 		virtual bool Terminate();
 	};
 
-	typedef Pointer0<RendererInput> RendererInputPtr;
+	typedef PointerRef<RendererInput> RendererInputPtr;
 
 }
 

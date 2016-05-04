@@ -15,6 +15,7 @@ EU_CreateFrame::EU_CreateFrame()
 	mTableFrame = new0 UITabFrame();
 	AttachChild(mTableFrame);
 	mTableFrame->LocalTransform.SetTranslateY(-1.0f);
+	mTableFrame->SetTabBarHeight(50.0f);
 	mTableFrame->SetTabWidth(50.0f);
 	mTableFrame->SetTabHeight(50.0f);
 	//mTableFrame->SetLayoutPos(UITabFrame::LPT_TOP);
@@ -22,12 +23,12 @@ EU_CreateFrame::EU_CreateFrame()
 	mTableFrame->SetAnchorHor(0.0f, 1.0f);
 	mTableFrame->SetAnchorVer(0.0f, 1.0f);
 
-	mTableFrame->AddTab("Objs", new0 UIFrame());
-	mTableFrame->AddTab("Ters", new0 UIFrame());
-	mTableFrame->AddTab("Foli", new0 UIFrame());
+	mTableFrame->AddTab("Objs", "Objs", new0 UIFrame());
+	mTableFrame->AddTab("Ters", "Ters", new0 UIFrame());
+	mTableFrame->AddTab("Foli", "Foli", new0 UIFrame());
 
 	EU_CF_BluePrint *bpFrame = new0 EU_CF_BluePrint();
-	mTableFrame->AddTab("BP", bpFrame);
+	mTableFrame->AddTab("BP", "BP", bpFrame);
 	bpFrame->SetAnchorHor(0.0f, 1.0f);
 	bpFrame->SetAnchorVer(0.0f, 1.0f);
 	mTableFrame->SetActiveTab("Objs");

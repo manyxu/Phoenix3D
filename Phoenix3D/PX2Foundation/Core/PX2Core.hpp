@@ -65,12 +65,10 @@
 #include "PX2LogOutputWindowHandler.hpp"
 
 // Memory
-#include "PX2FixMemoryPool.hpp"
 #include "PX2Memory.hpp"
 #include "PX2SmartPointer.hpp"
 #include "PX2WeakPointer.hpp"
-#include "PX2NotFreeObjectPool.hpp"
-#include "PX2ObjectCopyPool.hpp"
+#include "PX2SmartPointerRef.hpp"
 
 // Props
 #include "PX2PropModify.hpp"

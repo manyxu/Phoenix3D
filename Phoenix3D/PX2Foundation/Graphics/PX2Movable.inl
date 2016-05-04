@@ -1,6 +1,16 @@
 // PX2Movable.inl
 
 //----------------------------------------------------------------------------
+inline Transform &Movable::GetLocalTransform()
+{
+	return LocalTransform;
+}
+//----------------------------------------------------------------------------
+inline Transform &Movable::GetWorldTransform()
+{
+	return WorldTransform;
+}
+//----------------------------------------------------------------------------
 inline void Movable::SetAlphaSelfCtrled (bool selfCtrled)
 {
 	mIsAlphaSelfCtrled = selfCtrled;
@@ -46,6 +56,26 @@ inline float Movable::GetBrightness () const
 	return mBrightness;
 }
 //----------------------------------------------------------------------------
+inline void Movable::SetEnableSelfCtrled(bool selfCtrled)
+{
+	mIsEnableSelfCtrled = selfCtrled;
+}
+//----------------------------------------------------------------------------
+inline bool Movable::IsEnableSelfCtrled() const
+{
+	return mIsEnableSelfCtrled;
+}
+//----------------------------------------------------------------------------
+inline void Movable::SetActivateSelfCtrled(bool selfCtrled)
+{
+	mIsActivateSelfCtrled = selfCtrled;
+}
+//----------------------------------------------------------------------------
+inline bool Movable::IsActivateSelfCtrled() const
+{
+	return mIsActivateSelfCtrled;
+}
+//----------------------------------------------------------------------------
 inline Movable* Movable::GetParent ()
 {
     return mParent;
@@ -59,11 +89,6 @@ inline void Movable::SetUpdateTime (float time)
 inline float Movable::GetUpdateTime () const
 {
 	return mUpdateTime;
-}
-//----------------------------------------------------------------------------
-inline void Movable::SetUpdatePriority (int updatePriority)
-{
-	mUpdatePriority = updatePriority;
 }
 //----------------------------------------------------------------------------
 inline int Movable::GetUpdatePriority () const
@@ -114,5 +139,34 @@ inline bool Movable::IsCastShadow() const
 inline bool Movable::IsReceiveShadow() const
 {
 	return mIsReceiveShadow;
+}
+//----------------------------------------------------------------------------
+template <typename CLASSTYPE>
+CLASSTYPE *Movable::GetFirstParentDerivedFromType(int *numLevels)
+{
+	int numLev = 0;
+	Movable *topestParentTemp = mParent;
+	Movable *topestParent = mParent;
+
+	while (topestParentTemp)
+	{
+		topestParent = topestParentTemp;
+		numLev++;
+
+		if (topestParent->IsDerived(CLASSTYPE::TYPE))
+		{
+			if (numLevels)
+				*numLevels = numLev;
+
+			return (CLASSTYPE*)topestParent;
+		}
+
+		topestParentTemp = topestParentTemp->GetParent();
+	}
+
+	if (numLevels)
+		*numLevels = 0;
+
+	return 0;
 }
 //----------------------------------------------------------------------------

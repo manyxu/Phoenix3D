@@ -99,13 +99,15 @@ LRESULT CALLBACK MsWindowEventHandler (HWND handle, UINT message,
 			POINT point = { (short)LOWORD(lParam), (short)HIWORD(lParam) };
 
 			PX2_INPUTMAN.GetDefaultListener()->MousePressed(MBID_LEFT, 
-				APoint((float)point.x, 0.0f, PX2_GR.GetScreenSize().Height-(float)point.y));
+				APoint((float)point.x, 0.0f,
+				PX2_INPUTMAN.GetDefaultListener()->GetViewSize().Height - (float)point.y));
 		}
 		break;
 	case WM_LBUTTONUP:
 
 		PX2_INPUTMAN.GetDefaultListener()->MouseReleased(MBID_LEFT,
-			APoint((float)LOWORD(lParam), 0.0f, PX2_GR.GetScreenSize().Height - (float)HIWORD(lParam)));
+			APoint((float)LOWORD(lParam), 0.0f, 
+			PX2_INPUTMAN.GetDefaultListener()->GetViewSize().Height - (float)HIWORD(lParam)));
 
 		break;
 	case WM_RBUTTONDOWN:
@@ -114,23 +116,27 @@ LRESULT CALLBACK MsWindowEventHandler (HWND handle, UINT message,
 			POINT point = { (short)LOWORD(lParam), (short)HIWORD(lParam) };
 
 			PX2_INPUTMAN.GetDefaultListener()->MousePressed(MBID_RIGHT,
-				APoint((float)point.x, 0.0f, PX2_GR.GetScreenSize().Height - (float)point.y));
+				APoint((float)point.x, 0.0f, 
+				PX2_INPUTMAN.GetDefaultListener()->GetViewSize().Height - (float)point.y));
 		}
 		break;
 	case WM_RBUTTONUP:
 
 		PX2_INPUTMAN.GetDefaultListener()->MouseReleased(MBID_RIGHT,
-			APoint((float)LOWORD(lParam), 0.0f, PX2_GR.GetScreenSize().Height - (float)HIWORD(lParam)));
+			APoint((float)LOWORD(lParam), 0.0f, 
+			PX2_INPUTMAN.GetDefaultListener()->GetViewSize().Height - (float)HIWORD(lParam)));
 
 		break;
 	case WM_MOUSEMOVE:
 		PX2_INPUTMAN.GetDefaultListener()->MouseMoved(APoint((float)LOWORD(lParam), 0.0f, 
-			PX2_GR.GetScreenSize().Height - (float)HIWORD(lParam)));
+			PX2_INPUTMAN.GetDefaultListener()->GetViewSize().Height - (float)HIWORD(lParam)));
 
 		break;
 	case WM_MOUSEWHEEL:
 		wheeldelta = (float)GET_WHEEL_DELTA_WPARAM(wParam);
-		PX2_INPUTMAN.GetDefaultListener()->MouseWheeled(wheeldelta);
+		PX2_INPUTMAN.GetDefaultListener()->MouseWheeled(wheeldelta,
+			APoint((float)LOWORD(lParam), 0.0f,
+			PX2_INPUTMAN.GetDefaultListener()->GetViewSize().Height - (float)HIWORD(lParam)));
 		break;
 	case WM_KEYDOWN:
 		keyCode = ConverKeyCode(wParam);
@@ -248,8 +254,7 @@ int Application::Entry (int numArguments, char** arguments)
 #if defined(_WIN32) || defined(WIN32)
 int Application::Main (int numArguments, char** arguments)
 {
-	PX2_UNUSED(numArguments);
-	PX2_UNUSED(arguments);
+	ApplicationBase::Main(numArguments, arguments);
 
 	Initlize ();
 
@@ -308,6 +313,7 @@ bool Application::Initlize()
 		return true;
 
 	PX2_ENGINELOOP.Initlize();
+	PX2_ENGINELOOP.InitlizeDefaultEngineCanvas();
 
 	// boost
 	Sizef boostSize(960, 640);
@@ -350,6 +356,8 @@ bool Application::Initlize()
 		dwStyle, mXPosition, mYPosition,
 		rect.right - rect.left + 1, rect.bottom - rect.top + 1, 0, 0, 0, 0);
 
+	RenderWindow *rw = PX2_GR.GetMainWindow();
+	rw->SetWindowHandle(mhWnd);
 	PX2_ENGINELOOP.SetPt_Data(mhWnd);
 
 	// ¾ÓÖÐ
@@ -374,10 +382,11 @@ bool Application::Initlize()
 	offsetY = (offsetY > 0) ? offsetY : rcDesktop.top;
 	SetWindowPos(mhWnd, 0, offsetX, offsetY, 0, 0, SWP_NOCOPYBITS | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 	mXPosition = offsetX;
-	mYPosition = offsetY;
+	mYPosition = offsetY; 
 #endif
 	PX2_ENGINELOOP.InitlizeRenderer();
-	PX2_ENGINELOOP.SetScreenSize(boostSize);
+	PX2_ENGINELOOP.SetScreenSize(boostSize);	
+	PX2_GR.SetInEditor(false);
 
 	msIsInitlized = true;
 

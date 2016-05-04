@@ -4,6 +4,7 @@
 #define PX2EDITEVENTDATA_HPP
 
 #include "PX2EditPre.hpp"
+#include "PX2APoint.hpp"
 
 namespace PX2
 {
@@ -31,9 +32,14 @@ namespace PX2
 		enum ItemType
 		{
 			IT_MAIN_MENU,
-			IT_SUB_MENU,
-			IT_ITEM,
-			IT_ITEMSPARATER,
+			IT_MAIN_SUBMENU,
+			IT_MAIN_ITEM,
+			IT_MAIN_ITEMSPARATER,
+			IT_EDIT_MENU,
+			IT_EDIT_SUBMENU,
+			IT_EDIT_ITEM,
+			IT_EDIT_ITEMSPARATER,
+			IT_EDIT_POPUP,
 			IT_MAX_TYPE
 		};
 		ItemType TheItemType;
@@ -43,6 +49,18 @@ namespace PX2
 		std::string Title;
 		std::string Script;
 		std::string Tag;
+
+		APoint PopUpPos;
+	};
+
+	class PX2_EXTENDS_ITEM EED_Tip
+	{
+	public:
+		EED_Tip();
+		~EED_Tip();
+
+		std::string Title;
+		std::string Content;
 	};
 
 }

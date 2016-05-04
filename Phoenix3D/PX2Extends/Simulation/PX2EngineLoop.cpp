@@ -2,15 +2,12 @@
 
 #include "PX2EngineLoop.hpp"
 #include "PX2Time.hpp"
-#include "PX2LuaManager.hpp"
 #include "PX2SimulationEventType.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------
 EngineLoop::EngineLoop() :
 mPt_Data(0),
-
-mRendererInput(0),
 
 mDynLibMan(0),
 mPluginMan(0),
@@ -24,10 +21,12 @@ mResMan(0),
 mScriptMan(0),
 mFontMan(0),
 mADMan(0),
-mSelection(0),
+mSelectionMan(0),
 mCreater(0),
 mURDoMan(0),
 mBPMan(0),
+mBPEdit(0),
+mFunObjectManager(0),
 mAccoutManager(0),
 mVBIBManager(0),
 mEdit(0),
@@ -40,9 +39,7 @@ mPlayLogicMode(PLM_SIMPLE),
 
 mAppTime(0),
 mLastAppTime(0),
-mElapsedTime(0),
-
-mIsDoAdjustScreenViewRect(true)
+mElapsedTime(0)
 {
 }
 //----------------------------------------------------------------------------

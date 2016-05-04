@@ -13,6 +13,8 @@ namespace PX2
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;
 		PX2_DECLARE_PROPERTY;
+		PX2_DECLARE_FUNCTION;
+		PX2_NEW(UIButton);
 		PX2_DECLARE_STREAM(UIButton);
 
 	public:
@@ -36,12 +38,17 @@ namespace PX2
 		virtual void OnEvent(Event *event);
 
 		void OnPressed();
+		void OnPressedNotPick();
 		void OnReleased();
+		void OnReleasedNotPick();
+
+		virtual void SetActivate(bool act);
 
 	protected:
-		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
-		virtual void OnUIPicked(int info, Movable *child);
-		virtual void OnUINotPicked(int info);
+		virtual void UpdateWorldData(double applicationTime,
+			double elapsedTime);
+		virtual void OnUIPicked(const UIInputData &inputData);
+		virtual void OnUINotPicked(const UIInputData &inputData);
 
 		AfterReleasedType mAfterReleasedType;
 		float mAfterReleasedRecoverTime;
@@ -51,7 +58,7 @@ namespace PX2
 
 #include "PX2UIButton.inl"
 	PX2_REGISTER_STREAM(UIButton);
-	typedef Pointer0<UIButton> UIButtonPtr;
+	typedef PointerRef<UIButton> UIButtonPtr;
 
 }
 

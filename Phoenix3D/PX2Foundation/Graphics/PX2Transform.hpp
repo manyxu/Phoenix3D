@@ -6,9 +6,12 @@
 #include "PX2GraphicsPre.hpp"
 #include "PX2HMatrix.hpp"
 #include "PX2Math.hpp"
+#include "PX2Function.hpp"
 
 namespace PX2
 {
+
+	class FunObject;
 
 	/// 变换类
 	/**
@@ -21,6 +24,8 @@ namespace PX2
 	*/
 	class PX2_FOUNDATION_ITEM Transform
 	{
+		PX2_DECLARE_FUNCTION;
+
 	public:
 		/**
 		* 初始为单位变换。
@@ -64,7 +69,7 @@ namespace PX2
 		void SetScale (const APoint& scale);
 		void SetUniformScale (float scale);
 		inline const HMatrix& GetRotate () const;
-		void GetRotate(float &x, float &y, float &z);
+		void GetRotate(float &x, float &y, float &z) const;
 		inline const HMatrix& GetMatrix () const;
 		inline const APoint& GetTranslate () const;
 		inline const APoint& GetScale () const;

@@ -22,7 +22,7 @@ void N_Frame::OnCommondItem(wxCommandEvent &e)
 	if (it != mIDScripts.end())
 	{
 		std::string callStr = it->second;
-		PX2_SM.CallString(callStr);
+		PX2_SC_LUA->CallString(callStr);
 	}
 }
 //----------------------------------------------------------------------------
@@ -82,6 +82,30 @@ void N_Frame::EnableMenusTag(const std::string &tag, bool enable)
 			wxMenuItem *menuItem = it->second[i];
 			menuItem->Enable(enable);
 		}
+	}
+}
+//----------------------------------------------------------------------------
+wxMenu *N_Frame::CreateEditMenu()
+{
+	if (mEditMenu)
+	{
+		delete mEditMenu;
+		mEditMenu = 0;
+	}
+	mMenuMap_Edit.clear();
+
+	mEditMenu = new wxMenu();
+
+	return mEditMenu;
+}
+//----------------------------------------------------------------------------
+void N_Frame::PopUpRightMenu(int x, int y)
+{
+	mIsPopUpRightMenu = false;
+
+	if (mEditMenu)
+	{
+		PopupMenu(mEditMenu, x, y);
 	}
 }
 //----------------------------------------------------------------------------

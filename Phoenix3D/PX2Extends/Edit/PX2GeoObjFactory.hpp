@@ -31,10 +31,8 @@ namespace PX2
 		PX2::Node *CreateUICrossCtrl();
 		PX2::Node *CreateUIRectCtrl(float smallRectSize);
 
-		void UpdateCtrlColor(PX2::Renderer *renderer, PX2::Movable *mov,
-			PX2::Float4 color);
-		void UpdateCtrlColor1(PX2::Renderer *renderer, PX2::Movable *mov,
-			PX2::Float4 color);
+		void UpdateCtrlColor(Movable *mov, Float4 color);
+		void UpdateCtrlColor1(Movable *mov, Float4 color);
 	};
 
 }

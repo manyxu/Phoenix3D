@@ -55,11 +55,11 @@ namespace PX2
 		virtual void GetCharSize (const unsigned char *character, float &width,
 			float &height);
 		virtual void GetCharExtent (const unsigned char *character,
-			float &width, float &height);
+			float &width, float &height, float fontScale);
 
 		/// 取得字符串的显示尺寸，此函数可处理换行控制符
 		virtual void GetTextExtent (const char *text, float &width,
-			float &height, bool doTransfer = false);
+			float &height, bool doTransfer, float fontScale);
 
 		/// 获取从字符串头部到限定宽度范围内，所完整包含的字符串信息
 		/**
@@ -67,24 +67,24 @@ namespace PX2
 		* numBytes: 从字符串头部到限定宽度范围内，完整包含的部分字符串字节长度
 		*/
 		virtual void GetTextExtentFitInWidth (const char *text, float fixedWidth,
-			float &width, int &numBytes, bool doTransfer = false);
+			float &width, int &numBytes, bool doTransfer, float fontScale);
 
 		/// 显示字符串
 		virtual void TextOutM (TriMesh *mesh, const std::string &text, float xPos, float yPos,
 			const Float2 &space, const Float4 &color, const Float4 &shadowBorderColor4, 
-			float shadowBorderSize,
-			unsigned int drawStyle=FES_NORMAL, bool doTransfer=false,
+			float shadowBorderSize, unsigned int drawStyle=FES_NORMAL, bool doTransfer=false,
 			float scale = 1.0f, float depth=0.0f);
 
 		/// 在矩形区域里显示文本
 		/**
 		* autoWrap表示是否自动换行
 		*/
-		virtual void TextOutRect (TriMesh *mesh, const std::string &text, Rectf &rect, 
+		virtual void TextOutRect(TriMesh *mesh, const std::string &text, Rectf &rect,
 			const Float2 &space,
 			float offsetX, float offsetY, bool autoWrap, const Float4 &color,
-			const Float4 &shadowBorderColor4, float shadowBorderSize, 
-			int drawStyle=FES_NORMAL, bool doTransfer=false,  float scale=1.0f);
+			const Float4 &shadowBorderColor4, float shadowBorderSize,
+			int drawStyle = FES_NORMAL, bool doTransfer = false, float scale = 1.0f,
+			bool isPointAsPunctuation = true);
 
 		Texture2D *GetTexture ();
 
@@ -94,7 +94,7 @@ namespace PX2
 		Font ();
 		void RenderText (TriMesh *mesh, float depth = 0.0f);
 		// 从字符串开始到最近的可换行位置的距离
-		float GetMinDisToNewLine(const char *text, bool doTransfer = false);
+		float GetMinDisOfAWord(const char *text, bool doTransfer, bool isPointAsPunctuation, float fontScale);
 		virtual Texture2D *TexUVMaping (const unsigned char *character, Rectf &rectUV) = 0;
 
 		int mFontPicSize;

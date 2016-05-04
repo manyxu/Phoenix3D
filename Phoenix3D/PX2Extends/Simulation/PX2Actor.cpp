@@ -51,13 +51,11 @@ void Actor::SetMovable (Movable *mov)
 	SetReceiveShadow(mIsReceiveShadow);
 }
 //----------------------------------------------------------------------------
-int Actor::AttachChild(Movable* child)
+void Actor::OnChildAttached(Movable *child)
 {
-	int result = Node::AttachChild(child);
+	Node::OnChildAttached(child);
 
 	SetReceiveShadow(mIsReceiveShadow);
-
-	return result;
 }
 //----------------------------------------------------------------------------
 void Actor::SetMovableFilename(const std::string &filename, bool shareVI)
@@ -176,24 +174,22 @@ void Actor::SetReceiveShadow(bool receiveShadow)
 	}
 }
 //----------------------------------------------------------------------------
-void Actor::SetParent(Movable* parent)
+void Actor::OnBeAttached()
 {
-	Movable *mov = GetTopestParent();
-	Scene *scene = DynamicCast<Scene>(mov);
+	Node::OnBeAttached();
+
+	Scene *scene = GetFirstParentDerivedFromType<Scene>();
 	if (scene)
 	{
-		scene->_RemoveActor(this);
+		SetReceiveShadow(scene->IsUseShadowMap());
+		scene->_AddActor(this);
 	}
-
-	Node::SetParent(parent);
-
-	Movable *movNow = GetTopestParent();
-	Scene *sceneNow = DynamicCast<Scene>(movNow);
-	if (sceneNow && parent)
-	{
-		SetReceiveShadow(sceneNow->IsUseShadowMap());
-		sceneNow->_AddActor(this);
-	}
+}
+//----------------------------------------------------------------------------
+void Actor::OnBeDetach()
+{
+	Scene *scene = GetFirstParentDerivedFromType<Scene>();
+	if (scene) scene->_RemoveActor(this);
 }
 //----------------------------------------------------------------------------
 void Actor::CollectAnchors()
@@ -399,8 +395,6 @@ void Actor::PostLink()
 	}
 
 	SetPickable(IsPickable());
-
-	RegistToScriptSystem();
 }
 //----------------------------------------------------------------------------
 bool Actor::Register(OutStream& target) const

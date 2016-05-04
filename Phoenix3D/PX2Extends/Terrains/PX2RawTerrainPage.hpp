@@ -81,7 +81,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(RawTerrainPage);
-	typedef Pointer0<RawTerrainPage> RawTerrainPagePtr;
+	typedef PointerRef<RawTerrainPage> RawTerrainPagePtr;
 #include "PX2RawTerrainPage.inl"
 
 }

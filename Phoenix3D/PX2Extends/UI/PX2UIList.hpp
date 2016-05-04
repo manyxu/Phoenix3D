@@ -6,6 +6,7 @@
 #include "PX2UIPre.hpp"
 #include "PX2UIFrame.hpp"
 #include "PX2UIItem.hpp"
+#include "PX2UISlider.hpp"
 
 namespace PX2
 {
@@ -19,12 +20,22 @@ namespace PX2
 		UIList();
 		virtual ~UIList();
 
+		void SetSliderSize(float size);
+		float GetSliderSize() const;
+
 		void SetItemHeight(float height);
 		float GetItemHeight() const;
 
 		UIItem *AddItem(const std::string &text);
-		virtual void OnChildAdded(Movable *child);
-		virtual void OnChildRemoved(Movable *child);
+		void RemoveAllItems();
+		float GetContentHeight() const;
+
+		void AddSelectItem(UIItem *item);
+		void ClearAllSelectItems();
+		UIItem *GetSelectedItem();
+
+		virtual void OnSelected(UIItem *item);
+		int GetSelectIndex() const;
 
 		virtual void OnSizeChanged();
 
@@ -32,15 +43,29 @@ namespace PX2
 		virtual void UpdateWorldData(double applicationTime,
 			double elapsedTime);
 		void _Recal();
+		void _SliderCallback(UIFrame *frame, UICallType type);
+		void _UpdateContentPos();
+		void _UpdateItemVisible();
+		void _SelectButCallback(UIFrame *frame, UICallType type);
 
 		bool mIsNeedRecal;
+		bool mIsUpdateSliderVisible;
+		bool mIsUpdateContentPos;
+
+		float mSliderSize;
 		float mItemHeight;
+		UIFramePtr mMaskFrame;
+		UIFramePtr mContentFrame;
 		std::vector<UIItemPtr> mItems;
+		UISliderPtr mSlider;
+
+		std::vector<UIItemPtr> mSelectedItems;
+		int mSelectedIndex;
 	};
 
 #include "PX2UIList.inl"
 	PX2_REGISTER_STREAM(UIList);
-	typedef Pointer0<UIList> UIListPtr;
+	typedef PointerRef<UIList> UIListPtr;
 
 }
 

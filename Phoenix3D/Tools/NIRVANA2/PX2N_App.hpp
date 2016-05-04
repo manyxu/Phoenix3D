@@ -25,7 +25,8 @@ namespace NA
 		virtual void DoExecute(PX2::Event *event);
 
 	protected:
-		N_Frame *CreateMainFrame(const std::string &name);
+		N_Frame *CreateMainFrame();
+		void SimuApp(int type);
 	};
 
 	DECLARE_APP(N_App)

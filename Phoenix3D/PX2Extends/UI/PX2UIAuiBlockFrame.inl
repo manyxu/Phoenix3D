@@ -1,9 +1,24 @@
 // PX2UIAuiBlockFrame.inl
 
 //----------------------------------------------------------------------------
+inline bool UIAuiBlockFrame::IsCaputred() const
+{
+	return mIsCaptured;
+}
+//----------------------------------------------------------------------------
+inline UIAuiBlockFrame *UIAuiBlockFrame::GetBrotherFrame()
+{
+	return mBrotherFrame;
+}
+//----------------------------------------------------------------------------
 inline UILayoutPosType UIAuiBlockFrame::GetLayOutPosType() const
 {
 	return mPosType;
+}
+//----------------------------------------------------------------------------
+inline bool UIAuiBlockFrame::IsAutoExpand() const
+{
+	return mIsAutoExpand;
 }
 //----------------------------------------------------------------------------
 inline UITabFrame *UIAuiBlockFrame::GetUITabFrame()
@@ -34,6 +49,11 @@ inline UISplitterFrame *UIAuiBlockFrame::GetSideFrameVer0()
 inline UISplitterFrame *UIAuiBlockFrame::GetSideFrameVer1()
 {
 	return mSideFrameVer1;
+}
+//----------------------------------------------------------------------------
+inline UISplitterFrame *UIAuiBlockFrame::GetSpliterFrame()
+{
+	return mSpliterFrame;
 }
 //----------------------------------------------------------------------------
 inline UIAuiBlockFrame *UIAuiBlockFrame::GetParentSpBlockFrame()

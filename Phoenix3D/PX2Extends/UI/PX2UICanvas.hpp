@@ -19,113 +19,87 @@ namespace PX2
 	class PX2_EXTENDS_ITEM UICanvas : public Canvas
 	{
 		PX2_DECLARE_RTTI;
+		PX2_DECLARE_NAMES;
+		PX2_DECLARE_STREAM(UICanvas);
 
 	public:
-		UICanvas(int viewID);
-		~UICanvas();
+		UICanvas();
+		virtual ~UICanvas();
 
-		int GetViewID() const;
+		virtual void OnChildAttached(Movable *child);
+		virtual void OnChildDetach(Movable *child);
+
+		void SetNeedAdjustChildrenMask(bool isNeed);
+		bool IsNeedAdjustChildrenMask() const;
 
 	protected:
+		void _AdjustChildrenMask();
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
 
-		int mViewID;
-
-		// Draw;
-	public:
-		virtual void Draw();
-
-		// Node
-	public:
-		void SetSuperTopMoveable(Movable *movable);
-		Movable *GetSuperTopMovbale();
-		void PushTopMovable(Movable *movable);
-		void PopTopMovable();
-
-		Movable *GetTopestMovable();
-
-	protected:
-		MovablePtr mSuperTopMovable;
-		std::deque<MovablePtr> mTopMovables;
+		bool mIsNeedAdjustChildrenMask;
 
 	public:
 		CameraNode *GetCameraNode();
+
 		void TransCameraNode(const AVector &trans);
 		void ScaleCameraFrustum(float addScaleValue);
+		APoint ScreenPosToCameraPos(const APoint &screenPos);
 
 		virtual void OnSizeChanged();
 
 	protected:
+		virtual void UpdateLeftBottomCornerOffset(Movable *parent);
+		void _UpdateCamera();
+
 		CameraNodePtr mCameraNode;
 		bool mIsInittedRefreshCameraSizePos;
 		float mScaleCameraFrustumValue;
 
-		// Pick
-	public:
-		void SetPickAcceptRect(const Rectf &rect);
-		const Rectf &GetPickAcceptRect() const;
-
-		void SetNotPickedCallback(NotPickedCallback callback);
-
-		std::vector<RenderablePtr> &GetPickedRenderables();
-
-		bool IsPressed() const;
-		const APoint &GetCurPickPos() const;
-		const APoint &GetPressedPos() const;
-		const APoint &GetReleasedPos() const;
-
 	public_internal:
-		std::set<UIFramePtr > mPickedFrames;
+		void _AddPickWidget(UIFrame *widget);
+		void _RemovePickWidget(UIFrame *widget);
+		void _AddInRangePickWidget(UIFrame *widget);
+		void _SortInRangePickWidget();
 
 	protected:
-		void _DoPick(float x, float z, int pickInfo,
-			std::vector<RenderablePtr> &vec);
-		void _CollectFrames(Movable *mov, std::set<UIFramePtr> &frames);
-
-		Rectf mPickAcceptRect;
+		void _DoPick(const UIInputData &inputData);
 
 		float mMoveAdjugeParam;
 		float mMoveAdjugeParamSquare;
+		std::list<UIFrame*> mPickWidgets;
+		std::list<UIFrame*> mInRangeWidgets;
 
-		bool mIsPressed;
-		APoint mCurPickPos;
-		APoint mPressedPos;
-		APoint mReleasedPos;
-
-		std::vector<RenderablePtr> mPickedRenderables;
-		NotPickedCallback mNotPickedCallback;
-
-		// general
-	protected:
-		static float msUICameraY;
-
-		// public
-	public:
-		virtual void DoExecute(Event *event);
-
-		// parent frame
-	public:
-		UIFrame *GetParentUIFrame();
-
-	public_internal:
-		void SetParentUIFrame(UIFrame *parentUIFrame);
-
-	protected:
-		UIFrame *mParentUIFrame;
-
-		// uictrl
+		// ui ctrl
 	public:
 		UICanvasController *CreateAndAddCanvasController();
 		UICanvasController *GetCanvasController();
+		void DestoryCanvasController();
 
 	protected:
 		friend UICanvasController;
 
 		UICanvasControllerPtr mCanvasController;
+
+		// other
+	protected:
+		static float msUICameraY;
+
+		// callbacks - general use for editor
+	public:
+		virtual void OnLeftDown(const APoint &worldPos);
+		virtual void OnLeftUp(const APoint &worldPos);
+		virtual void OnLeftDClick(const APoint &worldPos);
+		virtual void OnMiddleDown(const APoint &worldPos);
+		virtual void OnMiddleUp(const APoint &worldPos);
+		virtual void OnMouseWheel(const APoint &worldPos, float delta);
+		virtual void OnRightDown(const APoint &worldPos);
+		virtual void OnRightUp(const APoint &worldPos);
+		virtual void OnMotion(const APoint &worldPos);
 	};
 
 #include "PX2UICanvas.inl"
-	typedef Pointer0<UICanvas> UICanvasPtr;
+	PX2_REGISTER_STREAM(UICanvas);
+	typedef PointerRef<UICanvas> UICanvasPtr;
 
 }
 

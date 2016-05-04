@@ -29,7 +29,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(InterpCurveTranslateController);
-	typedef Pointer0<InterpCurveTranslateController> InterpCurveTranslateControllerPtr;
+	typedef PointerRef<InterpCurveTranslateController> InterpCurveTranslateControllerPtr;
 
 }
 

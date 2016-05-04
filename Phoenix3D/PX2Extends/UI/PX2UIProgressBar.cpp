@@ -44,6 +44,8 @@ mIsNeedAdujst(true)
 
 	mPBCtrl = new0 UIProgressBarCtrl();
 	AttachController(mPBCtrl);
+
+	SetWidget(true);
 }
 //----------------------------------------------------------------------------
 UIProgressBar::~UIProgressBar()
@@ -180,12 +182,9 @@ void UIProgressBar::_Adjust()
 
 	if (mProgressPicBox)
 	{
-		Sizef size(mSize.Width - mBorderSize.Width*2.0f,
-			mSize.Height - mBorderSize.Height*2.0f);
+		mProgressPicBox->SetSize(mSize);
 
-		mProgressPicBox->SetSize(size);
-
-		float posX1 = -size.Width * mPivotPoint[0];
+		float posX1 = -mSize.Width * mPivotPoint[0];
 		mProgressPicBox->LocalTransform.SetTranslateX(posX1);
 	}
 

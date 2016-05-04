@@ -46,8 +46,6 @@ namespace PX2
 		virtual int Main (int numArguments, char** arguments);
 
 	protected:
-		bool _LoadProject(const std::string &projFilename);
-
 		static bool msIsInitlized;
 	
 		// ‰÷»æœ‡πÿ
@@ -55,6 +53,8 @@ namespace PX2
 		std::string mWindowTitle;
 		int mXPosition, mYPosition, mWidth, mHeight;
 		bool mAllowResize;
+
+		std::string mCmdProjectName;
 	};
 
 }

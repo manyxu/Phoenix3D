@@ -70,7 +70,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(BoxSurface);
-	typedef Pointer0<BoxSurface> BoxSurfacePtr;
+	typedef PointerRef<BoxSurface> BoxSurfacePtr;
 #include "PX2BoxSurface.inl"
 
 }

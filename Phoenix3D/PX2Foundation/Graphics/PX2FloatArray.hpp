@@ -33,7 +33,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(FloatArray);
-	typedef Pointer0<FloatArray> FloatArrayPtr;
+	typedef PointerRef<FloatArray> FloatArrayPtr;
 #include "PX2FloatArray.inl"
 
 }

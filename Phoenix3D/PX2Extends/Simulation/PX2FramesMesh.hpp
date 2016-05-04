@@ -57,7 +57,7 @@ namespace PX2
 
 #include "PX2FramesMesh.inl"
 	PX2_REGISTER_STREAM(FramesMesh);
-	typedef Pointer0<FramesMesh> FramesMeshPtr;
+	typedef PointerRef<FramesMesh> FramesMeshPtr;
 
 }
 

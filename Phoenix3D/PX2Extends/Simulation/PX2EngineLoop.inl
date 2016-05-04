@@ -16,14 +16,9 @@ inline const std::string &EngineLoop::GetProjectName() const
 	return mProjectName;
 }
 //----------------------------------------------------------------------------
-inline void EngineLoop::_SetDoAdjustScreenViewRect(bool adjust)
+inline const std::string &EngineLoop::GetProjectFilePath() const
 {
-	mIsDoAdjustScreenViewRect = adjust;
-}
-//----------------------------------------------------------------------------
-inline bool EngineLoop::IsDoAdjustScreenViewRect() const
-{
-	return mIsDoAdjustScreenViewRect;
+	return mProjectFilePath;
 }
 //----------------------------------------------------------------------------
 inline const Sizef &EngineLoop::GetScreenSize() const
@@ -31,17 +26,12 @@ inline const Sizef &EngineLoop::GetScreenSize() const
 	return mScreenSize;
 }
 //----------------------------------------------------------------------------
-inline const Rectf &EngineLoop::GetAdjustViewPort() const
-{
-	return mAdjustViewPort;
-}
-//----------------------------------------------------------------------------
 inline EngineLoop::PlayType EngineLoop::GetPlayType() const
 {
 	return mPlayType;
 }
 //----------------------------------------------------------------------------
-inline SimuES_EventHandler *EngineLoop::GetSimuES_EventHandler()
+inline General_EventHandler *EngineLoop::GetGeneral_EventHandler()
 {
 	return mSimuES_EventHandler;
 }

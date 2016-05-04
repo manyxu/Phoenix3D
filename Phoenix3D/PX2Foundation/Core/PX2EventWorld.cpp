@@ -58,7 +58,7 @@ void EventWorld::ComeIn (EventHandler *handler)
 
 	if (!handler) return;
 
-	if (handler->IsInWorld(this)) return;
+	if (handler->IsInOrIningWorld(this)) return;
 
 	if (!mIsUpdatingEvents)
 	{
@@ -98,7 +98,20 @@ void EventWorld::GoOut(EventHandler *handler)
 	}
 }
 //----------------------------------------------------------------------------
-bool EventWorld::_IsInComingOut(EventHandler *handler)
+bool EventWorld::IsInComingIn(const EventHandler *handler) const
+{
+	for (int i = 0; i < (int)mHandlersComingIn.size(); i++)
+	{
+		if (handler == mHandlersComingIn[i])
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+//----------------------------------------------------------------------------
+bool EventWorld::_IsInComingOut(const EventHandler *handler) const
 {
 	for (int i = 0; i < (int)mHandlersGoingOut.size(); i++)
 	{

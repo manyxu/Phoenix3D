@@ -112,31 +112,31 @@ void LightActor::UpdateWorldData(double applicationTime, double elapsedTime)
 	WorldBound.SetRadius(GetRadius());
 }
 //----------------------------------------------------------------------------
-void LightActor::SetParent(Movable* parent)
+void LightActor::OnBeAttached()
 {
-	if (parent)
-	{
-		Scene *scene = DynamicCast<Scene>(parent);
-		if (!scene)scene = DynamicCast<Scene>(parent->GetTopestParent());
-		EnvirParam *envirParam = scene->GetEnvirParam();
+	Actor::OnBeAttached();
 
-		envirParam->AddLight(mLight);
-	}
-	else
+	Movable *parent = GetParent();
+
+	Scene *scene = DynamicCast<Scene>(parent);
+	if (!scene)scene = DynamicCast<Scene>(parent->GetTopestParent());
+	EnvirParam *envirParam = scene->GetEnvirParam();
+
+	envirParam->AddLight(mLight);
+}
+//----------------------------------------------------------------------------
+void LightActor::OnBeDetach()
+{
+	if (mParent)
 	{
-		if (mParent)
+		Scene *scene = DynamicCast<Scene>(mParent);
+		if (!scene)scene = DynamicCast<Scene>(mParent->GetTopestParent());
+		if (scene)
 		{
-			Scene *scene = DynamicCast<Scene>(mParent);
-			if (!scene)scene = DynamicCast<Scene>(mParent->GetTopestParent());
-			if (scene)
-			{
-				EnvirParam *envirParam = scene->GetEnvirParam();
-				envirParam->RemoveLight(mLight);
-			}
+			EnvirParam *envirParam = scene->GetEnvirParam();
+			envirParam->RemoveLight(mLight);
 		}
 	}
-
-	Actor::SetParent(parent);
 }
 //----------------------------------------------------------------------------
 

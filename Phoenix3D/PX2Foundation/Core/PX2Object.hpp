@@ -7,32 +7,38 @@
 #include "PX2NameID.hpp"
 #include "PX2Property.hpp"
 #include "PX2Rtti.hpp"
-#include "PX2SmartPointer.hpp"
+#include "PX2SmartPointerRef.hpp"
 #include "PX2InStream.hpp"
 #include "PX2OutStream.hpp"
 #include "PX2Any.hpp"
 #include "PX2Visitor.hpp"
+#include "PX2ReferencesObject.hpp"
 
 namespace PX2
 {
 
 	class Event;
 	class ObjectEventHandler;
+	class FunObject;
 
 	/// 对象系统根类
 	/** 
 	* 对系统提供：运行识别机制，控制器系统，拷贝系统，名称ID系统,以及硬盘持久化
 	* 系统支持。
 	*/
-	class PX2_FOUNDATION_ITEM Object
+	class PX2_FOUNDATION_ITEM Object : public RefObject
 	{
 		// Enable Disable
 	public:
 		virtual void Enable(bool enable);
 		bool IsEnable() const;
 
+		virtual void SetActivate(bool act);
+		bool IsActivated() const;
+
 	protected:
 		bool mIsEnable;
+		bool mIsActivated;
 
 		// 运行识别信息
 	public:
@@ -195,75 +201,10 @@ namespace PX2
 
 		// function
 	public:
-		enum FunParamType
-		{
-			FPT_NONE,
-			FPT_INT,
-			FPT_FLOAT,
-			FPT_APOINT,
-			FPT_AVECTOR,
-			FPT_BOOL,
-			FPT_STRING,
-			FPT_POINTER,
-			FPT_POINTER_THIS,
-			FPT_MAX_TYPE
-		};
-		struct PX2_FOUNDATION_ITEM FunParam
-		{
-			FunParam ();
-			~FunParam ();
-
-			std::string Name;
-			FunParamType Type;
-			Any Value;
-		};
-		struct PX2_FOUNDATION_ITEM FunObject
-		{
-			std::string ClassName;
-			std::string FunName;
-			void AddInput (const std::string &paramName, FunParamType type,
-				const Any &paramValue);
-			void AddOutput(const std::string &paramName, FunParamType type,
-				const Any &paramValue);
-
-			const std::vector<FunParam> &GetInParams () const;
-			int GetNumInParams () const;
-			const FunParam &GetInParam (int i) const;
-
-			const std::vector<FunParam> &GetOutParams () const;
-			int GetNumOutParams () const;
-			const FunParam &GetOutParam (int i) const;
-
-		protected:
-			std::vector<FunParam> mInParams;
-			std::vector<FunParam> mOutParams;
-		};
-		static void RegistFunctions(std::map<std::string, std::vector<FunObject> > &map);
-
-		// Scripts
-	public:
-		static Object *New();
-		static Object *New(const std::string &name);
-
-		void SetUserScriptName(const std::string &scriptName);
-		const std::string &GetUserScriptName() const;
-		const std::string &GetScriptName() const;
-
-		bool RegistToScriptSystem();
-		bool UnRegistToScriptSystem();
-		bool IsRegistedToScriptSystem();
-		virtual void RegistToScriptSystemAll();
-
-		void CallString(const char *fun, const char *format = "", ...);
-
-	protected:
-		std::string mScriptName;
-		std::string mUserScriptName;
+		static FunObject *RegistClassFunctions();
 
 		// 持久化
 	public:
-		static Object *Create ();
-		static Object *Create (const std::string &name);
 		typedef Object* (*FactoryFunction)(InStream& stream);
 		typedef std::map<std::string, FactoryFunction> FactoryMap;
 		static bool RegisterFactory ();
@@ -301,7 +242,7 @@ namespace PX2
 	};
 
 	static bool gsStreamRegistered_Object = Object::RegisterFactory();
-	typedef Pointer0<Object> ObjectPtr;
+	typedef PointerRef<Object> ObjectPtr;
 #include "PX2Object.inl"
 
 }

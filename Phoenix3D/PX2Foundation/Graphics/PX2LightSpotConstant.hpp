@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(LightSpotConstant);
-	typedef Pointer0<LightSpotConstant> LightSpotConstantPtr;
+	typedef PointerRef<LightSpotConstant> LightSpotConstantPtr;
 
 }
 

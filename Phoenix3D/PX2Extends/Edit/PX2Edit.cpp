@@ -3,7 +3,7 @@
 #include "PX2Edit.hpp"
 #include "PX2GraphicsRoot.hpp"
 #include "PX2EditEventType.hpp"
-#include "PX2Selection.hpp"
+#include "PX2SelectionManager.hpp"
 #include "PX2Creater.hpp"
 #include "PX2RedoUndo.hpp"
 #include "PX2Project.hpp"
@@ -19,7 +19,6 @@ Edit::Edit() :
 mEditType(ET_SCENE),
 mEditAxisMode(EAM_WORLD),
 mEditMode(EM_NONE),
-mEditMap(0),
 mGeoObjFactory(0),
 mEditParams(0),
 IsAltDown(false),
@@ -47,12 +46,13 @@ Edit::~Edit()
 {
 	delete0(mTimeLineEidt);
 	delete0(mTerrainEdit);
+
+	PX2_EW.GoOut(mEditEventHandler);
+	mEditEventHandler = 0;
 }
 //----------------------------------------------------------------------------
 bool Edit::Initlize()
 {
-	mEditMap = new0 EditMap();
-
 	mGeoObjFactory = new0 GeoObjFactory();
 
 	mEditParams = new0 EditParams();
@@ -70,8 +70,12 @@ bool Edit::LoadEditorTheme()
 //----------------------------------------------------------------------------
 bool Edit::InitlizeEditor()
 {
+	PX2_GR.SetInEditor(true);
 	mEU_Man = new0 EU_Manager();
 	mEU_Man->Initlize();
+
+	mEditEventHandler = new0 EditEventHandler();
+	PX2_EW.ComeIn(mEditEventHandler);
 
 	return true;
 }
@@ -84,11 +88,6 @@ bool Edit::Terminate()
 	{
 		mEU_Man->Terminate();
 		delete0(mEU_Man);
-	}
-
-	if (mEditMap)
-	{
-		delete0(mEditMap);
 	}
 
 	if (mGeoObjFactory)
@@ -107,82 +106,16 @@ void Edit::Reset()
 	mSelectPath_ChildFilenames.clear();
 	mSelectPath_ChildPaths.clear();
 
-	PX2_SELECTION.Clear();
-
 	SetEditType(ET_SCENE);
 	SetEditMode(EM_NONE);
-
-	PX2_URDOMAN.Clear();
 }
 //----------------------------------------------------------------------------
 void Edit::SetEditType(EditType type)
 {
-	//Project *proj = Project::GetSingletonPtr();
-	//if (!proj) return;
+	mEditType = type;
 
-	//if (mEditType == type) return;
-
-	//// disable old
-	//if (ET_SCENE == mEditType) 
-	//{
-	//}
-	//else if (ET_TERRAIN == mEditType)
-	//{
-	//	mTerrainEdit->SetTerrain(0);
-	//	mTerrainEdit->GetBrush()->GetRenderable()->Show(false);
-	//}
-	//else if (ET_UI == mEditType)
-	//{
-	//}
-	//else if (ET_SIMULATE == mEditType)
-	//{
-	//	PX2_ENGINELOOP.Play(EngineLoop::PT_NONE);
-	//	LoadProject(GetProjectFilePath().c_str());
-	//}
-	//else if (ET_PLAY == mEditType)
-	//{
-	//	PX2_ENGINELOOP.Play(EngineLoop::PT_NONE);
-	//	LoadProject(GetProjectFilePath().c_str());
-	//}
-
-	//mEditType = type;
-
-	//Scene *scene = proj->GetScene();
-
-	//// set new
-	//if (ET_TERRAIN == type)
-	//{
-	//	mTerrainEdit->GetBrush()->GetRenderable()->Show(true);
-	//	TerrainActor *terrainActor = scene->GetTerrainActor();
-	//	if (terrainActor) mTerrainEdit->SetTerrain(terrainActor->GetRawTerrain());
-	//}
-	//else if (ET_SIMULATE == type || ET_PLAY == type)
-	//{
-	//	if (proj)
-	//	{
-	//		std::string path = proj->GetSceneFilename();
-
-	//		Scene *scene = proj->GetScene();
-	//		if (scene && !path.empty())
-	//		{
-	//			PX2_EDIT.SaveScene(path.c_str());
-	//		}
-	//	}
-
-	//	SaveProject();
-
-	//	if (ET_SIMULATE == type)
-	//	{
-	//		PX2_ENGINELOOP.Play(EngineLoop::PT_SIMULATE);
-	//	}
-	//	else if (ET_PLAY == type)
-	//	{
-	//		PX2_ENGINELOOP.Play(EngineLoop::PT_PLAY);
-	//	}
-	//}
-
-	//Event *ent = EditEventSpace::CreateEventX(EditEventSpace::SetEditType);
-	//EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
+	Event *ent = EditEventSpace::CreateEventX(EditEventSpace::SetEditType);
+	EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
 }
 //----------------------------------------------------------------------------
 void Edit::SetEditAxisMode(EditAxisMode mode)
@@ -218,10 +151,10 @@ bool Edit::DeleteSelection()
 {
 	bool deleted = false;
 
-	int numObjs = PX2_SELECTION.GetNumObjects();
+	int numObjs = PX2_SELECTM_E->GetNumObjects();
 	for (int i = 0; i < numObjs; i++)
 	{
-		Object *obj = PX2_SELECTION.GetObjectAt(i);
+		Object *obj = PX2_SELECTM_E->GetObjectAt(i);
 
 		if (PX2_CREATER.RemoveObject(obj))
 		{
@@ -231,10 +164,15 @@ bool Edit::DeleteSelection()
 
 	if (deleted)
 	{
-		PX2_SELECTION.Clear();
+		PX2_SELECTM_E->Clear();
 	}
 
 	return deleted;
+}
+//----------------------------------------------------------------------------
+void Edit::SetSelectResDir(const std::string &path)
+{
+	mSelectResDir = path;
 }
 //----------------------------------------------------------------------------
 void Edit::SetSelectedResource(const SelectResData &data)
@@ -250,24 +188,48 @@ void Edit::PasteCopyedObject()
 	if (!mCopyObject) return;
 
 	Movable *mov = DynamicCast<Movable>(mCopyObject);
+	Node *parentNode = DynamicCast<Node>(PX2_SELECTM_E->GetFirstObject());
 
-	if (mov && mov->GetParent())
+	if (mov && parentNode)
 	{
-		Node *parentNode = DynamicCast<Node>(mov->GetParent());
-		if (parentNode)
+		MovablePtr newMov = DynamicCast<Movable>(PX2_RM.ShareCopy(mov, true, true, false));	
+		PX2_CREATER.AddObject(parentNode, newMov);
+	}
+}
+//----------------------------------------------------------------------------
+void Edit::CloneSelectedObject()
+{
+	int numObjects = PX2_SELECTM_E->GetNumObjects();
+	if (1 == numObjects)
+	{
+		SetCopyObject(PX2_SELECTM_E->GetFirstObject());
+	}
+	else
+	{
+		SetCopyObject(0);
+	}
+
+	for (int i = 0; i < numObjects; i++)
+	{
+		Movable *mov = DynamicCast<Movable>(PX2_SELECTM_E->GetObjectAt(i));
+		if (mov)
 		{
-			MovablePtr newMov = DynamicCast<Movable>(PX2_RM.ShareCopy(mov, true, true, false));	
-			PX2_CREATER.AddObject(parentNode, newMov);
+			Node *nodeParent = DynamicCast<Node>(mov->GetParent());
+			if (mov && nodeParent)
+			{
+				MovablePtr newMov = DynamicCast<Movable>(PX2_RM.ShareCopy(mov, false, false, false));
+				PX2_CREATER.AddObject(nodeParent, newMov);
+			}
 		}
 	}
 }
 //----------------------------------------------------------------------------
 bool Edit::Import(const char *pathname)
 {
-	int numObjs = PX2_SELECTION.GetNumObjects();
+	int numObjs = PX2_SELECTM_E->GetNumObjects();
 	if (1 != numObjs) return false;
 
-	Object *selectObj = PX2_SELECTION.GetFirstObject();
+	Object *selectObj = PX2_SELECTM_E->GetFirstObject();
 
 	InStream inStream;
 	if (inStream.Load(pathname))
@@ -323,7 +285,7 @@ bool Edit::Export(PX2::Object *obj, const char *pathname)
 //----------------------------------------------------------------------------
 void Edit::AnimPlay()
 {
-	Object *obj = PX2_SELECTION.GetFirstObject();
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
 	Controller *ctrl = DynamicCast<Controller>(obj);
 	Controlledable *ctrlable = DynamicCast<Controlledable>(obj);
 	Animation *anim = DynamicCast<Animation>(obj);
@@ -344,7 +306,7 @@ void Edit::AnimPlay()
 //----------------------------------------------------------------------------
 void Edit::AnimResetPlay()
 {
-	Object *obj = PX2_SELECTION.GetFirstObject();
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
 	Controller *ctrl = DynamicCast<Controller>(obj);
 	Controlledable *ctrlable = DynamicCast<Controlledable>(obj);
 	Animation *anim = DynamicCast<Animation>(obj);
@@ -365,7 +327,7 @@ void Edit::AnimResetPlay()
 //----------------------------------------------------------------------------
 void Edit::AnimStop()
 {
-	Object *obj = PX2_SELECTION.GetFirstObject();
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
 	Controller *ctrl = DynamicCast<Controller>(obj);
 	Controlledable *ctrlable = DynamicCast<Controlledable>(obj);
 	Animation *anim = DynamicCast<Animation>(obj);
@@ -386,7 +348,7 @@ void Edit::AnimStop()
 //----------------------------------------------------------------------------
 void Edit::AnimReset()
 {
-	Object *obj = PX2_SELECTION.GetFirstObject();
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
 	Controller *ctrl = DynamicCast<Controller>(obj);
 	Controlledable *ctrlable = DynamicCast<Controlledable>(obj);
 
@@ -402,7 +364,7 @@ void Edit::AnimReset()
 //----------------------------------------------------------------------------
 bool Edit::IsAnimPlaying()
 {
-	Object *obj = PX2_SELECTION.GetFirstObject();
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
 	Controller *ctrl = DynamicCast<Controller>(obj);
 	Controlledable *ctrlable = DynamicCast<Controlledable>(obj);
 
@@ -428,7 +390,7 @@ void Edit::AnimPlayStop()
 //----------------------------------------------------------------------------
 void Edit::MakeSelectTimeLineEdit()
 {
-	PX2::Object *obj = PX2_SELECTION.GetFirstObject();
+	PX2::Object *obj = PX2_SELECTM_E->GetFirstObject();
 
 	EffectModule *eftModule = DynamicCast<EffectModule>(obj);
 	InterpCurveController *interpCurve = DynamicCast<InterpCurveController>(obj);
@@ -444,7 +406,7 @@ void Edit::MakeSelectTimeLineEdit()
 //----------------------------------------------------------------------------
 void Edit::OnFindSelectInProjTree()
 {
-	Object *obj = PX2_SELECTION.GetFirstObject();
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
 	if (obj)
 	{
 		Event *ent = EditEventSpace::CreateEventX(EditEventSpace::FindActorInProjectTree);
@@ -454,7 +416,7 @@ void Edit::OnFindSelectInProjTree()
 //----------------------------------------------------------------------------
 void Edit::OnFindSelectInResTree()
 {
-	Object *obj = PX2_SELECTION.GetFirstObject();
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
 	if (obj)
 	{
 		Event *ent = EditEventSpace::CreateEventX(EditEventSpace::FindActorInResTree);
@@ -469,5 +431,145 @@ void Edit::SetPreViewObject(Object *obj)
 	Event *ent = EditEventSpace::CreateEventX(EditEventSpace::SetPreViewObject);
 	ent->SetData<PX2::Object*>(obj);
 	EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
+}
+//----------------------------------------------------------------------------
+void Edit::CreateBPPackage()
+{
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
+	Node *parent = DynamicCast<Node>(obj);
+	if (parent)
+	{
+		PX2_CREATER.CreateBPPackage(parent, mPickPos, false);
+	}
+}
+//----------------------------------------------------------------------------
+void Edit::CreateBPFile()
+{
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
+	Node *parent = DynamicCast<Node>(obj);
+	if (parent)
+	{
+		PX2_CREATER.CreateBPFile(parent, mPickPos, false);
+	}
+}
+//----------------------------------------------------------------------------
+void Edit::CreateBPModule(const std::string &className, 
+	const std::string &funName)
+{
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
+	Node *parent = DynamicCast<Node>(obj);
+	if (parent)
+	{
+		if (className.empty())
+		{
+			if ("FunctionStart" == funName)
+			{
+				PX2_CREATER.CreateBPModuleFunctionStart(parent, mPickPos,
+					false);
+			}
+			else
+			{
+				PX2_CREATER.CreateBPModuleGeneral(parent, funName, mPickPos,
+					false);
+			}
+		}
+		else
+		{
+			PX2_CREATER.CreateBPModule(parent, className, funName, mPickPos,
+				false);
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void Edit::CreateBPEvent(const std::string &eventName)
+{
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
+	Node *parent = DynamicCast<Node>(obj);
+	if (parent)
+	{
+		PX2_CREATER.CreateBPEvent(parent, eventName, mPickPos, false);
+	}
+}
+//----------------------------------------------------------------------------
+void Edit::CreateBPOption(const std::string &optionName)
+{
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
+	Node *parent = DynamicCast<Node>(obj);
+	if (parent)
+	{
+		PX2_CREATER.CreateBPOption(parent, optionName, mPickPos, false);
+	}
+}
+//----------------------------------------------------------------------------
+void Edit::CreateBPOperator(const std::string &operatorName)
+{
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
+	Node *parent = DynamicCast<Node>(obj);
+	if (parent)
+	{
+		PX2_CREATER.CreateBPOperator(parent, operatorName, mPickPos, false);
+	}
+}
+//----------------------------------------------------------------------------
+void Edit::CreateBPParam(const std::string &paramName)
+{
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
+	Node *parent = DynamicCast<Node>(obj);
+	if (parent)
+	{
+		PX2_CREATER.CreateBPParam(parent, paramName, mPickPos, false);
+	}
+}
+//----------------------------------------------------------------------------
+void Edit::CompileBP()
+{
+	Project *proj = Project::GetSingletonPtr();
+	if (!proj) return;
+
+	const std::string &projName = proj->GetName();
+
+	Object *selectObj = PX2_SELECTM_E->GetFirstObject();
+	BPPackage *bpPackage = DynamicCast<BPPackage>(selectObj);
+	BPFile *bpFile = DynamicCast<BPFile>(selectObj);
+
+	if (bpPackage)
+	{
+	}
+	else if (bpFile)
+	{
+		std::string bpFileName = bpFile->GetName();
+		std::transform(bpFileName.begin(), bpFileName.end(), bpFileName.begin(), tolower);
+
+		std::string outFilename = "Data/" + projName + "/scripts/bp/" + bpFileName + ".lua";
+		PX2_BPEDIT.CompileBPFile(outFilename, bpFile);
+	}
+}
+//----------------------------------------------------------------------------
+void Edit::DisconnectParam()
+{
+	Project *proj = Project::GetSingletonPtr();
+	if (!proj) return;
+
+	Object *selectObj = PX2_SELECTM_E->GetFirstObject();
+	BPParam *bpParam = DynamicCast<BPParam>(selectObj);
+
+	if (bpParam)
+	{
+		if (bpParam->IsIn())
+		{
+			for (int i = 0; i < bpParam->GetNumLinkMeParams(); i++)
+			{
+				BPParam *linkMeParam = bpParam->GetLinkMeParam(i);
+				if (linkMeParam)
+				{
+					linkMeParam->RemoveLinkToParam(bpParam);
+				}
+			}
+		}
+		else
+		{
+			bpParam->RemoveAllLinkToParams();
+		}
+	}
 }
 //----------------------------------------------------------------------------

@@ -177,6 +177,11 @@ bool CharCodingUTF8::IsPunctuation(const unsigned char *character)
 	return false;
 }
 //----------------------------------------------------------------------------
+bool CharCodingUTF8::IsPoint(const unsigned char *character)
+{
+	return character[0] == '.';
+}
+//----------------------------------------------------------------------------
 unsigned short CharCodingUTF8::ToUnicode(const unsigned char *character)
 {
 	return *(StringHelp::UTF8ToUnicode((const char*)character, 

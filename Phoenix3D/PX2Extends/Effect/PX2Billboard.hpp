@@ -62,7 +62,7 @@ public_internal:
 
 #include "PX2Billboard.inl"
 	PX2_REGISTER_STREAM(Billboard);
-	typedef Pointer0<Billboard> BillboardPtr;
+	typedef PointerRef<Billboard> BillboardPtr;
 
 }
 

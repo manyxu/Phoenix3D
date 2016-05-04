@@ -75,7 +75,7 @@ public_internal:
 	};
 
 	PX2_REGISTER_STREAM(TerrainPage);
-	typedef Pointer0<TerrainPage> TerrainPagePtr;
+	typedef PointerRef<TerrainPage> TerrainPagePtr;
 #include "PX2TerrainPage.inl"
 
 }

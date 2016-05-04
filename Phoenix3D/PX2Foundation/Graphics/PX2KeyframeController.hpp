@@ -85,7 +85,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(KeyframeController);
-	typedef Pointer0<KeyframeController> KeyframeControllerPtr;
+	typedef PointerRef<KeyframeController> KeyframeControllerPtr;
 #include "PX2KeyframeController.inl"
 
 }

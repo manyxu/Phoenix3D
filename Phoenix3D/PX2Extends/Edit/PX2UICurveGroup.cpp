@@ -4,7 +4,7 @@
 #include "PX2Edit.hpp"
 #include "PX2UICanvas.hpp"
 #include "PX2GraphicsRoot.hpp"
-#include "PX2Selection.hpp"
+#include "PX2SelectionManager.hpp"
 using namespace PX2;
 using namespace PX2;
 
@@ -287,27 +287,27 @@ void UICurveGroup::OnNotPicked (int info)
 //----------------------------------------------------------------------------
 void UICurveGroup::OnUIPicked(int info, Movable *child)
 {
-	UICanvas *uiCanvas = DynamicCast<UICanvas>(GetFirstParentDerivedFromType(UICanvas::TYPE));
-	if (!uiCanvas) return;
+	//UICanvas *uiCanvas = DynamicCast<UICanvas>(GetFirstParentDerivedFromType(UICanvas::TYPE));
+	//if (!uiCanvas) return;
 
-	if (1 == info)
-	{
-		if (mBackground == child)
-		{
-			UIFrame *uiFrame = DynamicCast<UIFrame>(GetTopestParent());
-			if (uiFrame)
-			{
-				if (uiCanvas)
-				{
-					int pickedSize = (int)uiCanvas->GetPickedRenderables().size();
-					if (1 == pickedSize)
-					{
-						PX2_EDIT.GetTimeLineEdit()->SetSelectedUICurveGroup(this);
-					}
-				}
-			}
-		}
-	}
+	//if (1 == info)
+	//{
+	//	if (mBackground == child)
+	//	{
+	//		UIFrame *uiFrame = DynamicCast<UIFrame>(GetTopestParent());
+	//		if (uiFrame)
+	//		{
+	//			if (uiCanvas)
+	//			{
+	//				int pickedSize = (int)uiCanvas->GetPickedRenderables().size();
+	//				if (1 == pickedSize)
+	//				{
+	//					PX2_EDIT.GetTimeLineEdit()->SetSelectedUICurveGroup(this);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 }
 //----------------------------------------------------------------------------
 void UICurveGroup::OnEvent (Event *event)

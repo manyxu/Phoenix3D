@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(LightWorldPositionConstant);
-	typedef Pointer0<LightWorldPositionConstant> LightWorldPositionConstantPtr;
+	typedef PointerRef<LightWorldPositionConstant> LightWorldPositionConstantPtr;
 
 }
 

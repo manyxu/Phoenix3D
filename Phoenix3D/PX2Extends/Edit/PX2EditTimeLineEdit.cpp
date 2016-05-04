@@ -18,10 +18,11 @@ mMaxRange(99999.0f)
 {
 	mVFormat = PX2_GR.GetVertexFormat(GraphicsRoot::VFT_PC);
 
+	// ui
 	mCurveEditNode_UIGroup = new0 UIFrame();
 
+	// grid
 	mCurveEditNode_GridRoot = new0 Node();
-
 	mCurveEditNode_Grid = new0 Node();
 	mCurveEditNode_GridRoot->AttachChild(mCurveEditNode_Grid);
 
@@ -37,32 +38,6 @@ mMaxRange(99999.0f)
 //----------------------------------------------------------------------------
 TimeLineEdit::~TimeLineEdit()
 {
-}
-//----------------------------------------------------------------------------
-void TimeLineEdit::SetTimeLineCanvas_UIGroup(Canvas *canvas)
-{
-	mTimeLineCanvas_UIGroup = canvas;
-
-	if (mTimeLineCanvas_UIGroup)
-		mTimeLineCanvas_UIGroup->AttachChild(mCurveEditNode_UIGroup);
-}
-//----------------------------------------------------------------------------
-Canvas *TimeLineEdit::GetTimeLineCanvas_UIGroup() const
-{
-	return mTimeLineCanvas_UIGroup;
-}
-//----------------------------------------------------------------------------
-void TimeLineEdit::SetTimeLineCanvas_Grid(Canvas *canvas)
-{
-	mTimeLineCanvas_Grid = canvas;
-
-	if (mTimeLineCanvas_Grid)
-		mTimeLineCanvas_Grid->AttachChild(mCurveEditNode_GridRoot);
-}
-//----------------------------------------------------------------------------
-Canvas *TimeLineEdit::GetTimeLineCanvas_Grid() const
-{
-	return mTimeLineCanvas_Grid;
 }
 //----------------------------------------------------------------------------
 void TimeLineEdit::SetCtrlsScale(const Float2 &scale)

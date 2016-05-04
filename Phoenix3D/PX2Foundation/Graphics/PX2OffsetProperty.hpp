@@ -26,6 +26,11 @@ namespace PX2
 		bool LineEnabled;   // default: false
 		bool PointEnabled;  // default: false
 
+		bool AllowRed;
+		bool AllowGreen;
+		bool AllowBlue;
+		bool AllowAlpha;
+
 		// The offset is Scale*dZ + Bias*r where dZ is the change in depth
 		// relative to the screen space area of the poly, and r is the smallest
 		// resolvable depth difference.  Negative values move polygons closer to
@@ -35,7 +40,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(OffsetProperty);
-	typedef Pointer0<OffsetProperty> OffsetPropertyPtr;
+	typedef PointerRef<OffsetProperty> OffsetPropertyPtr;
 
 }
 

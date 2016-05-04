@@ -12,11 +12,13 @@
 #include "PX2Vector2.hpp"
 #include "PX2RenderTarget.hpp"
 #include "PX2WireProperty.hpp"
+#include "PX2CanvasRenderBind.hpp"
 
 namespace PX2
 {
 
 	class Renderer;
+	class RenderWindow;
 
 	class PX2_FOUNDATION_ITEM Canvas : public SizeNode
 	{
@@ -28,44 +30,48 @@ namespace PX2
 		Canvas();
 		virtual ~Canvas();
 
+		void SetMain(bool main);
+		bool IsMain() const;
+
+		void SetRenderNode(SizeNode *movable);
+		SizeNode *GetRenderNode();
+
+	public_internal:
+		void SetRenderWindow(RenderWindow *rw);
+		RenderWindow *GetRenderWindow();
+
 	protected:
+		virtual void OnSizeChanged();
+		
+		virtual void OnBeAttached();
+		virtual void OnBeDetach();
+
+		virtual void UpdateWorldData(double applicationTime, 
+			double elapsedTime);
 		virtual void UpdateWorldBound();
 
+		RenderWindow *mRenderWindow;
+		bool mIsMain;
 		CameraPtr mUpdateBeforeCamera;
-
-		// Size
-		// 在编辑器中需要随着窗口，动态调整相机等，所以Size会频繁改变
-		// 在AppPlayer中，加载工程时候，设置一次和工程大小一致，不会频繁改变
-	public:
-		virtual void OnSizeChanged();
-		void SetSizeChangeReAdjustCamera(bool doReAdjust);
-
-	protected:
-		bool mIsSizeChangeReAdjustCamera;
-
-		// ScreenSize
-		// 当屏幕改变，rendertarget可能需要重建，所以设计此接口，进行处理
-	public:
-		virtual void SetScreenSize(const Sizef &size);
-		const Sizef &GetScreenSize() const;
-
-	protected:
-		Sizef mScreenSize;
+		SizeNode *mRenderNode;
 
 		// ViewPort
 	public:
+		void SetSizeChangeReAdjustCamera(bool doReAdjust);
+		virtual void SetScreenSize(const Sizef &size);
+		const Sizef &GetScreenSize() const;
+
 		void SetViewPort(const Rectf &viewPort);
 		void SetViewPort(float left, float bottom, float width, float height);
 		const Rectf &GetViewPort() const;
 
 	protected:
+		bool mIsSizeChangeReAdjustCamera;
+		Sizef mScreenSize;
 		Rectf mViewPort;
 
 		// Renderer Camera Culler
 	public:
-		virtual void SetRenderer(Renderer *renderer);
-		Renderer *GetRenderer();
-
 		virtual void SetCamera(Camera *camera);
 		Camera *GetCamera();
 
@@ -73,17 +79,21 @@ namespace PX2
 		void SetNotDrawByParent(bool isNotDrawPyParent);
 		bool IsNotDrawByParent() const;
 
-		bool GetPickRay(float screenX, float screenY, APoint& origin, AVector& direction);
-		Vector2f PointWorldToViewPort(const APoint &worldPos, bool *isInBack=0);
+		bool GetPickRay(float viewPortPosX, float viewPortPosZ,
+			APoint& origin, AVector& direction);
+
+		Vector2f WorldPos3DToViewPort(const APoint &worldPos, 
+			bool *isInBack=0);
+
 		AVector ScreenVectorToCamera(const AVector &screenVec);
 
 	public_internal:
 		virtual void OnGetVisibleSet(Culler& culler, bool noCull);
 
 	protected:
-		Renderer *mRenderer;
 		CameraPtr mCamera;
 		Culler mCuller;
+		CanvasRenderBindPtr mCanvasRenderBind;
 
 		WirePropertyPtr mOverrideWireProperty;
 
@@ -99,7 +109,7 @@ namespace PX2
 
 		virtual void ClearVisibleSet();
 		virtual void ComputeVisibleSetAndEnv();
-		virtual void Draw();
+		virtual void Draw(Renderer *renderer);
 
 		void SetAfterDrawClear(bool color, bool depth, bool stencil);
 		void GetAfterDrawClear(bool &color, bool &depth, bool &stencil);
@@ -117,20 +127,65 @@ namespace PX2
 		bool mAfterDoClearStencil;
 		Float4 mClearColor;
 
-	public_internal:
-		// 编辑器中调用
-		void _Tick(double appTime, double elapsedTime);
+		// pick
+	public:
+		void SetPickOnlyInSizeRange(bool inRange);
+		bool IsPickOnlyInSizeRange() const;
+
+		virtual void OnLeftDown(const APoint &worldPos);
+		virtual void OnLeftUp(const APoint &worldPos);
+		virtual void OnLeftDClick(const APoint &worldPos);
+		virtual void OnMiddleDown(const APoint &worldPos);
+		virtual void OnMiddleUp(const APoint &worldPos);
+		virtual void OnMouseWheel(const APoint &worldPos, float delta);
+		virtual void OnRightDown(const APoint &worldPos);
+		virtual void OnRightUp(const APoint &worldPos);
+		virtual void OnMotion(const APoint &worldPos);
+
+		bool IsMoved() const;
+		bool IsLeftPressed() const;
+		bool IsRightPressed() const;
+		bool IsMiddlePressed() const;
+		const APoint &GetCurPickPos() const;
+		const AVector &GetMoveDelta() const;
+
+	protected:
+		bool mIsPickOnlyInSizeRange;
+		bool mIsInRange;
+
+		bool mIsPressed;
+		APoint mCurPickPos;
+		APoint mLastPickPos;
+		APoint mPressedPos;
+		APoint mReleasedPos;
+		bool mIsMoved;
+		AVector mMoveDelta;
+
+		bool mIsLeftPressed;
+		APoint mLeftPressedPos;
+		APoint mLeftReleasedPos;
+
+		bool mIsRightPressed;
+		APoint mRightPressedPos;
+		APoint mRightReleasedPos;
+
+		bool mIsMiddlePressed;
+		APoint mMiddlePressedPos;
+		APoint mMiddleReleasedPos;
 
 		// Help
 	public:
 		std::pair<float, float> CalPixelToWorld();
+
+	protected:
+		std::pair<float, float> mPixelToWorld;
 	};
 
 	PX2_REGISTER_STREAM(Canvas);
-	typedef Pointer0<Canvas> CanvasPtr;
+	typedef PointerRef<Canvas> CanvasPtr;
 
 #include "PX2Canvas.inl"
-	typedef Pointer0<Canvas> CanvasPtr;
+	typedef PointerRef<Canvas> CanvasPtr;
 
 }
 

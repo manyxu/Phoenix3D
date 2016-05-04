@@ -17,8 +17,7 @@ namespace PX2
 		virtual std::string GetName() = 0;
 
 		virtual void OnInstall() = 0;
-		virtual void OnTerminate() = 0;
-		virtual void OnUnstall() = 0;
+		virtual void OnUninstall() = 0;
 	};
 
 }

@@ -8,49 +8,75 @@
 #include "PX2EditEventType.hpp"
 #include "PX2EditEventData.hpp"
 #include "PX2N_DlgCreateProject.hpp"
+#include "PX2GraphicsRoot.hpp"
+#include "PX2GraphicsEventType.hpp"
 using namespace NA;
 using namespace PX2;
 
-const int sID_ENGINELOOPTIMER = PX2_EDIT_GETID;
-
 BEGIN_EVENT_TABLE(N_Frame, wxFrame)
-EVT_TIMER(sID_ENGINELOOPTIMER, N_Frame::OnTimer)
 EVT_SIZE(N_Frame::OnSize)
-EVT_ENTER_WINDOW(N_Frame::OnEnterWindow)
-EVT_LEAVE_WINDOW(N_Frame::OnLeaveWindow)
-EVT_LEFT_DOWN(N_Frame::OnLeftDown)
-EVT_LEFT_UP(N_Frame::OnLeftUp)
-EVT_MOTION(N_Frame::OnMotion)
 END_EVENT_TABLE();
 
 //----------------------------------------------------------------------------
-N_Frame::N_Frame(wxWindow *parent, int id, const std::string &name,
-	const std::string &title, int xPos,	int yPos, int width, int height, 
-	long style) :
-	wxFrame((wxFrame*)parent, -1, title, wxPoint(xPos, yPos),
-	wxSize(width, height), style),
-	mIsInitlized(false),
-	mIsSized(false),
-	mRenderView(0),
-	mMainMenuBar(0),
-	mIsExit(false),
-	mIsNewProject(false),
-	mIsOpenProject(false),
-	mIsSaveProject(false),
-	mIsCloseProject(false),
-	mIsNewScene(false),
-	mIsOpenScene(false),
-	mIsSaveScene(false),
-	mIsSaveSceneAs(false),
-	mIsCloseScene(false)
+N_Frame::N_Frame(PX2::RenderWindow *uiWindow, wxWindow *parent, long style) :
+wxFrame((wxFrame*)parent, -1, uiWindow->GetTitle(), wxPoint(0, 0),
+wxSize((int)uiWindow->GetScreenSize().Width, 
+(int)uiWindow->GetScreenSize().Height), style),
+mRenderWindow(uiWindow)
 {
+	_Init();
+
+	std::string name = uiWindow->GetName();
+	std::string title = uiWindow->GetTitle();
+	int width = (int)uiWindow->GetScreenSize().Width;
+	int height = (int)uiWindow->GetScreenSize().Height;
+
 	SetName(name);
 	PX2_EW.ComeIn(this);
 
-	mTimer.SetOwner(this, sID_ENGINELOOPTIMER);
+	mTimerID = PX2_EDIT_GETID;
+	Connect(mTimerID, wxEVT_TIMER, wxTimerEventHandler(N_Frame::OnTimer));
+	mTimer.SetOwner(this, mTimerID);
 	mTimer.Start(25);
 
-	mRenderView = new RenderView(id, this);
+	SetFocus();
+
+	mRenderView = new RenderView(uiWindow, this);
+
+	if ("Main" != name)
+	{
+		Renderer *renderer = PX2_ENGINELOOP.CreateRenderer(name, 
+			mRenderView->GetHandle(), width, height, 0);
+		uiWindow->SetRenderer(renderer);
+		uiWindow->SetScreenSize(Sizef((float)width, (float)height));
+	}
+
+	wxBoxSizer* bSizer69;
+	bSizer69 = new wxBoxSizer(wxVERTICAL);
+	bSizer69->Add(mRenderView, 1, wxEXPAND, 5);
+	this->SetSizer(bSizer69);
+	this->Layout();
+}
+//----------------------------------------------------------------------------
+void N_Frame::_Init()
+{
+	mIsInitlized = false;
+	mIsSized = false;
+	mRenderView = 0;
+	mMainMenuBar = 0;
+	mIsExit = false;
+	mIsNewProject = false;
+	mIsOpenProject = false;
+	mIsSaveProject = false;
+	mIsCloseProject = false;
+	mIsNewScene = false;
+	mIsOpenScene = false;
+	mIsSaveScene = false;
+	mIsSaveSceneAs = false;
+	mIsCloseScene = false;
+	mIsPopUpRightMenu = false;
+	mEditMenu = 0;
+	mIsNWindow = false;
 }
 //----------------------------------------------------------------------------
 RenderView *N_Frame::GerRenderView()
@@ -61,95 +87,210 @@ RenderView *N_Frame::GerRenderView()
 N_Frame::~N_Frame()
 {
 	PX2_EW.GoOut(this);
+
+	if (mEditMenu)
+	{
+		delete mEditMenu;
+		mEditMenu = 0;
+	}
 }
 //----------------------------------------------------------------------------
 void N_Frame::DoExecute(Event *event)
 {
-	if (EditEventSpace::IsEqual(event, EditEventSpace::N_Window))
+	std::string name = GetName();
+	if ("Main" == name)
 	{
-		if ("Main" == GetName())
+		if (EditEventSpace::IsEqual(event, EditEventSpace::N_Window))
 		{
-			CreatePopUpWindow("abcd");
+			mIsNWindow = true;
+			mNUIWindow = event->GetData<RenderWindow*>();
 		}
-	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_AddMenu))
-	{
-		EED_AddMenu data = event->GetData<EED_AddMenu>();
-		if (data.Where == GetName())
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_AddMenu))
 		{
-			if (EED_AddMenu::IT_MAIN_MENU == data.TheItemType)
+			EED_AddMenu data = event->GetData<EED_AddMenu>();
+			if (data.Where == GetName())
 			{
-				if (0 == mMainMenuBar)
-					_CreateMenu();
-
-				wxMenu *menu = AddMainMenuItem(data.Title);
-				mMenuMap[data.Name] = menu;
-			}
-			else
-			{
-				std::map<std::string, wxMenu*>::iterator it =
-					mMenuMap.find(data.ParentName);
-				if (it != mMenuMap.end())
+				if (EED_AddMenu::IT_MAIN_MENU == data.TheItemType)
 				{
-					wxMenu *menu = it->second;
+					if (0 == mMainMenuBar)
+						_CreateMenu();
 
-					if (EED_AddMenu::IT_SUB_MENU == data.TheItemType)
+					wxMenu *menu = AddMainMenuItem(data.Title);
+					mMenuMap[data.Name] = menu;
+				}
+				else if (EED_AddMenu::IT_MAIN_SUBMENU == data.TheItemType ||
+					EED_AddMenu::IT_MAIN_ITEM == data.TheItemType ||
+					EED_AddMenu::IT_MAIN_ITEMSPARATER == data.TheItemType)
+				{
+					std::map<std::string, wxMenu*>::iterator it =
+						mMenuMap.find(data.ParentName);
+					if (it != mMenuMap.end())
 					{
-						wxMenu *subMenu = AddSubMenuItem(menu, data.Title);
-						mMenuMap[data.ParentName + data.Name] = subMenu;
+						wxMenu *menu = it->second;
+
+						if (EED_AddMenu::IT_MAIN_SUBMENU == data.TheItemType)
+						{
+							wxMenu *subMenu = AddSubMenuItem(menu, data.Title);
+							mMenuMap[data.ParentName + data.Name] = subMenu;
+						}
+						else if (EED_AddMenu::IT_MAIN_ITEM == data.TheItemType)
+						{
+							AddMenuItem(menu, data.Title, data.Script, data.Tag);
+						}
+						else if (EED_AddMenu::IT_MAIN_ITEMSPARATER == data.TheItemType)
+						{
+							AddSeparater(menu);
+						}
 					}
-					else if (EED_AddMenu::IT_ITEM == data.TheItemType)
+				}
+			}
+
+			if (EED_AddMenu::IT_EDIT_MENU == data.TheItemType ||
+				EED_AddMenu::IT_EDIT_SUBMENU == data.TheItemType ||
+				EED_AddMenu::IT_EDIT_ITEM == data.TheItemType ||
+				EED_AddMenu::IT_EDIT_ITEMSPARATER == data.TheItemType ||
+				EED_AddMenu::IT_EDIT_POPUP == data.TheItemType)
+			{
+				if (EED_AddMenu::IT_EDIT_MENU == data.TheItemType)
+				{
+					wxMenu *menu = CreateEditMenu();
+					mMenuMap_Edit[data.Name] = menu;
+				}
+				else
+				{
+					std::map<std::string, wxMenu*>::iterator it =
+						mMenuMap_Edit.find(data.ParentName);
+					if (it != mMenuMap_Edit.end())
 					{
-						AddMenuItem(menu, data.Title, data.Script, data.Tag);
+						wxMenu *menu = it->second;
+
+						if (EED_AddMenu::IT_EDIT_SUBMENU == data.TheItemType)
+						{
+							if (menu)
+							{
+								wxMenu *subMenu = AddSubMenuItem(menu, data.Title);
+								mMenuMap_Edit[data.ParentName + data.Name] = subMenu;
+							}
+						}
+						else if (EED_AddMenu::IT_EDIT_ITEM == data.TheItemType)
+						{
+							if (menu)
+							{
+								AddMenuItem(menu, data.Title, data.Script, data.Tag);
+							}
+						}
+						else if (EED_AddMenu::IT_EDIT_ITEMSPARATER == data.TheItemType)
+						{
+							if (menu)
+							{
+								AddSeparater(menu);
+							}
+						}
 					}
-					else if (EED_AddMenu::IT_ITEMSPARATER == data.TheItemType)
+
+					if (EED_AddMenu::IT_EDIT_POPUP == data.TheItemType)
 					{
-						AddSeparater(menu);
+						mPopUpRightMenuPos = data.PopUpPos;
+						mIsPopUpRightMenu = true;
 					}
 				}
 			}
 		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_NewProject))
+		{
+			mIsNewProject = true;
+		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_OpenProject))
+		{
+			mIsOpenProject = true;
+		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_SaveProject))
+		{
+			mIsSaveProject = true;
+		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_CloseProject))
+		{
+			mIsCloseProject = true;
+		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_NewScene))
+		{
+			mIsNewScene = true;
+		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_OpenScene))
+		{
+			mIsOpenScene = true;
+		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_SaveScene))
+		{
+			mIsSaveScene = true;
+		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_SaveSceneAs))
+		{
+			mIsSaveSceneAs = true;
+		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_CloseScene))
+		{
+			mIsCloseScene = true;
+		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_Exit))
+		{
+			mIsExit = true;
+		}
+		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_PlayTip))
+		{
+			EED_Tip tipData = event->GetData<EED_Tip>();
+			
+			MessageBox(tipData.Title, tipData.Content, 0);
+		}
 	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_NewProject))
+
+	if (GraphicsES::IsEqual(event, GraphicsES::WindowMaxSize))
 	{
-		mIsNewProject = true;
+		RenderWindow *rw = event->GetData<RenderWindow*>();
+		if (rw == mRenderWindow)
+		{
+			Maximize(mRenderWindow->IsMaxSize());
+		}
 	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_OpenProject))
+	else if (GraphicsES::IsEqual(event, GraphicsES::WindowClose))
 	{
-		mIsOpenProject = true;
+		RenderWindow *rw = event->GetData<RenderWindow*>();
+		if (rw == mRenderWindow)
+		{
+			Show(false);
+		}
 	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_SaveProject))
+	else if (GraphicsES::IsEqual(event, GraphicsES::WindowSetPosition))
 	{
-		mIsSaveProject = true;
+		RenderWindow *rw = event->GetData<RenderWindow*>();
+		if (rw == mRenderWindow && !rw->IsMain())
+		{
+			const APoint &pos = rw->GetPosition();
+			wxPoint pt;
+			pt.x = pos.X();
+			pt.y = GetSize().GetHeight() - pos.Z();
+			SetPosition(pt);
+		}
 	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_CloseProject))
+	else if (GraphicsES::IsEqual(event, GraphicsES::WindowSetCursorType))
 	{
-		mIsCloseProject = true;
+		RenderWindow::CursorType ct = RenderWindow::GetCursorType();
+		
+		wxStockCursor wxCursorType = (wxStockCursor)ct;
+		SetCursor(wxCursor(wxCursorType));
 	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_NewScene))
-	{
-		mIsNewScene = true;
-	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_OpenScene))
-	{
-		mIsOpenScene = true;
-	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_SaveScene))
-	{
-		mIsSaveScene = true;
-	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_SaveSceneAs))
-	{
-		mIsSaveSceneAs = true;
-	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_CloseScene))
-	{
-		mIsCloseScene = true;
-	}
-	else if (EditEventSpace::IsEqual(event, EditEventSpace::N_Exit))
-	{
-		mIsExit = true;
-	}
+}
+//----------------------------------------------------------------------------
+void _CreateScriptFile(const std::string &pathName,
+	const std::string &scFileName)
+{
+	std::string scriptPath = "Data/" + pathName + "scripts/" + scFileName;
+	std::ofstream outputFile;
+	outputFile.open(scriptPath.c_str());
+	std::string scriptStart;
+	scriptStart += "-- " + scFileName;
+	outputFile << scriptStart;
+	outputFile.close();
 }
 //----------------------------------------------------------------------------
 void N_Frame::DoNewProject()
@@ -180,12 +321,14 @@ void N_Frame::DoNewProject()
 			PX2_RM.CreateFloder("Data/", pathName + "models/");
 			PX2_RM.CreateFloder("Data/", pathName + "scenes/");
 			PX2_RM.CreateFloder("Data/", pathName + "scripts/");
-			std::string scriptPath = "Data/" + pathName + "scripts/" + "start.lua";
-			fopen(scriptPath.c_str(), "wb");
+			PX2_RM.CreateFloder("Data/", pathName + "scripts/bp");
+
+			_CreateScriptFile(pathName, "start.lua");
+			_CreateScriptFile(pathName, "end.lua");
 
 			std::string path = "Data/" + pathName + name + ".px2proj";
-			PX2_ENGINELOOP.NewProject(path, name, screenOriention,
-				width, height);
+			PX2_ENGINELOOP.NewProject(path, name, screenOriention, width,
+				height);
 		}
 	}
 }
@@ -317,11 +460,7 @@ void N_Frame::DoCloseScene()
 {
 	mIsCloseScene = false;
 
-	EditMap *map = PX2_EDIT.GetEditMap();
-	if (map)
-	{
-		PX2_ENGINELOOP.CloseScene();
-	}
+	PX2_ENGINELOOP.CloseScene();
 }
 //----------------------------------------------------------------------------
 void N_Frame::DoExit()
@@ -340,45 +479,60 @@ void N_Frame::OnTimer(wxTimerEvent& e)
 {
 	PX2_UNUSED(e);
 
-	if (mIsNewProject)
+	std::string name = GetName();
+	if ("Main" == name)
 	{
-		DoNewProject();
+		if (mIsNewProject)
+		{
+			DoNewProject();
+		}
+		if (mIsOpenProject)
+		{
+			DoOpenProject();
+		}
+		if (mIsSaveProject)
+		{
+			DoSaveProject();
+		}
+		if (mIsCloseProject)
+		{
+			DoCloseProject();
+		}
+		if (mIsNewScene)
+		{
+			DoNewScene();
+		}
+		if (mIsOpenScene)
+		{
+			DoOpenScene();
+		}
+		if (mIsSaveScene)
+		{
+			DoSaveScene();
+		}
+		if (mIsSaveSceneAs)
+		{
+			DoSaveSceneAs();
+		}
+		if (mIsCloseScene)
+		{
+			DoCloseScene();
+		}
+		if (mIsExit)
+		{
+			DoExit();
+		}
+		if (mIsNWindow)
+		{
+			mIsNWindow = false;
+			CreatePopUpWindow(mNUIWindow);
+		}
 	}
-	if (mIsOpenProject)
+
+	if (mIsPopUpRightMenu && mEditMenu)
 	{
-		DoOpenProject();
-	}
-	if (mIsSaveProject)
-	{
-		DoSaveProject();
-	}
-	if (mIsCloseProject)
-	{
-		DoCloseProject();
-	}
-	if (mIsNewScene)
-	{
-		DoNewScene();
-	}
-	if (mIsOpenScene)
-	{
-		DoOpenScene();
-	}
-	if (mIsSaveScene)
-	{
-		DoSaveScene();
-	}
-	if (mIsSaveSceneAs)
-	{
-		DoSaveSceneAs();
-	}
-	if (mIsCloseScene)
-	{
-		DoCloseScene();
-	}
-	if (mIsExit)
-	{
-		DoExit();
+		PopUpRightMenu(mPopUpRightMenuPos.X(), mSize.GetHeight() -
+			mPopUpRightMenuPos.Z());
 	}
 }
 //----------------------------------------------------------------------------
@@ -386,36 +540,11 @@ void N_Frame::OnSize(wxSizeEvent& e)
 {
 	PX2_UNUSED(e);
 
-	wxSize size = GetClientSize();
+	mSize = GetClientSize();
 	if (mRenderView)
-		mRenderView->SetSize(0, 0, size.x, size.y);
+		mRenderView->SetSize(0, 0, mSize.x, mSize.y);
 
 	mIsSized = true;
-}
-//----------------------------------------------------------------------------
-void N_Frame::OnEnterWindow(wxMouseEvent& e)
-{
-	PX2_UNUSED(e);
-}
-//----------------------------------------------------------------------------
-void N_Frame::OnLeaveWindow(wxMouseEvent& e)
-{
-	PX2_UNUSED(e);
-}
-//----------------------------------------------------------------------------
-void N_Frame::OnLeftDown(wxMouseEvent& e)
-{
-	PX2_UNUSED(e);
-}
-//----------------------------------------------------------------------------
-void N_Frame::OnLeftUp(wxMouseEvent& e)
-{
-	PX2_UNUSED(e);
-}
-//----------------------------------------------------------------------------
-void N_Frame::OnMotion(wxMouseEvent& e)
-{
-	PX2_UNUSED(e);
 }
 //----------------------------------------------------------------------------
 RenderView *N_Frame::GetMainRenderView()

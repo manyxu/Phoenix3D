@@ -2,11 +2,13 @@
 
 #include "PX2Object.hpp"
 #include "PX2EventHandlerObject.hpp"
+#include "PX2Memory.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------
 Object::Object () :
 mIsEnable(true),
+mIsActivated(true),
 mReadedVersion(0),
 mCurStream(NULL),
 mIsNameChangeable(true),
@@ -20,7 +22,8 @@ Object::~Object ()
 	if (mEventHandler->IsInWorld())
 		GoOutEventWorld();
 
-	delete0(mEventHandler);
+	if (0 != mEventHandler)
+		delete0(mEventHandler);
 }
 //----------------------------------------------------------------------------
 void Object::Enable(bool enable)
@@ -31,5 +34,15 @@ void Object::Enable(bool enable)
 bool Object::IsEnable() const
 {
 	return mIsEnable;
+}
+//----------------------------------------------------------------------------
+void Object::SetActivate(bool act)
+{
+	mIsActivated = act;
+}
+//----------------------------------------------------------------------------
+bool Object::IsActivated() const
+{
+	return mIsActivated;
 }
 //----------------------------------------------------------------------------

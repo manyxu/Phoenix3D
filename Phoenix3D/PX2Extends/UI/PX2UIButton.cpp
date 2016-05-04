@@ -4,6 +4,9 @@
 #include "PX2ResourceManager.hpp"
 #include "PX2UIDefine.hpp"
 #include "PX2UICanvas.hpp"
+#include "PX2FunObject.hpp"
+#include "PX2ScriptManager.hpp"
+#include "PX2UIEvent.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIButtonBase, UIButton);
@@ -20,26 +23,30 @@ mRecoverBeginTime(0.0f)
 {
 	SetName("UIButton");
 
-	UIPicBox *picNormal = new0 UIPicBox("Data/engine/common.xml", "but_normal");
-	picNormal->SetName("Normal");
-	picNormal->SetPicBoxType(UIPicBox::PBT_NINE);
+	if (BT_COLOR == mButType)
+	{
+		UIPicBox *picNormal = new0 UIPicBox("Data/engine/white.png");
+		picNormal->SetName("Normal");
+		SetPicBox(BS_NORMAL, picNormal);
+	}
+	else
+	{
+		UIPicBox *picNormal = new0 UIPicBox("Data/engine/white.png");
+		picNormal->SetName("Normal");
+		SetPicBox(BS_NORMAL, picNormal);
 
-	UIPicBox *picOver = new0 UIPicBox("Data/engine/common.xml", "but_over");
-	picOver->SetName("Over");
-	picOver->SetPicBoxType(UIPicBox::PBT_NINE);
+		UIPicBox *picOver = new0 UIPicBox("Data/engine/white.png");
+		picOver->SetName("Over");
+		SetPicBox(BS_HOVERED, picOver);
 
-	UIPicBox *picDown = new0 UIPicBox("Data/engine/common.xml", "but_down");
-	picDown->SetName("Down");
-	picDown->SetPicBoxType(UIPicBox::PBT_NINE);
+		UIPicBox *picDown = new0 UIPicBox("Data/engine/white.png");
+		picDown->SetName("Down");
+		SetPicBox(BS_PRESSED, picDown);
 
-	UIPicBox *picDis = new0 UIPicBox("Data/engine/common.xml", "but_dis");
-	picDis->SetName("Dis");
-	picDis->SetPicBoxType(UIPicBox::PBT_NINE);
-
-	SetPicBox(BS_NORMAL, picNormal);
-	SetPicBox(BS_HOVERED, picOver);
-	SetPicBox(BS_PRESSED, picDown);
-	SetPicBox(BS_DISABLED, picDis);
+		UIPicBox *picDis = new0 UIPicBox("Data/engine/white.png");
+		picDis->SetName("Dis");
+		SetPicBox(BS_DISABLED, picDis);
+	}
 
 	SetButtonState(BS_NORMAL);
 
@@ -81,9 +88,6 @@ void UIButton::OnEvent(Event *event)
 //----------------------------------------------------------------------------
 void UIButton::OnPressed()
 {
-	//GraphicsRoot::PlayType playType = PX2_GR.GetPlayType();
-	//if (GraphicsRoot::PT_PLAY != playType) return;
-
 	if (mUICallback)
 	{
 		mUICallback(this, UICT_PRESSED);
@@ -99,10 +103,24 @@ void UIButton::OnPressed()
 	{
 		(*it)->Visit(this, (int)UICT_PRESSED);
 	}
-
-	if (!mUIScriptHandler.empty())
+}
+//----------------------------------------------------------------------------
+void UIButton::OnPressedNotPick()
+{
+	if (mUICallback)
 	{
-		CallString(mUIScriptHandler.c_str(), "i", (int)UICT_PRESSED);
+		mUICallback(this, UICT_PRESSED_NOTPICK);
+	}
+
+	if (mMemObject && mMemUICallback)
+	{
+		(mMemObject->*mMemUICallback)(this, UICT_PRESSED_NOTPICK);
+	}
+
+	std::vector<Visitor *>::iterator it = mVisitors.begin();
+	for (; it != mVisitors.end(); it++)
+	{
+		(*it)->Visit(this, (int)UICT_PRESSED_NOTPICK);
 	}
 }
 //----------------------------------------------------------------------------
@@ -118,9 +136,6 @@ void UIButton::OnReleased()
 		mIsRecoverBegin = true;
 		mRecoverBeginTime = (float)Time::GetTimeInSeconds();
 	}
-
-	//GraphicsRoot::PlayType playType = PX2_GR.GetPlayType();
-	//if (GraphicsRoot::PT_PLAY != playType) return;
 
 	if (mUICallback)
 	{
@@ -138,9 +153,41 @@ void UIButton::OnReleased()
 		(*it)->Visit(this, (int)UICT_RELEASED);
 	}
 
-	if (!mUIScriptHandler.empty())
+	Event *ent = UIES::CreateEventX(UIES::ButReleased);
+	ent->SetData<UIButton*>(this);
+	PX2_EW.BroadcastingLocalEvent(ent);
+}
+//----------------------------------------------------------------------------
+void UIButton::OnReleasedNotPick()
+{
+	if (mUICallback)
 	{
-		CallString(mUIScriptHandler.c_str(), "i", (int)UICT_RELEASED);
+		mUICallback(this, UICT_RELEASED_NOTPICK);
+	}
+
+	if (mMemObject && mMemUICallback)
+	{
+		(mMemObject->*mMemUICallback)(this, UICT_RELEASED_NOTPICK);
+	}
+
+	std::vector<Visitor *>::iterator it = mVisitors.begin();
+	for (; it != mVisitors.end(); it++)
+	{
+		(*it)->Visit(this, (int)UICT_RELEASED_NOTPICK);
+	}
+}
+//----------------------------------------------------------------------------
+void UIButton::SetActivate(bool act)
+{
+	UIButtonBase::SetActivate(act);
+
+	ButType bt = GetButType();
+	if (BT_COLOR == bt)
+	{
+		SetButtonState(GetButtonState());
+	}
+	else
+	{
 	}
 }
 //----------------------------------------------------------------------------
@@ -161,19 +208,11 @@ void UIButton::UpdateWorldData(double applicationTime, double elapsedTime)
 	}
 }
 //----------------------------------------------------------------------------
-void UIButton::OnUIPicked(int info, Movable *child)
+void UIButton::OnUIPicked(const UIInputData &inputData)
 {
-	PX2_UNUSED(child);
-	PX2_UNUSED(info);
-
-	if (!IsEnable())
-		return;
-
-	UIFrame::OnUIPicked(info, child);
-
 	ButtonState state = GetButtonState();
 
-	if (UIPT_PRESSED == info)
+	if (UIPT_PRESSED == inputData.PickType)
 	{
 		if (state == BS_NORMAL || state == BS_HOVERED)
 		{
@@ -181,7 +220,7 @@ void UIButton::OnUIPicked(int info, Movable *child)
 			OnPressed();
 		}
 	}
-	else if (UIPT_RELEASED == info)
+	else if (UIPT_RELEASED == inputData.PickType)
 	{
 		if (state == BS_PRESSED)
 		{
@@ -189,7 +228,7 @@ void UIButton::OnUIPicked(int info, Movable *child)
 			OnReleased();
 		}
 	}
-	else if (UIPT_MOVED == info)
+	else if (UIPT_MOVED == inputData.PickType)
 	{
 		if (state == BS_NORMAL)
 		{
@@ -198,17 +237,67 @@ void UIButton::OnUIPicked(int info, Movable *child)
 	}
 }
 //----------------------------------------------------------------------------
-void UIButton::OnUINotPicked(int info)
+void UIButton::OnUINotPicked(const UIInputData &inputData)
 {
 	ButtonState state = GetButtonState();
 
-	if (UIPT_MOVED == info)
+	if (UICT_PRESSED == inputData.PickType)
 	{
-		if (state == BS_PRESSED || state == BS_HOVERED)
+		OnPressedNotPick();
+	}
+	else if (UICT_RELEASED == inputData.PickType)
+	{
+		if (BS_PRESSED == state)
+		{
+			SetButtonState(BS_NORMAL);
+		}
+
+		OnReleasedNotPick();
+	}
+	else if (UIPT_MOVED == inputData.PickType)
+	{
+		if (state == BS_HOVERED)
 		{
 			SetButtonState(BS_NORMAL);
 		}
 	}
+}
+//----------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------
+// UIButton
+//----------------------------------------------------------------------------
+FunObject *UIButton::RegistClassFunctions()
+{
+	FunObject *parentFunObj = UIButtonBase::RegistClassFunctions();
+
+	FunObject *thisFunObj = parentFunObj->GetAddClass("UIButton");
+
+	{
+		FunObjectPtr funObj = new0 FunObject();
+		funObj->FunName = "New";
+		funObj->AddInput("static", FPT_POINTER_THIS_STATIC, (Object*)0);
+		funObj->AddOutput("ot_but", FPT_POINTER, (Object*)0);
+		thisFunObj->AddFunObject(funObj);
+	}
+
+	{
+		FunObjectPtr funObj = new0 FunObject();
+		funObj->FunName = "SetOnPressedFun";
+		funObj->AddInput("in_but", FPT_POINTER_THIS, (Object*)0);
+		funObj->AddInput("in_funstr", FPT_STRING, std::string(""));
+		thisFunObj->AddFunObject(funObj);
+	}
+
+	{
+		FunObjectPtr funObj = new0 FunObject();
+		funObj->FunName = "SetOnReleasedFun";
+		funObj->AddInput("in_but", FPT_POINTER_THIS, (Object*)0);
+		funObj->AddInput("in_funstr", FPT_STRING, std::string(""));
+		thisFunObj->AddFunObject(funObj);
+	}
+
+	return thisFunObj;
 }
 //----------------------------------------------------------------------------
 

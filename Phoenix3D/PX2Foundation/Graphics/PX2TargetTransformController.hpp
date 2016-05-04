@@ -68,7 +68,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(TargetTransformController);
-	typedef Pointer0<TargetTransformController> TargetTransformControllerPtr;
+	typedef PointerRef<TargetTransformController> TargetTransformControllerPtr;
 #include "PX2TargetTransformController.inl"
 
 }

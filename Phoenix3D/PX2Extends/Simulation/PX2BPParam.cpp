@@ -17,21 +17,66 @@ mIsIn(isIn),
 mIsExe(isExe),
 mModule(0)
 {
+	EnableAnchorLayout(true);
+
+	float butSize = 12.0f;
+	SetSize(butSize, butSize);
+
 	mBut = new0 UIButton();
 	AttachChild(mBut);
-	mBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetPicBoxType(UIPicBox::PBT_NORMAL);
-	mBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetTexture("Data/engine/white.png");
-	mBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->LocalTransform.SetUniformScale(0.95f);
-	mBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetPicBoxType(UIPicBox::PBT_NORMAL);
-	mBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetTexture("Data/engine/white.png");
-	mBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetColor(Float3(0.9f, 0.9f, 0.9f));
-	mBut->SetSize(12.0f, 12.0f);
+	mBut->SetSize(butSize, butSize);
 
-	mNameText = new0 UIText();
+	mBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetPicBoxType(UIPicBox::PBT_NORMAL);
+	//mBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED)->SetPicBoxType(UIPicBox::PBT_NORMAL);
+	//mBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetPicBoxType(UIPicBox::PBT_NORMAL);
+	//mBut->GetPicBoxAtState(UIButtonBase::BS_DISABLED)->SetPicBoxType(UIPicBox::PBT_NORMAL);
+	//mBut->GetPicBoxAtState(UIButtonBase::BS_DISABLED)->SetColor(Float3::MakeColor(160, 160, 160));
+
+	if (isIn)
+	{
+		mBut->SetAnchorHor(0.0f, 0.0f);
+		mBut->SetAnchorVer(0.5f, 0.5f);
+		mBut->SetPivot(Float2(0.0f, 0.5f));
+		mBut->SetAnchorParamHor(0.0f, 0.0f);
+
+		mBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetColor(Float3::MakeColor(163, 73, 164));
+		//mBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED)->SetColor(Float3::MakeColor(163, 73, 164));
+		//mBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetColor(Float3::MakeColor(163, 73, 164));
+		//mBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetBrightness(1.1f);
+	}
+	else
+	{
+		mBut->SetAnchorHor(1.0f, 1.0f);
+		mBut->SetAnchorVer(0.5f, 0.5f);
+		mBut->SetPivot(Float2(1.0f, 0.5f));
+		mBut->SetAnchorParamHor(0.0f, 0.0f);
+
+		mBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetColor(Float3::MakeColor(200, 191, 231));
+		//mBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED)->SetColor(Float3::MakeColor(200, 191, 231));
+		//mBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetColor(Float3::MakeColor(200, 191, 231));
+		//mBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetBrightness(1.1f);
+	}
+
+	mNameText = new0 UIFText();
 	AttachChild(mNameText);
-	mNameText->SetColor(Float3::WHITE);
-	mNameText->SetFontScale(0.5f);
-	mNameText->SetDoPick(false);
+	mNameText->GetText()->SetColor(Float3::BLUE);
+	mNameText->GetText()->SetFontScale(0.5f);
+	mNameText->GetText()->SetDoPick(false);
+
+	if (isIn)
+	{
+		mNameText->GetText()->SetAligns(TEXTALIGN_LEFT | TEXTALIGN_VCENTER);
+		mNameText->SetAnchorHor(0.0f, 1.0f);
+		mNameText->SetAnchorVer(0.5f, 0.5f);
+		mNameText->SetAnchorParamHor(butSize, 0.0f);
+	}
+	else
+	{
+		mNameText->GetText()->SetAligns(TEXTALIGN_RIGHT | TEXTALIGN_VCENTER);
+		mNameText->SetAnchorHor(0.0f, 1.0f);
+		mNameText->SetAnchorVer(0.5f, 0.5f);
+		mNameText->SetAnchorParamHor(0.0f, -butSize);
+	}
 
 	if (!mIsIn)
 	{
@@ -125,25 +170,9 @@ void BPParam::SetModule(BPModule *module)
 	mModule = module;
 
 	const Sizef &moduleSize = mModule->GetSize();
-	float inOutButSize = mModule->GetInOutButSize();
 	float itemHeight = mModule->GetItemHeight();
 
-	mNameText->SetText(GetName());
-	mNameText->SetRectUseage(UIText::RU_ALIGNS);
-	mNameText->SetRect(Rectf(0.0f, 0.0f, moduleSize.Width, itemHeight));
-
-	if (mIsIn)
-	{
-		mNameText->SetAligns(TEXTALIGN_LEFT | TEXTALIGN_VCENTER);
-		mNameText->LocalTransform.SetTranslate(APoint(inOutButSize / 2.0f, 0.0f, -itemHeight / 2.0f));
-	}
-	else
-	{
-		mNameText->SetAligns(TEXTALIGN_RIGHT | TEXTALIGN_VCENTER);
-		mNameText->LocalTransform.SetTranslate(APoint(-inOutButSize / 2.0f - moduleSize.Width, 0.0f, -itemHeight / 2.0f));
-	}
-
-	mBut->SetSize(inOutButSize, inOutButSize);
+	mNameText->GetText()->SetText(GetName());
 }
 //----------------------------------------------------------------------------
 bool BPParam::SortFun(const BPParam *param0, const BPParam *param1)
@@ -413,6 +442,10 @@ std::string BPParam::GetValueScriptStr()
 	{
 		str += "Pointer_" + StringHelp::IntToString((int)GetValuePointer());
 	}
+	else if (FPT_POINTER_THIS_STATIC == mDataType)
+	{
+		str += GetName();
+	}
 
 	return str;
 }
@@ -487,7 +520,7 @@ void BPParam::RegistProperties()
 
 	Object::RegistProperties();
 
-	AddPropertyClass("LogicParam");
+	AddPropertyClass("BPParam");
 
 	AddProperty("IsIn", Object::PT_BOOL, IsIn(), false);
 	AddProperty("IsExe", Object::PT_BOOL, IsExe(), false);
@@ -504,6 +537,7 @@ void BPParam::RegistProperties()
 		paramTypes.push_back("FPT_STRING");
 		paramTypes.push_back("FPT_POINTER");
 		paramTypes.push_back("FPT_POINTER_THIS");
+		paramTypes.push_back("FPT_POINTER_THIS_STATIC");
 		AddPropertyEnum("DataType", (int)mDataType, paramTypes, false);
 
 		if (mIsIn)
@@ -625,7 +659,8 @@ void BPParam::Load(InStream& source)
 		source.ReadString(v);
 		mData = v;
 	}
-	else if (FPT_POINTER == mDataType || FPT_POINTER_THIS == mDataType)
+	else if (FPT_POINTER == mDataType || FPT_POINTER_THIS == mDataType ||
+		FPT_POINTER_THIS_STATIC == mDataType)
 	{
 		Object *p = 0;
 		source.ReadPointer(p);
@@ -767,7 +802,8 @@ void BPParam::Save(OutStream& target) const
 		std::string v = PX2_ANY_AS(mData, std::string);
 		target.WriteString(v);
 	}
-	else if (FPT_POINTER == mDataType || FPT_POINTER_THIS == mDataType)
+	else if (FPT_POINTER == mDataType || FPT_POINTER_THIS == mDataType ||
+		FPT_POINTER_THIS_STATIC == mDataType)
 	{
 		Object *p = PX2_ANY_AS(mData, Object*);
 		target.WritePointer(p);
@@ -829,7 +865,8 @@ int BPParam::GetStreamingSize(Stream &stream) const
 		std::string v = PX2_ANY_AS(mData, std::string);
 		size += PX2_STRINGSIZE(v);
 	}
-	else if (FPT_POINTER == mDataType || FPT_POINTER_THIS == mDataType)
+	else if (FPT_POINTER == mDataType || FPT_POINTER_THIS == mDataType ||
+		FPT_POINTER_THIS_STATIC == mDataType)
 	{
 		//Object *p = PX2_ANY_AS(mData, Object*);
 		size += PX2_POINTERSIZE(0);

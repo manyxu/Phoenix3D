@@ -27,7 +27,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(InterpCurveColorController);
-	typedef Pointer0<InterpCurveColorController> InterpCurveColorControllerPtr;
+	typedef PointerRef<InterpCurveColorController> InterpCurveColorControllerPtr;
 
 }
 

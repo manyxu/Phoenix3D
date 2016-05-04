@@ -28,9 +28,3 @@ int ClientConnector::SendMsgToServer(int msgid, const T &msg)
 	return 0;
 }
 //----------------------------------------------------------------------------
-template<class T>
-BufferEvent *ClientConnector::CreateSendEvent(int msgid, const T &msg)
-{
-	return MsgToBufferEvent(mSendQue, msgid, msg);
-}
-//----------------------------------------------------------------------------

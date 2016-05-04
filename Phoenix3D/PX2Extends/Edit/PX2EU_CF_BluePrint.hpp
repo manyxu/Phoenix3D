@@ -22,7 +22,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(EU_CF_BluePrint);
-	typedef Pointer0<EU_CF_BluePrint> EU_CF_BluePrintPtr;
+	typedef PointerRef<EU_CF_BluePrint> EU_CF_BluePrintPtr;
 
 }
 

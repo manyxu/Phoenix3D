@@ -7,6 +7,7 @@
 #include "PX2UIMenu.hpp"
 #include "PX2UIMenuItem.hpp"
 #include "PX2UICanvas.hpp"
+#include "PX2FunObject.hpp"
 using namespace PX2;
 using namespace std;
 
@@ -16,10 +17,17 @@ PX2_IMPLEMENT_FACTORY(UIFrame);
 
 //----------------------------------------------------------------------------
 UIFrame::UIFrame() :
+mBelongUICanvas(0),
 mUICallback(0),
+mIsWidget(false),
 mMemObject(0),
-mMemUICallback(0)
+mMemUICallback(0),
+mActivatedColor(Float3::WHITE),
+mActivatedAlpha(1.0f),
+mActivatedBrightness(1.0f),
+mIsUIChildPickOnlyInSizeRange(true)
 {
+	SetActivate(false);
 	SetName("UIFrame");
 }
 //----------------------------------------------------------------------------
@@ -27,14 +35,82 @@ UIFrame::~UIFrame()
 {
 }
 //----------------------------------------------------------------------------
-int UIFrame::AttachChild (Movable* child)
+void UIFrame::TravelExecuteSetCanvas(Movable *mov, Any *data, bool &goOn)
 {
-	int ret = SizeNode::AttachChild(child);
+	PX2_UNUSED(goOn);
+
+	UICanvas *uiCanvas = DynamicCast<UICanvas>(mov);
+	UIFrame *uiFrame = DynamicCast<UIFrame>(mov);
+	if (uiCanvas)
+	{
+		UICanvas *canvas = PX2_ANY_AS(*data, UICanvas*);
+		if (canvas != uiCanvas)
+		{
+			goOn = false;
+		}
+	}
+	if (uiFrame)
+	{
+		UICanvas *canvas = PX2_ANY_AS(*data, UICanvas*);
+		uiFrame->_SetBelongUICanvas(canvas);
+	}
+}
+//----------------------------------------------------------------------------
+void UIFrame::SetBelongUICanvas(UICanvas *canvas)
+{
+	Any canvasData = canvas;
+	Node::TravelExecute(this, TravelExecuteSetCanvas, &canvasData);
+}
+//----------------------------------------------------------------------------
+void UIFrame::_SetBelongUICanvas(UICanvas *canvas)
+{
+	if (mBelongUICanvas)
+	{
+		if (mIsWidget)
+			mBelongUICanvas->_RemovePickWidget(this);
+	}
+
+	mBelongUICanvas = canvas;
+
+	if (mBelongUICanvas)
+	{
+		if (mIsWidget)
+			mBelongUICanvas->_AddPickWidget(this);
+	}
+}
+//----------------------------------------------------------------------------
+void UIFrame::OnChildAttached(Movable *child)
+{
+	SizeNode::OnChildAttached(child);
+
+	if (mBelongUICanvas)
+	{
+		Any canvasData = mBelongUICanvas;
+		Node::TravelExecute(this, TravelExecuteSetCanvas, &canvasData);
+	}
+
+	UICanvas *canvas = GetFirstParentDerivedFromType<UICanvas>();
+	if (canvas)
+	{
+		canvas->SetNeedAdjustChildrenMask(true);
+	}
 
 	if (mGridAlignCtrl)
-		mGridAlignCtrl->MarkRelatvieChange();
+		mGridAlignCtrl->MarkLayoutChanged();
+}
+//----------------------------------------------------------------------------
+void UIFrame::OnChildDetach(Movable *child)
+{
+	SizeNode::OnChildDetach(child);
 
-	return ret;
+	Any canvasData = (UICanvas*)0;
+	Node::TravelExecute(child, TravelExecuteSetCanvas, &canvasData);
+
+	UICanvas *canvas = GetFirstParentDerivedFromType<UICanvas>();
+	if (canvas)
+	{
+		canvas->SetNeedAdjustChildrenMask(true);
+	}
 }
 //----------------------------------------------------------------------------
 void UIFrame::OnSizeChanged()
@@ -44,10 +120,15 @@ void UIFrame::OnSizeChanged()
 		mBackgroundPicBox->SetSize(mSize);
 	}
 
+	if (mMaskPicBox)
+	{
+		mMaskPicBox->SetSize(mSize);
+	}
+
 	SizeNode::OnSizeChanged();
 }
 //----------------------------------------------------------------------------
-UIPicBox *UIFrame::CreateAddBackgroundPicBox()
+UIPicBox *UIFrame::CreateAddBackgroundPicBox(bool setWhite)
 {
 	if (mBackgroundPicBox)
 	{
@@ -57,8 +138,8 @@ UIPicBox *UIFrame::CreateAddBackgroundPicBox()
 
 	mBackgroundPicBox = new0 UIPicBox();
 	AttachChild(mBackgroundPicBox);
+	mBackgroundPicBox->SetName("BackPicBox");
 
-	mBackgroundPicBox->SetPivot(Float2(0.5f, 0.5f));
 	mBackgroundPicBox->SetSize(mSize);
 	mBackgroundPicBox->SetPivot(mPvoit);
 
@@ -66,44 +147,159 @@ UIPicBox *UIFrame::CreateAddBackgroundPicBox()
 	mi->GetMaterial()->GetPixelShader(0, 0)->SetFilter(0,
 		Shader::SF_NEAREST_LINEAR);
 
+	if (setWhite)
+	{
+		mBackgroundPicBox->SetTexture("Data/engine/white.png");
+	}
+
 	return mBackgroundPicBox;
 }
+//----------------------------------------------------------------------------
+void UIFrame::DestoryBackgroundPicBox()
+{
+	if (mBackgroundPicBox)
+	{
+		DetachChild(mBackgroundPicBox);
+		mBackgroundPicBox = 0;
+	}
+}
+
 //----------------------------------------------------------------------------
 void UIFrame::OnPvoitChanged()
 {
 	if (mBackgroundPicBox)
 		mBackgroundPicBox->SetPivot(mPvoit);
 
+	if (mMaskPicBox)
+		mMaskPicBox->SetPivot(mPvoit);
+
 	SizeNode::OnPvoitChanged();
 }
 //----------------------------------------------------------------------------
-void UIFrame::OnUIBeforePicked(int info)
+void UIFrame::SetActivateColor(const Float3 &color)
 {
-	PX2_UNUSED(info);
+	mActivatedColor = color;
+
+	SetActivate(IsActivated());
 }
 //----------------------------------------------------------------------------
-void UIFrame::OnUIPicked(int info, Movable *child)
+void UIFrame::SetActivateAlpha(float alpha)
 {
-	if (!IsEnable())
+	mActivatedAlpha = alpha;
+
+	SetActivate(IsActivated());
+}
+//----------------------------------------------------------------------------
+void UIFrame::SetActivateBrightness(float brightness)
+{
+	mActivatedBrightness = brightness;
+
+	SetActivate(IsActivated());
+}
+//----------------------------------------------------------------------------
+void UIFrame::SetUIChildPickOnlyInSizeRange(bool onlyInRange)
+{
+	mIsUIChildPickOnlyInSizeRange = onlyInRange;
+}
+//----------------------------------------------------------------------------
+bool UIFrame::IsUIChildPickOnlyInSizeRange() const
+{
+	return mIsUIChildPickOnlyInSizeRange;
+}
+//----------------------------------------------------------------------------
+void UIFrame::PreUIPick(const UIInputData &inputData, UICanvas *canvas)
+{
+	if (!IsShow())
 		return;
 
-	Movable *mov = GetFirstParentDerivedFromType(UICanvas::TYPE);
-	UICanvas *uiCanvas = DynamicCast<UICanvas>(mov);
-	if (uiCanvas)
+	Rectf rect = GetWorldRect();
+	bool isPosInSizeRange = rect.IsInsize(inputData.WorldPos.X(),
+		inputData.WorldPos.Z());
+
+	if (mIsWidget)
 	{
-		uiCanvas->mPickedFrames.insert(this);
+		if (isPosInSizeRange)
+			canvas->_AddInRangePickWidget(this);
 	}
 
-	UIFrame *frame = DynamicCast<UIFrame>(GetParent());
-	if (frame)
+	bool pickChild = true;
+	if (mIsUIChildPickOnlyInSizeRange && !isPosInSizeRange)
+		pickChild = false;
+
+	if (pickChild)
 	{
-		frame->OnUIPicked(info, child);
+		for (int i = 0; i < GetNumChildren(); i++)
+		{
+			UIFrame *childFrame = DynamicCast<UIFrame>(GetChild(i));
+			if (childFrame)
+			{
+				childFrame->PreUIPick(inputData, canvas);
+			}
+		}
 	}
 }
 //----------------------------------------------------------------------------
-void UIFrame::OnUINotPicked(int info)
+void UIFrame::OnUINotPicked(const UIInputData &inputData)
 {
-	PX2_UNUSED(info);
+	PX2_UNUSED(inputData);
+}
+//----------------------------------------------------------------------------
+void UIFrame::OnUIPicked(const UIInputData &inputData)
+{
+	PX2_UNUSED(inputData);
+}
+//----------------------------------------------------------------------------
+void UIFrame::SetWidget(bool isWidget)
+{
+	mIsWidget = isWidget;
+}
+//----------------------------------------------------------------------------
+UIPicBox *UIFrame::CreateAddMask()
+{
+	DestoryMask();
+
+	mMaskPicBox = new0 UIPicBox();
+	AttachChild(mMaskPicBox);
+	mMaskPicBox->SetName("MaskPicBox");
+	Material *mtl = mMaskPicBox->GetMaterialInstance()->GetMaterial();
+	OffsetProperty *op = mtl->GetOffsetProperty(0, 0);
+	op->AllowRed = false;
+	op->AllowGreen = false;
+	op->AllowBlue = false;
+	op->AllowAlpha = false;
+	StencilProperty *sp = mtl->GetStencilProperty(0, 0);
+	sp->Enabled = true;
+
+	mMaskPicBox->LocalTransform.SetTranslateY(0.2f);
+	mMaskPicBox->SetSize(mSize);
+	mMaskPicBox->SetPivot(mPvoit);
+
+	UICanvas *canvas = GetFirstParentDerivedFromType<UICanvas>();
+	if (canvas)
+	{
+		canvas->SetNeedAdjustChildrenMask(true);
+	}
+
+	return mMaskPicBox;
+}
+//----------------------------------------------------------------------------
+void UIFrame::SetMaskVal(int maskVal)
+{
+	mMaskVal = maskVal;
+}
+//----------------------------------------------------------------------------
+void UIFrame::DestoryMask()
+{
+	if (!mMaskPicBox) return;
+
+	DetachChild(mMaskPicBox);
+	mMaskPicBox = 0;
+
+	UICanvas *canvas = GetFirstParentDerivedFromType<UICanvas>();
+	if (canvas)
+	{
+		canvas->SetNeedAdjustChildrenMask(true);
+	}
 }
 //----------------------------------------------------------------------------
 InputPushTransformController *UIFrame::CreateAddIPTCtrl(bool doResetPlay)
@@ -142,7 +338,6 @@ UIFrameGridAlignControl *UIFrame::CreateAddGridAlignCtrl(bool doResetPlay)
 //----------------------------------------------------------------------------
 void UIFrame::DestoryGridAlignCtrl()
 {
-
 }
 //----------------------------------------------------------------------------
 
@@ -156,7 +351,6 @@ void UIFrame::RegistProperties()
 	AddPropertyClass("UIFrame");
 
 	AddProperty("Size", PT_SIZE, mSize);
-	AddProperty("BorderSize", PT_SIZE, mBorderSize);
 
 	AddProperty("ScriptHandler", PT_STRING, GetScriptHandler());
 
@@ -175,10 +369,6 @@ void UIFrame::OnPropertyChanged(const PropertyObject &obj)
 	{
 		SetSize(PX2_ANY_AS(obj.Data, Sizef));
 	}
-	else if ("BorderSize" == obj.Name)
-	{
-		SetBorderSize(PX2_ANY_AS(obj.Data, Sizef));
-	}
 	else if ("ScriptHandler" == obj.Name)
 	{
 		SetScriptHandler(PX2_ANY_AS(obj.Data, std::string));
@@ -187,13 +377,48 @@ void UIFrame::OnPropertyChanged(const PropertyObject &obj)
 //----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
+// Object Functions
+//----------------------------------------------------------------------------
+FunObject *UIFrame::RegistClassFunctions()
+{
+	FunObject *parFunObject = SizeNode::RegistClassFunctions();
+
+	FunObject *thisFunObj = parFunObject->GetAddClass("UIFrame");
+
+	{
+		FunObjectPtr funObj = new0 FunObject;
+		funObj->FunName = "SetScriptHandler";
+		funObj->AddInput("handler", FPT_POINTER_THIS, (Object*)0);
+		funObj->AddInput("in_handlerstr", FPT_STRING, std::string(""));
+		thisFunObj->AddFunObject(funObj);
+	}
+
+	{
+		FunObjectPtr funObj = new0 FunObject;
+		funObj->FunName = "GetScriptHandler";
+		funObj->AddInput("handler", FPT_POINTER_THIS, (Object*)0);
+		funObj->AddOutput("ot_handlerstr", FPT_STRING, std::string("notvalied"));
+		thisFunObj->AddFunObject(funObj);
+	}
+
+	return thisFunObj;
+}
+//----------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------
 // 持久化支持
 //----------------------------------------------------------------------------
 UIFrame::UIFrame(LoadConstructor value) :
 SizeNode(value),
+mBelongUICanvas(0),
+mIsWidget(false),
 mUICallback(0),
 mMemObject(0),
-mMemUICallback(0)
+mMemUICallback(0),
+mActivatedColor(Float3::WHITE),
+mActivatedAlpha(1.0f),
+mActivatedBrightness(1.0f),
+mIsUIChildPickOnlyInSizeRange(true)
 {
 }
 //----------------------------------------------------------------------------
@@ -204,16 +429,9 @@ void UIFrame::Load(InStream& source)
 	SizeNode::Load(source);
 	PX2_VERSION_LOAD(source);
 
+	source.ReadPointer(mBackgroundPicBox);
+
 	source.ReadString(mUIScriptHandler);
-
-	source.ReadAggregate(mSize);
-	source.ReadAggregate(mBorderSize);
-
-	source.ReadBool(mIsAnchorLayoutEnable);
-	source.ReadAggregate(mAnchorHor);
-	source.ReadAggregate(mAnchorVer);
-	source.ReadAggregate(mAnchorParamHor);
-	source.ReadAggregate(mAnchorParamVer);
 
 	source.ReadPointer(mIPTCtrl);
 	source.ReadPointer(mGridAlignCtrl);
@@ -225,21 +443,28 @@ void UIFrame::Link(InStream& source)
 {
 	SizeNode::Link(source);
 
+	if (mBackgroundPicBox)
+		source.ResolveLink(mBackgroundPicBox);
+
 	if (mIPTCtrl)
 		source.ResolveLink(mIPTCtrl);
+
+	if (mGridAlignCtrl)
+		source.ResolveLink(mGridAlignCtrl);
 }
 //----------------------------------------------------------------------------
 void UIFrame::PostLink()
 {
 	SizeNode::PostLink();
-
-	RegistToScriptSystemAll();
 }
 //----------------------------------------------------------------------------
 bool UIFrame::Register(OutStream& target) const
 {
 	if (SizeNode::Register(target))
 	{
+		if (mBackgroundPicBox)
+			target.Register(mBackgroundPicBox);
+
 		if (mIPTCtrl)
 			target.Register(mIPTCtrl);
 
@@ -259,16 +484,9 @@ void UIFrame::Save(OutStream& target) const
 	SizeNode::Save(target);
 	PX2_VERSION_SAVE(target);
 
+	target.WritePointer(mBackgroundPicBox);
+
 	target.WriteString(mUIScriptHandler);
-
-	target.WriteAggregate(mSize);
-	target.WriteAggregate(mBorderSize);
-
-	target.WriteBool(mIsAnchorLayoutEnable);
-	target.WriteAggregate(mAnchorHor);
-	target.WriteAggregate(mAnchorVer);
-	target.WriteAggregate(mAnchorParamHor);
-	target.WriteAggregate(mAnchorParamVer);
 
 	target.WritePointer(mIPTCtrl);
 	target.WritePointer(mGridAlignCtrl);
@@ -281,16 +499,9 @@ int UIFrame::GetStreamingSize(Stream &stream) const
 	int size = SizeNode::GetStreamingSize(stream);
 	size += PX2_VERSION_SIZE(mVersion);
 
+	size += PX2_POINTERSIZE(mBackgroundPicBox);
+
 	size += PX2_STRINGSIZE(mUIScriptHandler);
-
-	size += sizeof(mSize);
-	size += sizeof(mBorderSize);
-
-	size += PX2_BOOLSIZE(mIsAnchorLayoutEnable);
-	size += sizeof(mAnchorHor);
-	size += sizeof(mAnchorVer);
-	size += sizeof(mAnchorParamHor);
-	size += sizeof(mAnchorParamVer);
 	
 	size += PX2_POINTERSIZE(mIPTCtrl);
 	size += PX2_POINTERSIZE(mGridAlignCtrl);

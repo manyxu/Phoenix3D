@@ -20,7 +20,7 @@ namespace PX2
 			const std::string &scriptFun);
 		virtual ~UIMenuItem();
 
-		UIText *GetText();
+		UIFText *GetText();
 
 public_internal:
 		void SetBeMainItem(bool isMainItem);
@@ -31,14 +31,14 @@ public_internal:
 		std::string mTitle;
 		std::string mScriptFun;
 		UIButtonPtr mBut;
-		UITextPtr mTitleText;
+		UIFTextPtr mTitleText;
 
-		std::map<std::string, Pointer0<UIMenuItem> > ChildItems;
+		std::map<std::string, PointerRef<UIMenuItem> > ChildItems;
 	};
 
 #include "PX2UIMenuItem.inl"
 	PX2_REGISTER_STREAM(UIMenuItem);
-	typedef Pointer0<UIMenuItem> UIMenuItemPtr;
+	typedef PointerRef<UIMenuItem> UIMenuItemPtr;
 
 }
 

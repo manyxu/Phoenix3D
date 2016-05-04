@@ -71,10 +71,15 @@ void AmbientRegionActor::SetLightCameraExtent(float extent)
 	_UpdateDirLightCamera();
 }
 //----------------------------------------------------------------------------
-void AmbientRegionActor::SetParent(Movable* parent)
+void AmbientRegionActor::OnBeAttached()
 {
-	TriggerActor::SetParent(parent);
+	Actor::OnBeAttached();
 
+	_UpdateDirLightCamera();
+}
+//----------------------------------------------------------------------------
+void AmbientRegionActor::OnBeDetach()
+{
 	_UpdateDirLightCamera();
 }
 //----------------------------------------------------------------------------
@@ -161,7 +166,7 @@ void AmbientRegionActor::_UpdateDirLightCamera()
 		Mathf::DEG_TO_RAD*mVerAngle);
 	dir.Normalize();
 
-	Scene *scene = DynamicCast<Scene>(GetTopestParent());
+	Scene *scene = GetFirstParentDerivedFromType<Scene>();
 	if (scene)
 	{
 		EnvirParam *envirParam = scene->GetEnvirParam();
@@ -211,7 +216,7 @@ void AmbientRegionActor::_UpdateDirLightCamera()
 //----------------------------------------------------------------------------
 void AmbientRegionActor::_UpdateFog()
 {
-	Scene *scene = DynamicCast<Scene>(GetTopestParent());
+	Scene *scene = GetFirstParentDerivedFromType<Scene>();
 	if (scene)
 	{
 		EnvirParam *envirParam = scene->GetEnvirParam();

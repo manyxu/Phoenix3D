@@ -10,8 +10,7 @@ Culler::Culler (const Camera* camera) :
 mCamera(camera),
 mPlaneQuantity(6),
 mFlag_CastShadow(0),
-mCurCullingScene(0),
-mIsInternalCanvas(false)
+mCurCullingScene(0)
 {
 }
 //----------------------------------------------------------------------------
@@ -140,7 +139,6 @@ bool Culler::IsVisible (const Bound& bound)
 void Culler::Clear()
 {
 	mVisibleSet.Clear();
-	mVisibleCanvas.clear();
 }
 //----------------------------------------------------------------------------
 void Culler::ComputeVisibleSet (Movable* scene)
@@ -151,19 +149,11 @@ void Culler::ComputeVisibleSet (Movable* scene)
 
 		SetFrustum(mCamera->GetFrustum());
 		mVisibleSet.Clear();
-		mVisibleCanvas.clear();
 		scene->GetVisibleSet(*this, false);
-
-		mCurCullingScene = 0;
 	}
 	else
 	{
 		assertion(false, "A camera and a scene are required for culling\n");
 	}
-}
-//----------------------------------------------------------------------------
-void Culler::SetInternalCanvas(bool isInternal)
-{
-	mIsInternalCanvas = isInternal;
 }
 //----------------------------------------------------------------------------

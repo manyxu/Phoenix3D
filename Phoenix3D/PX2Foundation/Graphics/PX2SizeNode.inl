@@ -16,27 +16,12 @@ inline float SizeNode::GetHeight() const
 	return mSize.Height;
 }
 //----------------------------------------------------------------------------
-inline const Sizef &SizeNode::GetBorderSize() const
-{
-	return mBorderSize;
-}
-//----------------------------------------------------------------------------
-inline float SizeNode::GetBorderWidth() const
-{
-	return mBorderSize.Width;
-}
-//----------------------------------------------------------------------------
-inline float SizeNode::GetBorderHeight() const
-{
-	return mBorderSize.Height;
-}
-//----------------------------------------------------------------------------
 inline const Float2 &SizeNode::GetPvoit() const
 {
 	return mPvoit;
 }
 //----------------------------------------------------------------------------
-inline const bool SizeNode::IsAnchorLayoutEnable() const
+inline bool SizeNode::IsAnchorLayoutEnable() const
 {
 	return mIsAnchorLayoutEnable;
 }

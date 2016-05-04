@@ -29,7 +29,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(CollapseRecordArray);
-	typedef Pointer0<CollapseRecordArray> CollapseRecordArrayPtr;
+	typedef PointerRef<CollapseRecordArray> CollapseRecordArrayPtr;
 #include "PX2CollapseRecordArray.inl"
 
 }

@@ -66,7 +66,7 @@ namespace PX2
 	};
 
 #include "PX2UserActor.inl"
-	typedef Pointer0<UserActor> UserActorPtr;
+	typedef PointerRef<UserActor> UserActorPtr;
 
 }
 

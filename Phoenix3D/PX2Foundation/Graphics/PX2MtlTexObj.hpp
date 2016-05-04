@@ -55,7 +55,7 @@ namespace PX2
 		bool mIsAnimPlayOnce;
 		float mAnimInterval;
 	};
-	typedef Pointer0<MtlTexObj> MtlTexObjPtr;
+	typedef PointerRef<MtlTexObj> MtlTexObjPtr;
 
 }
 

@@ -9,7 +9,7 @@
 #include "PX2Renderer.hpp"
 #include "PX2Picker.hpp"
 #include "PX2Canvas.hpp"
-#include "PX2Selection.hpp"
+#include "PX2SelectionManager.hpp"
 #include "PX2GraphicsRoot.hpp"
 #include "PX2TriMesh.hpp"
 #include "PX2SimulationEventType.hpp"
@@ -82,27 +82,25 @@ void SceneNodeCtrl::SetDragType(DragType type)
 	mDragType = type;
 }
 //----------------------------------------------------------------------------
-void SceneNodeCtrl::OnLeftDown(Canvas *canvas, const PX2::APoint &pos)
+void SceneNodeCtrl::OnLeftDown(Canvas *canvas, const PX2::APoint &viewPortPos)
 {
 	Edit::EditType editType = PX2_EDIT.GetEditType();
 	if (Edit::ET_SCENE != editType) return;
 
-	DragType dt = GetDragType(canvas, pos);
+	DragType dt = GetDragType(canvas, viewPortPos);
 	SetDragType(dt);
 }
 //----------------------------------------------------------------------------
 void SceneNodeCtrl::OnLeftUp(Canvas *canvas, const PX2::APoint &pos)
 {
 	SetDragType(DT_NONE);
-
-	Event *ent = EditEventSpace::CreateEventX(EditEventSpace::SceneNodeDrag);
-	ent->SetData<int>(0);
-	EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
 }
 //----------------------------------------------------------------------------
 void SceneNodeCtrl::OnMouseWheel(Canvas *canvas, float wheelDelta)
 {
 	Camera *camera = canvas->GetCamera();
+	if (!camera) return;
+
 	float rmax = camera->GetRMax();
 	APoint camPosition = camera->GetPosition();
 	APoint ctrlPosition = GetPosition();
@@ -131,9 +129,7 @@ void SceneNodeCtrl::OnMotion(bool leftDown, Canvas *canvas,
 	PX2::APoint posNow, PX2::APoint posBefore)
 {
 	PX2_UNUSED(leftDown);
-	PX2_UNUSED(canvas);
 
-	Renderer *renderer = canvas->GetRenderer();
 	Camera *camera = canvas->GetCamera();
 
 	// 光标移动更新
@@ -148,76 +144,65 @@ void SceneNodeCtrl::OnMotion(bool leftDown, Canvas *canvas,
 		if (DT_X == dt)
 		{
 			ctrlMov = GetCurrentCtrlX();
-			factory.UpdateCtrlColor(renderer, ctrlMov, Float4::YELLOW);
+			factory.UpdateCtrlColor(ctrlMov, Float4::YELLOW);
 		}
 		else if (DT_Y == dt)
 		{
 			ctrlMov = GetCurrentCtrlY();
-			factory.UpdateCtrlColor(renderer, ctrlMov, Float4::YELLOW);
+			factory.UpdateCtrlColor(ctrlMov, Float4::YELLOW);
 		}
 		else if (DT_Z == dt)
 		{
 			ctrlMov = GetCurrentCtrlZ();
-			factory.UpdateCtrlColor(renderer, ctrlMov, Float4::YELLOW);
+			factory.UpdateCtrlColor(ctrlMov, Float4::YELLOW);
 		}
 		else if (DT_XY == dt)
 		{
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlXY(), colorYellowAlpha);
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlYZ(), Float4::ZERO);
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlXZ(), Float4::ZERO);
+			factory.UpdateCtrlColor1(GetCurrentCtrlXY(), colorYellowAlpha);
+			factory.UpdateCtrlColor1(GetCurrentCtrlYZ(), Float4::ZERO);
+			factory.UpdateCtrlColor1(GetCurrentCtrlXZ(), Float4::ZERO);
 		}
 		else if (DT_YZ == dt)
 		{
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlYZ(), colorYellowAlpha);
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlXY(), Float4::ZERO);
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlXZ(), Float4::ZERO);
+			factory.UpdateCtrlColor1(GetCurrentCtrlYZ(), colorYellowAlpha);
+			factory.UpdateCtrlColor1(GetCurrentCtrlXY(), Float4::ZERO);
+			factory.UpdateCtrlColor1(GetCurrentCtrlXZ(), Float4::ZERO);
 		}
 		else if (DT_XZ == dt)
 		{
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlXZ(), colorYellowAlpha);
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlXY(), Float4::ZERO);
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlYZ(), Float4::ZERO);
+			factory.UpdateCtrlColor1(GetCurrentCtrlXZ(), colorYellowAlpha);
+			factory.UpdateCtrlColor1(GetCurrentCtrlXY(), Float4::ZERO);
+			factory.UpdateCtrlColor1(GetCurrentCtrlYZ(), Float4::ZERO);
 		}
 		else if (DT_XYZ == dt)
 		{
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlXYZ(), Float4::YELLOW);
+			factory.UpdateCtrlColor1(GetCurrentCtrlXYZ(), Float4::YELLOW);
 		}
 		else if (DT_NONE == dt)
 		{
-			factory.UpdateCtrlColor(renderer, GetCurrentCtrlX(), Float4::RED);
-			factory.UpdateCtrlColor(renderer, GetCurrentCtrlY(), Float4::GREEN);
-			factory.UpdateCtrlColor(renderer, GetCurrentCtrlZ(), Float4::BLUE);
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlXY(), Float4::ZERO);
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlYZ(), Float4::ZERO);
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlXZ(), Float4::ZERO);
-			factory.UpdateCtrlColor1(renderer, GetCurrentCtrlXYZ(), Float4::WHITE);
+			factory.UpdateCtrlColor(GetCurrentCtrlX(), Float4::RED);
+			factory.UpdateCtrlColor(GetCurrentCtrlY(), Float4::GREEN);
+			factory.UpdateCtrlColor(GetCurrentCtrlZ(), Float4::BLUE);
+			factory.UpdateCtrlColor1(GetCurrentCtrlXY(), Float4::ZERO);
+			factory.UpdateCtrlColor1(GetCurrentCtrlYZ(), Float4::ZERO);
+			factory.UpdateCtrlColor1(GetCurrentCtrlXZ(), Float4::ZERO);
+			factory.UpdateCtrlColor1(GetCurrentCtrlXYZ(), Float4::WHITE);
 		}
 
 		if (DT_NONE == dt)
 		{
-			Event *ent = EditEventSpace::CreateEventX(EditEventSpace::SceneNodeDrag);
-			ent->SetData<int>(0);
-			EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
+			RenderWindow::SetCursorType(RenderWindow::CT_CURSOR_ARROW);
 		}
 		else
 		{
-			Event *ent = EditEventSpace::CreateEventX(EditEventSpace::SceneNodeDrag);
-			ent->SetData<int>(1);
-			EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
+			RenderWindow::SetCursorType(RenderWindow::CT_CURSOR_SIZING);
 		}
 	}
 
 	if (DT_NONE == mDragType) return;
-	else
-	{
-		Event *ent = EditEventSpace::CreateEventX(EditEventSpace::SceneNodeDrag);
-		ent->SetData<int>(1);
-		EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
-	}
 
-	int numObjs = PX2_SELECTION.GetNumObjects();
-	if (0 == numObjs) 
-		return;
+	int numObjs = PX2_SELECTM_E->GetNumObjects();
+	if (0 == numObjs) return;
 
 	// get pickPoint with the plane
 	TriMesh *meshHelp = PX2_GR.GetXYPlane();
@@ -366,21 +351,21 @@ void SceneNodeCtrl::OnMotion(bool leftDown, Canvas *canvas,
 
 	if (CT_TRANSLATE == mCtrlType)
 	{
-		PX2_SELECTION.Translate(transVec);
+		PX2_SELECTM_E->Translate(transVec);
 
 		UpdateCtrlTrans();
 	}
 	else if (CT_ROLATE == mCtrlType)
 	{
-		PX2_SELECTION.AddRolate(rolateVec);
+		PX2_SELECTM_E->AddRolate(rolateVec);
 	}
 	else if (CT_SCALE == mCtrlType)
 	{
 		if (DT_XYZ == mDragType)
-			PX2_SELECTION.AddScale(transVec);
+			PX2_SELECTM_E->AddScale(transVec);
 	}
 
-	Object *obj = PX2_SELECTION.GetFirstObject();
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
 	if (obj)
 	{
 		Event *ent = EditEventSpace::CreateEventX(
@@ -507,10 +492,6 @@ PX2::AVector SceneNodeCtrl::GetZDir()
 	return AVector(vector.X(), vector.Y(), vector.Z());
 }
 //----------------------------------------------------------------------------
-void SceneNodeCtrl::DoEnter()
-{
-}
-//----------------------------------------------------------------------------
 void SceneNodeCtrl::DoExecute(PX2::Event *event)
 {
 	if (SimuES_E::IsEqual(event, SimuES_E::AddSelect))
@@ -567,7 +548,7 @@ void SceneNodeCtrl::DoExecute(PX2::Event *event)
 		{
 			SetCtrlType(SceneNodeCtrl::CT_TRANSLATE);
 		}
-		else if (Edit::EM_ROLATE == mode)
+		else if (Edit::EM_ROTATE == mode)
 		{
 			SetCtrlType(SceneNodeCtrl::CT_ROLATE);
 		}
@@ -578,19 +559,15 @@ void SceneNodeCtrl::DoExecute(PX2::Event *event)
 	}
 }
 //----------------------------------------------------------------------------
-void SceneNodeCtrl::DoLeave()
-{
-}
-//----------------------------------------------------------------------------
 void SceneNodeCtrl::UpdateCtrl()
 {
-	int numObjects = PX2_SELECTION.GetNumObjects();
+	int numObjects = PX2_SELECTM_E->GetNumObjects();
 
 	bool isObjectsHasActorOrMov = false;
 
 	for (int i = 0; i < numObjects; i++)
 	{
-		Object *obj = PX2_SELECTION.GetObjectAt(i);
+		Object *obj = PX2_SELECTM_E->GetObjectAt(i);
 		Movable *mov = DynamicCast<Movable>(obj);
 		if (mov)
 		{
@@ -707,13 +684,13 @@ void SceneNodeCtrl::UpdateCtrl()
 //----------------------------------------------------------------------------
 void SceneNodeCtrl::UpdateCtrlTrans()
 {
-	int numObjects = PX2_SELECTION.GetNumObjects();
+	int numObjects = PX2_SELECTM_E->GetNumObjects();
 
 	bool isObjectsHasActorOrMov = false;
 
 	for (int i = 0; i < numObjects; i++)
 	{
-		Object *obj = PX2_SELECTION.GetObjectAt(i);
+		Object *obj = PX2_SELECTM_E->GetObjectAt(i);
 		Movable *mov = DynamicCast<Movable>(obj);
 		if (mov)
 		{
@@ -731,7 +708,7 @@ void SceneNodeCtrl::UpdateCtrlTrans()
 	{
 		if (1 == numObjects)
 		{
-			Movable *mov = DynamicCast<Movable>(PX2_SELECTION.GetFirstObject());
+			Movable *mov = DynamicCast<Movable>(PX2_SELECTM_E->GetFirstObject());
 			if (mov)
 			{
 				if (AM_WORLD == mAxisMode)
@@ -783,7 +760,7 @@ void SceneNodeCtrl::UpdateCtrlTrans()
 
 			for (int i = 0; i < numObjects; i++)
 			{
-				Object *obj = PX2_SELECTION.GetObjectAt(i);
+				Object *obj = PX2_SELECTM_E->GetObjectAt(i);
 				Movable *mov = DynamicCast<Movable>(obj);
 
 				if (mov)
@@ -807,11 +784,11 @@ void SceneNodeCtrl::UpdateCtrlTrans()
 }
 //----------------------------------------------------------------------------
 SceneNodeCtrl::DragType SceneNodeCtrl::GetDragType(Canvas *canvas,
-	const PX2::APoint &point)
+	const PX2::APoint &viewPortPos)
 {
 	APoint origin;
 	AVector direction;
-	canvas->GetPickRay(point.X(), point.Z(), origin, direction);
+	canvas->GetPickRay(viewPortPos.X(), viewPortPos.Z(), origin, direction);
 
 	PX2::Picker picker;
 
@@ -931,10 +908,6 @@ BoundCtrl::~BoundCtrl()
 {
 }
 //----------------------------------------------------------------------------
-void BoundCtrl::DoEnter()
-{
-}
-//----------------------------------------------------------------------------
 void BoundCtrl::DoExecute(PX2::Event *event)
 {
 	if (SimuES_E::IsEqual(event, SimuES_E::AddSelect))
@@ -964,15 +937,11 @@ void BoundCtrl::DoExecute(PX2::Event *event)
 	}
 }
 //----------------------------------------------------------------------------
-void BoundCtrl::DoLeave()
-{
-}
-//----------------------------------------------------------------------------
 void BoundCtrl::UpdateCtrl()
 {
 	mCtrlsGroup->SetActiveChild(1);
 
-	int numObjscts = PX2_SELECTION.GetNumObjects();
+	int numObjscts = PX2_SELECTM_E->GetNumObjects();
 
 	if (numObjscts > 0)
 	{
@@ -983,7 +952,7 @@ void BoundCtrl::UpdateCtrl()
 
 		for (int i = 0; i < numObjscts; i++)
 		{
-			Object *obj = PX2_SELECTION.GetObjectAt(i);
+			Object *obj = PX2_SELECTM_E->GetObjectAt(i);
 			Movable *movable = DynamicCast<Movable>(obj);
 
 			if (movable)

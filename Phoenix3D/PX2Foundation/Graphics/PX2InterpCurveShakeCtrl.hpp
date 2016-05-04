@@ -52,7 +52,7 @@ namespace PX2
 #include "PX2InterpCurveShakeCtrl.inl"
 
 	PX2_REGISTER_STREAM(InterpCurveShakeController);
-	typedef Pointer0<InterpCurveShakeController> InterpCurveShakeControllerPtr;
+	typedef PointerRef<InterpCurveShakeController> InterpCurveShakeControllerPtr;
 
 }
 

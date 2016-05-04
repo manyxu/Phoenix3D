@@ -66,7 +66,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(ShaderParameters);
-	typedef Pointer0<ShaderParameters> ShaderParametersPtr;
+	typedef PointerRef<ShaderParameters> ShaderParametersPtr;
 #include "PX2ShaderParameters.inl"
 
 }

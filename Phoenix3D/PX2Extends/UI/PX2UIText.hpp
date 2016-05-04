@@ -70,7 +70,7 @@ namespace PX2
 		{
 			RU_NONE,
 			RU_ALIGNS,
-			RU_CLIP
+			RU_CLIPWARP
 		};
 		void SetRectUseage(RectUseage useage);
 		RectUseage GetRectUseage() const;
@@ -93,12 +93,17 @@ namespace PX2
 		int GetHAlign() const;
 		int GetVAlign() const;
 
-		// 使用自动换行(保持单词完整)
+		// 使用自动换行
+		// RectUseage需要设置为RectUseage::RU_CLIPWARP
+		// 保持单词完整, 如果单词超过Rect::Width,自动换行
 		void SetAutoWarp(bool warp);
 		bool IsAutoWarp() const;
 
 		void SetDoCharTranslate(bool doTranslate);
 		bool IsDoCharTranslate() const;
+
+		void SetPointAsPunctuation(bool asPunctuation);
+		bool IsPointAsPunctuation() const;
 
 		void SetFontScale(float scale);
 		float GetFontScale() const;
@@ -136,6 +141,7 @@ namespace PX2
 		Float2 mSpace;
 		bool mIsAutoWarp;
 		bool mIsDoCharTranslate;
+		bool mIsPointAsPunctuation;
 		float mFontScale;
 
 		Texture2DPtr mFontTex;
@@ -148,7 +154,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(UIText);
-	typedef Pointer0<UIText> UITextPtr;
+	typedef PointerRef<UIText> UITextPtr;
 #include "PX2UIText.inl"
 
 }

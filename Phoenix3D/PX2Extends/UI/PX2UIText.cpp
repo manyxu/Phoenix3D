@@ -13,8 +13,7 @@ PX2_IMPLEMENT_FACTORY(UIText);
 PX2_IMPLEMENT_DEFAULT_NAMES(TriMesh, UIText);
 
 //----------------------------------------------------------------------------
-UIText::UIText()
-:
+UIText::UIText() :
 mFontType(FT_FREETYPE)
 {
 	SetVertexFormat(PX2_GR.GetVertexFormat(GraphicsRoot::VFT_PCT1));
@@ -47,12 +46,13 @@ void UIText::_Init()
 	mSpace = Float2::ZERO;
 	mIsAutoWarp = false;
 	mIsDoCharTranslate = true;
+	mIsPointAsPunctuation = true;
 	mFontScale = 1.0f;
 
 	mFontFilename = "Data/engine/arial.ttf";
 	mFontStyle = 0;
-	mFontWidth = 24;
-	mFontHeight = 24;
+	mFontWidth = 16;
+	mFontHeight = 16;
 
 	mText = "DefaultText";
 
@@ -252,6 +252,16 @@ void UIText::SetDoCharTranslate(bool doTranslate)
 	mIsNeedReCreate = true;
 }
 //----------------------------------------------------------------------------
+void UIText::SetPointAsPunctuation(bool asPunctuation)
+{
+	if (mIsPointAsPunctuation == asPunctuation)
+		return;
+
+	mIsPointAsPunctuation = asPunctuation;
+
+	mIsNeedReCreate = true;
+}
+//----------------------------------------------------------------------------
 void UIText::SetFontScale(float scale)
 {
 	if (mFontScale == scale)
@@ -369,21 +379,20 @@ void UIText::ReCreate()
 			mFontColor, mBorderShadowColor, mShadowBorderSize,
 			mFontScale, mIsDoCharTranslate, 0.0f);
 	}
-	else if (RU_CLIP == mRectUseage)
+	else if (RU_ALIGNS == mRectUseage)
 	{
-		PX2_FM.RenderText(this, mFont, mText.c_str(),
+		PX2_FM.RenderTextRect(this, mFont, mText.c_str(),
+			mDrawStyle, mTextAligns, mRect, mSpace, mOffset[0], mOffset[1],
+			mFontColor, mBorderShadowColor, mShadowBorderSize, mFontScale,
+			mIsDoCharTranslate);
+	}
+	else if (RU_CLIPWARP == mRectUseage)
+	{
+		PX2_FM.RenderTextRect(this, mFont, mText.c_str(),
 			mDrawStyle, mRect, mSpace, mOffset[0], mOffset[1],
 			mIsAutoWarp, mFontColor,
 			mBorderShadowColor, mShadowBorderSize, mFontScale,
-			mIsDoCharTranslate);
-	}
-	else if (RU_ALIGNS == mRectUseage)
-	{
-		PX2_FM.RenderText(this, mFont, mText.c_str(),
-			mDrawStyle, mTextAligns, mRect, mSpace, mOffset[0], mOffset[1],
-			mFontColor,
-			mBorderShadowColor, mShadowBorderSize, mFontScale,
-			mIsDoCharTranslate);
+			mIsDoCharTranslate, mIsPointAsPunctuation);
 	}
 
 	mFontTex = mFont->GetTexture();
@@ -447,7 +456,7 @@ void UIText::RegistProperties()
 	std::vector<std::string> rectUseages;
 	rectUseages.push_back("RU_NONE");
 	rectUseages.push_back("RU_ALIGNS");
-	rectUseages.push_back("RU_CLIP");
+	rectUseages.push_back("RU_CLIPWARP");
 	AddPropertyEnum("RectUseage", (int)GetRectUseage(), rectUseages);
 	AddProperty("Rect", PT_RECT, GetRect());
 	AddProperty("Offset", PT_FLOAT2, GetOffset());
@@ -498,6 +507,7 @@ void UIText::RegistProperties()
 
 	AddProperty("AutoWarp", PT_BOOL, IsAutoWarp());
 	AddProperty("DoCharTranslate", PT_BOOL, IsDoCharTranslate());
+	AddProperty("IsPointAsPunctuation", PT_BOOL, IsPointAsPunctuation());
 }
 //----------------------------------------------------------------------------
 void UIText::OnPropertyChanged(const PropertyObject &obj)
@@ -650,6 +660,10 @@ void UIText::OnPropertyChanged(const PropertyObject &obj)
 	{
 		SetDoCharTranslate(PX2_ANY_AS(obj.Data, bool));
 	}
+	else if ("IsPointAsPunctuation" == obj.Name)
+	{
+		SetPointAsPunctuation(PX2_ANY_AS(obj.Data, bool));
+	}
 }
 //----------------------------------------------------------------------------
 
@@ -692,6 +706,7 @@ void UIText::Load(InStream& source)
 	source.ReadAggregate(mOffset);
 	source.ReadBool(mIsAutoWarp);
 	source.ReadBool(mIsDoCharTranslate);
+	source.ReadBool(mIsPointAsPunctuation);
 	source.Read(mFontScale);
 
 	source.ReadEnum(mFontType);
@@ -744,6 +759,7 @@ void UIText::Save(OutStream& target) const
 	target.WriteAggregate(mOffset);
 	target.WriteBool(mIsAutoWarp);
 	target.WriteBool(mIsDoCharTranslate);
+	target.WriteBool(mIsPointAsPunctuation);
 	target.Write(mFontScale);
 	target.WriteEnum(mFontType);
 	target.WriteAggregate(mSpace);
@@ -778,6 +794,7 @@ int UIText::GetStreamingSize(Stream &stream) const
 	size += sizeof(mOffset);
 	size += PX2_BOOLSIZE(mIsAutoWarp);
 	size += PX2_BOOLSIZE(mIsDoCharTranslate);
+	size += PX2_BOOLSIZE(mIsPointAsPunctuation);
 	size += sizeof(mFontScale);
 
 	size += PX2_ENUMSIZE(mFontType);

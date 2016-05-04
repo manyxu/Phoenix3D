@@ -118,7 +118,7 @@ void LODTerrainPage::InitializeDerivedData ()
 //----------------------------------------------------------------------------
 void LODTerrainPage::SetPixelTolerance (float tolerance)
 {
-	const Rectf &rect = GraphicsRoot::GetSingleton().GetViewRect();
+	//const Rectf &rect = GraphicsRoot::GetSingleton().GetViewRect();
 	//const Camera *cam = GraphicsRoot::GetSingleton().GetCamera();
 
 	//float rMax = cam->GetRMax();

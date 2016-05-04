@@ -1,7 +1,7 @@
 // PX2UIMenuItem.inl
 
 //----------------------------------------------------------------------------
-inline UIText *UIMenuItem::GetText()
+inline UIFText *UIMenuItem::GetText()
 {
 	return mTitleText;
 }

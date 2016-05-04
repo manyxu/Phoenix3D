@@ -7,7 +7,8 @@
 #include "PX2Singleton_NeedNew.hpp"
 #include "PX2UIMenu.hpp"
 #include "PX2UIAuiFrame.hpp"
-#include "PX2UIWindow.hpp"
+#include "PX2RenderWindow.hpp"
+#include "PX2UICanvas.hpp"
 
 namespace PX2
 {
@@ -16,7 +17,7 @@ namespace PX2
 	class UIFrame;
 	class UIMenu;
 	
-	class PX2_EXTENDS_ITEM EU_Manager : public Singleton<EU_Manager>
+	class PX2_EXTENDS_ITEM EU_Manager : public Singleton<EU_Manager>, public Visitor
 	{
 	public:
 		EU_Manager();
@@ -27,52 +28,44 @@ namespace PX2
 
 		// windows
 		void CreateUIWindowMain();
-		UIWindow *GetUIWindowMain();
+		RenderWindow *GetUIWindowMain();
+		RenderWindow *CreateUIWindow(const std::string &name,
+			const std::string &title, const APoint &pos, const Sizef &size, 
+			bool isFloat);
+		UIFrame *CreateMainFrame(Canvas *canvas, UIAuiFrame *&outAuiFrame);
 
-		UIWindow *CreateUIWindow(const std::string &name,
-			const std::string title, bool isFloat, bool isMain);
-
-		void CreateFrame_Main();
 		UIFrame *GetFrame_Main();
 
 		// top
 		UIFrame *GetFrame_MainMenu();
 
-		// center
-		void CreateFrame_Center();
+		// frames
+		UIAuiBlockFrame *CreateFrame_Center();
+		UIAuiBlockFrame *CreateFrame_Project(UIAuiBlockFrame *beforeCenterFrame, UIAuiBlockFrame *&outCenter);
+		UIAuiBlockFrame *CreateFrame_Property(UIAuiBlockFrame *beforeCenterFrame, UIAuiBlockFrame *&outCenter);
+		UIAuiBlockFrame *CreateFrame_Resource(UIAuiBlockFrame *beforeCenterFrame, UIAuiBlockFrame *&outCenter);
+		UIAuiBlockFrame *CreateFrame_PreView(UIAuiBlockFrame *beforeCenterFrame, UIAuiBlockFrame *&outCenter);
+
+		// toolbar
+		void CreateFrame_ToolBar();
 
 		// status
 		void CreateFrame_StatusBar();
 
-		// content
-		void CreateFrame_Content();
-
-		void CreateFrame_ProjectRes();
-
-		void CreateFrame_Inspector();
-
-		void CreateFrame_Console();
-
 		UIAuiBlockFrame *CreateUIAuiBlockFrame(UIAuiBlockFrame *parent,
-			UILayoutPosType pos, const Sizef &size = Sizef(200.0f, 200.0f));
+			UILayoutPosType pos, const Sizef &size = Sizef(300.0f, 300.0f));
 
-	public_internal:
-		std::map<std::string, Pointer0<UIWindow> > mWindowMap;
+		UIAuiBlockFrame *CreateUIAuiBlockFrame2(UIAuiBlockFrame *parent,
+			UILayoutPosType pos, UIAuiBlockFrame *&outCenter, 
+			const Sizef &size = Sizef(300.0f, 300.0f));
+
+		virtual void Visit(Object *obj, int info);
 
 	protected:
-		Pointer0<UIWindow> mUIWindowMain;
-		Pointer0<UICanvas> mUICanvas_Main;
-		Pointer0<UIFrame> mFrame_Main;
+		PointerRef<UIFrame> mFrame_Main;
 		UIAuiFramePtr mFrame_Content;
-		Pointer0<UIFrame> mFrame_StatusBar;
-
-		// ids
-	public:
-		int GetViewID(const std::string &viewName);
-
-	private:
-		int mNextViewID;
-		std::map<std::string, int> mViewIDMap;
+		UIFramePtr mFrame_ToolBar;
+		PointerRef<UIFrame> mFrame_StatusBar;
 
 		// menus
 	public:
@@ -83,6 +76,20 @@ namespace PX2
 			const std::string &title, const std::string &script, 
 			const std::string &tag = "");
 		void Menu_Main_AddItemSeparater(const std::string &parentName);
+
+		void Menu_Edit_Begin(const std::string &whe, const std::string &name);
+		void Menu_Edit_AddSubItem(const std::string &whe,
+			const std::string &parentName, const std::string &name,
+			const std::string &title);
+		void Menu_Edit_AddItem(const std::string &whe,
+			const std::string &parentName, const std::string &name,
+			const std::string &title,
+			const std::string &script,
+			const std::string &tag="");
+		void Menu_Edit_AddItemSeparater(const std::string &whe,
+			const std::string &parentName);
+		void Menu_Edit_EndPopUp(const std::string &whe,
+			const APoint &pos); // x z
 
 		// commonds
 	public:
@@ -96,6 +103,10 @@ namespace PX2
 		void SaveSceneAs();
 		void CloseScene();
 		void Exit();
+
+		// tip
+	public:
+		void PlayTip(const std::string &title, const std::string &content);
 	};
 
 #define PX2EU_MAN EU_Manager::GetSingleton()

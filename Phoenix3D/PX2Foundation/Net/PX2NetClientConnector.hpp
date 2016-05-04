@@ -48,8 +48,7 @@ namespace PX2
 		template<class T>
 		int SendMsgToServer(int msgid, const T &msg);
 
-		template<class T>
-		BufferEvent *CreateSendEvent(int msgid, const T &msg);
+		int SendMsgToServerBuffer(int msgid, const char *buf, int size);
 
 		int Update(float elapsedSeconds);
 
@@ -72,6 +71,7 @@ namespace PX2
 		int mRecvLen;
 		char *mSendBuf;
 		int mSendLen;
+		std::string mRawSendStr;
 
 		SocketAddress mAddr;
 		StreamSocket mSocket;

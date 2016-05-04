@@ -61,7 +61,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Triangles);
-	typedef Pointer0<Triangles> TrianglesPtr;
+	typedef PointerRef<Triangles> TrianglesPtr;
 #include "PX2Triangles.inl"
 
 }

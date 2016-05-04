@@ -22,7 +22,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(EU_CreateFrame);
-	typedef Pointer0<EU_CreateFrame> EU_CreateFramePtr;
+	typedef PointerRef<EU_CreateFrame> EU_CreateFramePtr;
 
 }
 

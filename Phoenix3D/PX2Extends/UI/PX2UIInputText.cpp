@@ -92,7 +92,7 @@ void UIInputText::InsertText(const char *text, int length)
 		float outWidth = 0.0f;
 		int outNumBytes = 0;
 		mFont->GetTextExtentFitInWidth(mInputString.c_str(), mFixedWidth,
-			outWidth, outNumBytes, false);
+			outWidth, outNumBytes, false, mFontScale);
 
 		mInputString = mInputString.substr(0, outNumBytes);
 	}
@@ -198,7 +198,8 @@ float UIInputText::GetTextWidth() const
 	float width = 0.0f;
 	float height = 0.0f;
 
-	mFont->GetTextExtent(mText.c_str(), width, height, IsDoCharTranslate());
+	mFont->GetTextExtent(mText.c_str(), width, height, IsDoCharTranslate(),
+		mFontScale);
 
 	return width;
 }

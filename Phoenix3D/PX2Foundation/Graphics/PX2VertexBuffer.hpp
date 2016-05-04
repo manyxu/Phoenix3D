@@ -25,7 +25,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(VertexBuffer);
-	typedef Pointer0<VertexBuffer> VertexBufferPtr;
+	typedef PointerRef<VertexBuffer> VertexBufferPtr;
 #include "PX2VertexBuffer.inl"
 
 }

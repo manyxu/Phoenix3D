@@ -13,7 +13,8 @@ PX2_IMPLEMENT_DEFAULT_NAMES(Controller, UICanvasController);
 
 //----------------------------------------------------------------------------
 UICanvasController::UICanvasController() :
-mIsRightPressed(false)
+mIsRightPressed(false),
+mIsMiddlePressed(false)
 {
 }
 //----------------------------------------------------------------------------
@@ -24,6 +25,11 @@ UICanvasController::~UICanvasController()
 void UICanvasController::DoExecute(Event *event)
 {
 	UICanvas *canvas = DynamicCast<UICanvas>(this->GetControlledable());
+	if (!canvas->IsActivated())
+		return;
+
+	if (!canvas->IsEnable())
+		return;
 
 	if (InputEventSpace::IsEqual(event, InputEventSpace::MousePressed))
 	{
@@ -35,6 +41,13 @@ void UICanvasController::DoExecute(Event *event)
 			mCurPos = ied.MTPos;
 			mLastPos = mCurPos;
 		}
+		else if (MBID_MIDDLE == ied.MButtonID)
+		{
+			mIsMiddlePressed = true;
+			mMiddlePressedPos = ied.MTPos;
+			mCurPos = ied.MTPos;
+			mLastPos = mCurPos;
+		}
 	}
 	else if (InputEventSpace::IsEqual(event, InputEventSpace::MouseReleased))
 	{
@@ -43,11 +56,15 @@ void UICanvasController::DoExecute(Event *event)
 		{
 			mIsRightPressed = false;
 		}
+		else if (MBID_MIDDLE == ied.MButtonID)
+		{
+			mIsMiddlePressed = false;
+		}
 	}
 	else if (InputEventSpace::IsEqual(event, InputEventSpace::MouseMoved))
 	{
 		InputEventData ied = event->GetData<InputEventData>();
-		if (mIsRightPressed)
+		if (mIsMiddlePressed)
 		{
 			mCurPos = ied.MTPos;
 			AVector moveDir = mCurPos - mLastPos;

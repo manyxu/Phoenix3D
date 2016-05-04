@@ -1,0 +1,6 @@
+// PX2Selection.pkg
+
+	class Selection
+	{
+	public:
+	};

@@ -50,7 +50,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(SkinController);
-	typedef Pointer0<SkinController> SkinControllerPtr;
+	typedef PointerRef<SkinController> SkinControllerPtr;
 #include "PX2SkinController.inl"
 
 }

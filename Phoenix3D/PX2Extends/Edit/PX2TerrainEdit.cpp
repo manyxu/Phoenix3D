@@ -4,7 +4,6 @@
 #include "PX2EditEventType.hpp"
 #include "PX2TerrainEdit.hpp"
 #include "PX2Project.hpp"
-#include "PX2EditMap.hpp"
 using namespace PX2;
 
 TerrainEdit::TerrainEdit() :

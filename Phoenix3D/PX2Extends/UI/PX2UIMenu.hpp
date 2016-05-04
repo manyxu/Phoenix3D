@@ -45,13 +45,11 @@ namespace PX2
 
 		Sizef mMainItemSize;
 		int mItemFontSize;
-
-		bool mIsNeedRecal;
 	};
 
 #include "PX2UIMenu.inl"
 	PX2_REGISTER_STREAM(UIMenu);
-	typedef Pointer0<UIMenu> UIMenuPtr;
+	typedef PointerRef<UIMenu> UIMenuPtr;
 
 }
 

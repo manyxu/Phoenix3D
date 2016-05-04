@@ -59,7 +59,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;PX2_FOUNDATION_DLL_IMPORT;PX2_EXTENDS_DLL_EXPORT;PX2_TOLUA_DLL_EXPORT</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>./;./Effect;./Terrains;./UI;./Simulation;./Edit;./ToLua;../PX2Foundation/Unity/Lua;../PX2Foundation/Unity/ToLua;../PX2SDK/Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./Effect;./Terrains;./UI;./Simulation;./Edit;./ToScript;../PX2Foundation/Unity/Lua;../PX2Foundation/Unity/ToLua;../PX2Foundation/Unity/AngelScript;../PX2SDK/Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -119,7 +119,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;PX2_FOUNDATION_DLL_IMPORT;PX2_EXTENDS_DLL_EXPORT;PX2_TOLUA_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>./;./Effect;./Terrains;./UI;./Simulation;./Edit;./ToLua;../PX2Foundation/Unity/Lua;../PX2Foundation/Unity/ToLua;../PX2SDK/Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./Effect;./Terrains;./UI;./Simulation;./Edit;./ToScript;../PX2Foundation/Unity/Lua;../PX2Foundation/Unity/ToLua;../PX2Foundation/Unity/AngelScript;../PX2SDK/Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -175,6 +175,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="AppFrame\PX2AppFramePre.hpp" />
     <ClInclude Include="AppFrame\PX2Application.hpp" />
     <ClInclude Include="AppFrame\PX2ApplicationBase.hpp" />
+    <ClInclude Include="AppFrame\PX2Command.hpp" />
     <ClInclude Include="Edit\PX2Brush.hpp" />
     <ClInclude Include="Edit\PX2Curve.hpp" />
     <ClInclude Include="Edit\PX2CurveCtrl.hpp" />
@@ -182,33 +183,41 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Edit\PX2Edit.hpp" />
     <ClInclude Include="Edit\PX2EditDefine.hpp" />
     <ClInclude Include="Edit\PX2EditEventData.hpp" />
+    <ClInclude Include="Edit\PX2EditEventHandler.hpp" />
     <ClInclude Include="Edit\PX2EditEventType.hpp" />
-    <ClInclude Include="Edit\PX2EditMap.hpp" />
     <ClInclude Include="Edit\PX2EditParams.hpp" />
     <ClInclude Include="Edit\PX2EditPre.hpp" />
-    <ClInclude Include="Edit\PX2EditRenderView.hpp" />
-    <ClInclude Include="Edit\PX2EditRenderView_Logic.hpp" />
-    <ClInclude Include="Edit\PX2EditRenderView_PreView.hpp" />
-    <ClInclude Include="Edit\PX2EditRenderView_Res.hpp" />
-    <ClInclude Include="Edit\PX2EditRenderView_Scene.hpp" />
-    <ClInclude Include="Edit\PX2EditRenderView_TimeLine.hpp" />
-    <ClInclude Include="Edit\PX2EditRenderView_UI.hpp" />
     <ClInclude Include="Edit\PX2Edits.hpp" />
     <ClInclude Include="Edit\PX2EditTimeLineEdit.hpp" />
+    <ClInclude Include="Edit\PX2EU_CanvasBP.hpp" />
     <ClInclude Include="Edit\PX2EU_BluePrintFrame.hpp" />
     <ClInclude Include="Edit\PX2EU_BPFrame.hpp" />
+    <ClInclude Include="Edit\PX2EU_CanvasPreView.hpp" />
+    <ClInclude Include="Edit\PX2EU_CanvasStageSimu.hpp" />
+    <ClInclude Include="Edit\PX2EU_CanvasStageUI.hpp" />
     <ClInclude Include="Edit\PX2EU_CF_BluePrint.hpp" />
     <ClInclude Include="Edit\PX2EU_ConsoleFrame.hpp" />
     <ClInclude Include="Edit\PX2EU_CreateFrame.hpp" />
+    <ClInclude Include="Edit\PX2EU_GridFrame.hpp" />
     <ClInclude Include="Edit\PX2EU_InspectorFrame.hpp" />
     <ClInclude Include="Edit\PX2EU_Manager.hpp" />
+    <ClInclude Include="Edit\PX2EU_PreViewFrame.hpp" />
     <ClInclude Include="Edit\PX2EU_ProjectFrame.hpp" />
+    <ClInclude Include="Edit\PX2EU_ProjectItem.hpp" />
     <ClInclude Include="Edit\PX2EU_ProjectTree.hpp" />
+    <ClInclude Include="Edit\PX2EU_PropertyGrid.hpp" />
     <ClInclude Include="Edit\PX2EU_ResFrame.hpp" />
+    <ClInclude Include="Edit\PX2EU_ResGridItem.hpp" />
+    <ClInclude Include="Edit\PX2EU_ResList.hpp" />
     <ClInclude Include="Edit\PX2EU_ResTree.hpp" />
+    <ClInclude Include="Edit\PX2EU_SimuFrame.hpp" />
+    <ClInclude Include="Edit\PX2EU_StageFrame.hpp" />
+    <ClInclude Include="Edit\PX2EU_CanvasTimeLineEdit.hpp" />
+    <ClInclude Include="Edit\PX2EU_TimeLineFrame.hpp" />
     <ClInclude Include="Edit\PX2GeoObjFactory.hpp" />
     <ClInclude Include="Edit\PX2SceneNodeCtrl.hpp" />
     <ClInclude Include="Edit\PX2SelectResData.hpp" />
+    <ClInclude Include="Edit\PX2EU_CanvasStage.hpp" />
     <ClInclude Include="Edit\PX2TerrainBrush.hpp" />
     <ClInclude Include="Edit\PX2TerrainEdit.hpp" />
     <ClInclude Include="Edit\PX2TerrainProcess.hpp" />
@@ -258,8 +267,9 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Simulation\PX2Animation3DSkeleton.hpp" />
     <ClInclude Include="Simulation\PX2AnimationFrames.hpp" />
     <ClInclude Include="Simulation\PX2AnimationObject.hpp" />
+    <ClInclude Include="Simulation\PX2BPEdit.hpp" />
     <ClInclude Include="Simulation\PX2BPFile.hpp" />
-    <ClInclude Include="Simulation\PX2BPGroup.hpp" />
+    <ClInclude Include="Simulation\PX2BPPackage.hpp" />
     <ClInclude Include="Simulation\PX2BPManager.hpp" />
     <ClInclude Include="Simulation\PX2BPModule.hpp" />
     <ClInclude Include="Simulation\PX2BPParam.hpp" />
@@ -268,7 +278,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Simulation\PX2CellSpaceT.hpp" />
     <ClInclude Include="Simulation\PX2Character.hpp" />
     <ClInclude Include="Simulation\PX2Creater.hpp" />
-    <ClInclude Include="Simulation\PX2EffectActor.hpp" />
+    <ClInclude Include="Simulation\PX2EngineCanvas.hpp" />
     <ClInclude Include="Simulation\PX2EngineLoop.hpp" />
     <ClInclude Include="Simulation\PX2FramesMesh.hpp" />
     <ClInclude Include="Simulation\PX2LightActor.hpp" />
@@ -279,13 +289,13 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Simulation\PX2SceneCanvas.hpp" />
     <ClInclude Include="Simulation\PX2Scene.hpp" />
     <ClInclude Include="Simulation\PX2Selection.hpp" />
+    <ClInclude Include="Simulation\PX2SelectionManager.hpp" />
     <ClInclude Include="Simulation\PX2Simulation.hpp" />
     <ClInclude Include="Simulation\PX2SimulationDataDefine.hpp" />
+    <ClInclude Include="Simulation\PX2SimulationEventData.hpp" />
     <ClInclude Include="Simulation\PX2SimulationEventType.hpp" />
     <ClInclude Include="Simulation\PX2SimulationPre.hpp" />
-    <ClInclude Include="Simulation\PX2SkyActor.hpp" />
-    <ClInclude Include="Simulation\PX2SkyMesh.hpp" />
-    <ClInclude Include="Simulation\PX2SimulationEventHandler.hpp" />
+    <ClInclude Include="Simulation\PX2GeneralEventHandler.hpp" />
     <ClInclude Include="Simulation\PX2TerrainActor.hpp" />
     <ClInclude Include="Simulation\PX2TriggerActor.hpp" />
     <ClInclude Include="Simulation\PX2User.hpp" />
@@ -302,9 +312,14 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Terrains\PX2TerrainPage.hpp" />
     <ClInclude Include="Terrains\PX2Terrains.hpp" />
     <ClInclude Include="Terrains\PX2TerrainsPre.hpp" />
-    <ClInclude Include="ToLua\PX2ToLua.hpp" />
-    <ClInclude Include="UI\PX2UICanvasController.hpp" />
+    <ClInclude Include="ToScript\PX2ToAngelScript.hpp" />
+    <ClInclude Include="ToScript\PX2ToLua.hpp" />
+    <ClInclude Include="UI\PX2UIComboBox.hpp" />
     <ClInclude Include="UI\PX2UIGridFrame.hpp" />
+    <ClInclude Include="UI\PX2UIPropertyGrid.hpp" />
+    <ClInclude Include="UI\PX2UICanvasController.hpp" />
+    <ClInclude Include="UI\PX2UIEvent.hpp" />
+    <ClInclude Include="UI\PX2UIPropertyItem.hpp" />
     <ClInclude Include="UI\PX2UISlider.hpp" />
     <ClInclude Include="UI\PX2UI.hpp" />
     <ClInclude Include="UI\PX2UIAuiBlockFrame.hpp" />
@@ -336,42 +351,50 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="UI\PX2UIText.hpp" />
     <ClInclude Include="UI\PX2UITree.hpp" />
     <ClInclude Include="UI\PX2UICanvas.hpp" />
-    <ClInclude Include="UI\PX2UIWindow.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppFrame\PX2Application.cpp" />
     <ClCompile Include="AppFrame\PX2ApplicationBase.cpp" />
+    <ClCompile Include="AppFrame\PX2Command.cpp" />
     <ClCompile Include="Edit\PX2Brush.cpp" />
     <ClCompile Include="Edit\PX2Curve.cpp" />
     <ClCompile Include="Edit\PX2CurveCtrl.cpp" />
     <ClCompile Include="Edit\PX2CurveGroup.cpp" />
     <ClCompile Include="Edit\PX2Edit.cpp" />
     <ClCompile Include="Edit\PX2EditEventData.cpp" />
+    <ClCompile Include="Edit\PX2EditEventHandler.cpp" />
     <ClCompile Include="Edit\PX2EditEventType.cpp" />
-    <ClCompile Include="Edit\PX2EditMap.cpp" />
     <ClCompile Include="Edit\PX2EditParams.cpp" />
-    <ClCompile Include="Edit\PX2EditRenderView.cpp" />
-    <ClCompile Include="Edit\PX2EditRenderView_Logic.cpp" />
-    <ClCompile Include="Edit\PX2EditRenderView_PreView.cpp" />
-    <ClCompile Include="Edit\PX2EditRenderView_Res.cpp" />
-    <ClCompile Include="Edit\PX2EditRenderView_Scene.cpp" />
-    <ClCompile Include="Edit\PX2EditRenderView_TimeLine.cpp" />
-    <ClCompile Include="Edit\PX2EditRenderView_UI.cpp" />
     <ClCompile Include="Edit\PX2EditTimeLineEdit.cpp" />
+    <ClCompile Include="Edit\PX2EU_CanvasBP.cpp" />
     <ClCompile Include="Edit\PX2EU_BluePrintFrame.cpp" />
     <ClCompile Include="Edit\PX2EU_BPFrame.cpp" />
+    <ClCompile Include="Edit\PX2EU_CanvasPreView.cpp" />
+    <ClCompile Include="Edit\PX2EU_CanvasStageSimu.cpp" />
+    <ClCompile Include="Edit\PX2EU_CanvasStageUI.cpp" />
     <ClCompile Include="Edit\PX2EU_CF_BluePrint.cpp" />
     <ClCompile Include="Edit\PX2EU_ConsoleFrame.cpp" />
     <ClCompile Include="Edit\PX2EU_CreateFrame.cpp" />
+    <ClCompile Include="Edit\PX2EU_GridFrame.cpp" />
     <ClCompile Include="Edit\PX2EU_InspectorFrame.cpp" />
     <ClCompile Include="Edit\PX2EU_Manager.cpp" />
+    <ClCompile Include="Edit\PX2EU_PreViewFrame.cpp" />
     <ClCompile Include="Edit\PX2EU_ProjectFrame.cpp" />
+    <ClCompile Include="Edit\PX2EU_ProjectItem.cpp" />
     <ClCompile Include="Edit\PX2EU_ProjectTree.cpp" />
+    <ClCompile Include="Edit\PX2EU_PropertyGrid.cpp" />
     <ClCompile Include="Edit\PX2EU_ResFrame.cpp" />
+    <ClCompile Include="Edit\PX2EU_ResGridItem.cpp" />
+    <ClCompile Include="Edit\PX2EU_ResList.cpp" />
     <ClCompile Include="Edit\PX2EU_ResTree.cpp" />
+    <ClCompile Include="Edit\PX2EU_SimuFrame.cpp" />
+    <ClCompile Include="Edit\PX2EU_StageFrame.cpp" />
+    <ClCompile Include="Edit\PX2EU_CanvasTimeLineEdit.cpp" />
+    <ClCompile Include="Edit\PX2EU_TimeLineFrame.cpp" />
     <ClCompile Include="Edit\PX2GeoObjFactory.cpp" />
     <ClCompile Include="Edit\PX2SceneNodeCtrl.cpp" />
     <ClCompile Include="Edit\PX2SelectResData.cpp" />
+    <ClCompile Include="Edit\PX2EU_CanvasStage.cpp" />
     <ClCompile Include="Edit\PX2TerrainBrush.cpp" />
     <ClCompile Include="Edit\PX2TerrainEdit.cpp" />
     <ClCompile Include="Edit\PX2TerrainProcess.cpp" />
@@ -416,8 +439,9 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Simulation\PX2Animation3DSkeleton.cpp" />
     <ClCompile Include="Simulation\PX2AnimationFrames.cpp" />
     <ClCompile Include="Simulation\PX2AnimationObject.cpp" />
+    <ClCompile Include="Simulation\PX2BPEdit.cpp" />
     <ClCompile Include="Simulation\PX2BPFile.cpp" />
-    <ClCompile Include="Simulation\PX2BPGroup.cpp" />
+    <ClCompile Include="Simulation\PX2BPPackage.cpp" />
     <ClCompile Include="Simulation\PX2BPManager.cpp" />
     <ClCompile Include="Simulation\PX2BPModule.cpp" />
     <ClCompile Include="Simulation\PX2BPParam.cpp" />
@@ -425,9 +449,8 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Simulation\PX2CellSpace.cpp" />
     <ClCompile Include="Simulation\PX2Character.cpp" />
     <ClCompile Include="Simulation\PX2Character_Anim.cpp" />
-    <ClCompile Include="Simulation\PX2Character_HPAP.cpp" />
     <ClCompile Include="Simulation\PX2Creater.cpp" />
-    <ClCompile Include="Simulation\PX2EffectActor.cpp" />
+    <ClCompile Include="Simulation\PX2EngineCanvas.cpp" />
     <ClCompile Include="Simulation\PX2EngineLoop.cpp" />
     <ClCompile Include="Simulation\PX2EngineLoop_InitTerm.cpp" />
     <ClCompile Include="Simulation\PX2EngineLoop_Map.cpp" />
@@ -443,10 +466,10 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Simulation\PX2Scene.cpp" />
     <ClCompile Include="Simulation\PX2Scene_Manager.cpp" />
     <ClCompile Include="Simulation\PX2Selection.cpp" />
+    <ClCompile Include="Simulation\PX2SelectionManager.cpp" />
+    <ClCompile Include="Simulation\PX2SimulationEventData.cpp" />
     <ClCompile Include="Simulation\PX2SimulationEventType.cpp" />
-    <ClCompile Include="Simulation\PX2SkyActor.cpp" />
-    <ClCompile Include="Simulation\PX2SkyMesh.cpp" />
-    <ClCompile Include="Simulation\PX2SimulationEventHandler.cpp" />
+    <ClCompile Include="Simulation\PX2GeneralEventHandler.cpp" />
     <ClCompile Include="Simulation\PX2TerrainActor.cpp" />
     <ClCompile Include="Simulation\PX2TriggerActor.cpp" />
     <ClCompile Include="Simulation\PX2User.cpp" />
@@ -461,9 +484,15 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Terrains\PX2RawTerrainPage.cpp" />
     <ClCompile Include="Terrains\PX2Terrain.cpp" />
     <ClCompile Include="Terrains\PX2TerrainPage.cpp" />
-    <ClCompile Include="ToLua\PX2ToLua.cpp" />
-    <ClCompile Include="UI\PX2UICanvasController.cpp" />
+    <ClCompile Include="ToScript\PX2ToAngelScript.cpp" />
+    <ClCompile Include="ToScript\PX2ToLua.cpp" />
+    <ClCompile Include="UI\PX2UIComboBox.cpp" />
+    <ClCompile Include="UI\PX2UIDefine.cpp" />
     <ClCompile Include="UI\PX2UIGridFrame.cpp" />
+    <ClCompile Include="UI\PX2UIPropertyGrid.cpp" />
+    <ClCompile Include="UI\PX2UICanvasController.cpp" />
+    <ClCompile Include="UI\PX2UIEvent.cpp" />
+    <ClCompile Include="UI\PX2UIPropertyItem.cpp" />
     <ClCompile Include="UI\PX2UISlider.cpp" />
     <ClCompile Include="UI\PX2UIAuiBlockFrame.cpp" />
     <ClCompile Include="UI\PX2UIAuiFrame.cpp" />
@@ -492,7 +521,6 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="UI\PX2UIText.cpp" />
     <ClCompile Include="UI\PX2UITree.cpp" />
     <ClCompile Include="UI\PX2UICanvas.cpp" />
-    <ClCompile Include="UI\PX2UIWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Edit\PX2Edit.inl" />
@@ -523,7 +551,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="Simulation\PX2AnimationFrames.inl" />
     <None Include="Simulation\PX2AnimationObject.inl" />
     <None Include="Simulation\PX2BPFile.inl" />
-    <None Include="Simulation\PX2BPGroup.inl" />
+    <None Include="Simulation\PX2BPPackage.inl" />
     <None Include="Simulation\PX2BPManager.inl" />
     <None Include="Simulation\PX2BPModule.inl" />
     <None Include="Simulation\PX2BPParam.inl" />
@@ -536,10 +564,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="Simulation\PX2Project.inl" />
     <None Include="Simulation\PX2Scene.inl" />
     <None Include="Simulation\PX2Selection.inl" />
-    <None Include="Simulation\PX2SkyActor.inl" />
-    <None Include="Simulation\PX2SkyMesh.inl" />
     <None Include="Simulation\PX2TerrainActor.inl" />
-    <None Include="Simulation\PX2TriggerActor.inl" />
     <None Include="Simulation\PX2UserActor.inl" />
     <None Include="Terrains\PX2Jungler.inl" />
     <None Include="Terrains\PX2LODTerrain.inl" />
@@ -550,6 +575,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="Terrains\PX2Terrain.inl" />
     <None Include="Terrains\PX2TerrainPage.inl" />
     <None Include="UI\PX2UICanvasController.inl" />
+    <None Include="UI\PX2UIComboBox.inl" />
     <None Include="UI\PX2UISlider.inl" />
     <None Include="UI\PX2UIAuiBlockFrame.inl" />
     <None Include="UI\PX2UIAuiManager.inl" />
@@ -575,7 +601,6 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="UI\PX2UIText.inl" />
     <None Include="UI\PX2UITree.inl" />
     <None Include="UI\PX2UICanvas.inl" />
-    <None Include="UI\PX2UIWindow.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

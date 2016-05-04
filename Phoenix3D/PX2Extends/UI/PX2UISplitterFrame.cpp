@@ -5,6 +5,7 @@
 #include "PX2InputManager.hpp"
 #include "PX2UISkinManager.hpp"
 #include "PX2UIAuiBlockFrame.hpp"
+#include "PX2UIAuiManager.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, UISplitterFrame);
@@ -13,12 +14,12 @@ PX2_IMPLEMENT_FACTORY(UISplitterFrame);
 
 //----------------------------------------------------------------------------
 UISplitterFrame::UISplitterFrame(bool hor) :
+mPosType(PT_NONE),
 mIsHor(hor),
-mLinkFrame0(0),
-mLinkFrame1(0),
-mIsLinkFrameChanged(true),
+mDragType(DT_VALUE),
 mIsDragable(true),
-mIsDraging(false)
+mIsDraging(false),
+mIsOverMe(false)
 {
 	float size = PX2_UISM.Size_Splitter;
 
@@ -29,289 +30,189 @@ mIsDraging(false)
 
 	if (mIsHor)
 	{
-		SetAnchorParamHor(Float2(20.0f, 20.0f));
+		SetAnchorParamHor(Float2(20.0f, -20.0f));
 	}
 	else
 	{
-		SetAnchorParamVer(Float2(20.0f, 20.0f));
+		SetAnchorParamVer(Float2(20.0f, -20.0f));
 	}
 
 	ComeInEventWorld();
 
 	UIPicBox *picBoxBottom = CreateAddBackgroundPicBox();
-	picBoxBottom->SetTexture("Data/engine/white.png");
 	picBoxBottom->SetColor(PX2_UISM.Color_Splitter);
+
+	SetWidget(true);
 }
 //----------------------------------------------------------------------------
 UISplitterFrame::~UISplitterFrame()
 {
 }
 //----------------------------------------------------------------------------
-void UISplitterFrame::SetLinkFrame0(UISplitterFrame *frame)
+void UISplitterFrame::SetDragType(DragType dt)
 {
-	if (mLinkFrame0)
-	{
-		mLinkFrame0->RemoveLinkMeSpFrame(this);
-	}
-
-	mLinkFrame0 = frame;
-
-	if (mLinkFrame0)
-	{
-		mLinkFrame0->AddLinkMeSpFrame(this);
-	}
+	mDragType = dt;
 }
 //----------------------------------------------------------------------------
-void UISplitterFrame::SetLinkFrame1(UISplitterFrame *frame)
+void UISplitterFrame::SetPosType(PosType pt)
 {
-	if (mLinkFrame1)
-	{
-		mLinkFrame1->RemoveLinkMeSpFrame(this);
-	}
-
-	mLinkFrame1 = frame;
-
-	if (mLinkFrame1)
-	{
-		mLinkFrame1->AddLinkMeSpFrame(this);
-	}
+	mPosType = pt;
 }
 //----------------------------------------------------------------------------
-bool UISplitterFrame::IsHasLinkMeSpFrame(UISplitterFrame *frame)
-{
-	for (int i=0; i<(int)mLinkMeSpFrames.size(); i++)
-	{
-		if (frame == mLinkMeSpFrames[i])
-			return true;
-	}
-
-	return false;
-}
-//----------------------------------------------------------------------------
-void UISplitterFrame::AddLinkMeSpFrame(UISplitterFrame *frame)
-{
-	if (IsHasLinkMeSpFrame(frame))
-		return;
-
-	mLinkMeSpFrames.push_back(frame);
-}
-//----------------------------------------------------------------------------
-void UISplitterFrame::RemoveLinkMeSpFrame(UISplitterFrame *frame)
-{
-	std::vector<UISplitterFrame*>::iterator it = mLinkMeSpFrames.begin();
-	for(; it!=mLinkMeSpFrames.end(); it++)
-	{
-		if (*it == frame)
-		{
-			mLinkMeSpFrames.erase(it);
-			return;
-		}
-	}
-}
-//----------------------------------------------------------------------------
-void UISplitterFrame::_MarkLinkMeFramesChange()
-{
-	for (int i=0; i<(int)mLinkMeSpFrames.size(); i++)
-	{
-		if (mLinkMeSpFrames[i])
-		{
-			mLinkMeSpFrames[i]->mIsLinkFrameChanged = true;
-		}
-	}
-}
-//----------------------------------------------------------------------------
-void UISplitterFrame::UpdateWorldData(double applicationTime, double elapsedTime)
-{	
-	if (mLinkFrame0 && mLinkFrame1 && mIsLinkFrameChanged)
-	{
-		UIFrame *parent = DynamicCast<UIFrame>(GetParent());
-
-		float spSize = PX2_UISM.Size_Splitter;
-
-		if (mIsHor)
-		{
-			float anchor0 = mLinkFrame0->GetAnchorHor()[0];
-			const Float2 &paramHor0 = mLinkFrame0->GetAnchorParamHor();
-			float anchor1 = mLinkFrame1->GetAnchorHor()[0];
-			const Float2 &paramHor1 = mLinkFrame1->GetAnchorParamHor();
-
-			float param0 = paramHor0[0];
-			float param1 = -paramHor1[0];
-
-			if (parent && !parent->IsHasChild(mLinkFrame0))
-			{
-				anchor0 = 0.0f;
-				param0 = 0.0f;
-			}
-
-			if (parent && !parent->IsHasChild(mLinkFrame1))
-			{
-				anchor1 = 1.0f;
-				param1 = 0.0f;
-			}
-
-			SetAnchorHor(anchor0, anchor1);
-
-			if (parent && parent->IsHasChild(mLinkFrame0))
-				param0 += spSize*(1.0f-mLinkFrame0->GetPvoit()[0]);
-
-			if (parent && parent->IsHasChild(mLinkFrame1))
-				param1 += spSize*mLinkFrame1->GetPvoit()[0];
-
-			SetAnchorParamHor(param0, param1);
-		}
-		else
-		{
-			float anchor0 = mLinkFrame0->GetAnchorVer()[0];
-			const Float2 &paramVer0 = mLinkFrame0->GetAnchorParamVer();
-			float anchor1 = mLinkFrame1->GetAnchorVer()[0];
-			const Float2 &paramVer1 = mLinkFrame1->GetAnchorParamVer();
-
-			float param0 = paramVer0[0];
-			float param1 = -paramVer1[0];
-
-			if (parent && !parent->IsHasChild(mLinkFrame0))
-			{
-				anchor0 = 0.0f;
-				param0 = 0.0f;
-			}
-
-			if (parent && !parent->IsHasChild(mLinkFrame1))
-			{
-				anchor1 = 1.0f;
-				param1 = 0.0f;
-			}
-
-			SetAnchorVer(anchor0, anchor1);
-			
-			if (parent && parent->IsHasChild(mLinkFrame0))
-				param0 += spSize*(1.0f-mLinkFrame0->GetPvoit()[1]);
-
-			if (parent && parent->IsHasChild(mLinkFrame1))
-				param1 += spSize*mLinkFrame1->GetPvoit()[1];
-
-			SetAnchorParamVer(param0, param1);
-		}
-
-		mIsLinkFrameChanged = false;
-	}
-
-	UIFrame::UpdateWorldData(applicationTime, elapsedTime);
-}
-//----------------------------------------------------------------------------
-void UISplitterFrame::OnNotPicked(int info)
-{
-	//if (mIsDraging)
-	//{
-	//	if (UIPT_PRESSED == info || UIPT_RELEASED==info)
-	//	{
-	//		SetDraging(false);
-	//	}
-	//}
-}
-//----------------------------------------------------------------------------
-void UISplitterFrame::OnUIPicked(int info, Movable *child)
+void UISplitterFrame::OnUIPicked(const UIInputData &inputData)
 {
 	if (!IsEnable()) return;
 
-	UIFrame::OnUIPicked(info, child);
-
-	if (UIPT_PRESSED == info)
+	if (UIPT_PRESSED == inputData.PickType)
 	{
 		if (mIsDragable)
 			SetDraging(true);
 	}
-	else if (UIPT_RELEASED == info)
+	else if (UIPT_RELEASED == inputData.PickType)
 	{
 		if (mIsDragable)
 			SetDraging(false);
 	}
-	else if (UIPT_MOVED == info)
+	else if (UIPT_MOVED == inputData.PickType)
 	{
+		if (!IsDraging())
+		{
+			if (!mIsOverMe && mIsDragable)
+				_SetOverMe(true);
+		}
+		else
+		{
+			_UpdateDraging(inputData);
+		}
 	}
 }
 //----------------------------------------------------------------------------
-void UISplitterFrame::DoExecute(Event *event)
+void UISplitterFrame::_UpdateDraging(const UIInputData &inputData)
 {
-	if (InputEventSpace::IsEqual(event, InputEventSpace::MouseMoved) ||
-		InputEventSpace::IsEqual(event, InputEventSpace::TouchMoved))
+	if (mIsDragable && mIsDraging)
 	{
-		if (mIsDragable && mIsDraging)
+		float sizeSP = PX2_UISM.Size_Splitter;
+
+		UIFrame *parent = DynamicCast<UIFrame>(GetParent());
+		Sizef parSize = parent->GetSize();
+		float param = 0.0f;
+
+		UICanvas *uiCanvas = GetFirstParentDerivedFromType<UICanvas>();
+		if (uiCanvas)
 		{
-			float sizeSP = PX2_UISM.Size_Splitter;
+			Transform inverTrans = parent->WorldTransform.InverseTransform();
+			APoint localPos = inverTrans * inputData.WorldPos;
 
-			UIFrame *parent = DynamicCast<UIFrame>(GetParent());
-			Sizef parSize = parent->GetSize();
-
-			Movable *mov = GetFirstParentDerivedFromType(UICanvas::TYPE);
-			UICanvas *uiCanvas = DynamicCast<UICanvas>(mov);
-			if (uiCanvas)
+			if (mIsHor)
 			{
-				int viewID = uiCanvas->GetViewID();
-				InputEventListener *iel = PX2_INPUTMAN.GetInputListener(viewID);
-				if (iel)
+				if (DT_VALUE == mDragType)
 				{
-					InputEventData &ied = iel->mCurInputEventData;
+					float framePosOrigin = parent->LeftBottomCornerOffset.Z() + parSize.Height * GetAnchorVer()[0];
+					param = localPos.Z() - framePosOrigin;
+				}
+				else if (DT_PERCENT == mDragType)
+				{
+					param = (localPos.Z() - parent->LeftBottomCornerOffset.Z()) / parSize.Height;
+				}
 
-					APoint origin;
-					AVector direction;
-					if (uiCanvas->GetPickRay(ied.MTPos.X(), ied.MTPos.Z(),
-						origin, direction))
+				bool doDraging = IsCanDraging(param);
+				if (doDraging)
+				{
+					if (DT_VALUE == mDragType)
 					{
-						Transform inverTrans = parent->WorldTransform.InverseTransform();
-						APoint localPos = inverTrans * origin;
-
-						if (mIsHor)
-						{
-							float framePosOrigin = parent->LeftBottomCornerOffset.Z() + parSize.Height * GetAnchorVer()[0];
-							float paramZ = localPos.Z() - framePosOrigin;
-
-							float beforeParamVer = GetAnchorParamVer()[0];
-							SetAnchorParamVer(Float2(paramZ, 0.0f));
-
-							UpdateWorldData(Time::GetTimeInSeconds(), 0.0);
-							bool isCanMake = _IsCanMakeBlcokFramesChange();
-							if (isCanMake)
-							{
-								_MarkLinkMeFramesChange();
-								_MarkBlockFramesChange();
-							}
-							else
-							{
-								SetAnchorParamVer(Float2(beforeParamVer, 0.0f));
-							}
-						}
-						else
-						{
-							float framePosOrigin = parent->LeftBottomCornerOffset.X() + parSize.Width * GetAnchorHor()[0];
-							float paramX = localPos.X() - framePosOrigin;
-
-							float beforeParamHor = GetAnchorParamHor()[0];
-							SetAnchorParamHor(Float2(paramX, 0.0f));
-
-							UpdateWorldData(Time::GetTimeInSeconds(), 0.0);
-							bool isCanMake = _IsCanMakeBlcokFramesChange();
-							if (isCanMake)
-							{
-								_MarkLinkMeFramesChange();
-								_MarkBlockFramesChange();
-							}
-							else
-							{
-								SetAnchorParamHor(Float2(beforeParamHor, 0.0f));
-							}
-						}
+						SetAnchorParamVer(param, 0.0f);
 					}
+					else
+					{
+						SetAnchorVer(param, param);
+					}
+
+					UpdateWorldData(Time::GetTimeInSeconds(), 0.0);
+
+					_MarkBlockFramesChange();
+
+					OnDraging();
+				}
+			}
+			else
+			{
+				if (DT_VALUE == mDragType)
+				{
+					float framePosOrigin = parent->LeftBottomCornerOffset.X() + parSize.Width * GetAnchorHor()[0];
+					param = localPos.X() - framePosOrigin;
+				}
+				else if (DT_PERCENT == mDragType)
+				{
+					param = (localPos.X() - parent->LeftBottomCornerOffset.X()) / parSize.Width;
+				}
+
+				bool doDraging = IsCanDraging(param);
+
+				if (doDraging)
+				{
+					if (DT_VALUE == mDragType)
+					{
+						SetAnchorParamHor(Float2(param, 0.0f));
+					}
+					else
+					{
+						SetAnchorHor(param, param);
+					}
+
+					UpdateWorldData(Time::GetTimeInSeconds(), 0.0);
+
+					_MarkBlockFramesChange();
+
+					OnDraging();
 				}
 			}
 		}
 	}
-	else if (InputEventSpace::IsEqual(event, InputEventSpace::MouseReleased))
+}
+//----------------------------------------------------------------------------
+void UISplitterFrame::OnUINotPicked(const UIInputData &inputData)
+{
+	if (UIPT_RELEASED == inputData.PickType)
 	{
-		if (IsDraging())
-		{
+		if (mIsDragable)
 			SetDraging(false);
+	}
+	else if (UIPT_MOVED == inputData.PickType)
+	{
+		if (!IsDraging())
+		{
+			if (mIsOverMe && mIsDragable)
+				_SetOverMe(false);
 		}
+		else
+		{
+			_UpdateDraging(inputData);
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void UISplitterFrame::_SetOverMe(bool over)
+{
+	mIsOverMe = over;
+
+	if (mIsOverMe)
+	{
+		SetColor(PX2_UISM.Color_Splitter_Over);
+
+		if (IsHor())
+		{
+			RenderWindow::SetCursorType(RenderWindow::CT_CURSOR_SIZENS);
+		}
+		else
+		{
+			RenderWindow::SetCursorType(RenderWindow::CT_CURSOR_SIZEWE);
+		}
+	}
+	else
+	{
+		RenderWindow::SetCursorType(RenderWindow::CT_CURSOR_ARROW);
+
+		SetColor(PX2_UISM.Color_Splitter);
 	}
 }
 //----------------------------------------------------------------------------
@@ -334,64 +235,221 @@ void UISplitterFrame::SetDraging(bool isDraged)
 	}
 }
 //----------------------------------------------------------------------------
-void UISplitterFrame::_AddAuiBlockFrame(UIAuiBlockFrame *blockframe)
+void UISplitterFrame::OnDraging()
 {
-	if (!blockframe)
-		return;
-
-	for (int i=0; i<(int)mAuiBlockFrames.size(); i++)
+	if (mUICallback)
 	{
-		if (blockframe == mAuiBlockFrames[i])
-			return;
+		mUICallback(this, UICT_SPLITTER_DRAGING);
 	}
 
-	mAuiBlockFrames.push_back(blockframe);
-}
-//----------------------------------------------------------------------------
-void UISplitterFrame::_RemoveAuiBlockFrame(UIAuiBlockFrame *blockframe)
-{
-	if (!blockframe)
-		return;
-
-	std::vector<UIAuiBlockFrame*>::iterator it = mAuiBlockFrames.begin();
-	for(; it!=mAuiBlockFrames.end(); it++)
+	if (mMemObject && mMemUICallback)
 	{
-		if (blockframe == *it)
-		{
-			mAuiBlockFrames.erase(it);
-			return;
-		}
+		(mMemObject->*mMemUICallback)(this, UICT_SPLITTER_DRAGING);
+	}
+
+	std::vector<Visitor *>::iterator it = mVisitors.begin();
+	for (; it != mVisitors.end(); it++)
+	{
+		(*it)->Visit(this, (int)UICT_SPLITTER_DRAGING);
 	}
 }
 //----------------------------------------------------------------------------
-bool UISplitterFrame::_IsCanMakeBlcokFramesChange()
+bool UISplitterFrame::IsCanDraging(float toParam)
 {
-	for (int i = 0; i < (int)mAuiBlockFrames.size(); i++)
-	{
-		const Sizef &minSize = mAuiBlockFrames[i]->GetMinSize();
-		if (!minSize.IsEmpty())
-		{
-			Sizef outSize;
-			APoint outPos;
-			UIAuiBlockFrame::_UpdateLayout(mAuiBlockFrames[i], false,
-				&outSize, &outPos);
+	bool isCanDrag = true;
 
-			if (outSize.Width < minSize.Width ||
-				outSize.Height < minSize.Height)
+	float widthMin = 20.0f;
+	float heightMin = 55.0f;
+	float delta = 0.0f;
+
+	float toWorldPosX = 0.0f;
+	float toWorldPosZ = 0.0f;
+
+	for (int i = 0; i < (int)mAuiBlockFrames0.size(); i++)
+	{
+		if (mIsHor)
+		{
+			if (DT_VALUE == mDragType)
 			{
-				return false;
+				delta = toParam - GetAnchorParamVer()[0];
+
+				if (delta < 0.0f)
+				{
+					float bottomWorldPos = mAuiBlockFrames0[i]->GetSideFrameHor0()->WorldTransform.GetTranslate().Z();
+					float toPos = WorldTransform.GetTranslate().Z() + delta;
+
+					if (toPos < (bottomWorldPos + heightMin))
+						isCanDrag = false;
+				}
+			}
+			else
+			{
+				delta = toParam - GetAnchorVer()[0];
+
+				if (delta < 0.0f)
+				{
+					if (toParam < 0.1f)
+						isCanDrag = false;
+				}		
+			}
+		}
+		else
+		{
+			if (DT_VALUE == mDragType)
+			{
+				delta = toParam - GetAnchorParamHor()[0];
+
+				if (delta < 0.0f)
+				{
+					float leftWorldPos = mAuiBlockFrames0[i]->GetSideFrameVer0()->WorldTransform.GetTranslate().X();
+					float toPos = WorldTransform.GetTranslate().X() + delta;
+
+					if (toPos < (leftWorldPos + widthMin))
+						isCanDrag = false;
+				}
+			}
+			else
+			{
+				delta = toParam - GetAnchorHor()[0];
+
+				if (delta < 0.0f)
+				{
+					if (toParam < 0.1f)
+						isCanDrag = false;
+				}
 			}
 		}
 	}
 
-	return true;
+	for (int i = 0; i < (int)mAuiBlockFrames1.size(); i++)
+	{
+		if (mIsHor)
+		{
+			if (DT_VALUE == mDragType)
+			{
+				delta = toParam - GetAnchorParamVer()[0];
+
+				if (delta > 0.0f)
+				{
+					float topWorldPos = mAuiBlockFrames1[i]->GetSideFrameHor1()->WorldTransform.GetTranslate().Z();
+					float toPos = WorldTransform.GetTranslate().Z() + delta;
+
+					if (toPos > (topWorldPos - heightMin))
+						isCanDrag = false;
+				}
+			}
+			else
+			{
+				delta = toParam - GetAnchorVer()[0];
+
+				if (delta > 0.0f)
+				{
+					if (toParam > 0.9f)
+						isCanDrag = false;
+				}
+			}
+		}
+		else
+		{
+			if (DT_VALUE == mDragType)
+			{
+				delta = toParam - GetAnchorParamHor()[0];
+
+				if (delta > 0.0f)
+				{
+					float rightWorldPos = mAuiBlockFrames1[i]->GetSideFrameVer1()->WorldTransform.GetTranslate().X();
+					float toPos = WorldTransform.GetTranslate().X() + delta;
+
+					if (toPos > (rightWorldPos - widthMin))
+						isCanDrag = false;
+				}
+			}
+			else
+			{
+				delta = toParam - GetAnchorHor()[0];
+
+				if (delta > 0.0f)
+				{
+					if (toParam > 0.9f)
+						isCanDrag = false;
+				}
+			}
+		}
+	}
+
+	return isCanDrag;
+}
+//----------------------------------------------------------------------------
+void UISplitterFrame::_AddAuiBlockFrame0(UIAuiBlockFrame *blockframe)
+{
+	if (!blockframe)
+		return;
+
+	for (int i = 0; i < (int)mAuiBlockFrames0.size(); i++)
+	{
+		if (blockframe == mAuiBlockFrames0[i])
+			return;
+	}
+
+	mAuiBlockFrames0.push_back(blockframe);
+}
+//----------------------------------------------------------------------------
+void UISplitterFrame::_RemoveAuiBlockFrame0(UIAuiBlockFrame *blockframe)
+{
+	if (!blockframe)
+		return;
+
+	std::vector<UIAuiBlockFrame*>::iterator it = mAuiBlockFrames0.begin();
+	for (; it != mAuiBlockFrames0.end(); it++)
+	{
+		if (blockframe == *it)
+		{
+			mAuiBlockFrames0.erase(it);
+			return;
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void UISplitterFrame::_AddAuiBlockFrame1(UIAuiBlockFrame *blockframe)
+{
+	if (!blockframe)
+		return;
+
+	for (int i = 0; i < (int)mAuiBlockFrames1.size(); i++)
+	{
+		if (blockframe == mAuiBlockFrames1[i])
+			return;
+	}
+
+	mAuiBlockFrames1.push_back(blockframe);
+}
+//----------------------------------------------------------------------------
+void UISplitterFrame::_RemoveAuiBlockFrame1(UIAuiBlockFrame *blockframe)
+{
+	if (!blockframe)
+		return;
+
+	std::vector<UIAuiBlockFrame*>::iterator it = mAuiBlockFrames1.begin();
+	for (; it != mAuiBlockFrames1.end(); it++)
+	{
+		if (blockframe == *it)
+		{
+			mAuiBlockFrames1.erase(it);
+			return;
+		}
+	}
 }
 //----------------------------------------------------------------------------
 void UISplitterFrame::_MarkBlockFramesChange()
 {
-	for (int i=0; i<(int)mAuiBlockFrames.size(); i++)
+	for (int i = 0; i < (int)mAuiBlockFrames0.size(); i++)
 	{
-		mAuiBlockFrames[i]->_MarkRelatvieChange();
+		mAuiBlockFrames0[i]->_MarkRelatvieChange();
+	}
+
+	for (int i = 0; i < (int)mAuiBlockFrames1.size(); i++)
+	{
+		mAuiBlockFrames1[i]->_MarkRelatvieChange();
 	}
 }
 //----------------------------------------------------------------------------
@@ -402,11 +460,10 @@ void UISplitterFrame::_MarkBlockFramesChange()
 UISplitterFrame::UISplitterFrame(LoadConstructor value) :
 UIFrame(value),
 mIsHor(true),
-mLinkFrame0(0),
-mLinkFrame1(0),
-mIsLinkFrameChanged(true),
+mDragType(DT_VALUE),
 mIsDragable(true),
-mIsDraging(false)
+mIsDraging(false),
+mIsOverMe(false)
 {
 }
 //----------------------------------------------------------------------------

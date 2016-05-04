@@ -10,8 +10,7 @@ PX2_IMPLEMENT_STREAM(Controller);
 PX2_IMPLEMENT_ABSTRACT_FACTORY(Controller);
 
 //----------------------------------------------------------------------------
-Controller::Controller ()
-:
+Controller::Controller () :
 Repeat(RT_NONE),
 MinTime(0.0),
 MaxTime(10.0),

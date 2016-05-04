@@ -48,7 +48,7 @@ public_internal:
 
 #include "PX2RibbonEmitter.inl"
 	PX2_REGISTER_STREAM(RibbonEmitter);
-	typedef Pointer0<RibbonEmitter> RibbonEmitterPtr;
+	typedef PointerRef<RibbonEmitter> RibbonEmitterPtr;
 
 }
 

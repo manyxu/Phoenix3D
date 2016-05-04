@@ -6,11 +6,6 @@ inline BPModule::ModuleType BPModule::GetModuleType() const
 	return mModuleType;
 }
 //----------------------------------------------------------------------------
-inline bool BPModule::IsEnable() const
-{
-	return mIsEnable;
-}
-//----------------------------------------------------------------------------
 inline const std::map<std::string, BPParam*> &BPModule::
 GetInputParams() const
 {
@@ -58,18 +53,8 @@ inline bool BPModule::IsCompiled() const
 	return mIsCompiled;
 }
 //----------------------------------------------------------------------------
-inline const Sizef &BPModule::GetSize() const
-{
-	return mSize;
-}
-//----------------------------------------------------------------------------
 inline float BPModule::GetItemHeight() const
 {
 	return mItemHeight;
-}
-//----------------------------------------------------------------------------
-inline float BPModule::GetInOutButSize() const
-{
-	return mInOutButSize;
 }
 //----------------------------------------------------------------------------

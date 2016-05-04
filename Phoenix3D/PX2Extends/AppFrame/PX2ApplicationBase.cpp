@@ -4,6 +4,8 @@
 #include "PX2EngineLoop.hpp"
 #include "PX2Project.hpp"
 #include "PX2PluginManager.hpp"
+#include "PX2Log.hpp"
+#include "PX2StringHelp.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------
@@ -57,13 +59,6 @@ bool ApplicationBase::OnIdle ()
 //----------------------------------------------------------------------------
 bool ApplicationBase::Terminate ()
 {
-	//mInfoFrame = 0;
-	//mBackPic = 0;
-	//mFrameText = 0;
-	//mCurTotalMemory = 0;
-	//mMaxTotalMemory = 0;
-	//mDebugText = 0;
-
 	PX2_ENGINELOOP.Terminate();
 
 	return true;
@@ -100,44 +95,12 @@ int ApplicationBase::Main (int numArguments, char** arguments)
 {
 	PX2_UNUSED(numArguments);
 	PX2_UNUSED(arguments);
+
+	if (numArguments > 1)
+	{
+		mCmdProjectName = std::string(arguments[1]);
+	}
+
 	return 1;
-}
-//----------------------------------------------------------------------------
-bool ApplicationBase::_LoadProject(const std::string &projFilename)
-{
-	Project *newProj = new0 Project();
-	if (newProj->Load(projFilename))
-	{
-		const std::string &sceneFilename = newProj->GetSceneFilename();
-		if (!sceneFilename.empty())
-		{
-			newProj->LoadScene(sceneFilename);
-		}
-
-		const std::string &uiFilename = newProj->GetUIFilename();
-		if (!uiFilename.empty())
-		{
-			newProj->LoadUI(uiFilename);
-		}
-
-		std::string debugTag = "";
-#if defined (_DEBUG) 
-		debugTag = "D";
-#endif
-		std::string projName = newProj->GetName();
-		std::string projDllPath = "Projects/" + projName + "/" + projName
-			+ debugTag + ".dll";
-
-		PX2_PLUGINMAN.Load(projDllPath);
-
-		PX2_ENGINELOOP.Play(EngineLoop::PT_PLAY);
-
-		return true;
-	}
-	else
-	{
-		Project::Destory();
-		return false;
-	}
 }
 //----------------------------------------------------------------------------

@@ -6,14 +6,14 @@ inline bool UISplitterFrame::IsHor() const
 	return mIsHor;
 }
 //----------------------------------------------------------------------------
-inline UISplitterFrame *UISplitterFrame::GetLinkFrame0()
+inline UISplitterFrame::DragType UISplitterFrame::GetDragType() const
 {
-	return mLinkFrame0;
+	return mDragType;
 }
 //----------------------------------------------------------------------------
-inline UISplitterFrame *UISplitterFrame::GetLinkFrame1()
+inline UISplitterFrame::PosType UISplitterFrame::GetPosType() const
 {
-	return mLinkFrame1;
+	return mPosType;
 }
 //----------------------------------------------------------------------------
 inline bool UISplitterFrame::IsDragable() const

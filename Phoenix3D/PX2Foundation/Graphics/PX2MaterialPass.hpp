@@ -63,7 +63,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(MaterialPass);
-	typedef Pointer0<MaterialPass> MaterialPassPtr;
+	typedef PointerRef<MaterialPass> MaterialPassPtr;
 #include "PX2MaterialPass.inl"
 
 }

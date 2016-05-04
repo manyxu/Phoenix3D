@@ -18,7 +18,7 @@ namespace PX2
 		virtual ~PluginManager();
 
 		void Load(const std::string &filename);
-		void TerminateAllPlugins();
+
 		void Unload(const std::string &filename);
 		void UnloadPlugins();
 

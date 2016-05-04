@@ -19,7 +19,7 @@ namespace PX2
 
 	public:
 		Actor();
-		~Actor();
+		virtual ~Actor();
 
 	protected:
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
@@ -62,7 +62,7 @@ namespace PX2
 		virtual void SetMovable (Movable *mov);
 		Movable *GetMovable ();
 
-		virtual int AttachChild(Movable* child);
+		virtual void OnChildAttached(Movable *child);
 
 		Node *CreateGetHelpNode ();
 		Node *GetNodeHelp();
@@ -78,7 +78,8 @@ namespace PX2
 		const AVector &GetHeading() const;
 
 	protected:
-		virtual void SetParent(Movable* parent);
+		virtual void OnBeAttached();
+		virtual void OnBeDetach();
 
 		bool mIsShareVI;
 		std::string mMovableFilename;
@@ -135,7 +136,7 @@ namespace PX2
 
 #include "PX2Actor.inl"
 	PX2_REGISTER_STREAM(Actor);
-	typedef Pointer0<Actor> ActorPtr;
+	typedef PointerRef<Actor> ActorPtr;
 
 }
 

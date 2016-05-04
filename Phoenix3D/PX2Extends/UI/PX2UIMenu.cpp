@@ -9,12 +9,13 @@ PX2_IMPLEMENT_STREAM(UIMenu);
 PX2_IMPLEMENT_FACTORY(UIMenu);
 //----------------------------------------------------------------------------
 UIMenu::UIMenu(MenuType mt) :
-mMenuType(mt),
-mIsNeedRecal(true)
+mMenuType(mt)
 {
 	SetName("UIMenu");
 	mMainItemSize = Sizef(35.0f, 20.0f);
 	mItemFontSize = 24;
+
+	UIFrameGridAlignControl *gridCtrl = CreateAddGridAlignCtrl();
 }
 //----------------------------------------------------------------------------
 UIMenu::~UIMenu()
@@ -32,7 +33,7 @@ void UIMenu::SetMenuItemFontSize(int fontSize)
 
 	for (int i=0; i<(int)mMainItemsVec.size(); i++)
 	{
-		mMainItemsVec[i]->GetText()->SetFontWidthHeight(fontSize, fontSize);
+		mMainItemsVec[i]->GetText()->GetText()->SetFontWidthHeight(fontSize, fontSize);
 	}
 }
 //----------------------------------------------------------------------------
@@ -42,19 +43,9 @@ UIMenuItem *UIMenu::AddMainItem(const std::string &name,
 {
 	UIMenuItem *item = new0 UIMenuItem(name, title, scriptFun);
 	item->SetBeMainItem(true);
-	//UIPicBox *itemPicBox = item->CreateAddBackgroundPicBox();
-	//itemPicBox->SetTexture("Data/engine/white.png");
-	//itemPicBox->LocalTransform.SetTranslateY(-0.5f);
 	item->LocalTransform.SetTranslateY(-1.0f);
-
-	item->SetSize(mMainItemSize);
-	item->SetAnchorHor(Float2(0.0f, 0.0f));
-	item->SetAnchorVer(Float2(0.5f, 0.5f));
-	item->SetPivot(0.5f, 0.5f);
-	item->SetAnchorParamHor(Float2(mMainItemSize.Width/2.0f + mMainItemSize.Width*GetNunMainItems(), 0.0f));
-
-	item->GetText()->SetFontWidthHeight(mItemFontSize, mItemFontSize);
-	item->GetText()->SetFontScale(0.5f);
+	item->GetText()->GetText()->SetFontWidthHeight(mItemFontSize, mItemFontSize);
+	item->GetText()->GetText()->SetFontScale(0.5f);
 	item->GetText()->LocalTransform.SetTranslateY(-1.0f);
 
 	mMainItemsMap[name] = item;
@@ -72,11 +63,6 @@ int UIMenu::GetNunMainItems() const
 void UIMenu::UpdateWorldData(double applicationTime, double elapsedTime)
 {
 	UIFrame::UpdateWorldData(applicationTime, elapsedTime);
-
-	if (mIsNeedRecal)
-	{
-		mIsNeedRecal = false;
-	}
 }
 //----------------------------------------------------------------------------
 
@@ -99,8 +85,7 @@ void UIMenu::OnPropertyChanged(const PropertyObject &obj)
 // 持久化支持
 //----------------------------------------------------------------------------
 UIMenu::UIMenu(LoadConstructor value) :
-UIFrame(value),
-mIsNeedRecal(true)
+UIFrame(value)
 {
 }
 //----------------------------------------------------------------------------

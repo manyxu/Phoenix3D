@@ -35,7 +35,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(ProjectorMatrixConstant);
-	typedef Pointer0<ProjectorMatrixConstant> ProjectorMatrixConstantPtr;
+	typedef PointerRef<ProjectorMatrixConstant> ProjectorMatrixConstantPtr;
 
 }
 

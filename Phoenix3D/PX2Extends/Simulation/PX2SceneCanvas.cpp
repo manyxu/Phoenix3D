@@ -5,6 +5,7 @@
 #include "PX2Project.hpp"
 #include "PX2EngineLoop.hpp"
 #include "PX2SimulationEventType.hpp"
+#include "PX2Project.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, Canvas, SceneCanvas);
@@ -18,7 +19,7 @@ mIsShadowMapChanged(true)
 	mScreenCamera = new0 Camera(false);
 	mScreenCamera->SetAxes(AVector::UNIT_Y, AVector::UNIT_Z, AVector::UNIT_X);
 
-	mEffect_UICanvas = new0 UICanvas(-1);
+	mEffect_UICanvas = new0 UICanvas();
 	mEffect_UICanvas->SetBeforeDrawClear(false, true, false);
 	mEffect_UICanvas->SetName("Effect_UI");
 
@@ -32,276 +33,310 @@ SceneCanvas::~SceneCanvas()
 {
 }
 //----------------------------------------------------------------------------
-void SceneCanvas::SetRenderer(Renderer *renderer)
+void SceneCanvas::UpdateWorldData(double applicationTime,
+	double elapsedTime)
 {
-	Canvas::SetRenderer(renderer);
+	Canvas::UpdateWorldData(applicationTime, elapsedTime);
 
-	mEffect_UICanvas->SetRenderer(renderer);
-}
-//----------------------------------------------------------------------------
-void SceneCanvas::Update(double appSeconds, double elapsedSeconds)
-{
-	if (0 == GetNumChildren()) return;
+	//if (0 == GetNumChildren()) return;
 
-	bool changed = mIsBloomChanged || mIsShadowMapChanged;
-	if (mIsBloomChanged)
-	{
-		_UpdateBloomChanged();
-	}
-	if (mIsShadowMapChanged)
-	{
-		_UpdateShadowChanged();
-	}
+	//bool changed = false;
+	//if (mIsBloomChanged)
+	//{
+	//	_UpdateBloomChanged();
+	//	changed = true;
+	//}
+	//if (mIsShadowMapChanged)
+	//{
+	//	_UpdateShadowChanged();
+	//	changed = true;
+	//}
 
-	if (changed)
-	{
-		mAlignPicBoxes.clear();
+	//if (changed)
+	//{
+	//	mAlignPicBoxes.clear();
 
-		if (mEffect_UIPicBoxShow_Normal) mAlignPicBoxes.push_back(mEffect_UIPicBoxShow_Normal);
-		if (mEffect_UIPicBox_BloomBright) mAlignPicBoxes.push_back(mEffect_UIPicBox_BloomBright);
-		if (mEffect_UIPicBox_BlurH) mAlignPicBoxes.push_back(mEffect_UIPicBox_BlurH);
-		if (mEffect_UIPicBox_BlurV) mAlignPicBoxes.push_back(mEffect_UIPicBox_BlurV);
-		if (mBloom_UIPicBox_Final) mAlignPicBoxes.push_back(mBloom_UIPicBox_Final);
-		if (mEffect_UIPicBox_Shadow) mAlignPicBoxes.push_back(mEffect_UIPicBox_Shadow);
+	//	if (mEffect_UIPicBoxShow_Normal) mAlignPicBoxes.push_back(mEffect_UIPicBoxShow_Normal);
+	//	if (mEffect_UIPicBox_BloomBright) mAlignPicBoxes.push_back(mEffect_UIPicBox_BloomBright);
+	//	if (mEffect_UIPicBox_BlurH) mAlignPicBoxes.push_back(mEffect_UIPicBox_BlurH);
+	//	if (mEffect_UIPicBox_BlurV) mAlignPicBoxes.push_back(mEffect_UIPicBox_BlurV);
+	//	if (mBloom_UIPicBox_Final) mAlignPicBoxes.push_back(mBloom_UIPicBox_Final);
+	//	if (mEffect_UIPicBox_Shadow) mAlignPicBoxes.push_back(mEffect_UIPicBox_Shadow);
 
-		_UpdateALightPicBoxTranslateSize();
-	}
+	//	_UpdateALightPicBoxTranslateSize();
+	//}
 
-	EnvirParamPtr beformParam = PX2_GR.GetCurEnvirParam();
-	CameraPtr beforeCamer = mRenderer->GetCamera();
+	//EnvirParamPtr beformParam = PX2_GR.GetCurEnvirParam();
+	//CameraPtr beforeCamer = mRenderer->GetCamera();
 
-	Scene *scene = (Scene*)((Movable*)GetChild(0));
-	EnvirParam *sceneEnvirParam = scene->GetEnvirParam();
-	PX2_GR.SetCurEnvirParam(sceneEnvirParam);
-	mRenderer->SetCamera(mCamera);
+	//Scene *scene = (Scene*)((Movable*)GetChild(0));
+	//EnvirParam *sceneEnvirParam = scene->GetEnvirParam();
+	//PX2_GR.SetCurEnvirParam(sceneEnvirParam);
+	//mRenderer->SetCamera(mCamera);
 
-	if (scene)
-	{
-		scene->Update(appSeconds, elapsedSeconds, false);
-	}
+	//PX2_GR.SetCurEnvirParam(beformParam);
+	//mRenderer->SetCamera(beforeCamer);
 
-	PX2_GR.SetCurEnvirParam(beformParam);
-	mRenderer->SetCamera(beforeCamer);
+	//mEffect_UICanvas->Update(appSeconds, elapsedSeconds);
+	//mEffect_UICanvas->ComputeVisibleSetAndEnv();
 
-	mEffect_UICanvas->Update(appSeconds, elapsedSeconds);
-	mEffect_UICanvas->ComputeVisibleSetAndEnv();
-
-	if (mHelpGridCanvas)
-		mHelpGridCanvas->Update(appSeconds, elapsedSeconds);
+	//if (mHelpGridCanvas)
+	//	mHelpGridCanvas->Update(appSeconds, elapsedSeconds);
 }
 //----------------------------------------------------------------------------
 void SceneCanvas::ComputeVisibleSetAndEnv()
 {
-	if (!IsShow()) return;
-	if (0 == GetNumChildren()) return;
-
-	Scene *scene = (Scene*)((Movable*)GetChild(0));
-
-	const Camera *cam = mCuller.GetCamera();
-	if (scene && cam)
-	{
-		mCuller.ComputeVisibleSet(scene);
-		mCuller.GetVisibleSet().Sort();
-	}
-	else mCuller.GetVisibleSet().Clear();
+	Canvas::ComputeVisibleSetAndEnv();
+	
+	Scene *scene = PX2_PROJ.GetScene();
+	if (!scene) return;
 
 	EnvirParam *envirParam = scene->GetEnvirParam();
-	envirParam->ComputeEnvironment(mCuller.GetVisibleSet());
-	
-	Projector *lightProjector = envirParam->GetLight_Dir_Projector();
-	mEffect_Culler_Shadow.SetCamera(lightProjector);
-	mEffect_Culler_Shadow.SetFlag_CastShadow(1);
-	mEffect_Culler_Shadow.ComputeVisibleSet(scene);
-	mEffect_Culler_Shadow.GetVisibleSet().Sort();
+	if (envirParam)
+	{
+		envirParam->ComputeEnvironment(mCuller.GetVisibleSet());
+
+		Projector *lightProjector = envirParam->GetLight_Dir_Projector();
+		mEffect_Culler_Shadow.SetCamera(lightProjector);
+		mEffect_Culler_Shadow.SetFlag_CastShadow(1);
+		mEffect_Culler_Shadow.ComputeVisibleSet(scene);
+		mEffect_Culler_Shadow.GetVisibleSet().Sort();
+	}
 
 	if (mHelpGridCanvas)
 		mHelpGridCanvas->ComputeVisibleSetAndEnv();
 }
 //----------------------------------------------------------------------------
-void SceneCanvas::Draw()
+void SceneCanvas::Draw(Renderer *renderer)
 {
-	if (!IsShow()) return;
-	if (!mRenderer) return;
-	if (0 == GetNumChildren()) return;
+	Canvas::Draw(renderer);
 
-	EnvirParamPtr beformParam = PX2_GR.GetCurEnvirParam();
-	CameraPtr beforeCamer = mRenderer->GetCamera();
+	//if (!IsShow()) return;
+	//if (!IsActivated()) return;
 
-	Scene *scene = (Scene*)((Movable*)GetChild(0));
-	EnvirParam *sceneEnvirParam = scene->GetEnvirParam();
-	PX2_GR.SetCurEnvirParam(sceneEnvirParam);
+	//if (GetParent())
+	//{
+	//	APoint worldPos = WorldTransform.GetTranslate();
+	//	APoint leftPos = worldPos + LeftBottomCornerOffset;
+	//	SetViewPort(leftPos.X(), leftPos.Z(), mSize.Width, mSize.Height);
+	//}
 
-	// shadow map depth
-	if (mEffect_RenderTarget_Shadow)
-	{
-		mRenderer->Enable(mEffect_RenderTarget_Shadow);
-		mRenderer->SetViewport(Rectf(0.0f, 0.0f, 
-			(float)mEffect_RenderTarget_Shadow->GetWidth(), 
-			(float)mEffect_RenderTarget_Shadow->GetHeight()));
-		mRenderer->InitRenderStates();
-		mRenderer->SetClearColor(Float4(1.0f, 1.0f, 1.0f, 1.0f));
-		mRenderer->SetClearDepth(1.0f);
-		mRenderer->ClearColorBuffer();
-		mRenderer->ClearDepthBuffer();
+	//if (mRenderer)
+	//{
+	//	CameraPtr beforeCamer = mRenderer->GetCamera();
 
-		Projector *lightProjector = scene->GetEnvirParam()->GetLight_Dir_Projector();
-		mRenderer->SetCamera(lightProjector);
-		mRenderer->Draw(mEffect_Culler_Shadow.GetVisibleSet(), mEffect_Material_Shadow);
+	//	mRenderer->InitRenderStates();
 
-		mRenderer->Disable(mEffect_RenderTarget_Shadow);
+	//	Rectf viewPort = mViewPort;
+	//	if (viewPort.IsEmpty()) viewPort = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
+	//	mRenderer->SetViewport(viewPort);
 
-		sceneEnvirParam->SetLight_Dir_DepthTexture(mEffect_RenderTarget_Shadow->GetDepthStencilTexture());
-		mEffect_UIPicBox_Shadow->SetTexture(mEffect_RenderTarget_Shadow->GetDepthStencilTexture());
-	}
+	//	Float4 beforeClearColor = mRenderer->GetClearColor();
+	//	if (mBeforeDoClearColor)
+	//	{
+	//		mRenderer->SetClearColor(mClearColor);
+	//		mRenderer->ClearColorBuffer();
+	//	}
 
-	Rectf viewPortSimu = mViewPort;
-	if (viewPortSimu.IsEmpty()) viewPortSimu = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
+	//	if (mBeforeDoClearDepth)
+	//		mRenderer->ClearDepthBuffer();
 
-	// normal
-	if (!scene->IsUseBloom())
-	{
-		mRenderer->SetCamera(mCamera);
+	//	if (mBeforeDoClearStencil)
+	//		mRenderer->ClearStencilBuffer();
 
-		mRenderer->SetClearColor(MathHelp::Float3ToFloat4(scene->GetColor(), 0.0f));
-		mRenderer->SetClearDepth(1.0f);
-		mRenderer->ClearColorBuffer();
-		mRenderer->ClearDepthBuffer();
+	//	mRenderer->SetCamera(mCamera);
+	//	mRenderer->Draw(mCuller.GetVisibleSet());
 
-		if (scene->IsOverrideWireFrame())
-			mRenderer->SetOverrideWireProperty(mOverrideWireProperty);
+	//	mRenderer->SetCamera(beforeCamer);
+	//	mRenderer->SetClearColor(beforeClearColor);
 
-		if (mHelpGridCanvas)
-			mHelpGridCanvas->Draw();
+	//	if (mAfterDoClearColor)
+	//		mRenderer->ClearColorBuffer();
 
-		mRenderer->SetViewport(viewPortSimu);
-		mRenderer->InitRenderStates();
-		mRenderer->SetCamera(mCamera);
-		mRenderer->Draw(mCuller.GetVisibleSet());
+	//	if (mAfterDoClearDepth)
+	//		mRenderer->ClearDepthBuffer();
 
-		mRenderer->SetOverrideWireProperty(0);
-	}
+	//	if (mAfterDoClearStencil)
+	//		mRenderer->ClearStencilBuffer();
+	//}
 
-	// bloom
-	if (scene->IsUseBloom())
-	{
-		if (mEffect_RenderTarget_Normal)
-		{
-			mRenderer->Enable(mEffect_RenderTarget_Normal);
-			mRenderer->SetViewport(Rectf(0.0f, 0.0f,
-				(float)mEffect_RenderTarget_Normal->GetWidth(),
-				(float)mEffect_RenderTarget_Normal->GetHeight()));
+	//if (!IsShow()) return;
+	//if (!mRenderer) return;
+	//if (0 == GetNumChildren()) return;
 
-			mRenderer->InitRenderStates();
-			mRenderer->SetClearColor(MathHelp::Float3ToFloat4(scene->GetColor(), 1.0f));
-			mRenderer->SetClearDepth(1.0f);
-			mRenderer->ClearBuffers();
+	//EnvirParamPtr beformParam = PX2_GR.GetCurEnvirParam();
+	//CameraPtr beforeCamer = mRenderer->GetCamera();
 
-			mRenderer->SetCamera(mCamera);
+	//Scene *scene = (Scene*)((Movable*)GetChild(0));
+	//EnvirParam *sceneEnvirParam = scene->GetEnvirParam();
+	//PX2_GR.SetCurEnvirParam(sceneEnvirParam);
 
-			if (mHelpGridCanvas)
-			{
-				mRenderer->Draw(mHelpGridCanvas->GetCuller().GetVisibleSet());
-			}
+	//// shadow map depth
+	//if (mEffect_RenderTarget_Shadow)
+	//{
+	//	mRenderer->Enable(mEffect_RenderTarget_Shadow);
+	//	mRenderer->SetViewport(Rectf(0.0f, 0.0f, 
+	//		(float)mEffect_RenderTarget_Shadow->GetWidth(), 
+	//		(float)mEffect_RenderTarget_Shadow->GetHeight()));
+	//	mRenderer->InitRenderStates();
+	//	mRenderer->SetClearColor(Float4(1.0f, 1.0f, 1.0f, 1.0f));
+	//	mRenderer->SetClearDepth(1.0f);
+	//	mRenderer->ClearColorBuffer();
+	//	mRenderer->ClearDepthBuffer();
 
-			mRenderer->Draw(mCuller.GetVisibleSet());
-			mRenderer->Disable(mEffect_RenderTarget_Normal);
+	//	Projector *lightProjector = scene->GetEnvirParam()->GetLight_Dir_Projector();
+	//	mRenderer->SetCamera(lightProjector);
+	//	mRenderer->Draw(mEffect_Culler_Shadow.GetVisibleSet(), mEffect_Material_Shadow);
 
-			mEffect_UIPicBoxShow_Normal->SetTexture(mEffect_RenderTarget_Normal->GetColorTexture(0));
-		}
+	//	mRenderer->Disable(mEffect_RenderTarget_Shadow);
 
-		if (mEffect_RenderTarget_BloomBright)
-		{
-			mEffect_UIPicBox_BloomBright->SetTexture(mEffect_RenderTarget_Normal->GetColorTexture(0));
+	//	sceneEnvirParam->SetLight_Dir_DepthTexture(mEffect_RenderTarget_Shadow->GetDepthStencilTexture());
+	//	mEffect_UIPicBox_Shadow->SetTexture(mEffect_RenderTarget_Shadow->GetDepthStencilTexture());
+	//}
 
-			mRenderer->Enable(mEffect_RenderTarget_BloomBright);
-			mRenderer->SetViewport(Rectf(0.0f, 0.0f,
-				(float)mEffect_RenderTarget_Normal->GetWidth(),
-				(float)mEffect_RenderTarget_Normal->GetHeight()));
+	//Rectf viewPortSimu = mViewPort;
+	//if (viewPortSimu.IsEmpty()) viewPortSimu = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
 
-			mRenderer->InitRenderStates();
-			mRenderer->ClearColorBuffer();
-			mRenderer->ClearDepthBuffer();
-			_SetCameraF(mScreenCamera, mEffect_UIPicBox_BloomBright);
-			mRenderer->SetCamera(mScreenCamera);
-			mRenderer->Draw(mEffect_UIPicBox_BloomBright);
-			mRenderer->Disable(mEffect_RenderTarget_BloomBright);
-		}
+	//// normal
+	//if (!scene->IsUseBloom())
+	//{
+	//	mRenderer->SetCamera(mCamera);
 
-		// hor blur
-		if (mEffect_RenderTarget_BlurH)
-		{
-			mEffect_UIPicBox_BlurH->SetTexture(mEffect_RenderTarget_BloomBright->GetColorTexture(0));
+	//	mRenderer->SetClearColor(MathHelp::Float3ToFloat4(scene->GetColor(), 0.0f));
+	//	mRenderer->SetClearDepth(1.0f);
+	//	mRenderer->ClearColorBuffer();
+	//	mRenderer->ClearDepthBuffer();
 
-			mRenderer->Enable(mEffect_RenderTarget_BlurH);
-			mRenderer->SetViewport(Rectf(0.0f, 0.0f,
-				(float)mEffect_RenderTarget_Normal->GetWidth(),
-				(float)mEffect_RenderTarget_Normal->GetHeight()));
+	//	if (scene->IsOverrideWireFrame())
+	//		mRenderer->SetOverrideWireProperty(mOverrideWireProperty);
 
-			mRenderer->InitRenderStates();
-			mRenderer->SetClearColor(Float4::BLACK);
-			mRenderer->ClearColorBuffer();
-			mRenderer->ClearDepthBuffer();
-			_SetCameraF(mScreenCamera, mEffect_UIPicBox_BlurH);
-			mRenderer->SetCamera(mScreenCamera);
-			mRenderer->Draw(mEffect_UIPicBox_BlurH);
-			mRenderer->Disable(mEffect_RenderTarget_BlurH);
-		}
+	//	if (mHelpGridCanvas)
+	//		mHelpGridCanvas->Draw();
 
-		// ver blur
-		if (mEffect_RenderTarget_BlurV)
-		{
-			mEffect_UIPicBox_BlurV->SetTexture(mEffect_RenderTarget_BlurH->GetColorTexture(0));
+	//	mRenderer->SetViewport(viewPortSimu);
+	//	mRenderer->InitRenderStates();
+	//	mRenderer->SetCamera(mCamera);
+	//	mRenderer->Draw(mCuller.GetVisibleSet());
 
-			mRenderer->Enable(mEffect_RenderTarget_BlurV);
-			mRenderer->SetViewport(Rectf(0.0f, 0.0f,
-				(float)mEffect_RenderTarget_Normal->GetWidth(),
-				(float)mEffect_RenderTarget_Normal->GetHeight()));
+	//	mRenderer->SetOverrideWireProperty(0);
+	//}
 
-			mRenderer->InitRenderStates();
-			mRenderer->SetClearColor(Float4::BLACK);
-			mRenderer->ClearColorBuffer();
-			mRenderer->ClearDepthBuffer();
-			_SetCameraF(mScreenCamera, mEffect_UIPicBox_BlurV);
-			mRenderer->SetCamera(mScreenCamera);
-			mRenderer->Draw(mEffect_UIPicBox_BlurV);
-			mRenderer->Disable(mEffect_RenderTarget_BlurV);
-		}
+	//// bloom
+	//if (scene->IsUseBloom())
+	//{
+	//	if (mEffect_RenderTarget_Normal)
+	//	{
+	//		mRenderer->Enable(mEffect_RenderTarget_Normal);
+	//		mRenderer->SetViewport(Rectf(0.0f, 0.0f,
+	//			(float)mEffect_RenderTarget_Normal->GetWidth(),
+	//			(float)mEffect_RenderTarget_Normal->GetHeight()));
 
-		// bloom final
-		if (mBloom_UIPicBox_Final)
-		{
-			mBoom_MtlInstance->SetPixelTexture(0, "SamplerBase", mEffect_RenderTarget_Normal->GetColorTexture(0));
-			mBoom_MtlInstance->SetPixelTexture(0, "SamplerBloom", mEffect_RenderTarget_BlurV->GetColorTexture(0));
-		}
-	}
+	//		mRenderer->InitRenderStates();
+	//		mRenderer->SetClearColor(MathHelp::Float3ToFloat4(scene->GetColor(), 1.0f));
+	//		mRenderer->SetClearDepth(1.0f);
+	//		mRenderer->ClearBuffers();
 
-	mRenderer->SetCamera(beforeCamer);
-	PX2_GR.SetCurEnvirParam(beformParam);
+	//		mRenderer->SetCamera(mCamera);
 
-	if (scene->IsUseBloom() || scene->IsUseShadowMap())
-	{
-		mEffect_UICanvas->SetViewPort(viewPortSimu);
-		mEffect_UICanvas->Draw();
-	}
+	//		if (mHelpGridCanvas)
+	//		{
+	//			mRenderer->Draw(mHelpGridCanvas->GetCuller().GetVisibleSet());
+	//		}
+
+	//		mRenderer->Draw(mCuller.GetVisibleSet());
+	//		mRenderer->Disable(mEffect_RenderTarget_Normal);
+
+	//		mEffect_UIPicBoxShow_Normal->SetTexture(mEffect_RenderTarget_Normal->GetColorTexture(0));
+	//	}
+
+	//	if (mEffect_RenderTarget_BloomBright)
+	//	{
+	//		mEffect_UIPicBox_BloomBright->SetTexture(mEffect_RenderTarget_Normal->GetColorTexture(0));
+
+	//		mRenderer->Enable(mEffect_RenderTarget_BloomBright);
+	//		mRenderer->SetViewport(Rectf(0.0f, 0.0f,
+	//			(float)mEffect_RenderTarget_Normal->GetWidth(),
+	//			(float)mEffect_RenderTarget_Normal->GetHeight()));
+
+	//		mRenderer->InitRenderStates();
+	//		mRenderer->ClearColorBuffer();
+	//		mRenderer->ClearDepthBuffer();
+	//		_SetCameraF(mScreenCamera, mEffect_UIPicBox_BloomBright);
+	//		mRenderer->SetCamera(mScreenCamera);
+	//		mRenderer->Draw(mEffect_UIPicBox_BloomBright);
+	//		mRenderer->Disable(mEffect_RenderTarget_BloomBright);
+	//	}
+
+	//	// hor blur
+	//	if (mEffect_RenderTarget_BlurH)
+	//	{
+	//		mEffect_UIPicBox_BlurH->SetTexture(mEffect_RenderTarget_BloomBright->GetColorTexture(0));
+
+	//		mRenderer->Enable(mEffect_RenderTarget_BlurH);
+	//		mRenderer->SetViewport(Rectf(0.0f, 0.0f,
+	//			(float)mEffect_RenderTarget_Normal->GetWidth(),
+	//			(float)mEffect_RenderTarget_Normal->GetHeight()));
+
+	//		mRenderer->InitRenderStates();
+	//		mRenderer->SetClearColor(Float4::BLACK);
+	//		mRenderer->ClearColorBuffer();
+	//		mRenderer->ClearDepthBuffer();
+	//		_SetCameraF(mScreenCamera, mEffect_UIPicBox_BlurH);
+	//		mRenderer->SetCamera(mScreenCamera);
+	//		mRenderer->Draw(mEffect_UIPicBox_BlurH);
+	//		mRenderer->Disable(mEffect_RenderTarget_BlurH);
+	//	}
+
+	//	// ver blur
+	//	if (mEffect_RenderTarget_BlurV)
+	//	{
+	//		mEffect_UIPicBox_BlurV->SetTexture(mEffect_RenderTarget_BlurH->GetColorTexture(0));
+
+	//		mRenderer->Enable(mEffect_RenderTarget_BlurV);
+	//		mRenderer->SetViewport(Rectf(0.0f, 0.0f,
+	//			(float)mEffect_RenderTarget_Normal->GetWidth(),
+	//			(float)mEffect_RenderTarget_Normal->GetHeight()));
+
+	//		mRenderer->InitRenderStates();
+	//		mRenderer->SetClearColor(Float4::BLACK);
+	//		mRenderer->ClearColorBuffer();
+	//		mRenderer->ClearDepthBuffer();
+	//		_SetCameraF(mScreenCamera, mEffect_UIPicBox_BlurV);
+	//		mRenderer->SetCamera(mScreenCamera);
+	//		mRenderer->Draw(mEffect_UIPicBox_BlurV);
+	//		mRenderer->Disable(mEffect_RenderTarget_BlurV);
+	//	}
+
+	//	// bloom final
+	//	if (mBloom_UIPicBox_Final)
+	//	{
+	//		mBoom_MtlInstance->SetPixelTexture(0, "SamplerBase", mEffect_RenderTarget_Normal->GetColorTexture(0));
+	//		mBoom_MtlInstance->SetPixelTexture(0, "SamplerBloom", mEffect_RenderTarget_BlurV->GetColorTexture(0));
+	//	}
+	//}
+
+	//mRenderer->SetCamera(beforeCamer);
+	//PX2_GR.SetCurEnvirParam(beformParam);
+
+	//if (scene->IsUseBloom() || scene->IsUseShadowMap())
+	//{
+	//	mEffect_UICanvas->SetViewPort(viewPortSimu);
+	//	mEffect_UICanvas->Draw();
+	//}
 }
 //----------------------------------------------------------------------------
-void SceneCanvas::SetSize(const Sizef &size)
+void SceneCanvas::OnSizeChanged()
 {
-	Canvas::SetSize(size);
-
-	Scene *scene = DynamicCast<Scene>(GetChild(0));
-	if (scene && scene->IsBloomRenderTargetSizeSameWithScreen())
-		mIsBloomChanged = true;
-
-	if (scene && scene->IsShadowRenderTargetSizeSameWithScreen())
-		mIsShadowMapChanged = true;
-
-	if (mEffect_UICanvas)
+	if (mIsSizeChangeReAdjustCamera && 
+		mCamera && mCamera->IsPerspective())
 	{
-		mEffect_UICanvas->SetSize(mSize);
+		float fov = 0.0f;
+		float asp = 1.0f;
+		float dMin = 0.0f;
+		float dMax = 0.0f;
+		mCamera->GetFrustum(fov, asp, dMin, dMax);
+		mCamera->SetFrustum(fov, mSize.Width / mSize.Height, dMin, dMax);
 	}
-
-	_UpdateALightPicBoxTranslateSize();
 }
 //----------------------------------------------------------------------------
 void SceneCanvas::SetScreenSize(const Sizef &size)
@@ -314,36 +349,6 @@ void SceneCanvas::SetScreenSize(const Sizef &size)
 
 	if (scene && scene->IsShadowRenderTargetSizeSameWithScreen())
 		mIsShadowMapChanged = true;
-}
-//----------------------------------------------------------------------------
-void SceneCanvas::SetViewPortAdjustWithScene(const Rectf &viewPort)
-{
-	Scene *scene = DynamicCast<Scene>(GetChild(0));
-	if (scene)
-	{
-		const Rectf &viewPortRect = scene->GetViewPortProject();
-
-		if (!viewPortRect.IsEmpty())
-		{
-			Rectf viewPortFromProject = PX2_ENGINELOOP.
-				GetViewPortAdjustFromProject(viewPortRect);
-			SetViewPort(viewPortFromProject);
-
-			SetSize(Sizef(viewPortFromProject.Width(),
-				viewPortFromProject.Height()));
-		}
-		else
-		{
-			const Rectf &viewPortFromProject = PX2_ENGINELOOP.GetAdjustViewPort();
-			SetViewPort(viewPortFromProject);
-
-			SetSize(Sizef(viewPort.Width(), viewPort.Height()));
-		}
-	}
-	else
-	{
-		SetViewPort(viewPort);
-	}
 }
 //----------------------------------------------------------------------------
 void SceneCanvas::DoExecute(Event *event)

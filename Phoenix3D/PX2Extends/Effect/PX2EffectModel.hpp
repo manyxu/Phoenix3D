@@ -78,7 +78,7 @@ public_internal:
 
 	PX2_REGISTER_STREAM(EffectModel);
 #include "PX2EffectModel.inl"
-	typedef Pointer0<EffectModel> EffectModelPtr;
+	typedef PointerRef<EffectModel> EffectModelPtr;
 
 }
 

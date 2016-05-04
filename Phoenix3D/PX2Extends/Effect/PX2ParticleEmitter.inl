@@ -47,7 +47,7 @@ inline void ParticleEmitter::SetEmitRotateAxis (const AVector &dir)
 	mRotateAxis = dir;
 }
 //----------------------------------------------------------------------------
-inline const AVector ParticleEmitter::GetEmitRotateAxis () const
+inline const AVector &ParticleEmitter::GetEmitRotateAxis () const
 {
 	return mRotateAxis;
 }

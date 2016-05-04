@@ -8,19 +8,29 @@
 #include "PX2ResourceManager.hpp"
 #include "PX2ScriptManager.hpp"
 #include "PX2SimulationEventType.hpp"
-#include "PX2SimulationEventHandler.hpp"
+#include "PX2GeneralEventHandler.hpp"
+#include "PX2FunObject.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------
-BPManager::BPManager()
-:
+BPManager::BPManager() :
 mParamIndex(0)
 {
+}
+//----------------------------------------------------------------------------
+BPManager::~BPManager()
+{
+}
+//----------------------------------------------------------------------------
+bool BPManager::Initlize()
+{
+	return true;
+
 	// events
 	for (int i = 0; i < SimuES::E_QUANTITY; i++)
 	{
-		Object::FunObject entFunObj;
-		entFunObj.FunName = SimuES_EventHandler::sGEStrings[i];
+		FunObject entFunObj;
+		entFunObj.FunName = General_EventHandler::sGEStrings[i];
 		mEventObjects[entFunObj.FunName] = entFunObj;
 		_AddGenEvent(entFunObj.FunName);
 	}
@@ -28,58 +38,95 @@ mParamIndex(0)
 	// functions
 	mFunStartObject.FunName = "FunctionStart";
 
-	// scene
-	Object::FunObject funGetScene;
-	funGetScene.FunName = "GetScene";
-	funGetScene.AddOutput("out_scene", Object::FPT_POINTER, (Object*)0);
-	mFunObjects[funGetScene.FunName] = funGetScene;
-	_AddGenFun(funGetScene.FunName, "PX2_PROJ:GetScene");
+	//// scene
+	//FunObject funGetScene;
+	//funGetScene.FunName = "GetScene";
+	//funGetScene.AddOutput("ot_scene", FPT_POINTER, (Object*)0);
+	//mGenFunObjects[funGetScene.FunName] = funGetScene;
+	//_AddGenFun(funGetScene.FunName, "PX2_PROJ:GetScene");
 
-	// ui
-	Object::FunObject funGetUI;
-	funGetUI.FunName = "GetUI";
-	funGetUI.AddOutput("out_ui", Object::FPT_POINTER, (Object*)0);
-	mFunObjects[funGetUI.FunName] = funGetUI;
-	_AddGenFun(funGetUI.FunName, "PX2_PROJ:GetUI");
+	//// ui
+	//FunObject funGetUI;
+	//funGetUI.FunName = "GetUI";
+	//funGetUI.AddOutput("ot_ui", FPT_POINTER, (Object*)0);
+	//mGenFunObjects[funGetUI.FunName] = funGetUI;
+	//_AddGenFun(funGetUI.FunName, "PX2_PROJ:GetUI");
+
+	FunObject funGetUI;
+	funGetUI.FunName = "GetReleasedBut";
+	funGetUI.AddOutput("ot_but", FPT_POINTER, (Object*)0);
+	mGenFunObjects[funGetUI.FunName] = funGetUI;
+	_AddGenFun(funGetUI.FunName, "PX2_BPM:GetReleasedBut");
+
+	PX2_SC_LUA->CallFile("Data/engine/scripts/lua/engine.lua");
+
+	// object funs
+	Object::RegistClassFunctions();
+	UIFrame::RegistClassFunctions();
+	UIButton::RegistClassFunctions();
 
 	// option
-	Object::FunObject fo_SetInt;
+	FunObject fo_SetInt;
 	fo_SetInt.FunName = "SetInt";
-	fo_SetInt.AddInput("in_from", Object::FPT_INT, 0);
-	fo_SetInt.AddInput("in_param", Object::FPT_INT, 0);
+	fo_SetInt.AddInput("in_from", FPT_INT, 0);
+	fo_SetInt.AddInput("in_param", FPT_INT, 0);
 	mOptionObjects[fo_SetInt.FunName] = fo_SetInt;
 	_AddOption(fo_SetInt.FunName);
 
-	Object::FunObject fo_SetFloat;
+	FunObject fo_SetFloat;
 	fo_SetFloat.FunName = "SetFloat";
-	fo_SetFloat.AddInput("in_from", Object::FPT_FLOAT, 0.0f);
-	fo_SetFloat.AddInput("in_param", Object::FPT_FLOAT, 0.0f);
+	fo_SetFloat.AddInput("in_from", FPT_FLOAT, 0.0f);
+	fo_SetFloat.AddInput("in_param", FPT_FLOAT, 0.0f);
 	mOptionObjects[fo_SetFloat.FunName] = fo_SetFloat;
 	_AddOption(fo_SetFloat.FunName);
 
-	Object::FunObject fo_Compare;
+	FunObject fo_Compare;
 	fo_Compare.FunName = "Compare";
-	fo_Compare.AddInput("in_param0", Object::FPT_INT, 0);
-	fo_Compare.AddInput("in_param1", Object::FPT_INT, 0);
-	fo_Compare.AddOutput("out_true", Object::FPT_BOOL, true);
-	fo_Compare.AddOutput("out_false", Object::FPT_BOOL, false);
+	fo_Compare.AddInput("in_param0", FPT_INT, 0);
+	fo_Compare.AddInput("in_param1", FPT_INT, 0);
+	fo_Compare.AddOutput("ot_true", FPT_BOOL, true);
+	fo_Compare.AddOutput("ot_false", FPT_BOOL, false);
 	mOptionObjects[fo_Compare.FunName] = fo_Compare;
 	_AddOption(fo_Compare.FunName);
 
-	Object::FunObject fo_Switch;
-	fo_Switch.FunName = "Switch4";
-	fo_Switch.AddInput("in_param", Object::FPT_INT, 0);
-	fo_Switch.AddInput("in_c0", Object::FPT_INT, 0);
-	fo_Switch.AddInput("in_c1", Object::FPT_INT, 1);
-	fo_Switch.AddInput("in_c2", Object::FPT_INT, 2);
-	fo_Switch.AddInput("in_c3", Object::FPT_INT, 3);
-	fo_Switch.AddOutput("empty", Object::FPT_NONE, Any());
-	fo_Switch.AddOutput("out_equal0", Object::FPT_BOOL, true);
-	fo_Switch.AddOutput("out_equal1", Object::FPT_BOOL, true);
-	fo_Switch.AddOutput("out_equal2", Object::FPT_BOOL, true);
-	fo_Switch.AddOutput("out_equal3", Object::FPT_BOOL, true);
-	mOptionObjects[fo_Switch.FunName] = fo_Switch;
-	_AddOption(fo_Switch.FunName);
+	FunObject fo_CompareString;
+	fo_CompareString.FunName = "CompareString";
+	fo_CompareString.AddInput("in_param0", FPT_STRING, std::string("param0"));
+	fo_CompareString.AddInput("in_param1", FPT_STRING, std::string("param1"));
+	fo_CompareString.AddOutput("ot_true", FPT_BOOL, true);
+	fo_CompareString.AddOutput("ot_false", FPT_BOOL, false);
+	mOptionObjects[fo_CompareString.FunName] = fo_CompareString;
+	_AddOption(fo_CompareString.FunName);
+
+	//FunObject fo_Switch;
+	//fo_Switch.FunName = "Switch4";
+	//fo_Switch.AddInput("in_param", FPT_INT, 0);
+	//fo_Switch.AddInput("in_c0", FPT_INT, 0);
+	//fo_Switch.AddInput("in_c1", FPT_INT, 1);
+	//fo_Switch.AddInput("in_c2", FPT_INT, 2);
+	//fo_Switch.AddInput("in_c3", FPT_INT, 3);
+	//fo_Switch.AddOutput("empty", FPT_NONE, Any());
+	//fo_Switch.AddOutput("ot_equal0", FPT_BOOL, true);
+	//fo_Switch.AddOutput("ot_equal1", FPT_BOOL, true);
+	//fo_Switch.AddOutput("ot_equal2", FPT_BOOL, true);
+	//fo_Switch.AddOutput("ot_equal3", FPT_BOOL, true);
+	//mOptionObjects[fo_Switch.FunName] = fo_Switch;
+	//_AddOption(fo_Switch.FunName);
+
+	FunObject fo_SwitchString4;
+	fo_SwitchString4.FunName = "Switch4";
+	fo_SwitchString4.AddInput("in_param", FPT_STRING, std::string());
+	fo_SwitchString4.AddInput("in_c0", FPT_STRING, std::string());
+	fo_SwitchString4.AddInput("in_c1", FPT_STRING, std::string());
+	fo_SwitchString4.AddInput("in_c2", FPT_STRING, std::string());
+	fo_SwitchString4.AddInput("in_c3", FPT_STRING, std::string());
+	fo_SwitchString4.AddOutput("empty", FPT_NONE, Any());
+	fo_SwitchString4.AddOutput("ot_equal0", FPT_BOOL, true);
+	fo_SwitchString4.AddOutput("ot_equal1", FPT_BOOL, true);
+	fo_SwitchString4.AddOutput("ot_equal2", FPT_BOOL, true);
+	fo_SwitchString4.AddOutput("ot_equal3", FPT_BOOL, true);
+	mOptionObjects[fo_SwitchString4.FunName] = fo_SwitchString4;
+	_AddOption(fo_SwitchString4.FunName);
 
 	//	FPT_NONE,
 	//	FPT_INT,
@@ -92,75 +139,178 @@ mParamIndex(0)
 	//	FPT_POINTER_THIS,
 
 	// param
-	Object::FunObject p_Int;
+	FunObject p_Int;
 	p_Int.FunName = "Param_Int";
-	p_Int.AddInput("in_param", Object::FPT_INT, 0);
-	p_Int.AddOutput("out_param", Object::FPT_INT, 0);
+	p_Int.AddInput("in_param", FPT_INT, 0);
+	p_Int.AddOutput("ot_param", FPT_INT, 0);
 	mParamObjects[p_Int.FunName] = p_Int;
 	_AddParam(p_Int.FunName);
 
-	Object::FunObject p_Float;
+	FunObject p_Float;
 	p_Float.FunName = "Param_Float";
-	p_Float.AddInput("in_param", Object::FPT_FLOAT, 0.0f);
-	p_Float.AddOutput("out_param", Object::FPT_FLOAT, 0.0f);
+	p_Float.AddInput("in_param", FPT_FLOAT, 0.0f);
+	p_Float.AddOutput("ot_param", FPT_FLOAT, 0.0f);
 	mParamObjects[p_Float.FunName] = p_Float;
 	_AddParam(p_Float.FunName);
 
-	Object::FunObject p_APoint;
+	FunObject p_APoint;
 	p_APoint.FunName = "Param_APoint";
-	p_APoint.AddInput("in_param", Object::FPT_APOINT, APoint::ORIGIN);
-	p_APoint.AddOutput("out_param", Object::FPT_APOINT, APoint::ORIGIN);
+	p_APoint.AddInput("in_param", FPT_APOINT, APoint::ORIGIN);
+	p_APoint.AddOutput("ot_param", FPT_APOINT, APoint::ORIGIN);
 	mParamObjects[p_APoint.FunName] = p_APoint;
 	_AddParam(p_APoint.FunName);
 
-	Object::FunObject p_AVector;
+	FunObject p_AVector;
 	p_AVector.FunName = "Param_AVector";
-	p_AVector.AddInput("in_param", Object::FPT_AVECTOR, AVector::ZERO);
-	p_AVector.AddOutput("out_param", Object::FPT_AVECTOR, AVector::ZERO);
+	p_AVector.AddInput("in_param", FPT_AVECTOR, AVector::ZERO);
+	p_AVector.AddOutput("ot_param", FPT_AVECTOR, AVector::ZERO);
 	mParamObjects[p_AVector.FunName] = p_AVector;
 	_AddParam(p_AVector.FunName);
 
-	Object::FunObject p_Bool;
+	FunObject p_Bool;
 	p_Bool.FunName = "Param_Bool";
-	p_Bool.AddInput("in_param", Object::FPT_BOOL, true);
-	p_Bool.AddOutput("out_param", Object::FPT_BOOL, true);
+	p_Bool.AddInput("in_param", FPT_BOOL, true);
+	p_Bool.AddOutput("ot_param", FPT_BOOL, true);
 	mParamObjects[p_Bool.FunName] = p_Bool;
 	_AddParam(p_Bool.FunName);
 
-	Object::FunObject p_String;
+	FunObject p_String;
 	p_String.FunName = "Param_String";
-	p_String.AddInput("in_param", Object::FPT_STRING, std::string(""));
-	p_String.AddOutput("out_param", Object::FPT_STRING, std::string(""));
+	p_String.AddInput("in_param", FPT_STRING, std::string(""));
+	p_String.AddOutput("ot_param", FPT_STRING, std::string(""));
 	mParamObjects[p_String.FunName] = p_String;
 	_AddParam(p_String.FunName);
 
-	Object::FunObject p_Pointer;
+	FunObject p_Pointer;
 	p_Pointer.FunName = "Param_Pointer";
-	p_Pointer.AddInput("in_param", Object::FPT_POINTER, (Object*)0);
-	p_Pointer.AddOutput("out_param", Object::FPT_POINTER, (Object*)0);
+	p_Pointer.AddInput("in_param", FPT_POINTER, (Object*)0);
+	p_Pointer.AddOutput("ot_param", FPT_POINTER, (Object*)0);
 	mParamObjects[p_Pointer.FunName] = p_Pointer;
 	_AddParam(p_Pointer.FunName);
 
 	// Operators
-	Object::FunObject fun_AVector_X_Float;
+	FunObject fun_AVector_X_Float;
 	fun_AVector_X_Float.FunName = "AVector_X_Float";
-	fun_AVector_X_Float.AddInput("in_vec", Object::FPT_AVECTOR, AVector::ZERO);
-	fun_AVector_X_Float.AddInput("in_float", Object::FPT_FLOAT, 0.0f);
-	fun_AVector_X_Float.AddOutput("out_vec", Object::FPT_AVECTOR, AVector::ZERO);
+	fun_AVector_X_Float.AddInput("in_vec", FPT_AVECTOR, AVector::ZERO);
+	fun_AVector_X_Float.AddInput("in_float", FPT_FLOAT, 0.0f);
+	fun_AVector_X_Float.AddOutput("ot_vec", FPT_AVECTOR, AVector::ZERO);
 	mOperatorsObjects[fun_AVector_X_Float.FunName] = fun_AVector_X_Float;
 	_AddOPerator(fun_AVector_X_Float.FunName, "PX2_BPM:AVector_X_Float");
 
-	Object::FunObject fun_Float_X_Float;
+	FunObject fun_Float_X_Float;
 	fun_Float_X_Float.FunName = "Float_X_Float";
-	fun_Float_X_Float.AddInput("in_param0", Object::FPT_FLOAT, 0.0f);
-	fun_Float_X_Float.AddInput("in_param1", Object::FPT_FLOAT, 0.0f);
-	fun_Float_X_Float.AddOutput("out_val", Object::FPT_FLOAT, 0.0f);
+	fun_Float_X_Float.AddInput("in_param0", FPT_FLOAT, 0.0f);
+	fun_Float_X_Float.AddInput("in_param1", FPT_FLOAT, 0.0f);
+	fun_Float_X_Float.AddOutput("ot_val", FPT_FLOAT, 0.0f);
 	mOperatorsObjects[fun_Float_X_Float.FunName] = fun_Float_X_Float;
 	_AddOPerator(fun_Float_X_Float.FunName, "PX2_BPM:Float_X_Float");
+
+	return true;
 }
 //----------------------------------------------------------------------------
-BPManager::~BPManager()
+void BPManager::AddFun_General(const FunObject &funObj, 
+	const std::string &script)
 {
+	mGenFunObjects[funObj.FunName] = funObj;
+	_AddGenFun(funObj.FunName, script);
+}
+//----------------------------------------------------------------------------
+FunObject &BPManager::BeginAddFun_General(const std::string &funName,
+	const std::string &script)
+{
+	mCurAddFunObj.ClearInParams();
+	mCurAddFunObj.ClearOutParams();
+
+	mCurAddFunObj.FunName = funName;	
+	_AddGenFun(mCurAddFunObj.FunName, script);
+	return mCurAddFunObj;
+}
+//----------------------------------------------------------------------------
+void BPManager::AddInput(const std::string &name, 
+	FunParamType funParamType)
+{
+	if (FPT_INT == funParamType)
+	{
+		mCurAddFunObj.AddInput(name, funParamType, 0);
+	}
+	else if (FPT_FLOAT == funParamType)
+	{
+		mCurAddFunObj.AddInput(name, funParamType, 0.0f);
+	}
+	else if (FPT_APOINT == funParamType)
+	{
+		mCurAddFunObj.AddInput(name, funParamType, APoint::ORIGIN);
+	}
+	else if (FPT_AVECTOR == funParamType)
+	{
+		mCurAddFunObj.AddInput(name, funParamType, AVector::ZERO);
+	}
+	else if (FPT_BOOL == funParamType)
+	{
+		mCurAddFunObj.AddInput(name, funParamType, false);
+	}
+	else if (FPT_STRING == funParamType)
+	{
+		mCurAddFunObj.AddInput(name, funParamType, std::string(""));
+	}
+	else if (FPT_POINTER == funParamType)
+	{
+		mCurAddFunObj.AddInput(name, funParamType, (Object*)0);
+	}
+	else if (FPT_POINTER_THIS == funParamType)
+	{
+		mCurAddFunObj.AddInput(name, funParamType, (Object*)0);
+	}
+	else if (FPT_POINTER_THIS_STATIC == funParamType)
+	{
+		mCurAddFunObj.AddInput(name, funParamType, (Object*)0);
+	}
+}
+//----------------------------------------------------------------------------
+void BPManager::AddOutput(const std::string &name,
+	FunParamType funParamType)
+{
+	if (FPT_INT == funParamType)
+	{
+		mCurAddFunObj.AddOutput(name, funParamType, 0);
+	}
+	else if (FPT_FLOAT == funParamType)
+	{
+		mCurAddFunObj.AddOutput(name, funParamType, 0.0f);
+	}
+	else if (FPT_APOINT == funParamType)
+	{
+		mCurAddFunObj.AddOutput(name, funParamType, APoint::ORIGIN);
+	}
+	else if (FPT_AVECTOR == funParamType)
+	{
+		mCurAddFunObj.AddOutput(name, funParamType, AVector::ZERO);
+	}
+	else if (FPT_BOOL == funParamType)
+	{
+		mCurAddFunObj.AddOutput(name, funParamType, false);
+	}
+	else if (FPT_STRING == funParamType)
+	{
+		mCurAddFunObj.AddOutput(name, funParamType, std::string(""));
+	}
+	else if (FPT_POINTER == funParamType)
+	{
+		mCurAddFunObj.AddOutput(name, funParamType, (Object*)0);
+	}
+	else if (FPT_POINTER_THIS == funParamType)
+	{
+		mCurAddFunObj.AddOutput(name, funParamType, (Object*)0);
+	}
+	else if (FPT_POINTER_THIS_STATIC == funParamType)
+	{
+		mCurAddFunObj.AddOutput(name, funParamType, (Object*)0);
+	}
+}
+//----------------------------------------------------------------------------
+void BPManager::EndAddFun_General()
+{
+	mGenFunObjects[mCurAddFunObj.FunName] = mCurAddFunObj;
 }
 //----------------------------------------------------------------------------
 void BPManager::_AddGenFun(const std::string &funName, const std::string &scriptStr)
@@ -202,11 +352,11 @@ std::string BPManager::GetGFScript(const std::string &name)
 	return "";
 }
 //----------------------------------------------------------------------------
-Object::FunObject *BPManager::GetGF(const std::string &name)
+FunObject *BPManager::GetGF(const std::string &name)
 {
-	std::map<std::string, Object::FunObject>::iterator it =
-		mFunObjects.find(name);
-	if (it != mFunObjects.end())
+	std::map<std::string, FunObject>::iterator it =
+		mGenFunObjects.find(name);
+	if (it != mGenFunObjects.end())
 	{
 		return &(it->second);
 	}
@@ -214,33 +364,9 @@ Object::FunObject *BPManager::GetGF(const std::string &name)
 	return 0;
 }
 //----------------------------------------------------------------------------
-void BPManager::ClearObjectFunMap()
+FunObject *BPManager::GetEvent(const std::string &name)
 {
-	mObjectFunMap.clear();
-}
-//----------------------------------------------------------------------------
-Object::FunObject *BPManager::GetFunctionObject(const std::string &className,
-	const std::string &objName)
-{
-	std::map<std::string, std::vector<Object::FunObject> >::iterator it =
-		mObjectFunMap.find(className);
-	if (it != mObjectFunMap.end())
-	{
-		for (int i = 0; i < (int)it->second.size(); i++)
-		{
-			if (objName == it->second[i].FunName)
-			{
-				return &(it->second[i]);
-			}
-		}
-	}
-
-	return 0;
-}
-//----------------------------------------------------------------------------
-Object::FunObject *BPManager::GetEvent(const std::string &name)
-{
-	std::map<std::string, Object::FunObject>::iterator it =
+	std::map<std::string, FunObject>::iterator it =
 		mEventObjects.find(name);
 	if (it != mEventObjects.end())
 	{
@@ -250,9 +376,9 @@ Object::FunObject *BPManager::GetEvent(const std::string &name)
 	return 0;
 }
 //----------------------------------------------------------------------------
-Object::FunObject *BPManager::GetOption(const std::string &name)
+FunObject *BPManager::GetOption(const std::string &name)
 {
-	std::map<std::string, Object::FunObject>::iterator it =
+	std::map<std::string, FunObject>::iterator it =
 		mOptionObjects.find(name);
 	if (it != mOptionObjects.end())
 	{
@@ -262,9 +388,9 @@ Object::FunObject *BPManager::GetOption(const std::string &name)
 	return 0;
 }
 //----------------------------------------------------------------------------
-Object::FunObject *BPManager::GetParam(const std::string &name)
+FunObject *BPManager::GetParam(const std::string &name)
 {
-	std::map<std::string, Object::FunObject>::iterator it =
+	std::map<std::string, FunObject>::iterator it =
 		mParamObjects.find(name);
 	if (it != mParamObjects.end())
 	{
@@ -274,9 +400,9 @@ Object::FunObject *BPManager::GetParam(const std::string &name)
 	return 0;
 }
 //----------------------------------------------------------------------------
-Object::FunObject *BPManager::GetOperator(const std::string &name)
+FunObject *BPManager::GetOperator(const std::string &name)
 {
-	std::map<std::string, Object::FunObject>::iterator it =
+	std::map<std::string, FunObject>::iterator it =
 		mOperatorsObjects.find(name);
 	if (it != mOperatorsObjects.end())
 	{
@@ -328,13 +454,13 @@ void BPManager::Call(BPFile *file, bool alwaysCompile)
 		script = Compile(file);
 	}
 
-	PX2_SM.CallString(script.c_str());
+	//PX2_SM.CallString(script.c_str());
 }
 //----------------------------------------------------------------------------
 void BPManager::Call(const std::string &logicFilename)
 {
 	Object *bpObj = PX2_RM.BlockLoad(logicFilename);
-	BPGroup *bpGroup = DynamicCast<BPGroup>(bpObj);
+	BPPackage *bpGroup = DynamicCast<BPPackage>(bpObj);
 	BPFile *bpFile = DynamicCast<BPFile>(bpGroup);
 
 	if (bpGroup)
@@ -347,21 +473,21 @@ void BPManager::Call(const std::string &logicFilename)
 	}
 }
 //----------------------------------------------------------------------------
-void BPManager::Call(BPGroup *group, bool alwaysCompile)
+void BPManager::Call(BPPackage *group, bool alwaysCompile)
 {
 	if (!group) return;
 
 	if (!group->IsEnable()) return;
 
-	for (int i = 0; i < group->GetNumLogicFiles(); i++)
+	for (int i = 0; i < group->GetNumBPFiles(); i++)
 	{
-		BPFile *lf = group->GetLogicFile(i);
+		BPFile *lf = group->GetBPFile(i);
 		Call(lf, alwaysCompile);
 	}
 
-	for (int i = 0; i < group->GetNumLogicGroups(); i++)
+	for (int i = 0; i < group->GetNumBPPackages(); i++)
 	{
-		BPGroup *lg = group->GetLogicGroup(i);
+		BPPackage *lg = group->GetBPPackage(i);
 		Call(lg, alwaysCompile);
 	}
 }
@@ -380,11 +506,11 @@ bool BPManager::CanLinkParam(PX2::BPParam *linkingParam,
 	if (!linkedParam)
 		return false;
 
-	Object::FunParamType linkingParamType = linkingParam->GetDataType();
+	FunParamType linkingParamType = linkingParam->GetDataType();
 	bool isLinkingExe = linkingParam->IsExe();
 	BPModule::ModuleType linkingModuleType = linkingParam->GetModule()->GetModuleType();
 
-	Object::FunParamType linkedParamType = linkedParam->GetDataType();
+	FunParamType linkedParamType = linkedParam->GetDataType();
 	bool isLinkedExe = linkedParam->IsExe();
 	BPModule::ModuleType linkedModuleType = linkedParam->GetModule()->GetModuleType();
 
@@ -403,13 +529,13 @@ bool BPManager::CanLinkParam(PX2::BPParam *linkingParam,
 		}
 
 		// ∑÷÷ß”Ôæ‰
-		if (linkingModuleType == BPModule::MT_OPTION && linkedParamType == Object::FPT_NONE)
+		if (linkingModuleType == BPModule::MT_OPTION && linkedParamType == FPT_NONE)
 			return true;
 
-		if (linkingParamType == Object::FPT_POINTER && linkedParamType == Object::FPT_POINTER_THIS)
+		if (linkingParamType == FPT_POINTER && linkedParamType == FPT_POINTER_THIS)
 			return true;
 
-		if (linkingParamType == Object::FPT_POINTER_THIS && linkedParamType == Object::FPT_POINTER)
+		if (linkingParamType == FPT_POINTER_THIS && linkedParamType == FPT_POINTER)
 			return true;
 	}
 

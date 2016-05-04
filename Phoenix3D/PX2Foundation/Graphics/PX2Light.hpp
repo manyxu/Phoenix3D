@@ -84,7 +84,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Light);
-	typedef Pointer0<Light> LightPtr;
+	typedef PointerRef<Light> LightPtr;
 #include "PX2Light.inl"
 
 }

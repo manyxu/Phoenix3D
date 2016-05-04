@@ -65,7 +65,7 @@ namespace PX2
 
 #include "PX2UIInputText.inl"
 	PX2_REGISTER_STREAM(UIInputText);
-	typedef Pointer0<UIInputText> UIInputTextPtr;
+	typedef PointerRef<UIInputText> UIInputTextPtr;
 
 }
 

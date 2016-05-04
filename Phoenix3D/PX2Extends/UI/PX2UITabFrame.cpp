@@ -5,6 +5,7 @@
 #include "PX2UIAuiBlockFrame.hpp"
 #include "PX2UIAuiManager.hpp"
 #include "PX2UISkinManager.hpp"
+#include "PX2UICanvas.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, UITabFrame);
@@ -14,11 +15,14 @@ PX2_IMPLEMENT_FACTORY(UITabFrame);
 //----------------------------------------------------------------------------
 UITabFrame::UITabFrame() :
 mLayoutPosType(LPT_TOP),
+mTabBarHeight(20.0f),
 mTabWidth(100.0f),
 mTabHeight(20.0f),
 mAuiBlockFrame(0),
+mTabLayoutType(TLT_FIX),
 mIsTabsNeedReCal(true),
-mIsSkinAui(true)
+mIsSkinAui(true),
+mIsDragingTab(false)
 {
 	SetAnchorHor(0.0f, 1.0f);
 	SetAnchorVer(0.0f, 1.0f);
@@ -30,7 +34,6 @@ mIsSkinAui(true)
 	mFrame_TitleBar->SetName("TitleBar");
 	mFrame_TitleBar->LocalTransform.SetTranslateY(-1.0f);
 	UIPicBox *picBox = mFrame_TitleBar->CreateAddBackgroundPicBox();
-	picBox->SetTexture("Data/engine/white.png");
 	picBox->SetColor(Float3::MakeColor(60, 60, 60));
 	mFrame_TitleBar->SetSize(0.0f, mTabHeight);
 	mFrame_TitleBar->SetAnchorHor(Float2(0.0f, 1.0f));
@@ -39,10 +42,11 @@ mIsSkinAui(true)
 
 	mFrame_Content = new0 UIFrame();
 	AttachChild(mFrame_Content);
+	mFrame_Content->LocalTransform.SetTranslateY(-1.0f);
 	mFrame_Content->SetName("Content");
 	mFrame_Content->SetAnchorHor(0.0f, 1.0f);
 	mFrame_Content->SetAnchorVer(0.0f, 1.0f);
-	mFrame_Content->SetAnchorParamVer(0.0f, mTabHeight);
+	mFrame_Content->SetAnchorParamVer(0.0f, -mTabBarHeight);
 }
 //----------------------------------------------------------------------------
 UITabFrame::~UITabFrame()
@@ -61,10 +65,17 @@ void UITabFrame::SetSkinAui(bool isAui)
 	mIsSkinAui = isAui;
 }
 //----------------------------------------------------------------------------
+void UITabFrame::SetTabBarHeight(float height)
+{
+	mTabBarHeight = height;
+	mFrame_Content->SetAnchorParamVer(0.0f, -mTabBarHeight);
+
+	mIsTabsNeedReCal = true;
+}
+//----------------------------------------------------------------------------
 void UITabFrame::SetTabWidth(float width)
 {
 	mTabWidth = width;
-
 	mIsTabsNeedReCal = true;
 }
 //----------------------------------------------------------------------------
@@ -74,13 +85,128 @@ void UITabFrame::SetTabHeight(float height)
 	mIsTabsNeedReCal = true;
 }
 //----------------------------------------------------------------------------
-void UITabFrame::TabCallback(UIFrame *frame, UICallType type)
+void UITabFrame::SetTabLayoutType(TabLayoutType tlt)
 {
-	const std::string &name = frame->GetName();
-	SetActiveTab(name);
+	mTabLayoutType = tlt;
+	mIsTabsNeedReCal = true;
 }
 //----------------------------------------------------------------------------
-void UITabFrame::AddTab(const std::string &name, UIFrame *tabContentFrame)
+void UITabFrame::OnSizeChanged()
+{
+	int numTabs = GetNumTabs();
+	float allTabLength = numTabs * mTabWidth;
+
+	if (allTabLength <= mSize.Width)
+	{
+		if (mTabLayoutType != TLT_FIX)
+		{
+			SetTabLayoutType(TLT_FIX);
+		}
+	}
+	else
+	{
+		SetTabLayoutType(TLT_SCALE);
+	}
+
+	UIFrame::OnSizeChanged();
+}
+//----------------------------------------------------------------------------
+void UITabFrame::OnDragBegin()
+{
+	if (mUICallback)
+	{
+		mUICallback(this, UICT_TABFRAME_DRAG_BEGIN);
+	}
+
+	if (mMemObject && mMemUICallback)
+	{
+		(mMemObject->*mMemUICallback)(this, UICT_TABFRAME_DRAG_BEGIN);
+	}
+
+	std::vector<Visitor *>::iterator it = mVisitors.begin();
+	for (; it != mVisitors.end(); it++)
+	{
+		(*it)->Visit(this, (int)UICT_TABFRAME_DRAG_BEGIN);
+	}
+}
+//----------------------------------------------------------------------------
+void UITabFrame::PreUIPick(const UIInputData &inputData, UICanvas *canvas)
+{
+	if (mIsWidget)
+	{
+		canvas->_AddPickWidget(this);
+
+		Rectf rect = GetWorldRect();
+		bool isPosInSizeRange = rect.IsInsize(inputData.WorldPos.X(),
+			inputData.WorldPos.Z());
+
+		if (isPosInSizeRange)
+			canvas->_AddInRangePickWidget(this);
+	}
+
+	for (int i = 0; i < GetNumChildren(); i++)
+	{
+		UIFrame *childFrame = DynamicCast<UIFrame>(GetChild(i));
+		if (childFrame)
+		{
+			if (childFrame == mFrame_Content)
+			{
+				if (mActiveTabFrame)
+					mActiveTabFrame->PreUIPick(inputData, canvas);
+			}
+			else
+			{
+				childFrame->PreUIPick(inputData, canvas);
+			}
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void UITabFrame::OnUIPicked(const UIInputData &inputData)
+{
+	if (UIPT_MOVED == inputData.PickType)
+	{
+		if (!mIsDragingTab && !mPressingTabName.empty())
+		{
+			mIsDragingTab = true;
+			OnDragBegin();
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void UITabFrame::OnUINotPicked(const UIInputData &inputData)
+{
+	PX2_UNUSED(inputData);
+}
+//----------------------------------------------------------------------------
+void UITabFrame::_TabButCallback(UIFrame *frame, UICallType type)
+{
+	const std::string &name = frame->GetName();
+	UIButton *but = DynamicCast<UIButton>(frame);
+	if (but)
+	{
+		if (UICT_PRESSED == type)
+		{
+			SetActiveTab(name);
+
+			mIsDragingTab = false;
+			mPressingTabName = name;
+		}
+		else if (UICT_RELEASED == type)
+		{
+			mIsDragingTab = false;
+			mPressingTabName.clear();
+		}
+		else if (UICT_RELEASED_NOTPICK == type)
+		{
+			mIsDragingTab = false;
+			mPressingTabName.clear();
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void UITabFrame::AddTab(const std::string &name, const std::string &title, 
+	UIFrame *tabContentFrame)
 {
 	if (!tabContentFrame) return;
 
@@ -88,6 +214,7 @@ void UITabFrame::AddTab(const std::string &name, UIFrame *tabContentFrame)
 	if (it == mTabContentFrames.end())
 	{
 		tabContentFrame->Show(false);
+		tabContentFrame->SetActivate(false);
 
 		mTabContentFrames[name] = tabContentFrame;
 		mFrame_Content->AttachChild(tabContentFrame);
@@ -97,32 +224,37 @@ void UITabFrame::AddTab(const std::string &name, UIFrame *tabContentFrame)
 		mTabButs.push_back(tabBut);
 		tabBut->LocalTransform.SetTranslateY(-5.0f);
 		tabBut->SetName(name);
-		tabBut->SetMemUICallback(this, (UIFrame::MemUICallback)(&UITabFrame::TabCallback));
+		tabBut->SetMemUICallback(this, (UIFrame::MemUICallback)(&UITabFrame::_TabButCallback));
 
-		UIText *text = tabBut->CreateAddText();
-		text->SetText(name);
-		text->SetFontScale(0.6f);
+		UIFText *text = tabBut->CreateAddText();
+		text->GetText()->SetText(title);
+		text->GetText()->SetFontScale(0.8f);
 
 		UIPicBox *picBoxNormal = tabBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL);
-		picBoxNormal->SetTexture("Data/engine/white.png");
 		if (mIsSkinAui)
-			picBoxNormal->SetColor(PX2_UISM.Color_AuiButTab_Normal);
-		else
-			picBoxNormal->SetColor(PX2_UISM.Color_ButTab_Normal);
+		{
+			tabBut->SetStateColor(UIButtonBase::BS_NORMAL, PX2_UISM.Color_AuiButTab_Normal);
+			tabBut->SetStateColor(UIButtonBase::BS_HOVERED, PX2_UISM.Color_AuiButTab_Horvered);
+			tabBut->SetStateColor(UIButtonBase::BS_PRESSED, PX2_UISM.Color_AuiButTab_Pressed);
+			tabBut->SetActivateColor(PX2_UISM.Color_AuiButTab_Active);
 
-		UIPicBox *picBoxHovered = tabBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED);
-		picBoxHovered->SetTexture("Data/engine/white.png");
-		if (mIsSkinAui)
-			picBoxHovered->SetColor(PX2_UISM.Color_AuiButTab_Horvered);
+			tabBut->GetText()->SetColor(Float3::WHITE);
+			tabBut->GetText()->SetColorSelfCtrled(true);
+			tabBut->GetText()->SetFontColor(PX2_UISM.Color_ContentFont);
+			tabBut->GetText()->SetDrawStyle(FD_SHADOW);
+			tabBut->GetText()->SetBorderShadowAlpha(1.0f);
+		}
 		else
-			picBoxHovered->SetColor(PX2_UISM.Color_ButTab_Horvered);
+		{
+			tabBut->SetStateColor(UIButtonBase::BS_NORMAL, PX2_UISM.Color_ButTab_Normal);
+			tabBut->SetStateColor(UIButtonBase::BS_HOVERED, PX2_UISM.Color_ButTab_Horvered);
+			tabBut->SetStateColor(UIButtonBase::BS_PRESSED, PX2_UISM.Color_ButTab_Pressed);
+			tabBut->SetActivateColor(PX2_UISM.Color_ButTab_Active);
 
-		UIPicBox *picBoxPressed = tabBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED);
-		picBoxPressed->SetTexture("Data/engine/white.png");
-		if (mIsSkinAui)
-			picBoxPressed->SetColor(PX2_UISM.Color_AuiButTab_Pressed);
-		else
-			picBoxPressed->SetColor(PX2_UISM.Color_ButTab_Pressed);
+			tabBut->GetText()->SetColor(Float3::WHITE);
+			tabBut->GetText()->SetColorSelfCtrled(true);
+			tabBut->GetText()->SetFontColor(Float3::WHITE*0.7f);
+		}
 
 		UIAuiManager::GetSingleton().AddTabContentFrame(tabBut, tabContentFrame);
 
@@ -154,6 +286,8 @@ void UITabFrame::RemoveTab(const std::string &name)
 	std::map<std::string, UIFramePtr>::iterator it = mTabContentFrames.find(name);
 	if (it != mTabContentFrames.end())
 	{
+		it->second->Show(true);
+		it->second->SetActivate(true);
 		mFrame_Content->DetachChild(it->second);
 		mTabContentFrames.erase(it);
 	}
@@ -164,6 +298,7 @@ void UITabFrame::RemoveTab(const std::string &name)
 	{
 		if ((*it1)->GetName() == name)
 		{
+			mFrame_TitleBar->DetachChild(*it1);
 			it1 = mTabButs.erase(it1);
 		}
 		else
@@ -172,7 +307,42 @@ void UITabFrame::RemoveTab(const std::string &name)
 		}
 	}
 
+	mActiveTabBut = 0;
+	mActiveTabFrame = 0;
 	mIsTabsNeedReCal = true;
+
+	if (mTabContentFrames.size() > 0)
+	{
+		std::map<std::string, UIFramePtr>::iterator it = mTabContentFrames.begin();
+		std::string nextName = it->first;
+		SetActiveTab(nextName);
+	}
+}
+//----------------------------------------------------------------------------
+void UITabFrame::RemoveAllTabs()
+{
+	// cot
+	std::map<std::string, UIFramePtr>::iterator it = mTabContentFrames.begin();
+	for (; it != mTabContentFrames.end(); it++)
+	{
+		mFrame_Content->DetachChild(it->second);
+	}
+	mTabContentFrames.clear();
+
+	// tab but
+	std::vector<UIButtonPtr>::iterator it1 = mTabButs.begin();
+	for (; it1 != mTabButs.end(); it1++)
+	{
+		mFrame_TitleBar->DetachChild(*it1);
+	}
+	mTabButs.clear();
+
+	mIsTabsNeedReCal = true;
+}
+//----------------------------------------------------------------------------
+int UITabFrame::GetNumTabs()
+{
+	return (int)mTabButs.size();
 }
 //----------------------------------------------------------------------------
 UIButton *UITabFrame::GetTabButton(const std::string &name)
@@ -186,66 +356,104 @@ UIButton *UITabFrame::GetTabButton(const std::string &name)
 	return 0;
 }
 //----------------------------------------------------------------------------
+UIFrame *UITabFrame::GetTitleBarFrame()
+{
+	return mFrame_TitleBar;
+}
+//----------------------------------------------------------------------------
 void UITabFrame::SetActiveTab(const std::string &name)
 {
-	// tabFrame
-	if (mActiveTabFrame)
-		mActiveTabFrame->Show(false);
-
-	UIFrame *tabFrame = GetTab(name);
-	if (tabFrame)
-	{
-		mActiveTabFrame = tabFrame;
-	}
-
-	if (mActiveTabFrame)
-		mActiveTabFrame->Show(true);
-
-	// Button
-	UIButton *but = GetTabButton(name);
-	if (!but)
-		return;
-
 	if (IsSkinAui())
 	{
-		PX2_UIAUIM.SetActiveTableFrame(but, mActiveTabFrame);
+		PX2_UIAUIM.SetActiveTableFrame(name);
 	}
 	else
-	{	
-		if (mActiveTabBut)
+	{
+		_SetActiveTab(name);
+	}
+}
+//----------------------------------------------------------------------------
+void UITabFrame::_SetActiveTab(const std::string &name)
+{
+	// new
+	UIButton *actBut = GetTabButton(name);
+	UIFrame *actTabFrame = GetTab(name);
+
+	// set others activate false
+	for (int i = 0; i < (int)mTabButs.size(); i++)
+	{
+		UIButton *but = mTabButs[i];
+		if (but && but != actBut)
 		{
-			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetColor(
-				PX2_UISM.Color_ButTab_Normal);
-
-			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED)->SetColor(
-				PX2_UISM.Color_ButTab_Horvered);
-
-			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetColor(
-				PX2_UISM.Color_ButTab_Pressed);
-		}
-
-		mActiveTabBut = but;
-
-		if (mActiveTabBut)
-		{
-			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetColor(
-				PX2_UISM.Color_ButTab_Active);
-
-			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED)->SetColor(
-				PX2_UISM.Color_ButTab_Active);
-
-			mActiveTabBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetColor(
-				PX2_UISM.Color_ButTab_Active);
+			but->SetActivate(false);
 		}
 	}
+	std::map<std::string, UIFramePtr>::iterator it = mTabContentFrames.begin();
+	for (; it != mTabContentFrames.end(); it++)
+	{
+		UIFrame *tabFrame = it->second;
+		if (tabFrame && tabFrame != actTabFrame)
+		{
+			tabFrame->SetActivate(false);
+			tabFrame->Show(false);
+		}
+	}
+
+	// set new
+	mActiveTabBut = actBut;
+	if (mActiveTabBut)
+	{
+		mActiveTabBut->SetActivate(true);
+	}
+
+	mActiveTabFrame = actTabFrame;
+	if (mActiveTabFrame)
+	{
+		mActiveTabFrame->SetActivate(true);
+		mActiveTabFrame->Show(true);
+	}
+
+	OnSetActive();
+}
+//----------------------------------------------------------------------------
+void UITabFrame::OnSetActive()
+{
+	if (mUICallback)
+	{
+		mUICallback(this, UICT_TABFRAME_SETACTIVE);
+	}
+
+	if (mMemObject && mMemUICallback)
+	{
+		(mMemObject->*mMemUICallback)(this, UICT_TABFRAME_SETACTIVE);
+	}
+
+	std::vector<Visitor *>::iterator it = mVisitors.begin();
+	for (; it != mVisitors.end(); it++)
+	{
+		(*it)->Visit(this, (int)UICT_TABFRAME_SETACTIVE);
+	}
+}
+//----------------------------------------------------------------------------
+std::string UITabFrame::GetActiveTab() const
+{
+	if (mActiveTabBut)
+	{
+		return mActiveTabBut->GetName();
+	}
+
+	return "";
 }
 //----------------------------------------------------------------------------
 void UITabFrame::UpdateWorldData(double applicationTime, double elapsedTime)
 {
-	if (mIsTabsNeedReCal)
-		_CalTabs();
-
 	UIFrame::UpdateWorldData(applicationTime, elapsedTime);
+
+	if (mIsTabsNeedReCal)
+	{
+		_CalTabs();
+		mFrame_TitleBar->Update(Time::GetTimeInSeconds());
+	}
 }
 //----------------------------------------------------------------------------
 void UITabFrame::_CalTabs()
@@ -255,32 +463,53 @@ void UITabFrame::_CalTabs()
 		mFrame_TitleBar->SetAnchorHor(Float2(0.0f, 1.0f));
 		mFrame_TitleBar->SetAnchorVer(Float2(1.0f, 1.0f));
 		mFrame_TitleBar->SetPivot(0.5f, 1.0f);
-		mFrame_TitleBar->SetSize(0.0f, mTabHeight);
+		mFrame_TitleBar->SetSize(0.0f, mTabBarHeight);
 
 		mFrame_Content->SetAnchorHor(0.0f, 1.0f);
 		mFrame_Content->SetAnchorVer(0.0f, 1.0f);
-		mFrame_Content->SetAnchorParamVer(0.0f, mTabHeight);
+		mFrame_Content->SetAnchorParamVer(0.0f, -mTabBarHeight);
 	}
 	else if (LPT_BOTTOM == mLayoutPosType)
 	{
 		mFrame_TitleBar->SetAnchorHor(Float2(0.0f, 1.0f));
 		mFrame_TitleBar->SetAnchorVer(Float2(0.0f, 0.0f));
 		mFrame_TitleBar->SetPivot(0.5f, 0.0f);
-		mFrame_TitleBar->SetSize(0.0f, mTabHeight);
+		mFrame_TitleBar->SetSize(0.0f, mTabBarHeight);
 
 		mFrame_Content->SetAnchorHor(0.0f, 1.0f);
 		mFrame_Content->SetAnchorVer(0.0f, 1.0f);
-		mFrame_Content->SetAnchorParamVer(mTabHeight, 0.0f);
+		mFrame_Content->SetAnchorParamVer(mTabBarHeight, 0.0f);
 	}
 
-	for (int i = 0; i < (int)mTabButs.size(); i++)
+	if (TLT_FIX == mTabLayoutType)
 	{
-		UIFrame *tabTitle = mTabButs[i];
-		tabTitle->SetSize(mTabWidth, mTabHeight);
-		tabTitle->SetAnchorHor(0.0f, 0.0f);
-		tabTitle->SetAnchorParamHor(
-			mTabWidth*0.5f + mTabWidth*i + (i*1.0f), 0.0f);
-		tabTitle->SetAnchorVer(0.0f, 1.0f);
+		for (int i = 0; i < (int)mTabButs.size(); i++)
+		{
+			UIFrame *tabBut = mTabButs[i];
+			tabBut->SetSize(mTabWidth, mTabHeight);
+			tabBut->SetAnchorHor(0.0f, 0.0f);
+			tabBut->SetAnchorParamHor(
+				mTabWidth*0.5f + mTabWidth*i + (i*1.0f), 0.0f);
+			tabBut->SetAnchorVer(0.0f, 0.0f);
+			tabBut->SetAnchorParamVer(mTabHeight / 2.0f, 0.0f);
+		}
+	}
+	else
+	{
+		float tabWidth = mSize.Width / (float)GetNumTabs() - 1.0f;
+
+		for (int i = 0; i < (int)mTabButs.size(); i++)
+		{
+			UIFrame *tabBut = mTabButs[i];
+			tabBut->SetSize(tabWidth, mTabHeight);
+
+			tabBut->SetAnchorHor(0.0f, 0.0f);
+			tabBut->SetAnchorParamHor(
+				tabWidth*0.5f + tabWidth*i + (i*1.0f), 0.0f);
+			
+			tabBut->SetAnchorVer(0.0f, 0.0f);
+			tabBut->SetAnchorParamVer(mTabHeight / 2.0f, 0.0f);
+		}
 	}
 
 	mIsTabsNeedReCal = false;
@@ -298,9 +527,14 @@ void UITabFrame::SetAuiBlockFrame(UIAuiBlockFrame *auiBlockFrame)
 UITabFrame::UITabFrame(LoadConstructor value) :
 UIFrame(value),
 mLayoutPosType(LPT_TOP),
+mTabBarHeight(20.0f),
+mTabWidth(100.0f),
+mTabHeight(20.0f),
 mAuiBlockFrame(0),
+mTabLayoutType(TLT_FIX),
 mIsTabsNeedReCal(true),
-mIsSkinAui(false)
+mIsSkinAui(true),
+mIsDragingTab(false)
 {
 }
 //----------------------------------------------------------------------------

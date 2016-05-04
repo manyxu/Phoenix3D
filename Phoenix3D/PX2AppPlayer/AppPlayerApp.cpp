@@ -33,16 +33,22 @@ bool AppPlayerApp::Initlize()
 	{
 		std::string projectName = PX2_ENGINELOOP.GetProjectName();
 
+		if (!mCmdProjectName.empty())
+			projectName = mCmdProjectName;
+
 		if (!projectName.empty())
 		{
 			std::string projectPath = "Data/" + projectName + "/" + projectName
 				+ ".px2proj";
 
 			// Load Project
-			_LoadProject(projectPath);
+			if (PX2_ENGINELOOP.LoadProject(projectPath))
+			{
+				PX2_ENGINELOOP.Play(EngineLoop::PT_PLAY);
+			}
 
 			Project *proj = Project::GetSingletonPtr();
-			if (proj) SetTitle(proj->GetName());
+			if (proj) SetTitle(projectName);
 		}
 
 		return true;

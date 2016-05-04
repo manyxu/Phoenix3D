@@ -31,7 +31,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(SoundableController);
-	typedef Pointer0<SoundableController> SoundableControllerPtr;
+	typedef PointerRef<SoundableController> SoundableControllerPtr;
 #include "PX2SoundableController.inl"
 
 }

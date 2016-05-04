@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(LightAttenuationConstant);
-	typedef Pointer0<LightAttenuationConstant> LightAttenuationConstantPtr;
+	typedef PointerRef<LightAttenuationConstant> LightAttenuationConstantPtr;
 
 }
 

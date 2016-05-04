@@ -5,18 +5,18 @@
 
 #include "PX2EditPre.hpp"
 #include "PX2Singleton_NeedNew.hpp"
-#include "PX2EditMap.hpp"
 #include "PX2EditDefine.hpp"
 #include "PX2GeoObjFactory.hpp"
 #include "PX2EditParams.hpp"
 #include "PX2SelectResData.hpp"
 #include "PX2EditTimeLineEdit.hpp"
 #include "PX2TerrainEdit.hpp"
+#include "PX2EditEventHandler.hpp"
+#include "PX2APoint.hpp"
 
 namespace PX2
 {
 
-	class EditMap;
 	class EditParams;
 	class EU_Manager;
 
@@ -66,20 +66,17 @@ namespace PX2
 			EM_NONE,
 			EM_SELECT,
 			EM_TRANSLATE,
-			EM_ROLATE,
+			EM_ROTATE,
 			EM_SCALE,
 			EM_MAX_MODE
 		};
 		void SetEditMode(EditMode mode);
 		EditMode GetEditMode() const;
 
-		EditMap *GetEditMap();
-
 	protected:
 		EditType mEditType;
 		EditAxisMode mEditAxisMode;
 		EditMode mEditMode;
-		EditMap *mEditMap;
 
 	public:
 		GeoObjFactory *GetGOF();
@@ -123,7 +120,7 @@ namespace PX2
 		// Pick
 	public:
 		void SetPickPos(const APoint &pos);
-		const APoint &GetPickPos() const;
+		APoint GetPickPos() const;
 
 	protected:
 		APoint mPickPos;
@@ -134,6 +131,8 @@ namespace PX2
 
 		// select res
 	public:
+		void SetSelectResDir(const std::string &path);
+		const std::string &GetSelectResDir() const;
 		void SetSelectPath_ChildFilenames(const std::vector<std::string> &filenamess);
 		void SetSelectPath_ChildPaths(const std::vector<std::string> &paths);
 		const std::vector<std::string> &GetSelectPath_ChildFilenames() const;
@@ -146,6 +145,7 @@ namespace PX2
 		std::vector<std::string> mSelectPath_ChildFilenames;
 		std::vector<std::string> mSelectPath_ChildPaths;
 
+		std::string mSelectResDir;
 		SelectResData mSelectResData;
 
 		// select res find
@@ -166,6 +166,7 @@ namespace PX2
 		void SetCopyObject(Object *obj);
 		Object *GetCopyObject();
 		void PasteCopyedObject();
+		void CloneSelectedObject();
 
 	protected:
 		PX2::ObjectPtr mCopyObject;
@@ -207,6 +208,22 @@ namespace PX2
 
 	protected:
 		EU_Manager *mEU_Man;
+
+		// Event
+	public:
+		EditEventHandlerPtr mEditEventHandler;
+
+		// BluePrint
+	public:
+		void CreateBPPackage();
+		void CreateBPFile();
+		void CreateBPModule(const std::string &className, const std::string &funName);
+		void CreateBPEvent(const std::string &eventName);
+		void CreateBPOption(const std::string &optionName);
+		void CreateBPOperator(const std::string &operatorName);
+		void CreateBPParam(const std::string &paramName);
+		void CompileBP();
+		void DisconnectParam();
 	};
 
 #include "PX2Edit.inl"

@@ -15,33 +15,33 @@ UIAuiFrame::UIAuiFrame()
 
 	// left
 	SpLeft = new0 UISplitterFrame(false);
+	SpLeft->SetUpdatePriority(10);
 	AttachChild(SpLeft);
 	SpLeft->SetName("SpLeft");
-	SpLeft->LocalTransform.SetTranslateY(0.0f);
 	SpLeft->SetAnchorHor(Float2(0.0f, 0.0f));
 	SpLeft->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpLeft->SetAnchorVer(Float2(0.0f, 1.0f));
-	SpLeft->SetAnchorParamVer(Float2(spliterSize, spliterSize));
+	SpLeft->SetAnchorParamVer(Float2(spliterSize, -spliterSize));
 	SpLeft->SetPivot(0.0f, 0.5f);
 	SpLeft->SetDragable(false);
 
 	// right
 	SpRight = new0 UISplitterFrame(false);
+	SpRight->SetUpdatePriority(10);
 	AttachChild(SpRight);
 	SpRight->SetName("SpRight");
-	SpRight->LocalTransform.SetTranslateY(0.0f);
 	SpRight->SetAnchorHor(Float2(1.0f, 1.0f));
 	SpRight->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpRight->SetAnchorVer(Float2(0.0f, 1.0f));
-	SpRight->SetAnchorParamVer(Float2(spliterSize, spliterSize));
+	SpRight->SetAnchorParamVer(Float2(spliterSize, -spliterSize));
 	SpRight->SetPivot(1.0f, 0.5f);
 	SpRight->SetDragable(false);
 
 	// bottom
 	SpBottom = new0 UISplitterFrame(true);
+	SpBottom->SetUpdatePriority(10);
 	AttachChild(SpBottom);
 	SpBottom->SetName("SpBottom");
-	SpBottom->LocalTransform.SetTranslateY(0.0f);
 	SpBottom->SetAnchorHor(Float2(0.0f, 1.0f));
 	SpBottom->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpBottom->SetAnchorVer(Float2(0.0f, 0.0f));
@@ -51,9 +51,9 @@ UIAuiFrame::UIAuiFrame()
 
 	// top
 	SpTop = new0 UISplitterFrame(true);
+	SpTop->SetUpdatePriority(10);
 	AttachChild(SpTop);
 	SpTop->SetName("SpTop");
-	SpTop->LocalTransform.SetTranslateY(0.0f);
 	SpTop->SetAnchorHor(Float2(0.0f, 1.0f));
 	SpTop->SetAnchorParamHor(Float2(0.0f, 0.0f));
 	SpTop->SetAnchorVer(Float2(1.0f, 1.0f));
@@ -61,17 +61,8 @@ UIAuiFrame::UIAuiFrame()
 	SpTop->SetPivot(0.5f, 1.0f);
 	SpTop->SetDragable(false);
 
-	SpLeft->SetLinkFrame0(SpBottom);
-	SpLeft->SetLinkFrame1(SpTop);
-	SpRight->SetLinkFrame0(SpBottom);
-	SpRight->SetLinkFrame1(SpTop);
-	SpBottom->SetLinkFrame0(SpLeft);
-	SpBottom->SetLinkFrame1(SpRight);
-	SpTop->SetLinkFrame0(SpLeft);
-	SpTop->SetLinkFrame1(SpRight);
-
 	// default
-	AuiBlockDefault = new0 UIAuiBlockFrame(UILPT_CENTER);
+	AuiBlockDefault = new0 UIAuiBlockFrame(UILPT_LEFT);
 	AttachChild(AuiBlockDefault);
 	AuiBlockDefault->SetSideFrameHor0(SpBottom);
 	AuiBlockDefault->SetSideFrameHor1(SpTop);

@@ -1025,8 +1025,7 @@ PX2::Node *GeoObjFactory::CreateBound()
 		Float4(0.0f, 0.0f, 1.0f, alpha), true);
 }
 //----------------------------------------------------------------------------
-void GeoObjFactory::UpdateCtrlColor(PX2::Renderer *renderer,
-	PX2::Movable *mov, Float4 color)
+void GeoObjFactory::UpdateCtrlColor(Movable *mov, Float4 color)
 {
 	PX2::Node *node = DynamicCast<Node>(mov);
 
@@ -1048,14 +1047,13 @@ void GeoObjFactory::UpdateCtrlColor(PX2::Renderer *renderer,
 				vba.Color<Float4>(0, i) = color;
 			}
 
-			renderer->Update(vBuffer);
+			Renderer::UpdateAll(vBuffer);
 		}
 
 	}
 }
 //----------------------------------------------------------------------------
-void GeoObjFactory::UpdateCtrlColor1(PX2::Renderer *renderer,
-	PX2::Movable *mov, PX2::Float4 color)
+void GeoObjFactory::UpdateCtrlColor1(Movable *mov, Float4 color)
 {
 	PX2::Node *node = DynamicCast<Node>(mov);
 
@@ -1077,7 +1075,7 @@ void GeoObjFactory::UpdateCtrlColor1(PX2::Renderer *renderer,
 				vba.Color<Float4>(0, i) = color;
 			}
 
-			renderer->Update(vBuffer);
+			Renderer::UpdateAll(vBuffer);
 		}
 
 	}

@@ -5,16 +5,15 @@
 
 #include "PX2N_Pre.hpp"
 #include "PX2EventHandler.hpp"
+#include "PX2RenderWindow.hpp"
 
 namespace NA
 {
 
 	class RenderView : public wxWindow, public PX2::EventHandler
 	{
-		DECLARE_DYNAMIC_CLASS(RenderView)
-
 	public:
-		RenderView(int renderViewID, wxWindow *parent);
+		RenderView(PX2::RenderWindow *renderWindow, wxWindow *parent);
 		virtual ~RenderView();
 
 		void OnTimer(wxTimerEvent& event);
@@ -34,6 +33,7 @@ namespace NA
 		void OnMotion(wxMouseEvent& e);
 		void OnKeyDown(wxKeyEvent& e);
 		void OnKeyUp(wxKeyEvent& e);
+		void OnChar(wxKeyEvent& e);
 
 		void OnMenuItem(wxCommandEvent &e);
 
@@ -44,22 +44,20 @@ namespace NA
 
 		RenderView();
 
-	public_internal:
-		void _CloseEidtRenderView(const std::string &name);
-		void _NewEditRenderView(const std::string &name);
-
 	protected:
 		bool mIsInited;
 
-		int mRenderViewID;
+		PX2::RenderWindow *mRenderWindow;
 
 		int mTimerID;
 		wxTimer mTimer;
 		wxSize mSize;
 
-		wxMenu *mEditMenu;
 		bool mIsRightDown;
 		bool mIsRightDownOnMotion;
+
+	protected:
+		void OnCommondItem(wxCommandEvent &e);
 	};
 
 }

@@ -2,12 +2,14 @@
 
 #include "PX2EngineLoop.hpp"
 #include "PX2Assert.hpp"
-#include "PX2LuaManager.hpp"
 #include "PX2RendererInput.hpp"
 #include "PX2LocalDateTime.hpp"
 #include "PX2PluginManager.hpp"
 #include "PX2ToLua.hpp"
+#include "PX2ToAngelScript.hpp"
 #include "PX2NetInitTerm.hpp"
+#include "PX2LuaContext.hpp"
+#include "PX2ASContext.hpp"
 using namespace PX2;
 
 extern "C"
@@ -18,6 +20,69 @@ extern "C"
 }
 #include "tolua++.h"
 
+#include <angelscript.h>
+
+//----------------------------------------------------------------------------
+static void *GetEngineLoop()
+{
+	return EngineLoop::GetSingletonPtr();
+}
+static void *GetLanguageManager()
+{
+	return LanguageManager::GetSingletonPtr();
+}
+static void *GetLogger()
+{
+	return Logger::GetSingletonPtr();
+}
+static void *GetResourceManager()
+{
+	return ResourceManager::GetSingletonPtr();
+}
+static void *GetScriptManager()
+{
+	return ScriptManager::GetSingletonPtr();
+}
+static void *GetLuaContext()
+{
+	return PX2_SC_LUA;
+}
+static void *GetASContext()
+{
+	return PX2_SC_AS;
+}
+static void *GetSelectionManager()
+{
+	return SelectionManager::GetSingletonPtr();
+}
+static void *GetSelectM_D()
+{
+	return PX2_SELECTM_D;
+}
+static void *GetSelectM_E()
+{
+	return PX2_SELECTM_E;
+}
+static void *GetCreater()
+{
+	return Creater::GetSingletonPtr();
+}
+static void *GetURDoManager()
+{
+	return URDoManager::GetSingletonPtr();
+}
+static void *GetEdit()
+{
+	return Edit::GetSingletonPtr();
+}
+static void *GetBPManager()
+{
+	return BPManager::GetSingletonPtr();
+}
+static void *sGetProject()
+{
+	return Project::GetSingletonPtr();
+}
 //----------------------------------------------------------------------------
 bool EngineLoop::Initlize()
 {
@@ -69,23 +134,21 @@ bool EngineLoop::Initlize()
 	mLanguageMan = new0 LanguageManager();
 	mResMan = new0 ResourceManager();
 
-	//PX2_LM.Add("Data/engine/engineLanguage.csv");
-
 	mEventWorld = new0 EventWorld();
 
-	mScriptMan = new0 LuaManager();
+	mScriptMan = new0 ScriptManager();
 
 	mRoot = new0 GraphicsRoot();
 	mRoot->Initlize();
 
 	mFontMan = new0 FontManager();
-	PX2_UNUSED(mFontMan);
+	mFontMan->Initlize();
 
 	mADMan = new0 AddDeleteManager();
 	PX2_UNUSED(mADMan);
 
-	mSelection = new0 Selection();
-	PX2_UNUSED(mSelection);
+	mSelectionMan = new0 SelectionManager();
+	PX2_UNUSED(mSelectionMan);
 
 	mCreater = new0 Creater();
 	PX2_UNUSED(mCreater);
@@ -93,8 +156,13 @@ bool EngineLoop::Initlize()
 	mURDoMan = new0 URDoManager();
 	PX2_UNUSED(mURDoMan);
 
+	mFunObjectManager = new0 FunObjectManager();
+	mFunObjectManager->Initlize();
+
 	mBPMan = new0 BPManager();
-	PX2_UNUSED(mBPMan);
+
+	mBPEdit = new0 BPEdit();
+	mBPEdit->Reset();
 
 	mAccoutManager = new0 AccoutManager();
 
@@ -107,37 +175,105 @@ bool EngineLoop::Initlize()
 	mEdit = new0 Edit();
 	mEdit->Initlize();
 
-	mSimuES_EventHandler = new0 SimuES_EventHandler();
+	mSimuES_EventHandler = new0 General_EventHandler();
 	PX2_EW.ComeIn(mSimuES_EventHandler);
 
-	LuaManager *luaMan = (LuaManager*)mScriptMan;
-	tolua_PX2_open(luaMan->GetLuaState());
+	LuaContext *luaContext = (LuaContext*)PX2_SC_LUA;
+	ASContext *asContext = (ASContext*)PX2_SC_AS;
 
-	mScriptMan->SetUserTypePointer("PX2_ENGINELOOP", "EngineLoop", this);
-	mScriptMan->SetUserTypePointer("PX2_LOG", "Logger", Logger::GetSingletonPtr());
-	mScriptMan->SetUserTypePointer("PX2_LM", "LanguageManager", &(PX2_LM));
-	mScriptMan->SetUserTypePointer("PX2_RM", "ResourceManager", ResourceManager::GetSingletonPtr());
-	mScriptMan->SetUserTypePointer("PX2_SM", "ScriptManager", ScriptManager::GetSingletonPtr());
-	mScriptMan->SetUserTypePointer("PX2_SELECTION", "Selection", Selection::GetSingletonPtr());
-	mScriptMan->SetUserTypePointer("PX2_CREATER", "Creater", Creater::GetSingletonPtr());
-	mScriptMan->SetUserTypePointer("PX2_URM", "URDoManager", URDoManager::GetSingletonPtr());
-	mScriptMan->SetUserTypePointer("PX2_EDIT", "Edit", Edit::GetSingletonPtr());
+	// Lua
+	tolua_PX2_open(luaContext->GetLuaState());
+
+	PX2_SC_LUA->SetUserTypePointer("PX2_ENGINELOOP", "EngineLoop", this);
+	PX2_SC_LUA->SetUserTypePointer("PX2_LOGGER", "Logger", Logger::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_LM", "LanguageManager", &(PX2_LM));
+	PX2_SC_LUA->SetUserTypePointer("PX2_RM", "ResourceManager", ResourceManager::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_SM", "ScriptManager", ScriptManager::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_SC_LUA", "LuaContext", luaContext);
+	PX2_SC_LUA->SetUserTypePointer("PX2_SC_AS", "ASContext", asContext);
+	PX2_SC_LUA->SetUserTypePointer("PX2_SELECTM", "Selection", SelectionManager::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_SELECTM_D", "Selection", PX2_SELECTM_D);
+	PX2_SC_LUA->SetUserTypePointer("PX2_SELECTM_E", "Selection", PX2_SELECTM_E);
+	PX2_SC_LUA->SetUserTypePointer("PX2_CREATER", "Creater", Creater::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_URDOM", "URDoManager", URDoManager::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_EDIT", "Edit", Edit::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_BPM", "BPManager", BPManager::GetSingletonPtr());
+	// end Lua
+
+	// AS
+	toAS_PX2_open(asContext->GetASScriptEngine());
+
+	PX2_SC_AS->SetUserFunction("PX2_ENGINELOOP", "EngineLoop", GetEngineLoop);
+	PX2_SC_AS->SetUserFunction("PX2_LM", "LanguageManager", GetLanguageManager);
+	PX2_SC_AS->SetUserFunction("PX2_LOGGER", "Logger", GetLogger);
+	PX2_SC_AS->SetUserFunction("PX2_RM", "ResourceManager", GetResourceManager);
+	PX2_SC_AS->SetUserFunction("PX2_SM", "ScriptManager", GetScriptManager);
+	PX2_SC_AS->SetUserFunction("PX2_SC_LUA", "LuaContext", GetLuaContext);
+	PX2_SC_AS->SetUserFunction("PX2_SC_AS", "ASContext", GetASContext);
+	PX2_SC_AS->SetUserFunction("PX2_SELECTM", "Selection", GetSelectionManager);
+	PX2_SC_AS->SetUserFunction("PX2_SELECTM_D", "Selection", GetSelectM_D);
+	PX2_SC_AS->SetUserFunction("PX2_SELECTM_E", "Selection", GetSelectM_E);
+	PX2_SC_AS->SetUserFunction("PX2_CREATER", "Creater", GetCreater);
+	PX2_SC_AS->SetUserFunction("PX2_URDOM", "URDoManager", GetURDoManager);
+	PX2_SC_AS->SetUserFunction("PX2_EDIT", "Edit", GetEdit);
+	PX2_SC_AS->SetUserFunction("PX2_BPM", "BPManager", GetBPManager);
+	PX2_SC_AS->SetUserFunction("PX2_PROJ", "Project", sGetProject);
+
+	// end AS
+
+	mBPMan->Initlize();
 
 	LoadBoost("Data/boost.xml");
+
+	UICanvas *mainCanvas = new0 UICanvas();
+	mainCanvas->SetMain(true);
+	mainCanvas->EnableAnchorLayout(true);
+	mainCanvas->SetAnchorHor(0.0f, 1.0f);
+	mainCanvas->SetAnchorVer(0.0f, 1.0f);
+	mainCanvas->ComeInEventWorld();
+
+	RenderWindow *rw = PX2_GR.GetMainWindow();
+	rw->AddCanvas("Main", mainCanvas);
+
+	PX2_SC_LUA->CallFile("Data/engine/scripts/lua/engine_start.lua");
+	PX2_SC_AS->CallFileFunction("Data/engine/scripts/as/engine_start.as",
+		"void engine_start()");
 
 	return true;
 }
 //----------------------------------------------------------------------------
+void EngineLoop::InitlizeDefaultEngineCanvas()
+{
+	RenderWindow *rw = PX2_GR.GetMainWindow();
+	UICanvas *canvasMain = DynamicCast<UICanvas>(rw->GetCanvas("Main"));
+
+	EngineCanvas *engineCanvas = new0 EngineCanvas();
+	canvasMain->AttachChild(engineCanvas);
+}
+//----------------------------------------------------------------------------
 bool EngineLoop::InitlizeRenderer()
 {
-	Renderer *defRenderer = Renderer::CreateRenderer(mPt_Data, (int)mPt_Size.Width,
-		(int)mPt_Size.Height, 0, mRendererInput);
-
+	Renderer *defRenderer = CreateRenderer("DefaultRenderer", mPt_Data, 
+		(int)mPt_Size.Width, (int)mPt_Size.Height, 0);
 	Renderer::SetDefaultRenderer(defRenderer);
+	PX2_GR.GetMainWindow()->SetRenderer(defRenderer);
 
 	mScreenSize = mPt_Size;
 
 	return true;
+}
+//----------------------------------------------------------------------------
+Renderer *EngineLoop::CreateRenderer(const std::string &name, void *winHandle,
+	int width, int height, int numMultisamples)
+{
+	RendererInput *rendererInput = 0;
+	Renderer *renderer = Renderer::CreateRenderer(winHandle, width,
+		height, numMultisamples, rendererInput);
+
+	mRenderersMap[name] = renderer;
+	mRendererInputMap[name] = rendererInput;
+
+	return renderer;
 }
 //----------------------------------------------------------------------------
 void EngineLoop::WillEnterForeground(bool isFirstTime)
@@ -156,10 +292,9 @@ void EngineLoop::WillEnterForeground(bool isFirstTime)
 		PX2_FM.SetNeedUpdate();
 	}
 
-	//	PX2_SS.EnableMusic(mBeforeInBackgroundMusicEnable);
-	//	PX2_SS.EnableSounds(mBeforeInBackgroundSoundEnable);
-
-	//PX2_SOUNDM.PreLoad();
+	// PX2_SS.EnableMusic(mBeforeInBackgroundMusicEnable);
+	// PX2_SS.EnableSounds(mBeforeInBackgroundSoundEnable);
+	// PX2_SOUNDM.PreLoad();
 
 	mIsInBackground = false;
 }
@@ -168,9 +303,10 @@ void EngineLoop::DidEnterBackground()
 {
 	PX2_FM.Terminate();
 	PX2_AM.DeleteAllUsers();
-	PX2_ADM.Clear();;
+	PX2_ADM.Clear();
 	PX2_RM.Clear();
-	PX2_SM.Clear();
+	PX2_SELECTM.Clear();
+	PX2_URDOM.Clear();
 	PX2_TimerM.ClearTimers();
 	mVBIBManager->Clear();
 	mEdit->Reset();
@@ -189,11 +325,23 @@ bool EngineLoop::Terminate()
 {
 	mSimuES_EventHandler = 0;
 
-	Play(EngineLoop::PT_NONE);
-
 	PX2_EW.Shutdown(true);
 
-	PX2_PLUGINMAN.TerminateAllPlugins();
+	Play(EngineLoop::PT_NONE);
+	CloseProject();
+
+	PX2_PLUGINMAN.UnloadPlugins();
+
+	PX2_SC_LUA->CallFile("Data/engine/scripts/lua/engine_end.lua");
+	PX2_SC_AS->CallFileFunction("Data/engine/scripts/as/engine_end.as",
+		"void engine_end()");
+
+	mScriptMan->TernimateAll();
+	if (mScriptMan)
+	{
+		delete0(mScriptMan);
+		ScriptManager::Set(0);
+	}
 
 	Edit *edit = Edit::GetSingletonPtr();
 	if (edit)
@@ -222,11 +370,11 @@ bool EngineLoop::Terminate()
 		VBIBManager::Set(0);
 	}
 	
-	if (mSelection)
+	if (mSelectionMan)
 	{
-		mSelection->Clear();
-		delete0(mSelection);
-		Selection::Set(0);
+		mSelectionMan->Clear();
+		delete0(mSelectionMan);
+		SelectionManager::Set(0);
 	}
 
 	if (mURDoMan)
@@ -248,6 +396,19 @@ bool EngineLoop::Terminate()
 		AddDeleteManager::Set(0);
 	}
 
+	if (mFunObjectManager)
+	{
+		mFunObjectManager->Terminate();
+		delete0(mFunObjectManager);
+		FunObjectManager::Set(0);
+	}
+
+	if (mBPEdit)
+	{
+		delete0(mBPEdit);
+		BPEdit::Set(0);
+	}
+
 	if (mBPMan)
 	{
 		delete0(mBPMan);
@@ -260,27 +421,14 @@ bool EngineLoop::Terminate()
 		AccoutManager::Set(0);
 	}
 
-	Project::Destory();
-
-	if (mScriptMan)
-	{
-		delete0(mScriptMan);
-		ScriptManager::Set(0);
-	}
-
 	if (mFontMan)
 	{
 		delete0(mFontMan);
 		FontManager::Set(0);
 	}
 
-	if (mScriptMan)
-	{
-		delete0(mScriptMan);
-		ScriptManager::Set(0);
-	}
-
 	bool isInEditor = mRoot->IsInEditor();
+	PX2_UNUSED(isInEditor);
 	if (mRoot)
 	{
 		mRoot->Terminate();
@@ -325,20 +473,22 @@ bool EngineLoop::Terminate()
 		TimerManager::Set(0);
 	}
 
-	Renderer *defaultRenderer = Renderer::GetDefaultRenderer();
-	if (defaultRenderer)
+	std::map<std::string, Renderer*>::iterator it = mRenderersMap.begin();
+	for (; it != mRenderersMap.end(); it++)
 	{
-		delete0(defaultRenderer);
-		Renderer::SetDefaultRenderer(0);
+		Renderer *renderer = it->second;
+		delete0(renderer);
 	}
+	Renderer::SetDefaultRenderer(0);
+	mRenderersMap.clear();
 
-	if (mRendererInput)
+	std::map<std::string, RendererInput*>::iterator itInput = mRendererInputMap.begin();
+	for (; itInput != mRendererInputMap.end(); itInput++)
 	{
- 		mRendererInput->Terminate();
-
-		delete0(mRendererInput);
-		mRendererInput = 0;
+		RendererInput *rendererInput = itInput->second;
+		delete0(rendererInput);
 	}
+	mRendererInputMap.clear();
 
 	PX2_PLUGINMAN.UnloadPlugins();
 	if (mPluginMan)
@@ -355,6 +505,7 @@ bool EngineLoop::Terminate()
 
 	TerminateNetwork();
 
+	PX2_LOG_INFO("Engine Terminate done.");
 	Logger *logger = Logger::GetSingletonPtr();
 	if (logger)
 	{
@@ -410,7 +561,8 @@ std::string EngineLoop::GetPlayLogicModeStr() const
 	return "logic";
 }
 //----------------------------------------------------------------------------
-EngineLoop::PlayLogicMode EngineLoop::_StrToPlayLogicMode(const std::string &str)
+EngineLoop::PlayLogicMode EngineLoop::_StrToPlayLogicMode(
+	const std::string &str)
 {
 	if ("simple" == str)
 		EngineLoop::PLM_SIMPLE;
@@ -454,80 +606,11 @@ bool EngineLoop::WriteBoost()
 void EngineLoop::SetScreenSize(const Sizef &screenSize)
 {
 	mScreenSize = screenSize;
+	PX2_GR.GetMainWindow()->SetScreenSize(mScreenSize);
+	PX2_INPUTMAN.GetDefaultListener()->SetViewSize(mScreenSize);
 
 	Renderer *defaultRenderer = Renderer::GetDefaultRenderer();
 	if (defaultRenderer) defaultRenderer->ResizeWindow((int)mScreenSize.Width, 
 		(int)mScreenSize.Height);
-
-	Project *proj = Project::GetSingletonPtr();
-	if (!proj) return;
-
-	const Sizef &projSize = proj->GetSize();
-
-	if (IsDoAdjustScreenViewRect())
-	{
-		float screenWidthOverHeight = screenSize.Width / screenSize.Height;
-		float projWidthOverHeight = projSize.Width / projSize.Height;
-
-		if (screenWidthOverHeight >= projWidthOverHeight)
-		{
-			float left = (screenWidthOverHeight - projWidthOverHeight) / 2.0f * screenSize.Height;
-
-			mAdjustViewPort.Left = left;
-			mAdjustViewPort.Bottom = 0.0f;
-			mAdjustViewPort.Right = screenSize.Width - left;
-			mAdjustViewPort.Top = screenSize.Height;
-		}
-		else
-		{
-			float bot = (1.0f / screenWidthOverHeight - 1.0f / projWidthOverHeight) / 2.0f * screenSize.Width;
-
-			mAdjustViewPort.Left = 0.0f;
-			mAdjustViewPort.Bottom = bot;
-			mAdjustViewPort.Right = screenSize.Width;
-			mAdjustViewPort.Top = screenSize.Height - bot;
-		}
-	}
-	else
-	{
-		mAdjustViewPort = Rectf(0.0f, 0.0f, screenSize.Width, screenSize.Height);
-	}
-
-	PX2_GR.SetScreenSize(screenSize);
-	PX2_GR.SetViewRect(mAdjustViewPort);
-	proj->SetViewRect(mAdjustViewPort);
-}
-//----------------------------------------------------------------------------
-Rectf EngineLoop::GetViewPortAdjustFromProject(const Rectf &viewPort)
-{
-	Project *proj = Project::GetSingletonPtr();
-	if (!proj) return Rectf();
-
-	const Sizef &projSize = proj->GetSize();
-
-	Rectf rect;
-
-	float leftPercent = viewPort.Left / projSize.Width;
-	float bottomPercent = viewPort.Bottom / projSize.Height;
-	float widthPercent = viewPort.Width() / projSize.Width;
-	float heightPercent = viewPort.Height() / projSize.Height;
-
-	rect.Left = mAdjustViewPort.Left + leftPercent * mAdjustViewPort.Width();
-	rect.Bottom = mAdjustViewPort.Bottom + bottomPercent * mAdjustViewPort.Height();
-	rect.Right = Mathf::Floor(rect.Left + widthPercent * mAdjustViewPort.Width());
-	rect.Top = Mathf::Floor(rect.Bottom + heightPercent * mAdjustViewPort.Height());
-
-	return rect;
-}
-//----------------------------------------------------------------------------
-Rectf EngineLoop::GetViewPortAdjustFromProject(float left, float bottom,
-	float width, float height)
-{
-	Rectf rect;
-	rect.Left = left;
-	rect.Bottom = bottom;
-	rect.Right = left + width;
-	rect.Top = bottom + height;
-	return GetViewPortAdjustFromProject(rect);
 }
 //----------------------------------------------------------------------------

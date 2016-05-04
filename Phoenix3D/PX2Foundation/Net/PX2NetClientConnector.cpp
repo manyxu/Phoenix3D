@@ -265,6 +265,17 @@ int ClientConnector::_OnReservedMsg(const void *pbuffer, int buflen)
 	return 0;
 }
 //----------------------------------------------------------------------------
+int ClientConnector::SendMsgToServerBuffer(int msgid, const char *buf,
+	int size)
+{
+	BufferEvent *pevent = MsgToBufferEventBuffer(mSendQue, msgid, buf, size);
+	if (!pevent) return -1;
+
+	mSendQue->PostBufferEvent(pevent);
+
+	return 0;
+}
+//----------------------------------------------------------------------------
 int ClientConnector::Update(float elapsedSeconds)
 {
 	mConnStateTime += elapsedSeconds;

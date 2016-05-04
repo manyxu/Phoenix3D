@@ -42,7 +42,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(SwitchNode);
-	typedef Pointer0<SwitchNode> SwitchNodePtr;
+	typedef PointerRef<SwitchNode> SwitchNodePtr;
 #include "PX2SwitchNode.inl"
 
 }

@@ -38,24 +38,31 @@ void UIEditBoxInputStaticTextCallback(UIInputText *inputText,
 }
 //----------------------------------------------------------------------------
 UIEditBox::UIEditBox() :
-mFadePicBoxStartX(6.0f),
-mFixedWidth(-1.0f)
+mFadePicBoxSideWidth(6.0f),
+mFixedWidth(-1.0f),
+mIsAttachedIME(false)
 {
 	SetName("UIEditBox");
 
-	UIPicBoxPtr backPicBox = new0 UIPicBox("Data/engine/common.xml", "editbox_back");
-	backPicBox->SetName("EditBoxBack");
-	backPicBox->SetPicBoxType(UIPicBox::PBT_NINE);
-	backPicBox->SetPivot(0.0f, 0.0f);
-	backPicBox->SetTexCornerSize(4.0f, 4.0f);
-	backPicBox->LocalTransform.SetTranslate(APoint(0.0f, 2.0f, 0.0f));
-	SetBackPicBox(backPicBox);
+	mBackPicBox = new0 UIFPicBox();
+	AttachChild(mBackPicBox);
+	mBackPicBox->LocalTransform.SetTranslateY(-0.5f);
+	mBackPicBox->SetName("EditBoxBack");
+	mBackPicBox->GetUIPicBox()->SetTexture("Data/engine/white.png");
+	mBackPicBox->SetAnchorHor(0.0f, 1.0f);
+	mBackPicBox->SetAnchorVer(0.0f, 1.0f);
 
-	UIPicBoxPtr fadePicBox = new0 UIPicBox("Data/engine/white.png");
-	fadePicBox->SetColor(Float3::BLACK);
-	fadePicBox->LocalTransform.SetTranslate(APoint(mFadePicBoxStartX, -2.0f, 0.0f));
-	fadePicBox->SetPivot(0.5f, 0.5f);
-	fadePicBox->SetName("EditBoxFadeRect");
+	mFadePicBox = new0 UIFPicBox();
+	AttachChild(mFadePicBox);
+	mFadePicBox->GetUIPicBox()->SetColor(Float3::BLACK);
+	mFadePicBox->SetAnchorHor(0.0f, 0.0f);
+	mFadePicBox->SetAnchorVer(0.0f, 1.0f);
+	mFadePicBox->SetAnchorParamHor(mFadePicBoxSideWidth, 0.0f);
+	mFadePicBox->SetAnchorParamVer(2.0f, -2.0f);
+	mFadePicBox->SetSize(2.0f, 0.0f);
+	mFadePicBox->LocalTransform.SetTranslateY(-2.0f);
+	mFadePicBox->SetName("EditBoxFadeRect");
+
 	mFadeCtrl = new0 InterpCurveAlphaController();
 	mFadeCtrl->mValues.Reset();
 	mFadeCtrl->mValues.AddPoint(0.0f, 1.0f, 0.0f, 0.0f, ICM_CONSTANT);
@@ -63,9 +70,8 @@ mFixedWidth(-1.0f)
 	mFadeCtrl->Repeat = Controller::RT_WRAP;
 	mFadeCtrl->MaxTime = 1.0f;
 	mFadeCtrl->SetRelatively(false);
-	fadePicBox->AttachController(mFadeCtrl);
+	mFadePicBox->AttachController(mFadeCtrl);
 	mFadeCtrl->ResetPlay();
-	SetFadePicBox(fadePicBox);
 	mFadePicBox->Show(false);
 
 	mInputText = new0 UIInputText();
@@ -74,11 +80,18 @@ mFixedWidth(-1.0f)
 	mInputText->SetAligns(TEXTALIGN_LEFT | TEXTALIGN_VCENTER);
 	mInputText->SetFontWidth(20);
 	mInputText->SetFontHeight(20);
-	mInputText->LocalTransform.SetTranslate(APoint(8.0f, -4.0f, -1.0f));
+	mInputText->SetOffset(Float2(mFadePicBoxSideWidth, 0.0f));
 	AttachChild(mInputText);
+	mInputText->LocalTransform.SetTranslateY(-1.0f);
 	mInputText->SetCallback(UIEditBoxInputStaticTextCallback);
+	mInputText->SetColorSelfCtrled(true);
 
 	SetSize(150.0f, 30.0f);
+	SetPivot(0.5f, 0.5f);
+
+	SetWidget(true);
+
+	SetText("");
 }
 //----------------------------------------------------------------------------
 UIEditBox::~UIEditBox()
@@ -106,31 +119,6 @@ void UIEditBox::Enable(bool enable)
 	}
 }
 //----------------------------------------------------------------------------
-void UIEditBox::SetBackPicBox(UIPicBox *picBox)
-{
-	if (mBackPicBox)
-	{
-		DetachChild(mBackPicBox);
-	}
-
-	mBackPicBox = picBox;
-
-	AttachChild(mBackPicBox);
-}
-//----------------------------------------------------------------------------
-void UIEditBox::SetFadePicBox(UIPicBox *picBox)
-{
-	if (mFadePicBox)
-	{
-		DetachChild(mFadePicBox);
-	}
-
-	mFadePicBox = picBox;
-
-	if (mFadePicBox)
-		AttachChild(mFadePicBox);
-}
-//----------------------------------------------------------------------------
 const std::string &UIEditBox::GetText() const
 {
 	return mInputText->GetText();
@@ -141,42 +129,38 @@ const std::string &UIEditBox::GetRealText() const
 	return mInputText->GetRealText();
 }
 //----------------------------------------------------------------------------
+void UIEditBox::OnPvoitChanged()
+{
+	UIFrame::OnPvoitChanged();
+
+	if (mBackPicBox)
+		mBackPicBox->SetPivot(mPvoit);
+
+	if (mBackPicBox)
+		mBackPicBox->SetPivot(mPvoit);
+}
+//----------------------------------------------------------------------------
 void UIEditBox::OnSizeChanged()
 {
-	if (mBackPicBox)
-	{
-		mBackPicBox->SetSize(mSize);
-	}
+	UIFrame::OnSizeChanged();
 
-	if (mFadePicBox)
-	{
-		APoint pos = mFadePicBox->LocalTransform.GetTranslate();
-		pos.Z() = mSize.Height*0.5f;
-		mFadePicBox->LocalTransform.SetTranslate(pos);
-		mFadePicBox->SetSize(2.0f, mSize.Height*0.8f);
-	}
+	Rectf rect = GetLocalRect();
+	mInputText->SetRect(rect);
+}
+//----------------------------------------------------------------------------
+void UIEditBox::UpdateLeftBottomCornerOffset(Movable *parent)
+{
+	UIFrame::UpdateLeftBottomCornerOffset(parent);
 
-	if (mInputText)
-	{
-		std::string realText = mInputText->GetRealText();
-		mInputText->SetRect(Rectf(0.0f, 0.0f, mSize.Width, mSize.Height));
-		mInputText->SetText(realText);
-	}
+	Rectf rect = GetLocalRect();
+	mInputText->SetRect(rect);
 }
 //----------------------------------------------------------------------------
 void UIEditBox::SetText(const std::string &text)
 {
 	mInputText->SetRealText(text);
 
-	if (mFadePicBox)
-	{
-		float width = mInputText->GetTextWidth();
-		width += 1.0f;
-		const APoint &curPos = mFadePicBox->LocalTransform.GetTranslate();
-
-		mFadePicBox->LocalTransform.SetTranslate(APoint(mFadePicBoxStartX
-			+ width, curPos.Y(), curPos.Z()));
-	}
+	_AdjustFadePicBoxPos();
 }
 //----------------------------------------------------------------------------
 void UIEditBox::SetFixedWidth(float fixedWidth)
@@ -196,15 +180,7 @@ void UIEditBox::OnAttachWithIME()
 		mUICallback(this, UICT_EDITBOX_ATTACHWITHIME);
 	}
 
-	if (mFadePicBox)
-	{
-		float width = mInputText->GetTextWidth();
-		width += 1.0f;
-		const APoint &curPos = mFadePicBox->LocalTransform.GetTranslate();
-
-		mFadePicBox->LocalTransform.SetTranslate(APoint(mFadePicBoxStartX
-			+ width, curPos.Y(), curPos.Z()));
-	}
+	_AdjustFadePicBoxPos();
 }
 //----------------------------------------------------------------------------
 void UIEditBox::OnDetachWithIME()
@@ -222,15 +198,7 @@ void UIEditBox::OnTextChanged()
 		mUICallback(this, UICT_EDITBOX_TEXTCHANGED);
 	}
 
-	if (mFadePicBox)
-	{
-		float width = mInputText->GetTextWidth();
-		width += 1.0f;
-		const APoint &curPos = mFadePicBox->LocalTransform.GetTranslate();
-
-		mFadePicBox->LocalTransform.SetTranslate(APoint(mFadePicBoxStartX
-			+ width, curPos.Y(), curPos.Z()));
-	}
+	_AdjustFadePicBoxPos();
 }
 //----------------------------------------------------------------------------
 void UIEditBox::OnEnter()
@@ -241,29 +209,72 @@ void UIEditBox::OnEnter()
 	}
 }
 //----------------------------------------------------------------------------
-void UIEditBox::OnChildPicked(int info, Movable *child)
+void UIEditBox::OnUIPicked(const UIInputData &data)
 {
 	if (!IsEnable())
 		return;
 
-	PX2_UNUSED(child);
-
-	if (2 == info)
+	if (UIPT_PRESSED == data.PickType)
 	{
-		mFadePicBox->Culling = Movable::CULL_DYNAMIC;
-		mInputText->AttachWithIME();
+		AttachIME();
 	}
 }
 //----------------------------------------------------------------------------
-void UIEditBox::OnNotPicked(int pickInfo)
+void UIEditBox::OnUINotPicked(const UIInputData &data)
 {
-	if (!IsEnable())
-		return;
+	if (UIPT_PRESSED == data.PickType || UIPT_RELEASED == data.PickType)
+	{
+		DetachIME();
+	}
+}
+//----------------------------------------------------------------------------
+void UIEditBox::AttachIME()
+{
+	if (!mIsAttachedIME)
+	{
+		mFadePicBox->Culling = Movable::CULL_DYNAMIC;
+		mInputText->AttachWithIME();
 
-	if (2 == pickInfo)
+		mIsAttachedIME = true;
+	}
+}
+//----------------------------------------------------------------------------
+void UIEditBox::DetachIME()
+{
+	if (mIsAttachedIME)
 	{
 		mFadePicBox->Culling = Movable::CULL_ALWAYS;
 		mInputText->DetachWithIME();
+
+		mIsAttachedIME = false;
+	}
+}
+//----------------------------------------------------------------------------
+void UIEditBox::_AdjustFadePicBoxPos()
+{
+	if (mFadePicBox)
+	{
+		Rectf rect = GetLocalRect();
+
+		float textWidth = mInputText->GetTextWidth();
+		float fadePBPos = mFadePicBoxSideWidth + textWidth;
+		float rightMaxPos = rect.Width();
+		if (fadePBPos < rightMaxPos)
+		{
+			mInputText->SetAligns(TEXTALIGN_LEFT | TEXTALIGN_VCENTER);
+			mInputText->SetOffset(Float2(mFadePicBoxSideWidth, 0.0f));
+
+			fadePBPos += 1.0f;
+		}
+		else
+		{
+			mInputText->SetAligns(TEXTALIGN_RIGHT | TEXTALIGN_VCENTER);
+			mInputText->SetOffset(Float2(-2.0f, 0.0f));
+
+			fadePBPos = rightMaxPos -1.0f;
+		}
+
+		mFadePicBox->SetAnchorParamHor(fadePBPos, 0.0f);
 	}
 }
 //----------------------------------------------------------------------------
@@ -311,8 +322,9 @@ void UIEditBox::OnPropertyChanged(const PropertyObject &obj)
 //----------------------------------------------------------------------------
 UIEditBox::UIEditBox(LoadConstructor value) :
 UIFrame(value),
-mFadePicBoxStartX(6.0f),
-mFixedWidth(-1.0f)
+mFadePicBoxSideWidth(6.0f),
+mFixedWidth(-1.0f),
+mIsAttachedIME(false)
 {
 }
 //----------------------------------------------------------------------------

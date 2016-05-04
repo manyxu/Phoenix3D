@@ -14,12 +14,40 @@ namespace PX2
 		PX2_DECLARE_STREAM(EU_ResTree);
 
 	public:
-		EU_ResTree();
+		enum ResTreeType
+		{
+			RTT_DIR,
+			RTT_MAX_TYPE
+		};
+
+		EU_ResTree(ResTreeType rtt);
 		virtual ~EU_ResTree();
+
+		virtual UIItem *AddItem(UIItem *parentItem, const std::string &label,
+			const std::string &name = "", Object *obj = 0);
+		virtual void OnSelected(UIItem *item);
+
+		enum RefreshType
+		{
+			RT_DIR,
+			RT_DIR_FILES,
+			RT_DIR_ALL,
+			RT_DIR_ALL_NOCHILDREN,
+			RT_MAX_TYPE
+		};
+		void RefreshItems(UIItem *parent, RefreshType type, bool isExpand);
+
+		virtual void DoExecute(Event *event);
+
+	protected:
+		bool _IsAFile(const std::string &filename);
+
+		UIItemPtr mDataItem;
+		ResTreeType mResTreeType;
 	};
 
 	PX2_REGISTER_STREAM(EU_ResTree);
-	typedef Pointer0<EU_ResTree> EU_ResTreePtr;
+	typedef PointerRef<EU_ResTree> EU_ResTreePtr;
 
 }
 

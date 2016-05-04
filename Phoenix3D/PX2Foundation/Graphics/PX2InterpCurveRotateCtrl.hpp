@@ -27,7 +27,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(InterpCurveRotateController);
-	typedef Pointer0<InterpCurveRotateController> InterpCurveRotateControllerPtr;
+	typedef PointerRef<InterpCurveRotateController> InterpCurveRotateControllerPtr;
 
 }
 

@@ -6,7 +6,8 @@
 #include "PX2CorePre.hpp"
 #include "PX2BufferIO.hpp"
 #include "PX2InitTerm.hpp"
-#include "PX2SmartPointer.hpp"
+#include "PX2SmartPointerRef.hpp"
+#include "PX2Memory.hpp"
 
 namespace PX2
 {
@@ -49,7 +50,6 @@ public: \
 	static Object *New() \
 	{ \
 		classname *obj = new0 classname(); \
-		obj->RegistToScriptSystemAll(); \
 		return obj; \
 	} \
 	\
@@ -57,7 +57,6 @@ public: \
 	{ \
 		classname *obj = new0 classname(); \
 		obj->SetName(name); \
-		obj->RegistToScriptSystemAll(); \
 		return obj; \
 	}
 //----------------------------------------------------------------------------

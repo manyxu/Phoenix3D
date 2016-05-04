@@ -18,6 +18,7 @@ namespace PX2
 		Size ();
 		Size (const T &width, const T &height);
 		Size (const Size &size);
+		~Size ();
 
 		Size &operator-= (const Size &size);
 		Size &operator+= (const Size &size);

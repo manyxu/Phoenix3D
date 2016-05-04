@@ -37,7 +37,7 @@ namespace PX2
 #include "PX2UIScoreTextCtrl.inl"
 
 	PX2_REGISTER_STREAM(UIScoreStaticTextCtrl);
-	typedef Pointer0<UIScoreStaticTextCtrl> UIScoreStaticTextCtrlPtr;
+	typedef PointerRef<UIScoreStaticTextCtrl> UIScoreStaticTextCtrlPtr;
 
 }
 

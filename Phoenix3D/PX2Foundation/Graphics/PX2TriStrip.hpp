@@ -36,7 +36,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(TriStrip);
-	typedef Pointer0<TriStrip> TriStripPtr;
+	typedef PointerRef<TriStrip> TriStripPtr;
 
 }
 

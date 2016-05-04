@@ -16,12 +16,12 @@ EU_BPFrame::EU_BPFrame()
 {
 	mToolFrame = new0 UIFrame();
 	AttachChild(mToolFrame);
+	mToolFrame->LocalTransform.SetTranslateY(-2.0f);
 	mToolFrame->SetSize(0.0f, PX2_UISM.Size_ToolBar);
 	mToolFrame->SetAnchorHor(0.0f, 1.0f);
 	mToolFrame->SetAnchorVer(1.0f, 1.0f);
 	mToolFrame->SetPivot(0.5f, 1.0f);
 	UIPicBox *picBox = mToolFrame->CreateAddBackgroundPicBox();
-	picBox->SetTexture("Data/engine/white.png");
 	picBox->SetColor(PX2_UISM.Color_ToolBar);
 }
 //----------------------------------------------------------------------------
@@ -29,21 +29,17 @@ EU_BPFrame::~EU_BPFrame()
 {
 }
 //----------------------------------------------------------------------------
-void EU_BPFrame::CreateChildUICanvas()
+UICanvas *EU_BPFrame::CreateChildUICanvas()
 {
 	std::string strUICanvas = "BP" + GetName();
 
-	mBPUICanvas = new0 UICanvas(20);
-	mBPUICanvas->SetPriority(-1.0);
-	PX2_GR.AddCanvas(strUICanvas.c_str(), mBPUICanvas);
+	mBPUICanvas = new0 EU_CanvasBP();
 	AttachChild(mBPUICanvas);
-	mBPUICanvas->SetRenderer(Renderer::GetDefaultRenderer());
 	mBPUICanvas->SetBeforeDrawClear(true, true, true);
-	mBPUICanvas->SetClearColor(Float4(Mathf::UnitRandom(), 
-		Mathf::UnitRandom(), Mathf::UnitRandom(), 1.0f));
+	mBPUICanvas->SetClearColor(Float4::MakeColor(239, 228, 176, 255));
 	mBPUICanvas->SetAnchorHor(0.0f, 1.0f);
 	mBPUICanvas->SetAnchorVer(0.0f, 1.0f);
-	mBPUICanvas->SetAnchorParamVer(0.0f, PX2_UISM.Size_ToolBar);
+	mBPUICanvas->SetAnchorParamVer(0.0f, -PX2_UISM.Size_ToolBar);
 	mBPUICanvas->CreateAndAddCanvasController();
 
 	UIFrame *frame = new0 UIFrame();
@@ -51,12 +47,7 @@ void EU_BPFrame::CreateChildUICanvas()
 	frame->SetAnchorHor(0.0f, 1.0f);
 	frame->SetAnchorVer(0.0f, 1.0f);
 
-	UIPicBox *backPicBox = new0 UIPicBox();
-	frame->AttachChild(backPicBox);
-	backPicBox->SetSize(2048.0f, 2048.0f);
-	backPicBox->SetTexture("DataNIRVANA2/images/common/backgroundgrid.png");
-	backPicBox->SetColor(Float3::MakeColor(200.0f, 200.0f, 200.0f));
-	backPicBox->SetUVRepeat(Float2(40.0f, 40.0f));
+	return mBPUICanvas;
 }
 //----------------------------------------------------------------------------
 

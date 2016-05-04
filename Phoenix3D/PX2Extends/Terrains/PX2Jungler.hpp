@@ -69,7 +69,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Jungler);
-	typedef Pointer0<Jungler> JunglerPtr;
+	typedef PointerRef<Jungler> JunglerPtr;
 #include "PX2Jungler.inl"
 
 }

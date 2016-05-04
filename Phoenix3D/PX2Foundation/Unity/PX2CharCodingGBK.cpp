@@ -140,6 +140,14 @@ bool CharCodingGBK::IsPunctuation(const unsigned char *character)
 	return false;
 }
 //----------------------------------------------------------------------------
+bool CharCodingGBK::IsPoint(const unsigned char *character)
+{
+	if (character[0] == 0 && character[1] == '.')
+		return true;
+
+	return false;
+}
+//----------------------------------------------------------------------------
 unsigned short CharCodingGBK::ToUnicode(const unsigned char *character)
 {
 	wchar_t wChar;

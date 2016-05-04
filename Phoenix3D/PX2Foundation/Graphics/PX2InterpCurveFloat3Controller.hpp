@@ -44,7 +44,7 @@ namespace PX2
 #include "PX2InterpCurveFloat3Controller.inl"
 
 	PX2_REGISTER_STREAM(InterpCurveFloat3Controller);
-	typedef Pointer0<InterpCurveFloat3Controller> InterpCurveFloat3ControllerPtr;
+	typedef PointerRef<InterpCurveFloat3Controller> InterpCurveFloat3ControllerPtr;
 
 }
 

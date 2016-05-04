@@ -1,4 +1,4 @@
-// PX2UIFText.hpp
+	// PX2UIFText.hpp
 
 #ifndef PX2UIFTEXT_HPP
 #define PX2UIFTEXT_HPP
@@ -22,6 +22,7 @@ namespace PX2
 		UIText *GetText();
 
 		virtual void OnSizeChanged();
+		virtual void UpdateLeftBottomCornerOffset(Movable *parent);
 
 	protected:
 		UITextPtr mText;
@@ -29,7 +30,7 @@ namespace PX2
 
 #include "PX2UIFText.inl"
 	PX2_REGISTER_STREAM(UIFText);
-	typedef Pointer0<UIFText> UIFTextPtr;
+	typedef PointerRef<UIFText> UIFTextPtr;
 
 }
 

@@ -4,6 +4,7 @@
 #define PX2OBJECTCOPYPOOL_HPP
 
 #include "PX2Object.hpp"
+#include "PX2ReferencesObject.hpp"
 
 namespace PX2
 {
@@ -15,19 +16,19 @@ namespace PX2
 		~ObjectCopyPool();
 
 		// 预先分配多少个对象， 都从prototype拷贝出来
-		void PreAlloc (Object *prototype, int num, bool useagain=true);
+		void PreAlloc (Object *prototype, int num);
 		ObjectPtr Alloc (Object *prototype);
 		void Free (Object *prototype, Object *obj);
 
 	private:
-		struct ObjectPool
+		class ObjectPool : public RefObject
 		{
-			bool UseAgain;
+		public:
 			ObjectPtr ProtoType;
-			std::vector<ObjectPtr> FreeObjs;
-			std::vector<ObjectPtr> UsedObjs;
+			std::vector<ObjectPtr > FreeObjs;
+			std::vector<ObjectPtr > UsedObjs;
 		};
-		typedef Pointer0<ObjectPool> ObjectPoolPtr;
+		typedef PointerRef<ObjectPool> ObjectPoolPtr;
 
 		std::map<void*, ObjectPoolPtr> mPools;
 	};

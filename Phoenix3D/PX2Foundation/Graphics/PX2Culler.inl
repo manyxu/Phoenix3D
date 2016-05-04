@@ -31,11 +31,6 @@ inline VisibleSet& Culler::GetVisibleSet()
 	return mVisibleSet;
 }
 //----------------------------------------------------------------------------
-inline std::vector<Canvas*> &Culler::GetVisibleCanvas()
-{
-	return mVisibleCanvas;
-}
-//----------------------------------------------------------------------------
 inline int Culler::GetPlaneQuantity () const
 {
 	return mPlaneQuantity;
@@ -76,10 +71,5 @@ inline void Culler::PopPlane ()
 inline Movable *Culler::GetCurCullingScene()
 {
 	return mCurCullingScene;
-}
-//----------------------------------------------------------------------------
-inline bool Culler::IsInternalCanvas() const
-{
-	return mIsInternalCanvas;
 }
 //----------------------------------------------------------------------------

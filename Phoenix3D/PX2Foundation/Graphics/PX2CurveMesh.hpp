@@ -98,7 +98,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(CurveMesh);
-	typedef Pointer0<CurveMesh> CurveMeshPtr;
+	typedef PointerRef<CurveMesh> CurveMeshPtr;
 
 }
 

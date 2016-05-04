@@ -11,31 +11,6 @@ inline bool GraphicsRoot::IsInEditor () const
 	return mIsInEditor;
 }
 //----------------------------------------------------------------------------
-inline void GraphicsRoot::SetViewRect (const Rectf &rect)
-{
-	mViewRect = rect;
-}
-//----------------------------------------------------------------------------
-inline const Rectf &GraphicsRoot::GetViewRect () const
-{
-	return mViewRect;
-}
-//----------------------------------------------------------------------------
-inline const Sizef &GraphicsRoot::GetScreenSize () const
-{
-	return mScreenSize;
-}
-//----------------------------------------------------------------------------
-inline void GraphicsRoot::SetProjectSize(const Sizef &size)
-{
-	mProjectSize = size;
-}
-//----------------------------------------------------------------------------
-inline const Sizef &GraphicsRoot::GetProjectSize() const
-{
-	return mProjectSize;
-}
-//----------------------------------------------------------------------------
 inline void GraphicsRoot::SetCurEnvirParam(EnvirParam *param)
 {
 	mCurEnvirParam = param;
@@ -46,14 +21,9 @@ inline EnvirParam *GraphicsRoot::GetCurEnvirParam()
 	return mCurEnvirParam;
 }
 //----------------------------------------------------------------------------
-inline Canvas *GraphicsRoot::GetCanvasScene()
+inline RenderWindow *GraphicsRoot::GetMainWindow()
 {
-	return mCanvasScene;
-}
-//----------------------------------------------------------------------------
-inline Canvas *GraphicsRoot::GetCanvasUI()
-{
-	return mCanvasUI;
+	return mMainRenderWindow;
 }
 //----------------------------------------------------------------------------
 inline void GraphicsRoot::SetPlayType(PlayType type)

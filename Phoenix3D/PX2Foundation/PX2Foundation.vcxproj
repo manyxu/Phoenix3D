@@ -57,8 +57,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;WIN32_LEAN_AND_MEAN;FT2_BUILD_LIBRARY;PX2_FOUNDATION_DLL_EXPORT;PX2_USE_DX9;PX2_USE_FMOD;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;./Core;./Core/RapidXML;./Mathematics;./Graphics;./Graphics/Renderers/Dx9Renderer;./Unity;./Unity/ZLib;./Unity/ZLib/minzip;./Unity/Lua;./Unity/ToLua;./Unity/SoundFMod;./Unity/ImageLibs/PNG;./Unity/FreeType;./Unity/FreeType/include;./Unity/FreeType/include/freetype;./Unity/FreeType/include/config;./Unity/FreeType/include/internal;./Unity/FreeType/src/base;./Unity/FreeType/src/autofit;./Unity/FreeType/src/cff;./Unity/FreeType/src/pshinter;./Unity/FreeType/src/psnames;./Unity/FreeType/src/truetype;./Unity/FreeType/src/smooth;./Unity/FreeType/src/sfnt;./Unity/FreeType/src/raster;./Unity/CURL/config;./Unity/CURL/config/win32;./Unity/CURL/src;./Net;./Net/google/vsprojects;../ThirdPartiesLibs/Microsoft DirectX SDK June 2010/Include;../ThirdPartiesLibs/FMOD/FMOD Studio API Windows/api/lowlevel/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FT2_BUILD_LIBRARY;PX2_FOUNDATION_DLL_EXPORT;PX2_USE_DX9;PX2_USE_FMOD;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;./Core;./Core/RapidXML;./Mathematics;./Graphics;./Graphics/Renderers/Dx9Renderer;./Unity;./Unity/ZLib;./Unity/ZLib/minzip;./Unity/Lua;./Unity/ToLua;./Unity/AngelScript;./Unity/SoundFMod;./Unity/ImageLibs/PNG;./Unity/FreeType;./Unity/FreeType/include;./Unity/FreeType/include/freetype;./Unity/FreeType/include/config;./Unity/FreeType/include/internal;./Unity/FreeType/src/base;./Unity/FreeType/src/autofit;./Unity/FreeType/src/cff;./Unity/FreeType/src/pshinter;./Unity/FreeType/src/psnames;./Unity/FreeType/src/truetype;./Unity/FreeType/src/smooth;./Unity/FreeType/src/sfnt;./Unity/FreeType/src/raster;./Unity/CURL/config;./Unity/CURL/config/win32;./Unity/CURL/src;./Net;./Net/google/vsprojects;../ThirdPartiesLibs/Microsoft DirectX SDK June 2010/Include;../ThirdPartiesLibs/FMOD/FMOD Studio API Windows/api/lowlevel/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -93,8 +93,8 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;WIN32_LEAN_AND_MEAN;FT2_BUILD_LIBRARY;PX2_FOUNDATION_DLL_EXPORT;PX2_USE_DX9;PX2_USE_FMOD;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;./Core;./Core/RapidXML;./Mathematics;./Graphics;./Graphics/Renderers/Dx9Renderer;./Unity;./Unity/ZLib;./Unity/ZLib/minzip;./Unity/Lua;./Unity/ToLua;./Unity/SoundFMod;./Unity/ImageLibs/PNG;./Unity/FreeType;./Unity/FreeType/include;./Unity/FreeType/include/freetype;./Unity/FreeType/include/config;./Unity/FreeType/include/internal;./Unity/FreeType/src/base;./Unity/FreeType/src/autofit;./Unity/FreeType/src/cff;./Unity/FreeType/src/pshinter;./Unity/FreeType/src/psnames;./Unity/FreeType/src/truetype;./Unity/FreeType/src/smooth;./Unity/FreeType/src/sfnt;./Unity/FreeType/src/raster;./Unity/CURL/config;./Unity/CURL/config/win32;./Unity/CURL/src;./Net;./Net/google/vsprojects;../ThirdPartiesLibs/Microsoft DirectX SDK June 2010/Include;../ThirdPartiesLibs/FMOD/FMOD Studio API Windows/api/lowlevel/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FT2_BUILD_LIBRARY;PX2_FOUNDATION_DLL_EXPORT;PX2_USE_DX9;PX2_USE_FMOD;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;./Core;./Core/RapidXML;./Mathematics;./Graphics;./Graphics/Renderers/Dx9Renderer;./Unity;./Unity/ZLib;./Unity/ZLib/minzip;./Unity/Lua;./Unity/ToLua;./Unity/AngelScript;./Unity/SoundFMod;./Unity/ImageLibs/PNG;./Unity/FreeType;./Unity/FreeType/include;./Unity/FreeType/include/freetype;./Unity/FreeType/include/config;./Unity/FreeType/include/internal;./Unity/FreeType/src/base;./Unity/FreeType/src/autofit;./Unity/FreeType/src/cff;./Unity/FreeType/src/pshinter;./Unity/FreeType/src/psnames;./Unity/FreeType/src/truetype;./Unity/FreeType/src/smooth;./Unity/FreeType/src/sfnt;./Unity/FreeType/src/raster;./Unity/CURL/config;./Unity/CURL/config/win32;./Unity/CURL/src;./Net;./Net/google/vsprojects;../ThirdPartiesLibs/Microsoft DirectX SDK June 2010/Include;../ThirdPartiesLibs/FMOD/FMOD Studio API Windows/api/lowlevel/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,6 +145,8 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Core\PX2CorePre.hpp" />
     <ClInclude Include="Core\PX2Crypt.hpp" />
     <ClInclude Include="Core\PX2DateTime.hpp" />
+    <ClInclude Include="Core\PX2Dir.hpp" />
+    <ClInclude Include="Core\PX2DirData.hpp" />
     <ClInclude Include="Core\PX2DoubleChainList.hpp" />
     <ClInclude Include="Core\PX2Endian.hpp" />
     <ClInclude Include="Core\PX2Environment.hpp" />
@@ -162,12 +164,15 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Core\PX2Eventt.hpp" />
     <ClInclude Include="Core\PX2EventWorld.hpp" />
     <ClInclude Include="Core\PX2Exception.hpp" />
+    <ClInclude Include="Core\PX2FileFn.hpp" />
     <ClInclude Include="Core\PX2FileIO.hpp" />
+    <ClInclude Include="Core\PX2Filename.hpp" />
     <ClInclude Include="Core\PX2FixMemoryObject.hpp" />
     <ClInclude Include="Core\PX2FixMemoryPool.hpp" />
     <ClInclude Include="Core\PX2Format.hpp" />
     <ClInclude Include="Core\PX2FString.hpp" />
     <ClInclude Include="Core\PX2Function.hpp" />
+    <ClInclude Include="Core\PX2FunObject.hpp" />
     <ClInclude Include="Core\PX2GeneralAlloctor.hpp" />
     <ClInclude Include="Core\PX2GeneralAlloctorObject.hpp" />
     <ClInclude Include="Core\PX2HashTable.hpp" />
@@ -195,15 +200,16 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Core\PX2PriorityQueue.hpp" />
     <ClInclude Include="Core\PX2Property.hpp" />
     <ClInclude Include="Core\PX2PropModify.hpp" />
+    <ClInclude Include="Core\PX2ReferencesObject.hpp" />
     <ClInclude Include="Core\PX2Rtti.hpp" />
     <ClInclude Include="Core\PX2Runnable.hpp" />
     <ClInclude Include="Core\PX2ScopedCS.hpp" />
     <ClInclude Include="Core\PX2ScopedCSUN.hpp" />
-    <ClInclude Include="Core\PX2ScriptManager.hpp" />
     <ClInclude Include="Core\PX2Semaphore.hpp" />
     <ClInclude Include="Core\PX2Singleton.hpp" />
     <ClInclude Include="Core\PX2Singleton_NeedNew.hpp" />
     <ClInclude Include="Core\PX2SmartPointer.hpp" />
+    <ClInclude Include="Core\PX2SmartPointerRef.hpp" />
     <ClInclude Include="Core\PX2Smoother.hpp" />
     <ClInclude Include="Core\PX2Stream.hpp" />
     <ClInclude Include="Core\PX2StringHelp.hpp" />
@@ -243,6 +249,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Graphics\PX2CameraNode.hpp" />
     <ClInclude Include="Graphics\PX2CameraWorldDVectorConstant.hpp" />
     <ClInclude Include="Graphics\PX2CameraWorldPositionConstant.hpp" />
+    <ClInclude Include="Graphics\PX2CanvasRenderBind.hpp" />
     <ClInclude Include="Graphics\PX2ClodMesh.hpp" />
     <ClInclude Include="Graphics\PX2CollapseRecord.hpp" />
     <ClInclude Include="Graphics\PX2CollapseRecordArray.hpp" />
@@ -266,6 +273,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Graphics\PX2FogParamConstant.hpp" />
     <ClInclude Include="Graphics\PX2GlobalMaterial.hpp" />
     <ClInclude Include="Graphics\PX2Graphics.hpp" />
+    <ClInclude Include="Graphics\PX2GraphicsEventData.hpp" />
     <ClInclude Include="Graphics\PX2GraphicsEventType.hpp" />
     <ClInclude Include="Graphics\PX2GraphicsPre.hpp" />
     <ClInclude Include="Graphics\PX2GraphicsRoot.hpp" />
@@ -274,6 +282,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Graphics\PX2ImageProcessing2.hpp" />
     <ClInclude Include="Graphics\PX2IndexBuffer.hpp" />
     <ClInclude Include="Graphics\PX2InterpCurveAlphaCtrl.hpp" />
+    <ClInclude Include="Graphics\PX2InterpCurveBrightnessCtrl.hpp" />
     <ClInclude Include="Graphics\PX2InterpCurveColorCtrl.hpp" />
     <ClInclude Include="Graphics\PX2InterpCurveController.hpp" />
     <ClInclude Include="Graphics\PX2InterpCurveFloat3Controller.hpp" />
@@ -367,6 +376,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Graphics\PX2VisibleSet.hpp" />
     <ClInclude Include="Graphics\PX2VMatrixConstant.hpp" />
     <ClInclude Include="Graphics\PX2VWMatrixConstant.hpp" />
+    <ClInclude Include="Graphics\PX2RenderWindow.hpp" />
     <ClInclude Include="Graphics\PX2WireProperty.hpp" />
     <ClInclude Include="Graphics\PX2WMatrixConstant.hpp" />
     <ClInclude Include="Graphics\Renderers\Dx9Renderer\PX2Dx9IndexBuffer.hpp" />
@@ -533,6 +543,43 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Net\PX2SocketImpl.hpp" />
     <ClInclude Include="Net\PX2StreamSocket.hpp" />
     <ClInclude Include="Net\PX2StreamSocketImpl.hpp" />
+    <ClInclude Include="Unity\AngelScript\as_array.h" />
+    <ClInclude Include="Unity\AngelScript\as_atomic.h" />
+    <ClInclude Include="Unity\AngelScript\as_builder.h" />
+    <ClInclude Include="Unity\AngelScript\as_bytecode.h" />
+    <ClInclude Include="Unity\AngelScript\as_callfunc.h" />
+    <ClInclude Include="Unity\AngelScript\as_compiler.h" />
+    <ClInclude Include="Unity\AngelScript\as_config.h" />
+    <ClInclude Include="Unity\AngelScript\as_configgroup.h" />
+    <ClInclude Include="Unity\AngelScript\as_context.h" />
+    <ClInclude Include="Unity\AngelScript\as_criticalsection.h" />
+    <ClInclude Include="Unity\AngelScript\as_datatype.h" />
+    <ClInclude Include="Unity\AngelScript\as_debug.h" />
+    <ClInclude Include="Unity\AngelScript\as_gc.h" />
+    <ClInclude Include="Unity\AngelScript\as_generic.h" />
+    <ClInclude Include="Unity\AngelScript\as_map.h" />
+    <ClInclude Include="Unity\AngelScript\as_memory.h" />
+    <ClInclude Include="Unity\AngelScript\as_module.h" />
+    <ClInclude Include="Unity\AngelScript\as_namespace.h" />
+    <ClInclude Include="Unity\AngelScript\as_objecttype.h" />
+    <ClInclude Include="Unity\AngelScript\as_outputbuffer.h" />
+    <ClInclude Include="Unity\AngelScript\as_parser.h" />
+    <ClInclude Include="Unity\AngelScript\as_property.h" />
+    <ClInclude Include="Unity\AngelScript\as_restore.h" />
+    <ClInclude Include="Unity\AngelScript\as_scriptcode.h" />
+    <ClInclude Include="Unity\AngelScript\as_scriptengine.h" />
+    <ClInclude Include="Unity\AngelScript\as_scriptfunction.h" />
+    <ClInclude Include="Unity\AngelScript\as_scriptnode.h" />
+    <ClInclude Include="Unity\AngelScript\as_scriptobject.h" />
+    <ClInclude Include="Unity\AngelScript\as_string.h" />
+    <ClInclude Include="Unity\AngelScript\as_string_util.h" />
+    <ClInclude Include="Unity\AngelScript\as_symboltable.h" />
+    <ClInclude Include="Unity\AngelScript\as_texts.h" />
+    <ClInclude Include="Unity\AngelScript\as_thread.h" />
+    <ClInclude Include="Unity\AngelScript\as_tokendef.h" />
+    <ClInclude Include="Unity\AngelScript\as_tokenizer.h" />
+    <ClInclude Include="Unity\AngelScript\as_typeinfo.h" />
+    <ClInclude Include="Unity\AngelScript\as_variablescope.h" />
     <ClInclude Include="Unity\FreeType\include\ft2build.h" />
     <ClInclude Include="Unity\ImageLibs\PNG\png.h" />
     <ClInclude Include="Unity\ImageLibs\PNG\pngconf.h" />
@@ -564,7 +611,14 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Unity\Lua\lundump.h" />
     <ClInclude Include="Unity\Lua\lvm.h" />
     <ClInclude Include="Unity\Lua\lzio.h" />
+    <ClInclude Include="Unity\ModelImporter\Obj\MtlLoader.h" />
+    <ClInclude Include="Unity\ModelImporter\Obj\ObjLoader.h" />
     <ClInclude Include="Unity\PX2AddDeleteManager.hpp" />
+    <ClInclude Include="Unity\PX2ASContext.hpp" />
+    <ClInclude Include="Unity\PX2ASClassType.hpp" />
+    <ClInclude Include="Unity\PX2ASScriptbuilder.hpp" />
+    <ClInclude Include="Unity\PX2ASScriptController.hpp" />
+    <ClInclude Include="Unity\PX2ASScriptstdstring.hpp" />
     <ClInclude Include="Unity\PX2CharCoding.hpp" />
     <ClInclude Include="Unity\PX2CharCodingGBK.hpp" />
     <ClInclude Include="Unity\PX2CharCodingUTF8.hpp" />
@@ -588,11 +642,14 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Unity\PX2InputManager.hpp" />
     <ClInclude Include="Unity\PX2InputPushTransformController.hpp" />
     <ClInclude Include="Unity\PX2LanguageManager.hpp" />
-    <ClInclude Include="Unity\PX2LuaManager.hpp" />
+    <ClInclude Include="Unity\PX2LuaContext.hpp" />
     <ClInclude Include="Unity\PX2Plugin.hpp" />
     <ClInclude Include="Unity\PX2PluginManager.hpp" />
     <ClInclude Include="Unity\PX2ResourceManager.hpp" />
     <ClInclude Include="Unity\PX2ResourceUpdate.hpp" />
+    <ClInclude Include="Unity\PX2ScriptContext.hpp" />
+    <ClInclude Include="Unity\PX2ScriptController.hpp" />
+    <ClInclude Include="Unity\PX2ScriptManager.hpp" />
     <ClInclude Include="Unity\PX2Serial.hpp" />
     <ClInclude Include="Unity\PX2Sound.hpp" />
     <ClInclude Include="Unity\PX2SoundSystem.hpp" />
@@ -622,6 +679,8 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Core\PX2BufferIO.cpp" />
     <ClCompile Include="Core\PX2Crypt.cpp" />
     <ClCompile Include="Core\PX2DateTime.cpp" />
+    <ClCompile Include="Core\PX2Dir.cpp" />
+    <ClCompile Include="Core\PX2DirData.cpp" />
     <ClCompile Include="Core\PX2Endian.cpp" />
     <ClCompile Include="Core\PX2Environment.cpp" />
     <ClCompile Include="Core\PX2Event.cpp" />
@@ -634,9 +693,12 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Core\PX2Eventt.cpp" />
     <ClCompile Include="Core\PX2EventWorld.cpp" />
     <ClCompile Include="Core\PX2Exception.cpp" />
+    <ClCompile Include="Core\PX2FileFn.cpp" />
     <ClCompile Include="Core\PX2FileIO.cpp" />
+    <ClCompile Include="Core\PX2Filename.cpp" />
     <ClCompile Include="Core\PX2Format.cpp" />
     <ClCompile Include="Core\PX2FString.cpp" />
+    <ClCompile Include="Core\PX2FunObject.cpp" />
     <ClCompile Include="Core\PX2GeneralAlloctor.cpp" />
     <ClCompile Include="Core\PX2HashTable.cpp" />
     <ClCompile Include="Core\PX2InitTerm.cpp" />
@@ -657,15 +719,14 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Core\PX2Object_Property.cpp" />
     <ClCompile Include="Core\PX2Object_Resource.cpp" />
     <ClCompile Include="Core\PX2Object_Rtti.cpp" />
-    <ClCompile Include="Core\PX2Object_Script.cpp" />
     <ClCompile Include="Core\PX2Object_Stream.cpp" />
     <ClCompile Include="Core\PX2Object_UserData.cpp" />
     <ClCompile Include="Core\PX2OutStream.cpp" />
+    <ClCompile Include="Core\PX2ReferencesObject.cpp" />
     <ClCompile Include="Core\PX2Rtti.cpp" />
     <ClCompile Include="Core\PX2Runnable.cpp" />
     <ClCompile Include="Core\PX2ScopedCS.cpp" />
     <ClCompile Include="Core\PX2ScopedCSUN.cpp" />
-    <ClCompile Include="Core\PX2ScriptManager.cpp" />
     <ClCompile Include="Core\PX2Semaphore.cpp" />
     <ClCompile Include="Core\PX2SmartPointer.cpp" />
     <ClCompile Include="Core\PX2Stream.cpp" />
@@ -699,6 +760,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Graphics\PX2CameraNode.cpp" />
     <ClCompile Include="Graphics\PX2CameraWorldDVectorConstant.cpp" />
     <ClCompile Include="Graphics\PX2CameraWorldPositionConstant.cpp" />
+    <ClCompile Include="Graphics\PX2CanvasRenderBind.cpp" />
     <ClCompile Include="Graphics\PX2ClodMesh.cpp" />
     <ClCompile Include="Graphics\PX2CollapseRecord.cpp" />
     <ClCompile Include="Graphics\PX2CollapseRecordArray.cpp" />
@@ -721,6 +783,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Graphics\PX2FogColorHeightConstant.cpp" />
     <ClCompile Include="Graphics\PX2FogParamConstant.cpp" />
     <ClCompile Include="Graphics\PX2GlobalMaterial.cpp" />
+    <ClCompile Include="Graphics\PX2GraphicsEventData.cpp" />
     <ClCompile Include="Graphics\PX2GraphicsEventType.cpp" />
     <ClCompile Include="Graphics\PX2GraphicsRoot.cpp" />
     <ClCompile Include="Graphics\PX2HalfFloat.cpp" />
@@ -728,6 +791,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Graphics\PX2ImageProcessing2.cpp" />
     <ClCompile Include="Graphics\PX2IndexBuffer.cpp" />
     <ClCompile Include="Graphics\PX2InterpCurveAlphaCtrl.cpp" />
+    <ClCompile Include="Graphics\PX2InterpCurveBrightnessCtrl.cpp" />
     <ClCompile Include="Graphics\PX2InterpCurveColorCtrl.cpp" />
     <ClCompile Include="Graphics\PX2InterpCurveController.cpp" />
     <ClCompile Include="Graphics\PX2InterpCurveFloat3Controller.cpp" />
@@ -819,6 +883,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Graphics\PX2VisibleSet.cpp" />
     <ClCompile Include="Graphics\PX2VMatrixConstant.cpp" />
     <ClCompile Include="Graphics\PX2VWMatrixConstant.cpp" />
+    <ClCompile Include="Graphics\PX2RenderWindow.cpp" />
     <ClCompile Include="Graphics\PX2WireProperty.cpp" />
     <ClCompile Include="Graphics\PX2WMatrixConstant.cpp" />
     <ClCompile Include="Graphics\Renderers\Dx9Renderer\PX2Dx9IndexBuffer.cpp" />
@@ -949,6 +1014,44 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Net\PX2SocketImpl.cpp" />
     <ClCompile Include="Net\PX2StreamSocket.cpp" />
     <ClCompile Include="Net\PX2StreamSocketImpl.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_atomic.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_builder.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_bytecode.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc_arm.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc_mips.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc_ppc.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc_ppc_64.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc_sh4.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc_x64_gcc.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc_x64_mingw.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc_x64_msvc.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc_x86.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_callfunc_xenon.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_compiler.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_configgroup.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_context.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_datatype.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_gc.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_generic.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_globalproperty.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_memory.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_module.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_objecttype.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_outputbuffer.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_parser.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_restore.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_scriptcode.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_scriptengine.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_scriptfunction.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_scriptnode.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_scriptobject.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_string.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_string_util.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_thread.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_tokenizer.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_typeinfo.cpp" />
+    <ClCompile Include="Unity\AngelScript\as_variablescope.cpp" />
     <ClCompile Include="Unity\FreeType\src\autofit\autofit.c" />
     <ClCompile Include="Unity\FreeType\src\base\ftbase.c" />
     <ClCompile Include="Unity\FreeType\src\base\ftbbox.c" />
@@ -1014,7 +1117,16 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Unity\Lua\lvm.c" />
     <ClCompile Include="Unity\Lua\lzio.c" />
     <ClCompile Include="Unity\Lua\print.c" />
+    <ClCompile Include="Unity\ModelImporter\Obj\MtlLoader.cpp" />
+    <ClCompile Include="Unity\ModelImporter\Obj\MtlLoaderCodes.cpp" />
+    <ClCompile Include="Unity\ModelImporter\Obj\ObjLoader.cpp" />
+    <ClCompile Include="Unity\ModelImporter\Obj\ObjLoaderCodes.cpp" />
     <ClCompile Include="Unity\PX2AddDeleteManager.cpp" />
+    <ClCompile Include="Unity\PX2ASContext.cpp" />
+    <ClCompile Include="Unity\PX2ASClassType.cpp" />
+    <ClCompile Include="Unity\PX2ASScriptbuilder.cpp" />
+    <ClCompile Include="Unity\PX2ASScriptController.cpp" />
+    <ClCompile Include="Unity\PX2ASScriptstdstring.cpp" />
     <ClCompile Include="Unity\PX2CharCodingGBK.cpp" />
     <ClCompile Include="Unity\PX2CharCodingUTF8.cpp" />
     <ClCompile Include="Unity\PX2CSVParser.cpp" />
@@ -1035,10 +1147,13 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Unity\PX2InputManager.cpp" />
     <ClCompile Include="Unity\PX2InputPushTransformController.cpp" />
     <ClCompile Include="Unity\PX2LanguageManager.cpp" />
-    <ClCompile Include="Unity\PX2LuaManager.cpp" />
+    <ClCompile Include="Unity\PX2LuaContext.cpp" />
     <ClCompile Include="Unity\PX2PluginManager.cpp" />
     <ClCompile Include="Unity\PX2ResourceManager.cpp" />
     <ClCompile Include="Unity\PX2ResourceUpdate.cpp" />
+    <ClCompile Include="Unity\PX2ScriptContext.cpp" />
+    <ClCompile Include="Unity\PX2ScriptController.cpp" />
+    <ClCompile Include="Unity\PX2ScriptManager.cpp" />
     <ClCompile Include="Unity\PX2Serial.cpp" />
     <ClCompile Include="Unity\PX2Sound.cpp" />
     <ClCompile Include="Unity\PX2SoundSystem.cpp" />
@@ -1090,8 +1205,10 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="Core\PX2ObjectPool.inl" />
     <None Include="Core\PX2OutStream.inl" />
     <None Include="Core\PX2PriorityQueue.inl" />
+    <None Include="Core\PX2ReferencesObject.inl" />
     <None Include="Core\PX2Rtti.inl" />
     <None Include="Core\PX2SmartPointer.inl" />
+    <None Include="Core\PX2SmartPointerRef.inl" />
     <None Include="Core\PX2Stream.inl" />
     <None Include="Core\PX2StringTokenizer.inl" />
     <None Include="Core\PX2Table.inl" />
@@ -1164,6 +1281,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="Graphics\PX2VertexFormat.inl" />
     <None Include="Graphics\PX2VertexShader.inl" />
     <None Include="Graphics\PX2VisibleSet.inl" />
+    <None Include="Graphics\PX2RenderWindow.inl" />
     <None Include="Mathematics\PX2APoint.inl" />
     <None Include="Mathematics\PX2AVector.inl" />
     <None Include="Mathematics\PX2AxisAlignedBox3.inl" />
@@ -1203,14 +1321,21 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="Net\PX2ServerUser.inl" />
     <None Include="Net\PX2Socket.inl" />
     <None Include="Net\PX2SocketImpl.inl" />
+    <None Include="Unity\AngelScript\as_callfunc_arm_gcc.S" />
+    <None Include="Unity\AngelScript\as_callfunc_arm_msvc.asm" />
+    <None Include="Unity\AngelScript\as_callfunc_arm_vita.S" />
+    <None Include="Unity\AngelScript\as_callfunc_arm_xcode.S" />
+    <None Include="Unity\AngelScript\as_callfunc_x64_msvc_asm.asm" />
     <None Include="Unity\Lua\Makefile" />
+    <None Include="Unity\ModelImporter\Obj\MtlLoader.inl" />
+    <None Include="Unity\ModelImporter\Obj\ObjLoader.inl" />
     <None Include="Unity\PX2CSVParser.inl" />
     <None Include="Unity\PX2Font.inl" />
     <None Include="Unity\PX2FontCommonImpl.inl" />
     <None Include="Unity\PX2FontManager.inl" />
     <None Include="Unity\PX2InputManager.inl" />
     <None Include="Unity\PX2InputPushTransformController.inl" />
-    <None Include="Unity\PX2LuaManager.inl" />
+    <None Include="Unity\PX2LuaContext.inl" />
     <None Include="Unity\PX2ResourceManager.inl" />
     <None Include="Unity\PX2ResourceUpdate.inl" />
     <None Include="Unity\PX2SoundSystem.inl" />

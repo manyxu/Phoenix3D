@@ -60,7 +60,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(PushTransformController);
-	typedef Pointer0<PushTransformController> PushTransformControllerPtr;
+	typedef PointerRef<PushTransformController> PushTransformControllerPtr;
 #include "PX2PushTransformController.inl"
 
 }

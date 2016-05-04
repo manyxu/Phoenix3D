@@ -29,7 +29,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Projector);
-	typedef Pointer0<Projector> ProjectorPtr;
+	typedef PointerRef<Projector> ProjectorPtr;
 
 }
 

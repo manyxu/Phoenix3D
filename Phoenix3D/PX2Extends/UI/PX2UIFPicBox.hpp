@@ -31,7 +31,7 @@ namespace PX2
 	
 #include "PX2UIFPicBox.inl"
 	PX2_REGISTER_STREAM(UIFPicBox);
-	typedef Pointer0<UIFPicBox> UIFPicBoxPtr;
+	typedef PointerRef<UIFPicBox> UIFPicBoxPtr;
 
 }
 

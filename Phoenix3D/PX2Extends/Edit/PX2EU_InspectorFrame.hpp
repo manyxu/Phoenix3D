@@ -4,6 +4,8 @@
 #define PX2EU_INSPECTORFRAME_HPP
 
 #include "PX2UIItem.hpp"
+#include "PX2UIPropertyGrid.hpp"
+#include "PX2EU_PropertyGrid.hpp"
 
 namespace PX2
 {
@@ -19,10 +21,11 @@ namespace PX2
 
 	protected:
 		UIFramePtr mToolFrame;
+		EU_PropertyGridPtr mPropertyGrid;
 	};
 
 	PX2_REGISTER_STREAM(EU_InspectorFrame);
-	typedef Pointer0<EU_InspectorFrame> EU_InspectorFramePtr;
+	typedef PointerRef<EU_InspectorFrame> EU_InspectorFramePtr;
 
 }
 

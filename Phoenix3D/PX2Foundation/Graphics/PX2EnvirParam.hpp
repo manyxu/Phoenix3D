@@ -71,7 +71,7 @@ namespace PX2
 
 #include "PX2EnvirParam.inl"
 	PX2_REGISTER_STREAM(EnvirParam);
-	typedef Pointer0<EnvirParam> EnvirParamPtr;
+	typedef PointerRef<EnvirParam> EnvirParamPtr;
 
 }
 

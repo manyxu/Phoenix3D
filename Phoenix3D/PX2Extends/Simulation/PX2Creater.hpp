@@ -22,10 +22,9 @@
 #include "PX2Soundable.hpp"
 #include "PX2Character.hpp"
 #include "PX2LightActor.hpp"
-#include "PX2EffectActor.hpp"
-#include "PX2TriggerActor.hpp"
-#include "PX2SkyActor.hpp"
 #include "PX2TerrainActor.hpp"
+#include "PX2BPPackage.hpp"
+#include "PX2InterpCurveBrightnessCtrl.hpp"
 using namespace PX2;
 
 namespace PX2
@@ -39,16 +38,11 @@ namespace PX2
 		Creater();
 		virtual ~Creater();
 
-		Object *New0(const std::string &className);
-
 		Actor *CreateActor_Rectangle(Node *parent, const APoint &pos, bool posIsLocal);
 		Actor *CreateActor_Box(Node *parent, const APoint &pos, bool posIsLocal);
 		Actor *CreateActor_Sphere(Node *parent, const APoint &pos, bool posIsLocal);
-		Actor *CreateActor_Effect(Node *parent, const APoint &pos, bool posIsLocal);
 		Actor *CreateActor_Actor(Node *parent, const APoint &pos, bool posIsLocal);
 		Character *CreateActor_Character(Node *parent, const APoint &pos, bool posIsLocal);
-		TriggerActor *CreateActor_Trigger(Node *parent, const APoint &pos, bool posIsLocal);
-		SkyActor *CreateActor_Sky(Node *parent, const APoint &pos, bool posIsLocal);
 		TerrainActor *CreateActor_Terrain(Node *parent, const APoint &pos,
 			const std::string &name, int terrainSize, int pageSize, float gridSpacing, bool posIsLocal);
 		LightActor *CreateActor_Light(Node *scene, const APoint &pos, bool posIsLocal);
@@ -76,19 +70,30 @@ namespace PX2
 
 		InterpCurveAlphaController *CreateICC_Alpha(Movable *mov);
 		InterpCurveColorController *CreateICC_Color(Movable *mov);
+		InterpCurveBrightnessController *CreateICC_Brightness(Movable *mov);
 		InterpCurveUniformScaleController *CreateICC_UniformScale(Movable *mov);
 		InterpCurveScaleController *CreateICC_Scale(Movable *mov);
 		InterpCurveRotateController *CreateICC_Rotate(Movable *mov);
 		InterpCurveTranslateController *CreateICC_Translate(Movable *mov);
 
-		Node *CreateNode(Node *parent);
+		Node *CreateNode(Node *parent, const APoint &pos, bool posIsLocal);
 
 		Actor *CreateActor(Node *parent, const std::string &resPath, const APoint &pos, bool posIsLocal);
 		Character *CreateCharacter(Node *parent, const std::string &resPath, const APoint &pos, bool posIsLocal);
-		EffectActor *CreateEffectActor(Node *parent, const std::string &resPath, const APoint &pos, bool posIsLocal);
 
-		void AddObject(Object *parent, Object *obj,
-			bool command = true);
+		BPPackage *CreateBPPackage(Node *parent, const APoint &pos, bool posIsLocal);
+		BPFile *CreateBPFile(Node *parent, const APoint &pos, bool posIsLocal);
+		BPModule *CreateBPModule(Node *parent,
+			const std::string &className, const std::string &funName, const APoint &pos, bool posIsLocal);
+		BPModule *CreateBPModuleGeneral(Node *parent,
+			const std::string &genFunName, const APoint &pos, bool posIsLocal);
+		BPModule *CreateBPModuleFunctionStart(Node *parent, const APoint &pos, bool posIsLocal);
+		BPModule *CreateBPEvent(Node *parent, const std::string &eventName, const APoint &pos, bool posIsLocal);
+		BPModule *CreateBPOption(Node *parent, const std::string &optionName, const APoint &pos, bool posIsLocal);
+		BPModule *CreateBPOperator(Node *parent, const std::string &operatorName, const APoint &pos, bool posIsLocal);
+		BPModule *CreateBPParam(Node *parent, const std::string &paramName, const APoint &pos, bool posIsLocal);
+
+		void AddObject(Object *parent, Object *obj, bool command = true);
 		bool RemoveObject(Object *obj, bool command = true);
 
 	public:

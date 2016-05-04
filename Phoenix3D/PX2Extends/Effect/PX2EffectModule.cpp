@@ -841,7 +841,7 @@ void EffectModule::SetUpdateEffectObjectCallback (
 //----------------------------------------------------------------------------
 EffectModule *EffectModule::CreateModule (const std::string &name)
 {
-	std::map<std::string, Pointer0<EffectModule> >::iterator it = 
+	std::map<std::string, PointerRef<EffectModule> >::iterator it = 
 		msPreCreatedModules.find(name);
 	if (it != msPreCreatedModules.end())
 	{
@@ -947,7 +947,7 @@ void EffectModule::PostLink ()
 {
 	Object::PostLink();
 
-	std::map<std::string, Pointer0<EffectModule> >::iterator it = 
+	std::map<std::string, PointerRef<EffectModule> >::iterator it = 
 		msPreCreatedModules.find(GetTypeName());
 	if (it != msPreCreatedModules.end())
 	{

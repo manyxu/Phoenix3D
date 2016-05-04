@@ -1,0 +1,15 @@
+// PX2Actor.pkg
+
+	class Actor : public Node
+	{
+	public:
+		Actor();
+		virtual ~Actor();
+
+	public:
+		virtual void SetTypeID(int typeID);
+		int GetTypeID() const;
+
+		virtual void SetGroup(int group);
+		int GetGroup() const;
+	};

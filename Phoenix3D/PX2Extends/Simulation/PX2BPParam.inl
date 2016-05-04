@@ -11,7 +11,7 @@ inline bool BPParam::IsExe() const
 	return mIsExe;
 }
 //----------------------------------------------------------------------------
-inline Object::FunParamType BPParam::GetDataType() const
+inline FunParamType BPParam::GetDataType() const
 {
 	return mDataType;
 }
@@ -38,7 +38,8 @@ inline const BPModule *BPParam::GetModule() const
 //----------------------------------------------------------------------------
 inline bool BPParam::IsOwnObjectParam() const
 {
-	return FPT_POINTER_THIS == mDataType;
+	return FPT_POINTER_THIS == mDataType ||
+		FPT_POINTER_THIS_STATIC == mDataType;
 }
 //----------------------------------------------------------------------------
 inline int BPParam::GetNumLinkToParams() const
@@ -64,5 +65,15 @@ inline std::vector<BPParam *> &BPParam::GetLinkMeParams()
 inline BPParam *BPParam::GetLinkMeParam(int i)
 {
 	return mLinkMeParams[i];
+}
+//----------------------------------------------------------------------------
+inline UIButton *BPParam::GetButton()
+{
+	return mBut;
+}
+//----------------------------------------------------------------------------
+inline UIFText *BPParam::GetNameText()
+{
+	return mNameText;
 }
 //----------------------------------------------------------------------------

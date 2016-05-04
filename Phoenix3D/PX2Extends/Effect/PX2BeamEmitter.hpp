@@ -107,7 +107,7 @@ namespace PX2
 
 #include "PX2BeamEmitter.inl"
 	PX2_REGISTER_STREAM(BeamEmitter);
-	typedef Pointer0<BeamEmitter> BeamEmitterPtr;
+	typedef PointerRef<BeamEmitter> BeamEmitterPtr;
 
 }
 

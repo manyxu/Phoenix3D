@@ -15,11 +15,12 @@
 #include "PX2UIScoreText.hpp"
 #include "PX2UIText.hpp"
 #include "PX2UIFText.hpp"
+#include "PX2UIItem.hpp"
 #include "PX2UIFrame.hpp"
-#include "PX2UIGridFrame.hpp"
 #include "PX2UIPicBox.hpp"
 #include "PX2UIFPicBox.hpp"
 #include "PX2UIMenu.hpp"
 #include "PX2UISlider.hpp"
+#include "PX2UIPropertyGrid.hpp"
 
 #endif

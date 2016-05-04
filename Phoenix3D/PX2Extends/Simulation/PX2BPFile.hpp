@@ -5,7 +5,8 @@
 
 #include "PX2BPModule.hpp"
 #include "PX2UIPicBox.hpp"
-#include "PX2UIText.hpp"
+#include "PX2UIFText.hpp"
+#include "PX2BPModule.hpp"
 
 namespace PX2
 {
@@ -19,7 +20,7 @@ namespace PX2
 
 	public:
 		BPFile();
-		~BPFile();
+		virtual ~BPFile();
 
 		void Enable(bool enable);
 		bool IsEnable() const;
@@ -27,12 +28,12 @@ namespace PX2
 		void SetTip(const std::string &tip);
 		const std::string &GetTip() const;
 
-		virtual int AttachChild(Movable* child);
-		virtual int DetachChild(Movable* child);
+		virtual void OnChildAttached(Movable *child);
+		virtual void OnChildDetach(Movable *child);
 
-		bool IsHasLogicModule(BPModule *logicModule);
-		int GetNumLogicModules() const;
-		BPModule *GetLogicModule(int i);
+		bool IsHasBPModule(BPModule *logicModule);
+		int GetNumBPModules() const;
+		BPModule *GetBPModule(int i);
 
 	public_internal:
 		const std::string &Compile();
@@ -49,21 +50,17 @@ namespace PX2
 		std::string mTip;
 		std::string mCompiledString;
 
-		// UI
 	public:
-		void SetSize(const Sizef &size);
-		const Sizef &GetSize() const;
+		virtual void OnSizeChanged();
 
 	protected:
-		Sizef mSize;
-		UIPicBoxPtr mBackPicBox;
-		UITextPtr mNameText;
-		UITextPtr mTipText;
+		UIFTextPtr mNameText;
+		UIFTextPtr mTipText;
 	};
 
 #include "PX2BPFile.inl"
 	PX2_REGISTER_STREAM(BPFile);
-	typedef Pointer0<BPFile> LogicFilePtr;
+	typedef PointerRef<BPFile> BPFilePtr;
 
 }
 

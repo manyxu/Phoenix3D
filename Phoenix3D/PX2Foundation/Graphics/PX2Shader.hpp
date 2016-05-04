@@ -278,7 +278,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Shader);
-	typedef Pointer0<Shader> ShaderPtr;
+	typedef PointerRef<Shader> ShaderPtr;
 #include "PX2Shader.inl"
 
 }

@@ -8,7 +8,7 @@
 #include "PX2UIProgressBar.hpp"
 #include "PX2UIEditBox.hpp"
 #include "PX2SimulationEventType.hpp"
-#include "PX2Selection.hpp"
+#include "PX2SelectionManager.hpp"
 #include "PX2EditEventType.hpp"
 #include "PX2Project.hpp"
 using namespace PX2;
@@ -73,7 +73,7 @@ void UIObjectCtrl::DoExecute (PX2::Event *event)
 	else if (EditEventSpace::IsEqual(event, EditEventSpace::ObjectTransformChanged))
 	{
 		Object *obj = event->GetData<Object*>();
-		if (PX2_SELECTION.GetFirstObject() == obj)
+		if (PX2_SELECTM_E->GetFirstObject() == obj)
 		{
 			UpdateOnSelectUI();
 		}
@@ -86,40 +86,22 @@ void UIObjectCtrl::UpdateOnSelectUI()
 
 	bool isCross = false;
 	Sizef size;
-	Float2 anchorPoint = Float2::ZERO;
+	Float2 pvoit = Float2::ZERO;
 
-	if (PX2_SELECTION.GetNumObjects() > 1) return;
+	if (PX2_SELECTM_E->GetNumObjects() > 1) return;
 
-	Object *obj = PX2_SELECTION.GetFirstObject();
+	Object *obj = PX2_SELECTM_E->GetFirstObject();
 	if (!obj) return;
 	
 	Movable *mov = DynamicCast<Movable>(obj);
-	UIPicBox *picBox = DynamicCast<UIPicBox>(obj);
-	UIButtonBase *but = DynamicCast<UIButtonBase>(obj);
-	UIProgressBar *pb = DynamicCast<UIProgressBar>(obj);
+	SizeNode *sn = DynamicCast<SizeNode>(obj);
+	if (!mov) return;
 
-	if (obj->IsExactly(UIFrame::TYPE))
-	{ // UIFrame
+	if (sn)
+	{
 		isCross = true;
-	}
-	else if (obj->IsDerived(UIPicBox::TYPE))
-	{
-		isCross = false;
-
-		size = picBox->GetSize();
-		anchorPoint = picBox->GetPivot();
-	}
-	else if (obj->IsDerived(UIButtonBase::TYPE))
-	{
-		isCross = false;
-		size = but->GetSize();
-		anchorPoint = but->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->GetPivot();
-	}
-	else if (obj->IsDerived(UIProgressBar::TYPE))
-	{
-		isCross = false;
-		size = pb->GetSize();
-		anchorPoint = pb->GetProgressPicBox()->GetPivot();
+		pvoit = sn->GetPvoit();
+		size = sn->GetSize();
 	}
 	else
 	{
@@ -143,10 +125,10 @@ void UIObjectCtrl::UpdateOnSelectUI()
 		PolysegmentPtr polySeg = DynamicCast<Polysegment>(mRectCtrl->GetChild(0));
 		vba.ApplyTo(polySeg);
 
-		APoint point0 = APoint(0.0f-width*anchorPoint[0], 0.0f, 0.0f-height*anchorPoint[1]);
-		APoint point1 = APoint(width*(1.0f-anchorPoint[0]), 0.0f, 0.0f-height*anchorPoint[1]);
-		APoint point2 = APoint(width*(1.0f-anchorPoint[0]), 0.0f, height*(1.0f-anchorPoint[1]));
-		APoint point3 = APoint(0.0f-width*anchorPoint[0], 0.0f, height*(1.0f-anchorPoint[1]));
+		APoint point0 = APoint(0.0f - width*pvoit[0], 0.0f, 0.0f - height*pvoit[1]);
+		APoint point1 = APoint(width*(1.0f - pvoit[0]), 0.0f, 0.0f - height*pvoit[1]);
+		APoint point2 = APoint(width*(1.0f - pvoit[0]), 0.0f, height*(1.0f - pvoit[1]));
+		APoint point3 = APoint(0.0f - width*pvoit[0], 0.0f, height*(1.0f - pvoit[1]));
 
 		vba.Position<Float3>(0) = point0;
 		vba.Position<Float3>(1) = point1;
@@ -200,7 +182,8 @@ void UIObjectCtrl::OnLeftDown(Canvas *canvas, const PX2::APoint &pos)
 //----------------------------------------------------------------------------
 void UIObjectCtrl::OnLeftUp(Canvas *canvas, const PX2::APoint &pos)
 {
-
+	PX2_UNUSED(canvas);
+	PX2_UNUSED(pos);
 }
 //----------------------------------------------------------------------------
 void UIObjectCtrl::OnMotion(bool leftDown, Canvas *canvas,
@@ -293,7 +276,7 @@ int UIObjectCtrl::_GetDragIndex(Canvas *canvas, const PX2::APoint &pos)
 	AVector direction;
 	canvas->GetPickRay(pos[0], pos[2], origin, direction);
 
-	ObjectPtr curSelectObj = PX2_SELECTION.GetFirstObject();
+	ObjectPtr curSelectObj = PX2_SELECTM_E->GetFirstObject();
 
 	PX2::Picker picker;
 	PX2::MovablePtr pickedMove = 0;
@@ -315,15 +298,15 @@ int UIObjectCtrl::_GetDragIndex(Canvas *canvas, const PX2::APoint &pos)
 		if (curSelectObj == pickedMove || curSelectObj == movPar) return 0;
 		else
 		{
-			PX2_SELECTION.Clear();
+			PX2_SELECTM_E->Clear();
 
 			if (uiFrame || butPar || progBarPar || editBoxPar)
 			{
-				PX2_SELECTION.AddObject(movPar);
+				PX2_SELECTM_E->AddObject(movPar);
 			}
 			else if (picBox)
 			{
-				PX2_SELECTION.AddObject(picBox);
+				PX2_SELECTM_E->AddObject(picBox);
 			}
 		}
 
@@ -331,7 +314,7 @@ int UIObjectCtrl::_GetDragIndex(Canvas *canvas, const PX2::APoint &pos)
 	}
 	else
 	{
-		PX2_SELECTION.Clear();
+		PX2_SELECTM_E->Clear();
 		
 		return -1;
 	}

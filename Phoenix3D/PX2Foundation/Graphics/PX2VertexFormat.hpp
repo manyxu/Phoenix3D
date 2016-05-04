@@ -146,7 +146,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(VertexFormat);
-	typedef Pointer0<VertexFormat> VertexFormatPtr;
+	typedef PointerRef<VertexFormat> VertexFormatPtr;
 #include "PX2VertexFormat.inl"
 
 }

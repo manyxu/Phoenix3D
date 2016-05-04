@@ -40,7 +40,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Texture1D);
-	typedef Pointer0<Texture1D> Texture1DPtr;
+	typedef PointerRef<Texture1D> Texture1DPtr;
 #include "PX2Texture1D.inl"
 
 }

@@ -65,7 +65,7 @@ namespace PX2
 		* 记录了near和far信息。截头体信息被存放在一个数组里，按照下面的信息进行
 		* 匹配。
 		*/
-		enum
+		enum ViewFrustum
 		{
 			VF_DMIN     = 0,  //< near
 			VF_DMAX     = 1,  //< far
@@ -259,7 +259,7 @@ private_internal:
 	};
 
 	PX2_REGISTER_STREAM(Camera);
-	typedef Pointer0<Camera> CameraPtr;
+	typedef PointerRef<Camera> CameraPtr;
 #include "PX2Camera.inl"
 
 }

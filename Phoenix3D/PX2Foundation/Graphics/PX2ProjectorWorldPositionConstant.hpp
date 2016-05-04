@@ -29,7 +29,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(ProjectorWorldPositionConstant);
-	typedef Pointer0<ProjectorWorldPositionConstant>
+	typedef PointerRef<ProjectorWorldPositionConstant>
 		ProjectorWorldPositionConstantPtr;
 
 }

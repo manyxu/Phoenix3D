@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(FogParamConstant);
-	typedef Pointer0<FogParamConstant> FogParamConstantPtr;
+	typedef PointerRef<FogParamConstant> FogParamConstantPtr;
 
 }
 

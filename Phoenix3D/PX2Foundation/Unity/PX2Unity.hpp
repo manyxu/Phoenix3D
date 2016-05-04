@@ -25,7 +25,8 @@
 #include "PX2ResourceManager.hpp"
 
 // script
-#include "PX2LuaManager.hpp"
 #include "PX2ScriptManager.hpp"
+#include "PX2LuaContext.hpp"
+#include "PX2ASContext.hpp"
 
 #endif

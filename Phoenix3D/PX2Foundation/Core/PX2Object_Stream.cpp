@@ -12,19 +12,6 @@ Object::FactoryMap* Object::msFactories = 0;
 bool Object::msStreamRegistered = false;
 bool Object::msIsIOWriting = false;
 //----------------------------------------------------------------------------
-Object *Object::Create()
-{
-	assertion(false, "Object should not create");
-	return 0;
-}
-//----------------------------------------------------------------------------
-Object *Object::Create(const std::string &name)
-{
-	assertion(false, "Object should not create");
-	PX2_UNUSED(name);
-	return 0;
-}
-//----------------------------------------------------------------------------
 Object* Object::Factory(InStream&)
 {
 	assertion(false, "Abstract classes have no factory.\n");
@@ -71,6 +58,7 @@ Object::FactoryFunction Object::Find(const std::string& name)
 //----------------------------------------------------------------------------
 Object::Object(LoadConstructor) :
 mIsEnable(true),
+mIsActivated(true),
 mReadedVersion(0),
 mCurStream(0),
 mID(0)

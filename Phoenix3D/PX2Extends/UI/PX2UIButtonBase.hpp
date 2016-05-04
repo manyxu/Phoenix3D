@@ -6,7 +6,7 @@
 #include "PX2UIPre.hpp"
 #include "PX2UIFrame.hpp"
 #include "PX2UIPicBox.hpp"
-#include "PX2UIText.hpp"
+#include "PX2UIFText.hpp"
 
 namespace PX2
 {
@@ -16,12 +16,22 @@ namespace PX2
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;
 		PX2_DECLARE_PROPERTY;
+		PX2_DECLARE_FUNCTION;
 		PX2_DECLARE_STREAM(UIButtonBase);
 
 	public:
 		virtual ~UIButtonBase();
 
-		virtual void SetPivot(const Float2 &pvoit);
+		virtual void OnPvoitChanged();
+
+		enum ButType
+		{
+			BT_COLOR,
+			BT_PICBOXSWAP,
+			BT_MAX_TYPE
+		};
+		void SetButType(ButType butType);
+		ButType GetButType() const;
 
 		enum ButtonState
 		{
@@ -37,14 +47,41 @@ namespace PX2
 		void SetPicBox(ButtonState state, UIPicBox *pic);
 		UIPicBox *GetPicBoxAtState(ButtonState state);
 
-		UIText *CreateAddText();
+		void SetStateColor(ButtonState state, const Float3 &color);
+		const Float3 &GetStateColor(ButtonState state) const;
+		void SetStateAlpha(ButtonState state, float alpha);
+		float GetStateAlpha(ButtonState state) const;
+		void SetStateBrightness(ButtonState state, float brightness);
+		float GetStateBrightness(ButtonState state) const;
+
+		virtual void SetActivate(bool act);
+
+		UIFText *CreateAddText(const std::string &text="");
 		UIText *GetText();
 
 		virtual void OnSizeChanged();
 
 	protected:
 		UIButtonBase();
+		const Float3 &_GetStateColorWithActivated(ButtonState state) const;
+		float _GetStateAlphaWithActivated(ButtonState state) const;
+		float _GetStateBrightnessWithActivated(ButtonState state) const;
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
+
+		ButType mButType;
+
+		Float3 mNormalColor;
+		Float3 mHoveredColor;
+		Float3 mPressedColor;
+		Float3 mDisableColor;
+		float mNormalAlpha;
+		float mHoveredAlpha;
+		float mPressedAlpha;
+		float mDisableAlpha;
+		float mNormalBrightness;
+		float mHoveredBrightness;
+		float mPressedBrightness;
+		float mDisableBrightness;
 
 		UIPicBoxPtr mPicBoxNormal;
 		UIPicBoxPtr mPicBoxOver;
@@ -53,11 +90,11 @@ namespace PX2
 
 		ButtonState mButtonState;
 
-		UITextPtr mText;
+		UIFTextPtr mFText;
 	};
 
 	PX2_REGISTER_STREAM(UIButtonBase);
-	typedef Pointer0<UIButtonBase> UIButtonBasePtr;
+	typedef PointerRef<UIButtonBase> UIButtonBasePtr;
 #include "PX2UIButtonBase.inl"
 
 }

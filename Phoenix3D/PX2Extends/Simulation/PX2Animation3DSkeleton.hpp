@@ -52,7 +52,7 @@ namespace PX2
 
 	PX2_REGISTER_STREAM(Animation3DSkeleton);
 #include "PX2Animation3DSkeleton.inl"
-	typedef Pointer0<Animation3DSkeleton> Animation3DSkeletonPtr;
+	typedef PointerRef<Animation3DSkeleton> Animation3DSkeletonPtr;
 
 }
 

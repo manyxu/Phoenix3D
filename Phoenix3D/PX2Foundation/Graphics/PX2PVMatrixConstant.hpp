@@ -23,7 +23,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(PVMatrixConstant);
-	typedef Pointer0<PVMatrixConstant> PVMatrixConstantPtr;
+	typedef PointerRef<PVMatrixConstant> PVMatrixConstantPtr;
 
 }
 

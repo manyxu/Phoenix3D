@@ -8,10 +8,10 @@ namespace PX2
 #if defined(_WIN32) || defined(WIN32)
 #include <Windows.h>
 
-	struct timeval {
-		long    tv_sec;         /* seconds */
-		long    tv_usec;        /* and microseconds */
-	};
+	//struct timeval {
+	//	long    tv_sec;         /* seconds */
+	//	long    tv_usec;        /* and microseconds */
+	//};
 	int gettimeofday(struct timeval * val, struct timezone *)
 	{
 		LARGE_INTEGER liTime, liFreq;
@@ -31,16 +31,26 @@ namespace PX2
 
 #ifdef __APPLE__
 #include <sys/time.h>
-	static timeval gsInitial;
+	static timeval gsInitialTime;
 	static bool gsInitializedTime = false;
 #else
 #include <sys/timeb.h>
-	static timeval gsInitial;
+	static timeval gsInitialTime;
 	static long gsInitialSec = 0;
 	static long gsInitialUSec = 0;
 	static bool gsInitializedTime = false;
 #endif
 
+	//----------------------------------------------------------------------------
+	Time::Time()
+	{
+
+	}
+	//----------------------------------------------------------------------------
+	Time::~Time()
+	{
+
+	}
 	//----------------------------------------------------------------------------
 	double Time::GetTimeInMicroseconds()
 	{
@@ -48,7 +58,7 @@ namespace PX2
 		if (!gsInitializedTime)
 		{
 			gsInitializedTime = true;
-			gettimeofday(&gsInitial, 0);
+			gettimeofday(&gsInitialTime, 0);
 			return 0.0;
 		}
 
@@ -56,7 +66,7 @@ namespace PX2
 		gettimeofday(&currentTime, 0);
 
 		struct timeval deltaTime;
-		timersub(&currentTime, &gsInitial, &deltaTime);
+		timersub(&currentTime, &gsInitialTime, &deltaTime);
 
 		return double(1000000)*deltaTime.tv_sec + deltaTime.tv_usec;
 #endif
@@ -73,5 +83,6 @@ namespace PX2
 		gsInitializedTime = false;
 	}
 	//----------------------------------------------------------------------------
-
+	double Time::FrameElapsedSeconds = 0.0f;
+	double Time::FrameRunnedSeconds = 0.0f;
 }

@@ -7,6 +7,7 @@
 #include "PX2UIFrame.hpp"
 #include "PX2UITabFrame.hpp"
 #include "PX2UICanvas.hpp"
+#include "PX2EU_CanvasBP.hpp"
 
 namespace PX2
 {
@@ -20,15 +21,15 @@ namespace PX2
 		EU_BPFrame();
 		virtual ~EU_BPFrame();
 
-		void CreateChildUICanvas();
+		UICanvas *CreateChildUICanvas();
 
 	protected:
 		UIFramePtr mToolFrame;
-		UICanvasPtr mBPUICanvas;
+		EU_CanvasBPPtr mBPUICanvas;
 	};
 
 	PX2_REGISTER_STREAM(EU_BPFrame);
-	typedef Pointer0<EU_BPFrame> EU_BPFramePtr;
+	typedef PointerRef<EU_BPFrame> EU_BPFramePtr;
 
 }
 

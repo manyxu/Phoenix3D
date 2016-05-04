@@ -84,8 +84,7 @@ void Selection::Clear()
 
 	_UpdateSelect();
 
-	Event *ent = 0;
-	ent = SimuES_E::CreateEventX(SimuES_E::RemoveAllSelects);
+	Event *ent = SimuES_E::CreateEventX(SimuES_E::RemoveAllSelects);
 	EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
 }
 //----------------------------------------------------------------------------

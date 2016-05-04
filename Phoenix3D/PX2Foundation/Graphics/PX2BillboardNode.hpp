@@ -39,7 +39,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(BillboardNode);
-	typedef Pointer0<BillboardNode> BillboardNodePtr;
+	typedef PointerRef<BillboardNode> BillboardNodePtr;
 #include "PX2BillboardNode.inl"
 
 }

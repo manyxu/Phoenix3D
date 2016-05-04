@@ -21,57 +21,57 @@ Project::Project() :
 mEdit_UICameraPercent(1.0f),
 mScreenOrientation(SO_LANDSCAPE)
 {
-	if (ScriptManager::GetSingletonPtr())
-		PX2_SM.SetUserTypePointer("PX2_PROJ", "Project", this);
-
-	PX2_ENGINELOOP.msProject = this;
+	PX2_ENGINELOOP.TheProject = this;
 
 	mBackgroundColor = Float4(0.5f, 0.5f, 0.5f, 1.0f);
 	mProjBackgroundColor = Float4::WHITE;
 	
 	mSceneCanvas = new0 SceneCanvas();
-	mSceneCanvas->SetPriority(20);
-	mSceneCanvas->SetName("Scene");
-	mSceneCanvas->SetRenderer(Renderer::GetDefaultRenderer());
+	mSceneCanvas->SetName("SceneCanvas");
 	SetSceneCanvas(mSceneCanvas);
+	mSceneCanvas->ComeInEventWorld();
 
-	mUICanvas = new0 UICanvas(0);
-	mUICanvas->SetPriority(10);
-	mUICanvas->SetBeforeDrawClear(false, true, false);
-	mUICanvas->SetName("UI");
-	mUICanvas->SetRenderer(Renderer::GetDefaultRenderer());
-	PX2_GR.AddCanvas(mUICanvas->GetName().c_str(), mUICanvas);
+	mUICanvas = new0 UICanvas();
+	mUICanvas->SetBeforeDrawClear(false, true, true);
+	mUICanvas->SetName("UICanvas");
+	mUICanvas->EnableAnchorLayout(true);
+	mUICanvas->SetAnchorHor(0.0f, 1.0f);
+	mUICanvas->SetAnchorVer(0.0f, 1.0f);
+	mUICanvas->ComeInEventWorld();
+	mUICanvas->LocalTransform.SetTranslateY(-1.0f);
 
 	mUIFrame = new0 UIFrame();
 	SetUIFrame(mUIFrame);
-	mUIFrame->SetName("RootFrame");
+	mUIFrame->SetName("RootUIFrame");
 	mUIFrame->SetAnchorHor(0.0f, 1.0f);
 	mUIFrame->SetAnchorVer(0.0f, 1.0f);
+
+	//mBPPackage = new0 BPPackage();
+	//SetBPPackage(mBPPackage);
+	//mBPPackage->SetName("BPPackage");
 
 	mIsShowShadowBloomEveryPass = false;
 
 	ComeInEventWorld();
 }
 //----------------------------------------------------------------------------
-Project::~Project ()
+Project::~Project()
 {
 	GoOutEventWorld();
 
-	PX2_GR.RemoveCanvass(mSceneCanvas);
+	PX2_GR.GetMainWindow()->RemoveCanvas(mSceneCanvas);
 	mSceneCanvas = 0;
 
-	PX2_GR.RemoveCanvass(mUICanvas);
+	PX2_GR.GetMainWindow()->RemoveCanvas(mUICanvas);
 	mUICanvas = 0;
-
-	if (ScriptManager::GetSingletonPtr())
-		PX2_SM.SetUserTypePointer("PX2_PROJ", "Project", 0);
 }
 //----------------------------------------------------------------------------
 void Project::Destory()
 {
-	if (PX2_ENGINELOOP.msProject)
+	if (PX2_ENGINELOOP.TheProject)
 	{
-		PX2_ENGINELOOP.msProject = 0;
+		PX2_SC_LUA->SetUserTypePointer("PX2_PROJ", "Project", 0);
+		PX2_ENGINELOOP.TheProject = 0;
 		Project::Set(0);
 	}
 }
@@ -113,6 +113,15 @@ bool Project::Save(const std::string &filename)
 
 		OutStream output;
 		output.Insert(mUIFrame);
+		output.Save(outName);
+	}
+
+	if (mBPPackage)
+	{
+		std::string outName = outPath + outBaseName + "_bp.px2obj";
+
+		OutStream output;
+		output.Insert(mBPPackage);
 		output.Save(outName);
 	}
 
@@ -259,6 +268,9 @@ bool Project::Load(const std::string &filename)
 
 			// ui
 			mUIFilename = outPath + outBaseName + "_ui.px2obj";
+
+			// bp
+			mBPFilename = outPath + outBaseName + "_bp.px2obj";
 		}
 	}
 	else
@@ -274,11 +286,13 @@ void Project::SetScene(Scene *scene)
 	if (mScene)
 	{
 		mScene->GoOutEventWorld();
+		mSceneCanvas->DetachChild(mScene);
 		mScene = 0;
 		mSceneCanvas->SetCamera(0);
 		PX2_GR.SetCurEnvirParam(0);
 
-		mSceneCanvas->DetachChild(mScene);
+		Event *ent = SimuES::CreateEventX(SimuES::CloseScene);
+		EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
 	}
 
 	mScene = scene;
@@ -302,6 +316,9 @@ void Project::SetScene(Scene *scene)
 		{
 			mSceneCanvas->SetCamera(0);
 		}
+
+		Event *ent = SimuES::CreateEventX(SimuES::NewScene);
+		PX2_EW.BroadcastingLocalEvent(ent);
 	}
 	else
 	{
@@ -316,26 +333,43 @@ void Project::SetSceneFilename(const std::string &scenefilename)
 //----------------------------------------------------------------------------
 void Project::SetSceneCanvas(SceneCanvas *sceneCanvas)
 {
-	if (mSceneCanvas)
-	{
-		PX2_GR.RemoveCanvas(mSceneCanvas->GetName().c_str());
-	}
-
 	mSceneCanvas = sceneCanvas;
-
-	if (mSceneCanvas)
-	{
-		PX2_GR.AddCanvas(mSceneCanvas->GetName().c_str(),
-			mSceneCanvas);
-
-		mSceneCanvas->SetRenderer(Renderer::GetDefaultRenderer());
-	}
 }
 //----------------------------------------------------------------------------
 void Project::SetUIFrame(UIFrame *ui)
 {
+	if (mUIFrame)
+	{
+		mUICanvas->DetachChild(mUIFrame);
+
+		Event *ent = SimuES::CreateEventX(SimuES::CloseUI);
+		EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
+	}
+
 	mUIFrame = ui;
-	mUICanvas->AttachChild(mUIFrame);
+
+	if (mUIFrame)
+	{
+		mUICanvas->AttachChild(mUIFrame);
+
+		Event *ent = SimuES::CreateEventX(SimuES::NewUI);
+		EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
+	}
+}
+//----------------------------------------------------------------------------
+UIFrame *Project::GetUIFrame()
+{
+	return (UIFrame*)mUIFrame;
+}
+//----------------------------------------------------------------------------
+UICanvas *Project::GetUICanvas()
+{
+	return mUICanvas;
+}
+//----------------------------------------------------------------------------
+void Project::SetBPPackage(BPPackage *package)
+{
+	mBPPackage = package;
 }
 //----------------------------------------------------------------------------
 void Project::SetSize(float width, float height)
@@ -347,8 +381,6 @@ void Project::SetSize(const Sizef &size)
 {
 	mSize = size;
 
-	PX2_GR.SetProjectSize(size);
-
 	if (mSceneCanvas)
 	{
 		mUICanvas->SetSize(mSize);
@@ -357,6 +389,8 @@ void Project::SetSize(const Sizef &size)
 	if (mUICanvas)
 	{
 		mUICanvas->SetSize(mSize);
+		mUICanvas->LocalTransform.SetTranslateXZ(mSize.Width / 2.0f,
+			mSize.Height / 2.0f);
 	}
 }
 //----------------------------------------------------------------------------
@@ -380,41 +414,8 @@ const Float4 &Project::GetProjBackgroundColor() const
 	return mProjBackgroundColor;
 }
 //----------------------------------------------------------------------------
-bool Project::LoadScene(const std::string &pathname)
-{
-	Scene *newscene = DynamicCast<Scene>(PX2_RM.BlockLoad(pathname));
-	if (newscene)
-	{
-		Project::GetSingleton().SetScene(newscene);
-		Project::GetSingleton().SetSceneFilename(pathname);
-
-		return true;
-	}
-
-	return false;
-}
-//----------------------------------------------------------------------------
-bool Project::LoadUI(const std::string &pathname)
-{
-	ObjectPtr uiObj = PX2_RM.BlockLoad(pathname);
-	UIFrame *ui = DynamicCast<UIFrame>(uiObj);
-	if (ui)
-	{
-		Project::GetSingleton().SetUIFrame(ui);
-
-		return true;
-	}
-
-	return false;
-}
-//----------------------------------------------------------------------------
 void Project::SetViewRect(const Rectf &viewRect)
 {
-	if (mSceneCanvas)
-	{
-		mSceneCanvas->SetViewPortAdjustWithScene(viewRect);
-	}
-
 	if (mUICanvas)
 	{
 		mUICanvas->SetViewPort(viewRect);
@@ -430,7 +431,7 @@ void Project::DoExecute(Event *event)
 		std::string funStr = std::string("OnEventGeneralString('")
 			+ eventStr+ "')";
 
-		PX2_SM.CallString(funStr);
+		PX2_SC_LUA->CallString(funStr);
 	}
 }
 //----------------------------------------------------------------------------

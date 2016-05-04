@@ -1,10 +1,12 @@
-// PX2EU_Console.hpp
+// PX2EU_ConsoleFrame.hpp
 
 #ifndef PX2EU_CONSOLEFRAME_HPP
 #define PX2EU_CONSOLEFRAME_HPP
 
 #include "PX2UIFrame.hpp"
 #include "PX2UIList.hpp"
+#include "PX2Log.hpp"
+#include "PX2UIEditBox.hpp"
 
 namespace PX2
 {
@@ -18,13 +20,17 @@ namespace PX2
 		EU_ConcoleFrame();
 		virtual ~EU_ConcoleFrame();
 
+		virtual void Handle(const LogBuffer *logBuffer,
+			const char *timeStamp);
+
 	protected:
 		UIFramePtr mToolFrame;
+		UIEditBoxPtr mEditBox;
 		UIListPtr mList;
 	};
 
 	PX2_REGISTER_STREAM(EU_ConcoleFrame);
-	typedef Pointer0<EU_ConcoleFrame> EU_ConcoleFramePtr;
+	typedef PointerRef<EU_ConcoleFrame> EU_ConcoleFramePtr;
 
 }
 

@@ -70,13 +70,13 @@ namespace PX2
 
 		virtual void SetAlpha(float alpha); //< 0-1
 
-		enum TexMode
+		enum PicBoxTexMode
 		{
-			TM_TEX,
-			TM_TEXPACK_ELE,
-			TM_MAX_MODE
+			PBTM_TEX,
+			PBTM_TEXPACK_ELE,
+			PBTM_MAX_MODE
 		};
-		TexMode GetTexMode() const;
+		PicBoxTexMode GetPicBoxTexMode() const;
 
 		// base texture
 		void SetTexture(const std::string &filename);
@@ -90,9 +90,6 @@ namespace PX2
 		void SetUVRepeat(const Float2 &uvRepeat);
 
 		virtual void OnForceBind();
-
-	public_internal:
-		void UIPicked(int info);
 
 	protected:
 		void _Init();
@@ -113,14 +110,14 @@ namespace PX2
 		TexPackElement mPackEle;
 		bool mIsBufferNeedUpdate;
 
-		TexMode mTexMode;
+		PicBoxTexMode mPBTexMode;
 		std::string mTexturePathname;
 		std::string mTexturePackName;
 		std::string mElementName;
 	};
 
 	PX2_REGISTER_STREAM(UIPicBox);
-	typedef Pointer0<UIPicBox> UIPicBoxPtr;
+	typedef PointerRef<UIPicBox> UIPicBoxPtr;
 #include "PX2UIPicBox.inl"
 
 }

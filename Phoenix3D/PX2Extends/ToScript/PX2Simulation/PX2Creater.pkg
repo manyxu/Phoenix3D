@@ -1,0 +1,11 @@
+// PX2Creater.pkg
+
+	class Creater
+	{
+		// SINGLETON
+		
+	public:
+		Actor *CreateActor_Rectangle(Node *parent, const APoint &pos, bool posIsLocal);
+		Actor *CreateActor_Box(Node *parent, const APoint &pos, bool posIsLocal);
+		Actor *CreateActor_Sphere(Node *parent, const APoint &pos, bool posIsLocal);
+	};

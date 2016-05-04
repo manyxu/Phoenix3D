@@ -18,7 +18,7 @@ namespace PX2
 		PX2_DECLARE_STREAM(Soundable);
 
 	public:
-		Soundable (const std::string filename="Data/engine/ling.ogg");
+		Soundable (const std::string &filename="Data/engine/ling.ogg");
 		virtual ~Soundable ();
 
 		enum SourceType
@@ -96,7 +96,7 @@ public_internal:
 	};
 
 	PX2_REGISTER_STREAM(Soundable);
-	typedef Pointer0<Soundable> SoundablePtr;
+	typedef PointerRef<Soundable> SoundablePtr;
 #include "PX2Soundable.inl"
 
 }

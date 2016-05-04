@@ -37,7 +37,7 @@ namespace PX2
 
 #include "PX2CameraActor.inl"
 	PX2_REGISTER_STREAM(CameraActor);
-	typedef Pointer0<CameraActor> CameraActorPtr;
+	typedef PointerRef<CameraActor> CameraActorPtr;
 
 }
 

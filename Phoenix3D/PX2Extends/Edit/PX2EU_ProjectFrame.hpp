@@ -8,7 +8,7 @@
 namespace PX2
 {
 
-	class PX2_EXTENDS_ITEM EU_ProjectFrame : public UIFrame
+	class PX2_EXTENDS_ITEM EU_ProjectFrame : public UIFrame, public Visitor
 	{
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_STREAM(EU_ProjectFrame);
@@ -17,16 +17,18 @@ namespace PX2
 		EU_ProjectFrame();
 		virtual ~EU_ProjectFrame();
 
+		virtual void Visit(Object *obj, int info);
+
 	protected:
-		UIFramePtr mProjFrame;
+		void _CreateToolFrame();
+
+		UIFramePtr mToolFrame;
+		UIFramePtr mSearchFrame;
 		EU_ProjectTreePtr mTreeProject;
-		EU_ProjectTreePtr mTreeScene;
-		EU_ProjectTreePtr mTreeUI;
-		UITabFramePtr mTableFrame;
 	};
 
 	PX2_REGISTER_STREAM(EU_ProjectFrame);
-	typedef Pointer0<EU_ProjectFrame> EU_ProjectFramePtr;
+	typedef PointerRef<EU_ProjectFrame> EU_ProjectFramePtr;
 
 }
 

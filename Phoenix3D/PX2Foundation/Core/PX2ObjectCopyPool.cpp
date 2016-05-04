@@ -14,11 +14,10 @@ ObjectCopyPool::~ObjectCopyPool()
 {
 }
 //----------------------------------------------------------------------------
-void ObjectCopyPool::PreAlloc (Object *prototype, int num, bool useagain)
+void ObjectCopyPool::PreAlloc (Object *prototype, int num)
 {
-	Pointer0<ObjectPool> pool(new0 ObjectPool);
+	PointerRef<ObjectPool> pool(new0 ObjectPool);
 	pool->ProtoType = prototype;
-	pool->UseAgain = useagain;
 
 	for (int i=0; i<num; i++)
 	{
@@ -31,7 +30,7 @@ void ObjectCopyPool::PreAlloc (Object *prototype, int num, bool useagain)
 //----------------------------------------------------------------------------
 ObjectPtr ObjectCopyPool::Alloc (Object *prototype)
 {
-	Pointer0<ObjectPool> pool = mPools[prototype];
+	PointerRef<ObjectPool> pool = mPools[prototype];
 	assertion(pool->ProtoType==prototype, "should be equal.\n");
 
 	if(pool->FreeObjs.size() == 0)
@@ -54,7 +53,7 @@ ObjectPtr ObjectCopyPool::Alloc (Object *prototype)
 //----------------------------------------------------------------------------
 void ObjectCopyPool::Free (Object *prototype, Object *pobj)
 {
-	Pointer0<ObjectPool> pool = mPools[prototype];
+	PointerRef<ObjectPool> pool = mPools[prototype];
 	assertion(pool->ProtoType==prototype, "should be equal.\n");
 
 	pool->FreeObjs.push_back(pobj);

@@ -9,22 +9,119 @@ PX2_IMPLEMENT_FACTORY(UITree);
 
 //----------------------------------------------------------------------------
 UITree::UITree() :
+mSliderSize(10),
 mItemHeight(20.0f),
-mIconArrowSpace(20.0f),
-mIsShowRootItem(false)
+mIconArrowSpace(16.0f),
+mIsShowRootItem(false),
+mIsNeedUpdateContentPos(true)
 {
-	mRootItem = new UIItem();
-	AttachChild(mRootItem);
-	mRootItem->LocalTransform.SetTranslateZ(-1.0f);
-	mRootItem->SetSize(10.0f, mItemHeight);
+	mMaskFrame = new0 UIFrame();
+	AttachChild(mMaskFrame);
+	mMaskFrame->CreateAddMask();
+	mMaskFrame->LocalTransform.SetTranslateY(-1.0f);
+	mMaskFrame->SetAnchorHor(0.0f, 1.0f);
+	mMaskFrame->SetAnchorParamHor(0.0f, -mSliderSize);
+	mMaskFrame->SetAnchorVer(0.0f, 1.0f);
+	mMaskFrame->SetAnchorParamVer(0.0f, 0.0f);
+
+	mContentFrame = new0 UIFrame();
+	mMaskFrame->AttachChild(mContentFrame);
+	mContentFrame->LocalTransform.SetTranslateY(-1.0f);
+	mContentFrame->SetAnchorHor(0.0f, 1.0f);
+	mContentFrame->SetAnchorParamHor(0.0f, 1.0f);
+	mContentFrame->SetAnchorVer(1.0f, 1.0f);
+	mContentFrame->SetAnchorParamVer(0.0f, 0.0f);
+	mContentFrame->SetPivot(0.5f, 1.0f);
+
+	mSlider = new0 UISlider();
+	mSlider->LocalTransform.SetTranslateY(-1.0f);
+	mSlider->SetDirectionType(UISlider::DT_VERTICALITY);
+	mSlider->EnableAnchorLayout(true);
+	mSlider->SetAnchorHor(1.0f, 1.0f);
+	mSlider->SetAnchorParamHor(-mSliderSize*0.5f, 0.0f);
+	mSlider->SetAnchorVer(0.0f, 1.0f);
+	mSlider->SetSize(mSliderSize, 0.0f);
+	mSlider->SetPivot(0.5f, 0.5f);
+	AttachChild(mSlider);
+	mSlider->SetContentFrame(mContentFrame);
+	mSlider->SetMemUICallback(this,
+		(UIFrame::MemUICallback)(&UITree::_SliderCallback));
+
+	mRootItem = new0 UIItem();
+	mContentFrame->AttachChild(mRootItem);
+	mRootItem->LocalTransform.SetTranslateY(-2.0f);
+	mRootItem->SetSize(0.0f, mItemHeight);
 	mRootItem->SetAnchorHor(0.0f, 1.0f);
 	mRootItem->SetAnchorVer(1.0f, 1.0f);
 	mRootItem->SetAnchorParamVer(-mItemHeight / 2.0f, 0.0f);
 	mRootItem->SetLabel("RootItem");
+	mRootItem->SetName("RootItem");
+	mRootItem->SetRootItem(true);
+
+	SetUIChildPickOnlyInSizeRange(true);
 }
 //----------------------------------------------------------------------------
 UITree::~UITree()
 {
+}
+//----------------------------------------------------------------------------
+void UITree::UpdateWorldData(double applicationTime,
+	double elapsedTime)
+{
+	bool isNeedRecal = mRootItem->_IsNeedRecal();
+
+	if (mIsNeedUpdateContentPos)
+	{
+		_UpdateContentPos();
+	}
+
+	UIFrame::UpdateWorldData(applicationTime, elapsedTime);
+
+	if (isNeedRecal)
+	{
+		float level = mRootItem->_GetLevel();
+		int numAll = mRootItem->GetNumAllChildsExpand();
+		float height = (numAll + level) * mRootItem->GetSize().Height;
+		mContentFrame->SetSize(0.0f, height);
+		mContentFrame->Update(applicationTime, 0.0f);
+
+		mIsNeedUpdateContentPos = true;
+	}
+}
+//----------------------------------------------------------------------------
+void UITree::_UpdateContentPos()
+{
+	float heightDist = mContentFrame->GetSize().Height - GetSize().Height;
+	if (heightDist > 0.0f)
+	{
+		float downMove = heightDist * mSlider->GetPercent();
+		mContentFrame->SetAnchorParamVer(downMove, 0.0f);
+	}
+	else
+	{
+		mContentFrame->SetAnchorParamVer(0.0f, 0.0f);
+	}
+
+	mIsNeedUpdateContentPos = false;
+}
+//----------------------------------------------------------------------------
+void UITree::_SliderCallback(UIFrame *frame, UICallType type)
+{
+	UISlider *slider = DynamicCast<UISlider>(frame);
+	if (slider)
+	{
+		if (UICT_SLIDERCHANGED == type)
+		{
+			mIsNeedUpdateContentPos = true;
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void UITree::OnSizeChanged()
+{
+	mIsNeedUpdateContentPos = true;
+
+	UIFrame::OnSizeChanged();
 }
 //----------------------------------------------------------------------------
 void UITree::SetItemHeight(float height)
@@ -32,9 +129,71 @@ void UITree::SetItemHeight(float height)
 	mItemHeight = height;
 }
 //----------------------------------------------------------------------------
-UIItem *UITree::AddItem(UIItem *parentItem, const std::string &label)
+void UITree::SelectCallback(UIFrame *frame, UICallType type)
 {
-	return parentItem->AddItem(label);
+	if (type == UICT_PRESSED)
+	{
+		UIButton *button = DynamicCast<UIButton>(frame);
+		if (button)
+		{
+			UIItem *uiItem = DynamicCast<UIItem>(button->GetParent());
+			if (uiItem)
+			{
+				ClearAllSelectItems();
+				AddSelectItem(uiItem);
+
+				OnSelected(uiItem);
+			}
+		}
+	}
+}
+//----------------------------------------------------------------------------
+UIItem *UITree::AddItem(UIItem *parentItem, const std::string &label, 
+	const std::string &name, Object *obj)
+{
+	UIItem *item = parentItem->AddItem(label, name, obj);
+	UIButton *butBack = item->GetButBack();
+	if (butBack)
+	{
+		butBack->SetMemUICallback(this,
+			(UIFrame::MemUICallback)(&UITree::SelectCallback));
+	}
+
+	if (!name.empty())
+	{
+		mTagItems[name] = item;
+	}
+
+	return item;
+}
+//----------------------------------------------------------------------------
+UIItem *UITree::GetItemByObject(Object *obj)
+{
+	if (mRootItem)
+		return mRootItem->GetItemByObject(obj);
+
+	return 0;
+}
+//----------------------------------------------------------------------------
+bool UITree::RemoveItem(UIItem *item)
+{
+	if (!item) return false;
+
+	if (item)
+	{
+		UIItem *itemParent = DynamicCast<UIItem>(item->GetParent());
+		if (itemParent)
+		{
+			return itemParent->RemoveItem(item);
+		}
+	}
+
+	return false;
+}
+//----------------------------------------------------------------------------
+void UITree::OnSelected(UIItem *item)
+{
+	PX2_UNUSED(item);
 }
 //----------------------------------------------------------------------------
 void UITree::RemoveAllItemsExceptRoot()
@@ -43,6 +202,8 @@ void UITree::RemoveAllItemsExceptRoot()
 	{
 		mRootItem->RemoveAllChildItems();
 	}
+
+	mTagItems.clear();
 }
 //----------------------------------------------------------------------------
 void UITree::ShowRootItem(bool show)
@@ -51,8 +212,38 @@ void UITree::ShowRootItem(bool show)
 
 	if (mRootItem)
 	{
-		mRootItem->_ShowRootItem(show);
+		mRootItem->ShowItem(show);
 	}
+}
+//----------------------------------------------------------------------------
+void UITree::AddSelectItem(UIItem *item)
+{
+	if (item->IsSelected())
+		return;
+
+	item->Select(true);
+
+	mSelectedItems.push_back(item);
+}
+//----------------------------------------------------------------------------
+void UITree::ClearAllSelectItems()
+{
+	for (int i = 0; i < (int)mSelectedItems.size(); i++)
+	{
+		mSelectedItems[i]->Select(false);
+	}
+
+	mSelectedItems.clear();
+}
+//----------------------------------------------------------------------------
+UIItem *UITree::GetSelectedItem()
+{
+	if ((int)mSelectedItems.size() > 0)
+	{
+		return mSelectedItems[0];
+	}
+
+	return 0;
 }
 //----------------------------------------------------------------------------
 
@@ -60,8 +251,14 @@ void UITree::ShowRootItem(bool show)
 // 持久化支持
 //----------------------------------------------------------------------------
 UITree::UITree(LoadConstructor value) :
-UIFrame(value)
+UIFrame(value),
+mSliderSize(10),
+mItemHeight(20.0f),
+mIconArrowSpace(12.0f),
+mIsShowRootItem(false),
+mIsNeedUpdateContentPos(true)
 {
+	SetUIChildPickOnlyInSizeRange(true);
 }
 //----------------------------------------------------------------------------
 void UITree::Load(InStream& source)

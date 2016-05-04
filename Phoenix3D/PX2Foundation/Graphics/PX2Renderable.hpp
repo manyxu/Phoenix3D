@@ -94,9 +94,8 @@ namespace PX2
 			RL_SKY,
 			RL_TERRAIN,
 			RL_SCENE,
+			RL_UIMASK,
 			RL_UI,
-			RL_UI_RANGE,
-			RL_UI_RANGE_ELEMENT,
 			RL_MAX
 		};
 		void SetRenderLayer (RenderLayer layer, int sublayer=0);
@@ -108,11 +107,6 @@ namespace PX2
 		// 绘制几何图形的效果实例
 		inline void SetMaterialInstance (MaterialInstance* material);
 		inline MaterialInstance* GetMaterialInstance () const;
-
-		bool AllowRed;
-		bool AllowGreen;
-		bool AllowBlue;
-		bool AllowAlpha;
 
 		// 灯光
 		/*
@@ -290,7 +284,7 @@ public_internal:
 	};
 
 	PX2_REGISTER_STREAM(Renderable);
-	typedef Pointer0<Renderable> RenderablePtr;
+	typedef PointerRef<Renderable> RenderablePtr;
 #include "PX2Renderable.inl"
 
 }

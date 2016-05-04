@@ -143,18 +143,18 @@ void Font::GetCharSize (const unsigned char *character, float &width,
 }
 //----------------------------------------------------------------------------
 void Font::GetCharExtent (const unsigned char *character, float &width1,
-	float &height1)
+	float &height1, float fontScale)
 {
 	float width = 0.0f;
 	float height = 0.0f;
 	GetCharSize(character, width, height);
 
-	width1 = (width/height) * mCharWidth;
-	height1 = mCharHeight;
+	width1 = (width / height) * mCharWidth * fontScale;
+	height1 = 1.0f * mCharHeight * fontScale;
 }
 //----------------------------------------------------------------------------
 void Font::GetTextExtent (const char *text, float &width, float &height,
-	bool doTransfer)
+	bool doTransfer, float fontScale)
 {
 	if (!text)
 		return;
@@ -203,7 +203,7 @@ void Font::GetTextExtent (const char *text, float &width, float &height,
 			unsigned char cc[4];
 			int charSize = mCharCodingObj->GetAChar(p, cc);
 
-			GetCharExtent(cc, charWidth, charHeight);
+			GetCharExtent(cc, charWidth, charHeight, fontScale);
 			p += charSize;
 
 			if (isMeetTransfer)
@@ -230,7 +230,7 @@ void Font::GetTextExtent (const char *text, float &width, float &height,
 }
 //----------------------------------------------------------------------------
 void Font::GetTextExtentFitInWidth (const char *text, float fixedWidth, 
-	float &width, int &numBytes, bool doTransfer)
+	float &width, int &numBytes, bool doTransfer, float fontScale)
 {
 	if (!text)
 		return;
@@ -258,7 +258,7 @@ void Font::GetTextExtentFitInWidth (const char *text, float fixedWidth,
 			unsigned char cc[4];
 			int charSize = mCharCodingObj->GetAChar(p, cc);
 
-			GetCharExtent(cc, charWidth, charHeight);
+			GetCharExtent(cc, charWidth, charHeight, fontScale);
 			p += charSize;
 
 			if (width + charWidth > fixedWidth)
@@ -281,7 +281,7 @@ inline void SetupCharPoly (FontDrawRect *poly, float x, float y, float w,
 void Font::TextOutM (TriMesh *mesh, const std::string &text, float xPos, float yPos,
 	const Float2 &space, const Float4 &color, const Float4 &shadowBorderColor4,
 	float shadowBorderSize, unsigned int drawStyle,	bool doTransfer, 
-	float scale, float depth)
+	float fontScale, float depth)
 {
 	SetHorInterval(space[0]);
 	SetLineInterval(space[1]);
@@ -334,15 +334,11 @@ void Font::TextOutM (TriMesh *mesh, const std::string &text, float xPos, float y
 				// 获得字符的宽，高
 				float charWidth = 0.0f;
 				float charHeight = 0.0f;
-				GetCharExtent(cc, charWidth, charHeight);
+				GetCharExtent(cc, charWidth, charHeight, fontScale);
 
 				Rectf rectUV;
 				Texture2D *tex = TexUVMaping(cc, rectUV);
-
 				mTexture = tex;
-
-				charWidth *= scale;
-				charHeight *= scale;
 
 				if (mTexture == tex)
 				{
@@ -395,7 +391,7 @@ void Font::TextOutM (TriMesh *mesh, const std::string &text, float xPos, float y
 					mShowNum++;
 					showCharNum++;
 					p += charSize;
-					curX += (charWidth+mHorInterval*scale);
+					curX += (charWidth+mHorInterval);
 				}
 
 				// 如果贴图缓存满或者多边形缓冲区满或者切换了贴图，则把当前的多边形缓冲区输出
@@ -497,7 +493,7 @@ void Font::TextOutRect(TriMesh *mesh, const std::string &text, Rectf &rect,
 	const Float2 &space,
 	float offsetX, float offsetY, bool autoWrap, const Float4 &color,
 	const Float4 &shadowBorderColor4, float shadowBorderSize, 
-	int drawStyle, bool doTransfer,  float scale)
+	int drawStyle, bool doTransfer, float fontScale, bool isPointAsPunctuation)
 {
 	SetHorInterval(space[0]);
 	SetLineInterval(space[1]);
@@ -519,7 +515,7 @@ void Font::TextOutRect(TriMesh *mesh, const std::string &text, Rectf &rect,
 	
 	Rectf rec = rect;
 	float curX = rec.Left;
-	float curY = rec.Top - mCharHeight*scale; // 第一行不需要加上mLineInterval
+	float curY = rec.Top - mCharHeight*fontScale; // 第一行不需要加上mLineInterval
 
 	Float4 curColor = color;
 
@@ -536,12 +532,12 @@ void Font::TextOutRect(TriMesh *mesh, const std::string &text, Rectf &rect,
 		if (CCC_ENDOFSTRING == ctrlCode)
 			break;
 
-		switch (ctrlCodeSize)
+		switch (ctrlCode)
 		{
 		case CCC_NEWLINE:
 			{
 				curX = rec.Left;
-				curY -= (mCharHeight + mLineInterval) * scale;
+				curY -= (mCharHeight + mLineInterval) * fontScale;
 			}
 			break;
 		case CCC_CHARACTER:
@@ -558,37 +554,41 @@ void Font::TextOutRect(TriMesh *mesh, const std::string &text, Rectf &rect,
 				float vOffset1 = 0.0f;
 				float vOffset2 = 0.0f;
 
-				if (autoWrap)
-				{
-					float dis = GetMinDisToNewLine(p, doTransfer);
-					if (dis > rec.Width())
-						rec.Right = rec.Left + dis;
-					if (curX+dis > rec.Right)
-					{
-						// 自动换行， 重新计算X坐标
-						curX = rec.Left;
-						curY -= (mCharHeight + mLineInterval)*scale;
-						int numSpace = mCharCodingObj->JumpOverSpaces(p);
-						if (numSpace > 0)
-						{
-							p += numSpace;
-							continue;
-						}
-					}
-				}
+				//if (autoWrap)
+				//{
+				//	float dis = GetMinDisOfAWord(p, doTransfer, isPointAsPunctuation, fontScale);
+				//	if (curX+dis > rec.Right)
+				//	{
+				//		if (rec.Left != curX)
+				//		{ // 中途遇到一个超长单词,换行
+				//			curX = rec.Left;
+				//			curY -= (mCharHeight + mLineInterval) * fontScale;
+
+				//			int numSpace = mCharCodingObj->JumpOverSpaces(p);
+				//			if (numSpace > 0)
+				//			{
+				//				p += numSpace;
+				//				continue;
+				//			}
+				//		}
+				//	}
+				//}
 
 				// 取一个字符
 				unsigned char cc[8];
 				int charSize = mCharCodingObj->GetAChar(p, cc);
 
 				// 取字符的宽，高
-				GetCharExtent(cc, charWidth, charHeight);
-
-				charWidth *= scale;
-				charHeight *= scale;
+				GetCharExtent(cc, charWidth, charHeight, fontScale);
 
 				if (autoWrap)
 				{
+					if (curX + charWidth > rect.Right)
+					{
+						curX = rec.Left;
+						curY -= (mCharHeight + mLineInterval) * fontScale;
+					}
+
 					xx1 = curX;
 					xx2 = curX + charWidth;
 				}
@@ -600,7 +600,7 @@ void Font::TextOutRect(TriMesh *mesh, const std::string &text, Rectf &rect,
 				yy1 = curY + offsetY;
 				yy2 = curY + offsetY + charHeight;
 
-				// 超出矩形区域则不显示，进行下一循环
+				// 超出矩形区域则不显示，判断下一个字符
 				if (yy1>=rec.Top || yy2<=rec.Bottom ||
 					(!autoWrap && (xx1>=rec.Right || xx2<=rec.Left)))
 				{
@@ -692,7 +692,7 @@ void Font::TextOutRect(TriMesh *mesh, const std::string &text, Rectf &rect,
 					mShowNum++;
 					showCharNum++;
 					p += charSize;
-					curX += charWidth + mHorInterval*scale;
+					curX += charWidth + mHorInterval*fontScale;
 				}
 
 				if (showCharNum>=mCharNumMaxCache || mShowNum>=FONT_MAXRECTNUM 
@@ -875,7 +875,8 @@ void Font::RenderText (TriMesh *mesh, float depth)
 	mShowNum = 0;
 }
 //----------------------------------------------------------------------------
-float Font::GetMinDisToNewLine (const char *text, bool doTransfer)
+float Font::GetMinDisOfAWord(const char *text, bool doTransfer,
+	bool isPointAsPunctuation, float fontScale)
 {
 	if (!text)
 		return 0.0f;
@@ -902,12 +903,21 @@ float Font::GetMinDisToNewLine (const char *text, bool doTransfer)
 			charSize = mCharCodingObj->GetAChar((const char*)p, cc);
 			if (mCharCodingObj->IsEnglish(cc))
 			{
-				GetCharExtent(cc, charWidth, charHeight);
+				GetCharExtent(cc, charWidth, charHeight, fontScale);
 				result += charWidth;
 				p += charSize;
 
-				if( mCharCodingObj->IsPunctuation(cc) )
-					return result;
+				if (mCharCodingObj->IsPunctuation(cc))
+				{
+					if (mCharCodingObj->IsPoint(cc) && !isPointAsPunctuation)
+					{
+						/*_*/
+					}
+					else
+					{
+						return result;
+					}
+				}
 			}
 			else
 			{
@@ -917,7 +927,7 @@ float Font::GetMinDisToNewLine (const char *text, bool doTransfer)
 	}
 	else // 中文
 	{
-		GetCharExtent(cc, charWidth, charHeight);
+		GetCharExtent(cc, charWidth, charHeight, fontScale);
 		return charWidth;
 	}
 

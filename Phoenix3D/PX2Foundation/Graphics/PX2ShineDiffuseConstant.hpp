@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(ShineDiffuseConstant);
-	typedef Pointer0<ShineDiffuseConstant> ShineDiffuseConstantPtr;
+	typedef PointerRef<ShineDiffuseConstant> ShineDiffuseConstantPtr;
 
 }
 

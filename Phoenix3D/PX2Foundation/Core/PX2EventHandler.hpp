@@ -30,7 +30,8 @@ namespace PX2
 		// 世界
 		EventWorld* GetWorld ();
 		bool IsInWorld () const;
-		bool IsInWorld (EventWorld* pWorld) const;
+		bool IsInWorld(EventWorld* world) const;
+		bool IsInOrIningWorld(EventWorld *world) const;
 
 		// 重载,进行相应的消息处理
 		virtual void DoEnter ();

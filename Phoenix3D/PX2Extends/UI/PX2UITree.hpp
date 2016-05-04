@@ -5,6 +5,7 @@
 
 #include "PX2UIItem.hpp"
 #include "PX2UIFrame.hpp"
+#include "PX2UISlider.hpp"
 
 namespace PX2
 {
@@ -25,21 +26,49 @@ namespace PX2
 		float GetIconArrowSpace() const;
 
 		UIItem *GetRootItem();
-		UIItem *AddItem(UIItem *parentItem, const std::string &label);
+		virtual UIItem *AddItem(UIItem *parentItem, const std::string &label, 
+			const std::string &name="", Object *obj=0);
+		UIItem *GetItemByObject(Object *obj);
+		bool RemoveItem(UIItem *item);
 		void RemoveAllItemsExceptRoot();
 		void ShowRootItem(bool show);
 		bool IsShowRootItem() const;
 
+		void AddSelectItem(UIItem *item);
+		void ClearAllSelectItems();
+		UIItem *GetSelectedItem();
+
+		virtual void OnSelected(UIItem *item);
+		void SelectCallback(UIFrame *frame, UICallType type);
+
+		virtual void OnSizeChanged();
+
 	protected:
+		virtual void UpdateWorldData(double applicationTime,
+			double elapsedTime);
+		void _UpdateContentPos();
+		void _SliderCallback(UIFrame *frame, UICallType type);
+
+		bool mIsNeedUpdateContentPos;
+
+		float mSliderSize;
 		float mItemHeight;
 		float mIconArrowSpace;
 		UIItemPtr mRootItem;
 		bool mIsShowRootItem;
+
+		UIFramePtr mMaskFrame;
+
+		UIFramePtr mContentFrame;
+		std::vector<UIItemPtr> mSelectedItems;
+		std::map<std::string, UIItem*> mTagItems;
+
+		UISliderPtr mSlider;
 	};
 
 #include "PX2UITree.inl"
 	PX2_REGISTER_STREAM(UITree);
-	typedef Pointer0<UITree> UITreePtr;
+	typedef PointerRef<UITree> UITreePtr;
 
 }
 

@@ -1,6 +1,7 @@
 // PX2UIButtonBase.cpp
 
 #include "PX2UIButtonBase.hpp"
+#include "PX2FunObject.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, UIButtonBase);
@@ -10,68 +11,98 @@ PX2_IMPLEMENT_DEFAULT_NAMES(UIFrame, UIButtonBase);
 
 //----------------------------------------------------------------------------
 UIButtonBase::UIButtonBase() :
+mButType(BT_COLOR),
 mButtonState(BS_NORMAL)
 {
+	mNormalColor = Float3::MakeColor(80, 80, 80);
+	mHoveredColor = Float3::MakeColor(100, 100, 100);
+	mPressedColor = Float3::MakeColor(60, 60, 60);
+	mDisableColor = Float3::BLUE;
+
+	mNormalAlpha = 1.0f;
+	mHoveredAlpha = 1.0f;
+	mPressedAlpha = 1.0f;
+	mDisableAlpha = 1.0f;
+	mNormalBrightness = 1.0f;
+	mHoveredBrightness = 1.0f;
+	mPressedBrightness = 1.0f;
+	mDisableBrightness = 1.0f;
+
+	SetWidget(true);
 }
 //----------------------------------------------------------------------------
 UIButtonBase::~UIButtonBase()
 {
 }
 //----------------------------------------------------------------------------
-void UIButtonBase::SetPivot(const Float2 &pvoit)
+void UIButtonBase::OnPvoitChanged()
 {
+	UIFrame::OnPvoitChanged();
+
 	if (mPicBoxNormal)
-		mPicBoxNormal->SetPivot(pvoit);
+		mPicBoxNormal->SetPivot(mPvoit);
 
 	if (mPicBoxOver)
-		mPicBoxOver->SetPivot(pvoit);
+		mPicBoxOver->SetPivot(mPvoit);
 
 	if (mPicBoxDown)
-		mPicBoxDown->SetPivot(pvoit);
+		mPicBoxDown->SetPivot(mPvoit);
 
 	if (mPicBoxDisabled)
-		mPicBoxDisabled->SetPivot(pvoit);
-		
-	UIFrame::SetPivot(pvoit);
+		mPicBoxDisabled->SetPivot(mPvoit);
+}
+//----------------------------------------------------------------------------
+void UIButtonBase::SetButType(ButType butType)
+{
+	mButType = butType;
 }
 //----------------------------------------------------------------------------
 void UIButtonBase::SetButtonState(ButtonState state)
 {
 	mButtonState = state;
 
-	Movable::CullingMode normalCull = Movable::CULL_ALWAYS;
-	Movable::CullingMode overCull = Movable::CULL_ALWAYS;
-	Movable::CullingMode downCull = Movable::CULL_ALWAYS;
-	Movable::CullingMode disableCull = Movable::CULL_ALWAYS;
-
-	if (BS_NORMAL == mButtonState)
+	if (BT_COLOR == mButType)
 	{
-		normalCull = Movable::CULL_DYNAMIC;
+		SetColor(_GetStateColorWithActivated(mButtonState));
+		SetAlpha(_GetStateAlphaWithActivated(mButtonState));
+		SetBrightness(_GetStateBrightnessWithActivated(mButtonState));
 	}
-	else if (BS_HOVERED == mButtonState)
+	else
 	{
-		overCull = Movable::CULL_DYNAMIC;
+		Movable::CullingMode normalCull = Movable::CULL_ALWAYS;
+		Movable::CullingMode overCull = Movable::CULL_ALWAYS;
+		Movable::CullingMode downCull = Movable::CULL_ALWAYS;
+		Movable::CullingMode disableCull = Movable::CULL_ALWAYS;
+
+		if (BS_NORMAL == mButtonState)
+		{
+			normalCull = Movable::CULL_DYNAMIC;
+		}
+		else if (BS_HOVERED == mButtonState)
+		{
+			overCull = Movable::CULL_DYNAMIC;
+		}
+		else if (BS_PRESSED == mButtonState)
+		{
+			downCull = Movable::CULL_DYNAMIC;
+		}
+		else if (BS_DISABLED == mButtonState)
+		{
+			disableCull = Movable::CULL_DYNAMIC;
+		}
+
+		if (mPicBoxNormal)
+			mPicBoxNormal->Culling = normalCull;
+
+		if (mPicBoxOver)
+			mPicBoxOver->Culling = overCull;
+
+		if (mPicBoxDown)
+			mPicBoxDown->Culling = downCull;
+
+		if (mPicBoxDisabled)
+			mPicBoxDisabled->Culling = disableCull;
 	}
-	else if (BS_PRESSED == mButtonState)
-	{
-		downCull = Movable::CULL_DYNAMIC;
-	}
-	else if (BS_DISABLED == mButtonState)
-	{
-		disableCull = Movable::CULL_DYNAMIC;
-	}
-
-	if (mPicBoxNormal)
-		mPicBoxNormal->Culling = normalCull;
-
-	if (mPicBoxOver)
-		mPicBoxOver->Culling = overCull;
-
-	if (mPicBoxDown)
-		mPicBoxDown->Culling = downCull;
-
-	if (mPicBoxDisabled)
-		mPicBoxDisabled->Culling = disableCull;
 }
 //----------------------------------------------------------------------------
 void UIButtonBase::SetPicBox(ButtonState state, UIPicBox *pic)
@@ -147,23 +178,193 @@ UIPicBox *UIButtonBase::GetPicBoxAtState(ButtonState state)
 	return 0;
 }
 //----------------------------------------------------------------------------
-UIText *UIButtonBase::CreateAddText()
+void UIButtonBase::SetStateColor(ButtonState state, const Float3 &color)
 {
-	if (mText)
+	switch (state)
 	{
-		DetachChild(mText);
-		mText = 0;
+	case BS_NORMAL:
+		mNormalColor = color;
+		break;
+	case BS_HOVERED:
+		mHoveredColor = color;
+		break;
+	case BS_PRESSED:
+		mPressedColor = color;
+		break;
+	case BS_DISABLED:
+		mDisableColor = color;
+		break;
+	default:
+		break;
 	}
 
-	mText = new0 UIText();
-	AttachChild(mText);
-	mText->SetRectUseage(UIText::RU_ALIGNS);
-	mText->SetAligns(TEXTALIGN_HCENTER | TEXTALIGN_VCENTER);
-	mText->SetRect(Rectf(-mSize.Width / 2.0f, -mSize.Height / 2.0f, mSize.Width/2.0f, mSize.Height/2.0f));
-	mText->LocalTransform.SetTranslateY(-5.0f);
-	mText->SetFontColor(Float3::MakeColor(50, 50, 50));
+	SetColor(GetStateColor(mButtonState));
+}
+//----------------------------------------------------------------------------
+const Float3 &UIButtonBase::GetStateColor(ButtonState state) const
+{
+	switch (state)
+	{
+	case BS_NORMAL:
+		return mNormalColor;
+		break;
+	case BS_HOVERED:
+		return mHoveredColor;
+		break;
+	case BS_PRESSED:
+		return mPressedColor;
+		break;
+	case BS_DISABLED:
+		return mDisableColor;
+		break;
+	default:
+		break;
+	}
 
-	return mText;
+	return Float3::WHITE;
+}
+//----------------------------------------------------------------------------
+void UIButtonBase::SetStateAlpha(ButtonState state, float alpha)
+{
+	switch (state)
+	{
+	case BS_NORMAL:
+		mNormalAlpha = alpha;
+		break;
+	case BS_HOVERED:
+		mHoveredAlpha = alpha;
+		break;
+	case BS_PRESSED:
+		mPressedAlpha = alpha;
+		break;
+	case BS_DISABLED:
+		mDisableAlpha = alpha;
+		break;
+	default:
+		break;
+	}
+
+	SetButtonState(GetButtonState());
+}
+//----------------------------------------------------------------------------
+float UIButtonBase::GetStateAlpha(ButtonState state) const
+{
+	switch (state)
+	{
+	case BS_NORMAL:
+		return mNormalAlpha;
+		break;
+	case BS_HOVERED:
+		return mHoveredAlpha;
+		break;
+	case BS_PRESSED:
+		return mPressedAlpha;
+		break;
+	case BS_DISABLED:
+		return mDisableAlpha;
+		break;
+	default:
+		break;
+	}
+
+	return 1.0f;
+}
+//----------------------------------------------------------------------------
+void UIButtonBase::SetStateBrightness(ButtonState state, float brightness)
+{
+	switch (state)
+	{
+	case BS_NORMAL:
+		mNormalBrightness = brightness;
+		break;
+	case BS_HOVERED:
+		mHoveredBrightness = brightness;
+		break;
+	case BS_PRESSED:
+		mPressedBrightness = brightness;
+		break;
+	case BS_DISABLED:
+		mDisableBrightness = brightness;
+		break;
+	default:
+		break;
+	}
+
+	SetButtonState(GetButtonState());
+}
+//----------------------------------------------------------------------------
+float UIButtonBase::GetStateBrightness(ButtonState state) const
+{
+	switch (state)
+	{
+	case BS_NORMAL:
+		return mNormalBrightness;
+		break;
+	case BS_HOVERED:
+		return mHoveredBrightness;
+		break;
+	case BS_PRESSED:
+		return mPressedBrightness;
+		break;
+	case BS_DISABLED:
+		return mDisableBrightness;
+		break;
+	default:
+		break;
+	}
+
+	return 1.0f;
+}
+//----------------------------------------------------------------------------
+const Float3 &UIButtonBase::_GetStateColorWithActivated(
+	ButtonState state) const
+{
+	if (IsActivated())
+		return mActivatedColor;
+
+	return GetStateColor(state);
+}
+//----------------------------------------------------------------------------
+float UIButtonBase::_GetStateAlphaWithActivated(ButtonState state) const
+{
+	if (IsActivated())
+		return mActivatedAlpha;
+
+	return GetStateAlpha(state);
+}
+//----------------------------------------------------------------------------
+float UIButtonBase::_GetStateBrightnessWithActivated(ButtonState state) const
+{
+	if (IsActivated())
+		return mActivatedBrightness;
+
+	return GetStateBrightness(state);
+}
+//----------------------------------------------------------------------------
+void UIButtonBase::SetActivate(bool act)
+{
+	UIFrame::SetActivate(act);
+}
+//----------------------------------------------------------------------------
+UIFText *UIButtonBase::CreateAddText(const std::string &text)
+{
+	if (mFText)
+	{
+		DetachChild(mFText);
+		mFText = 0;
+	}
+
+	mFText = new0 UIFText();
+	AttachChild(mFText);
+	mFText->LocalTransform.SetTranslateY(-5.0f);
+	mFText->GetText()->SetFontScale(0.8f);
+	mFText->GetText()->SetFontColor(Float3::MakeColor(50, 50, 50));
+	mFText->GetText()->SetText(text);
+	mFText->SetAnchorHor(0.0f, 1.0f);
+	mFText->SetAnchorVer(0.0f, 1.0f);
+	mFText->SetColorSelfCtrled(true);
+
+	return mFText;
 }
 //----------------------------------------------------------------------------
 void UIButtonBase::OnSizeChanged()
@@ -210,10 +411,32 @@ void UIButtonBase::OnPropertyChanged(const PropertyObject &obj)
 //----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
+// Functions
+//----------------------------------------------------------------------------
+FunObject *UIButtonBase::RegistClassFunctions()
+{
+	FunObject *parentFunObj = UIFrame::RegistClassFunctions();
+
+	FunObject *thisFunObj = parentFunObj->GetAddClass("UIButtonBase");
+
+	{
+		FunObjectPtr funObj = new0 FunObject();
+		funObj->FunName = "CreateAddText";
+		funObj->AddInput("in_but", FPT_POINTER_THIS, (Object*)0);
+		funObj->AddInput("in_textstr", FPT_STRING, std::string("Button"));
+		thisFunObj->AddFunObject(funObj);
+	}
+
+	return thisFunObj;
+}
+//----------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------
 // 持久化支持
 //----------------------------------------------------------------------------
 UIButtonBase::UIButtonBase(LoadConstructor value) :
 UIFrame(value),
+mButType(BT_COLOR),
 mButtonState(BS_NORMAL)
 {
 }
@@ -224,6 +447,17 @@ void UIButtonBase::Load(InStream& source)
 
 	UIFrame::Load(source);
 	PX2_VERSION_LOAD(source);
+
+	source.ReadEnum(mButType);
+
+	source.ReadAggregate(mNormalColor);
+	source.ReadAggregate(mHoveredColor);
+	source.ReadAggregate(mPressedColor);
+	source.ReadAggregate(mDisableColor);
+	source.Read(mNormalBrightness);
+	source.Read(mHoveredBrightness);
+	source.Read(mPressedBrightness);
+	source.Read(mDisableBrightness);
 
 	source.ReadPointer(mPicBoxNormal);
 	source.ReadPointer(mPicBoxOver);
@@ -271,6 +505,17 @@ void UIButtonBase::Save(OutStream& target) const
 	UIFrame::Save(target);
 	PX2_VERSION_SAVE(target);
 
+	target.WriteEnum(mButType);
+
+	target.WriteAggregate(mNormalColor);
+	target.WriteAggregate(mHoveredColor);
+	target.WriteAggregate(mPressedColor);
+	target.WriteAggregate(mDisableColor);
+	target.Write(mNormalBrightness);
+	target.Write(mHoveredBrightness);
+	target.Write(mPressedBrightness);
+	target.Write(mDisableBrightness);
+
 	target.WritePointer(mPicBoxNormal);
 	target.WritePointer(mPicBoxOver);
 	target.WritePointer(mPicBoxDown);
@@ -284,6 +529,18 @@ int UIButtonBase::GetStreamingSize(Stream &stream) const
 {
 	int size = UIFrame::GetStreamingSize(stream);
 	size += PX2_VERSION_SIZE(mVersion);
+
+	size += PX2_ENUMSIZE(mButType);
+
+	size += sizeof(mNormalColor);
+	size += sizeof(mHoveredColor);
+	size += sizeof(mPressedColor);
+	size += sizeof(mDisableColor);
+
+	size += sizeof(mNormalBrightness);
+	size += sizeof(mHoveredBrightness);
+	size += sizeof(mPressedBrightness);
+	size += sizeof(mDisableBrightness);
 
 	size += PX2_POINTERSIZE(mPicBoxNormal);
 	size += PX2_POINTERSIZE(mPicBoxOver);

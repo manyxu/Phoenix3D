@@ -31,12 +31,11 @@ namespace PX2
 
 	protected:
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
-		virtual void OnUIPicked(int info, Movable *child);
-		virtual void OnNotPicked(int info);
+		virtual void OnUIPicked(const UIInputData &data);
 	};
 
 	PX2_REGISTER_STREAM(UICheckButton);
-	typedef Pointer0<UICheckButton> UICheckButtonPtr;
+	typedef PointerRef<UICheckButton> UICheckButtonPtr;
 
 }
 

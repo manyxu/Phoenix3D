@@ -32,6 +32,8 @@ EnvirParam::EnvirParam()
 //----------------------------------------------------------------------------
 EnvirParam::~EnvirParam()
 {
+	mLight_Dir_Projector = 0;
+
 	mAllLights.clear();
 	mLight_Dir = 0;
 }
@@ -60,7 +62,7 @@ void EnvirParam::AddLight(Light *light)
 //----------------------------------------------------------------------------
 void EnvirParam::RemoveLight(Light *light)
 {
-	std::vector<Pointer0<Light> >::iterator it = mAllLights.begin();
+	std::vector<PointerRef<Light> >::iterator it = mAllLights.begin();
 	for (; it != mAllLights.end(); it++)
 	{
 		if (*it == light)

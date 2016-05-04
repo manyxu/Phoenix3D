@@ -1,0 +1,7 @@
+// PX2UIText.pkg
+
+	class UIText : public TriMesh
+	{
+		UIText();
+		virtual ~UIText();
+	};

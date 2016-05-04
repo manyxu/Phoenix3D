@@ -13,6 +13,7 @@
 #include "PX2UIFrame.hpp"
 #include "PX2UICanvas.hpp"
 #include "PX2SceneCanvas.hpp"
+#include "PX2BPPackage.hpp"
 
 namespace PX2
 {
@@ -24,7 +25,7 @@ namespace PX2
 
 	public:
 		Project ();
-		~Project ();
+		virtual ~Project();
 
 		// 使用该接口删除Project
 		static void Destory();
@@ -73,10 +74,10 @@ namespace PX2
 
 		// Scene
 	public:
-		bool LoadScene(const std::string &pathname);
 		void SetScene(Scene *scene);
 		Scene *GetScene();
 		const std::string &GetSceneFilename() const;
+
 		void SetSceneCanvas(SceneCanvas *sceneCanvas);
 		SceneCanvas *GetSceneCanvas();
 
@@ -90,7 +91,6 @@ namespace PX2
 
 		// UI
 	public:
-		bool LoadUI(const std::string &pathname);
 		void SetUIFrame(UIFrame *ui);
 		UIFrame *GetUIFrame();
 		const std::string &GetUIFilename() const;
@@ -100,6 +100,16 @@ namespace PX2
 		std::string mUIFilename;
 		UIFramePtr mUIFrame;
 		UICanvasPtr mUICanvas;
+
+		// BluePrint
+	public:
+		void SetBPPackage(BPPackage *package);
+		BPPackage *GetBPPackage();
+		const std::string &GetBPFilename() const;
+
+	protected:
+		std::string mBPFilename;
+		BPPackagePtr mBPPackage;
 
 		// Screen Adjust
 	public:

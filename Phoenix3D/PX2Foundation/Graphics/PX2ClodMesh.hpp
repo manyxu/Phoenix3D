@@ -44,7 +44,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(ClodMesh);
-	typedef Pointer0<ClodMesh> ClodMeshPtr;
+	typedef PointerRef<ClodMesh> ClodMeshPtr;
 #include "PX2ClodMesh.inl"
 
 }

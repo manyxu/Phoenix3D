@@ -63,7 +63,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(UIProgressBar);
-	typedef Pointer0<UIProgressBar> UIProgressBarPtr;
+	typedef PointerRef<UIProgressBar> UIProgressBarPtr;
 
 #include "PX2UIProgressBar.inl"
 

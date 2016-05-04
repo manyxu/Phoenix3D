@@ -3,46 +3,47 @@
 #include "PX2UIItem.hpp"
 #include "PX2UITree.hpp"
 #include "PX2UISkinManager.hpp"
+#include "PX2UICanvas.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, UIItem);
 PX2_IMPLEMENT_STREAM(UIItem);
 PX2_IMPLEMENT_FACTORY(UIItem);
+PX2_IMPLEMENT_DEFAULT_NAMES(UIFrame, UIItem);
 
 //----------------------------------------------------------------------------
 UIItem::UIItem() :
+mIsRootItem(false),
+mIsShowItem(true),
 mIsNeedRecal(true),
 mIsExpand(true),
 mIsNumAllChildExpandNeedRecal(true),
 mNumAllChildExpand(0),
+mLevelAdjust(0),
 mLevel(0),
-mIsShowRootItem(true)
+mIsSelected(false),
+mObject(0)
 {
 	mButBack = new0 UIButton();
 	AttachChild(mButBack);
-	mButBack->LocalTransform.SetTranslateY(-5.0f);
-	UIPicBox *picBoxNormal = mButBack->GetPicBoxAtState(UIButtonBase::BS_NORMAL);
-	picBoxNormal->SetTexture("Data/engine/white.png");
-	picBoxNormal->SetColor(PX2_UISM.Color_ViewBackground);
-	UIPicBox *picBoxHovered = mButBack->GetPicBoxAtState(UIButtonBase::BS_HOVERED);
-	picBoxHovered->SetTexture("Data/engine/white.png");
-	picBoxHovered->SetColor(PX2_UISM.Color_AuiButTab_Horvered);
-	UIPicBox *picBoxPressed = mButBack->GetPicBoxAtState(UIButtonBase::BS_PRESSED);
-	picBoxPressed->SetTexture("Data/engine/white.png");
-	picBoxPressed->SetColor(PX2_UISM.Color_AuiButTab_Pressed);
+	mButBack->LocalTransform.SetTranslateY(-1.0f);
+	mButBack->SetStateColor(UIButtonBase::BS_NORMAL, PX2_UISM.Color_ViewBackground);
+	mButBack->SetStateColor(UIButtonBase::BS_HOVERED, PX2_UISM.Color_ViewBackground);
 	mButBack->SetAnchorHor(0.0f, 1.0f);
 	mButBack->SetAnchorVer(0.0f, 1.0f);
 	mButBack->SetAnchorParamVer(1.0f, 0.0f);
+	mButBack->SetActivateColor(PX2_UISM.Color_SelectItem);
+	SetActivateColor(PX2_UISM.Color_SelectItem);
 
 	mFText = new0 UIFText();
 	AttachChild(mFText);
 	mFText->GetText()->SetAligns(TEXTALIGN_LEFT | TEXTALIGN_VCENTER);
 	mFText->SetAnchorHor(0.0f, 1.0f);
 	mFText->SetAnchorVer(0.0f, 1.0f);
-	mFText->LocalTransform.SetTranslateY(-6.0f);
-	mFText->GetText()->SetFontScale(0.6f);
+	mFText->LocalTransform.SetTranslateY(-2.0f);
+	mFText->GetText()->SetFontScale(0.7f);
 	mFText->GetText()->SetFontColor(Float3::MakeColor(120, 120, 120));
-	
+
 	SetPivot(0.5f, 0.5f);
 }
 //----------------------------------------------------------------------------
@@ -50,19 +51,53 @@ UIItem::~UIItem()
 {
 }
 //----------------------------------------------------------------------------
-UIItem *UIItem::AddItem(const std::string &label)
+void UIItem::SetRootItem(bool root)
+{
+	mIsRootItem = root;
+}
+//----------------------------------------------------------------------------
+void UIItem::ShowItem(bool show)
+{
+	mIsShowItem = show;
+
+	if (mButBack)
+		mButBack->Show(mIsShowItem);
+
+	if (mFText)
+		mFText->Show(mIsShowItem);
+
+	if (mButArrow)
+		mButArrow->Show(mIsShowItem);
+
+	if (IsRootItem())
+	{
+		if (mIsShowItem)
+			mLevel = 0;
+		else
+			mLevel = -1;
+
+		mIsNeedRecal = true;
+		mIsNumAllChildExpandNeedRecal = true;
+	}
+}
+//----------------------------------------------------------------------------
+UIItem *UIItem::AddItem(const std::string &label, const std::string &name,
+	Object *obj)
 {
 	UIItem *item = new0 UIItem();
 	AttachChild(item);
-	item->SetName(label);
+	item->SetName(name);
 	item->SetSize(GetSize());
 	item->GetFText()->GetText()->SetText(label);
+	item->mObject = obj;
 
 	return item;
 }
 //----------------------------------------------------------------------------
-void UIItem::OnChildAdded(Movable *child)
+void UIItem::OnChildAttached(Movable *child)
 {
+	UIFrame::OnChildAttached(child);
+
 	UIItem *item = DynamicCast<UIItem>(child);
 	if (item)
 	{
@@ -70,27 +105,16 @@ void UIItem::OnChildAdded(Movable *child)
 		mIsNumAllChildExpandNeedRecal = true;
 
 		mChildItems.push_back(item);
-	}
 
-	_TellParentChildrenRecal();
-}
-//----------------------------------------------------------------------------
-void UIItem::OnChildRemoved(Movable *child)
-{
-	UIItem *item = DynamicCast<UIItem>(child);
-	if (item)
-	{
-		mIsNeedRecal = true;
-		mIsNumAllChildExpandNeedRecal = true;
+		_TellParentChildrenRecal();
+		_TellParentChildrenExpand();
 	}
-
-	_TellParentChildrenRecal();
 }
 //----------------------------------------------------------------------------
 bool UIItem::RemoveItem(UIItem *item)
 {
 	// remove item
-	std::vector<Pointer0<UIItem> >::iterator it = mChildItems.begin();
+	std::vector<PointerRef<UIItem> >::iterator it = mChildItems.begin();
 	for (; it != mChildItems.end();)
 	{
 		if (item == *it)
@@ -100,9 +124,28 @@ bool UIItem::RemoveItem(UIItem *item)
 
 			return true;
 		}
+		else
+		{
+			it++;
+		}
 	}
 
 	return false;
+}
+//----------------------------------------------------------------------------
+void UIItem::OnChildDetach(Movable *child)
+{
+	UIFrame::OnChildDetach(child);
+
+	UIItem *item = DynamicCast<UIItem>(child);
+	if (item)
+	{
+		mIsNeedRecal = true;
+		_TellParentChildrenRecal();
+
+		mIsNumAllChildExpandNeedRecal = true;
+		_TellParentChildrenExpand();
+	}
 }
 //----------------------------------------------------------------------------
 void UIItem::RemoveAllChildItems()
@@ -113,6 +156,56 @@ void UIItem::RemoveAllChildItems()
 	}
 
 	mChildItems.clear();
+
+	_TellParentChildrenRecal();
+}
+//----------------------------------------------------------------------------
+void UIItem::SetItemObject(Object* obj)
+{
+	mObject = obj;
+}
+//----------------------------------------------------------------------------
+UIItem *UIItem::GetItemByObject(Object *obj)
+{
+	if (obj == mObject)
+		return this;
+
+	for (int i = 0; i<(int)mChildItems.size(); i++)
+	{
+		UIItem *item = mChildItems[i];
+		UIItem *objItem = item->GetItemByObject(obj);
+		if (objItem)
+			return objItem;
+	}
+
+	return 0;
+}
+//----------------------------------------------------------------------------
+UICheckButton *UIItem::CreateButArrow()
+{
+	DestoryArrowBut();
+
+	mButArrow = new0 UICheckButton();
+	AttachChild(mButArrow);
+	mButArrow->LocalTransform.SetTranslateY(-3.0f);
+	mButArrow->SetSize(12.0f, 12.0f);
+	mButArrow->SetPivot(Float2(0.5f, 0.5f));
+	mButArrow->SetAnchorHor(0.0f, 0.0f);
+	mButArrow->SetAnchorVer(0.5f, 0.5f);
+
+	_TellParentChildrenExpand();
+	_TellParentChildrenRecal();
+
+	return mButArrow;
+}
+//----------------------------------------------------------------------------
+void UIItem::DestoryArrowBut()
+{
+	if (mButArrow)
+	{
+		DetachChild(mButArrow);
+		mButArrow = 0;
+	}
 }
 //----------------------------------------------------------------------------
 void UIItem::Expand(bool expand)
@@ -125,15 +218,28 @@ void UIItem::Expand(bool expand)
 	}
 
 	mIsNumAllChildExpandNeedRecal = true;
-
+	_TellParentChildrenExpand();
 	_TellParentChildrenRecal();
+}
+//----------------------------------------------------------------------------
+void UIItem::_TellParentChildrenExpand()
+{
+	UIItem *parentItem = DynamicCast<UIItem>(GetParent());
+	while (parentItem)
+	{
+		parentItem->mIsNumAllChildExpandNeedRecal = true;
+
+		parentItem = DynamicCast<UIItem>(parentItem->GetParent());
+	}
 }
 //----------------------------------------------------------------------------
 void UIItem::_TellParentChildrenRecal()
 {
 	UIItem *parentItem = DynamicCast<UIItem>(GetParent());
-	if (parentItem)
+	while (parentItem)
 	{
+		parentItem->mIsNeedRecal = true;
+
 		for (int i = 0; i < parentItem->GetNumChildren(); i++)
 		{
 			UIItem *parentChildItem = DynamicCast<UIItem>(
@@ -143,6 +249,8 @@ void UIItem::_TellParentChildrenRecal()
 				parentChildItem->mIsNeedRecal = true;
 			}
 		}
+
+		parentItem = DynamicCast<UIItem>(parentItem->GetParent());
 	}
 }
 //----------------------------------------------------------------------------
@@ -161,11 +269,29 @@ void UIItem::OnSizeChanged()
 	UIFrame::OnSizeChanged();
 }
 //----------------------------------------------------------------------------
+void UIItem::SetLevelAdjust(float adjust)
+{
+	mLevelAdjust = adjust;
+
+	mIsNeedRecal = true;
+}
+//----------------------------------------------------------------------------
 void UIItem::SetIconArrowState(IconArrowState state)
 {
 	mIconArrowState = state;
 
 	mIsNeedRecal = true;
+}
+//----------------------------------------------------------------------------
+void UIItem::Select(bool select)
+{
+	mIsSelected = select;
+	SetActivate(mIsSelected);
+
+	if (mButBack)
+	{
+		mButBack->SetActivate(mIsSelected);
+	}
 }
 //----------------------------------------------------------------------------
 void UIItem::UpdateWorldData(double applicationTime, double elapsedTime)
@@ -183,6 +309,28 @@ void UIItem::UpdateWorldData(double applicationTime, double elapsedTime)
 	UIFrame::UpdateWorldData(applicationTime, elapsedTime);
 }
 //----------------------------------------------------------------------------
+void UIItem::PreUIPick(const UIInputData &inputData, UICanvas *canvas)
+{
+	if (!IsShow())
+		return;
+
+	for (int i = 0; i < GetNumChildren(); i++)
+	{
+		UIFrame *childFrame = DynamicCast<UIFrame>(GetChild(i));
+		UIItem *childItem = DynamicCast<UIItem>(GetChild(i));
+
+		if (childFrame && !childItem && IsShowItem())
+		{
+			childFrame->PreUIPick(inputData, canvas);
+		}
+
+		if (IsExpand() && childItem)
+		{
+			childItem->PreUIPick(inputData, canvas);
+		}
+	}
+}
+//----------------------------------------------------------------------------
 void UIItem::_RecalNumChildExpand()
 {
 	mIsNumAllChildExpandNeedRecal = false;
@@ -193,6 +341,7 @@ void UIItem::_RecalNumChildExpand()
 		UIItem *item = DynamicCast<UIItem>(GetChild(i));
 		if (item)
 		{
+			item->_SetLevel(_GetLevel() + 1 + item->GetLevelAdjust());
 			item->_RecalNumChildExpand();
 		}
 	}
@@ -220,16 +369,30 @@ void UIItem::_Recal()
 	mIsNeedRecal = false;
 
 	int numLevels = 0;
-	UITree *tree = DynamicCast<UITree>(GetFirstParentDerivedFromType(
-		UITree::TYPE, &numLevels));
+	UITree *tree = GetFirstParentDerivedFromType<UITree>(&numLevels);
 	if (tree)
 	{
 		float iconArrowSpace = tree->GetIconArrowSpace();
 		float itemHeight = tree->GetItemHeight();
 
 		float selfVerOffset = -itemHeight / 2.0f;
-		if (!mIsShowRootItem)
+		if (!IsShowItem())
 			selfVerOffset += itemHeight;
+
+		SetAnchorHor(0.0f, 1.0f);
+		SetAnchorVer(1.0f, 1.0f);
+
+		float level = _GetLevel();
+		UIText *text = GetFText()->GetText();
+		float offsetPosX = level * iconArrowSpace;
+		float textOffsetPosX = offsetPosX;
+		if (mButArrow && mButArrow->IsShow())
+		{
+			mButArrow->SetAnchorParamHor(
+				offsetPosX + iconArrowSpace / 2.0f, 0.0f);
+			textOffsetPosX += iconArrowSpace;
+		}
+		text->SetOffset(Float2(textOffsetPosX, 0.0f));
 
 		int numItemExtend = 0;
 		for (int i = 0; i < GetNumChildren(); i++)
@@ -237,18 +400,11 @@ void UIItem::_Recal()
 			UIItem *item = DynamicCast<UIItem>(GetChild(i));
 			if (item)
 			{
-				item->SetAnchorHor(0.0f, 1.0f);
-				item->SetAnchorVer(1.0f, 1.0f);
-				item->_SetLevel(_GetLevel() + 1);
+				item->Show(IsExpand());
 
 				// -itemHeight/2.0f is this item height
 				item->SetAnchorParamVer(
 					selfVerOffset - itemHeight * (numItemExtend + 1), 0.0f);
-				int itemLevel = item->_GetLevel();
-				UIText *text = item->GetFText()->GetText();
-				text->SetOffset(Float2(itemLevel*iconArrowSpace, 0.0f));
-
-				item->Show(mIsExpand);
 
 				numItemExtend += item->GetNumAllChildsExpand();
 			}
@@ -256,35 +412,9 @@ void UIItem::_Recal()
 	}
 }
 //----------------------------------------------------------------------------
-void UIItem::_SetLevel(int level)
+void UIItem::_SetLevel(float level)
 {
 	mLevel = level;
-}
-//----------------------------------------------------------------------------
-void UIItem::_ShowRootItem(bool show)
-{
-	if (mIsShowRootItem != show)
-	{
-		mIsShowRootItem = show;
-
-		if (mButBack)
-		{
-			mButBack->Show(mIsShowRootItem);
-		}
-
-		if (mFText)
-		{
-			mFText->Show(mIsShowRootItem);
-		}
-
-		if (mIsShowRootItem)
-			mLevel = 0;
-		else
-			mLevel = -1;
-	}
-
-	mIsNeedRecal = true;
-	mIsNumAllChildExpandNeedRecal = true;
 }
 //----------------------------------------------------------------------------
 
@@ -293,12 +423,15 @@ void UIItem::_ShowRootItem(bool show)
 //----------------------------------------------------------------------------
 UIItem::UIItem(LoadConstructor value) :
 UIFrame(value),
+mIsRootItem(false),
+mIsShowItem(false),
 mIsNeedRecal(true),
 mIsExpand(true),
 mIsNumAllChildExpandNeedRecal(true),
 mNumAllChildExpand(0),
+mLevelAdjust(0),
 mLevel(0),
-mIsShowRootItem(true)
+mObject(0)
 {
 }
 //----------------------------------------------------------------------------

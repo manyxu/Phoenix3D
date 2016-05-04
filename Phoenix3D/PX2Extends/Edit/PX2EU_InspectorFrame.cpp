@@ -15,12 +15,51 @@ EU_InspectorFrame::EU_InspectorFrame()
 	AttachChild(mToolFrame);
 	mToolFrame->LocalTransform.SetTranslateY(-1.0f);
 	UIPicBox *picBox = mToolFrame->CreateAddBackgroundPicBox();
-	picBox->SetTexture("Data/engine/white.png");
 	picBox->SetColor(PX2_UISM.Color_ToolBar);
 	mToolFrame->SetAnchorHor(0.0f, 1.0f);
 	mToolFrame->SetAnchorVer(1.0f, 1.0f);
 	mToolFrame->SetPivot(0.5f, 1.0f);
 	mToolFrame->SetSize(Sizef(0.0f, PX2_UISM.Size_ToolBar));
+
+	Sizef butSize = Sizef(PX2_UISM.Size_ToolBarBut, PX2_UISM.Size_ToolBarBut);
+	float butSpace = 2.0f;
+	Sizef spliterSize = Sizef(4.0f,
+		PX2_UISM.Size_ToolBar - 2);
+
+	float addButPos = 0.0f;
+
+	// edit type
+	addButPos = butSize.Width / 2.0f;
+	UIButton *butProperty = new0 UIButton();
+	mToolFrame->AttachChild(butProperty);
+	butProperty->LocalTransform.SetTranslateY(-1.0f);
+	butProperty->SetAnchorHor(0.0f, 0.0f);
+	butProperty->SetAnchorVer(0.5f, 0.5f);
+	butProperty->SetAnchorParamHor(addButPos, 0.0f);
+	butProperty->SetSize(butSize);
+	butProperty->SetName("Property");
+	butProperty->CreateAddText("Prop");
+	butProperty->GetText()->SetFontColor(PX2_UISM.Color_ContentFont);
+	butProperty->GetText()->SetFontScale(PX2_UISM.Size_PropertyFontScale);
+
+	addButPos += butSpace + butSize.Width;
+	UIButton *butEdit = new0 UIButton();
+	mToolFrame->AttachChild(butEdit);
+	butEdit->LocalTransform.SetTranslateY(-1.0f);
+	butEdit->SetAnchorHor(0.0f, 0.0f);
+	butEdit->SetAnchorVer(0.5f, 0.5f);
+	butEdit->SetAnchorParamHor(addButPos, 0.0f);
+	butEdit->SetSize(butSize);
+	butEdit->SetName("Edit");
+	butEdit->CreateAddText("Edit");
+	butEdit->GetText()->SetFontColor(PX2_UISM.Color_ContentFont);
+	butEdit->GetText()->SetFontScale(PX2_UISM.Size_PropertyFontScale);
+
+	mPropertyGrid = new0 EU_PropertyGrid();
+	AttachChild(mPropertyGrid);
+	mPropertyGrid->SetAnchorHor(0.0f, 1.0f);
+	mPropertyGrid->SetAnchorVer(0.0f, 1.0f);
+	mPropertyGrid->SetAnchorParamVer(0.0f, -PX2_UISM.Size_ToolBar);
 }
 //----------------------------------------------------------------------------
 EU_InspectorFrame::~EU_InspectorFrame()

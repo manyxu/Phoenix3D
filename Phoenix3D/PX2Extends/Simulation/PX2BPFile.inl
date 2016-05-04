@@ -11,17 +11,12 @@ inline const std::string &BPFile::GetTip() const
 	return mTip;
 }
 //----------------------------------------------------------------------------
-inline const Sizef &BPFile::GetSize() const
-{
-	return mSize;
-}
-//----------------------------------------------------------------------------
-inline int BPFile::GetNumLogicModules() const
+inline int BPFile::GetNumBPModules() const
 {
 	return (int)mBPModules.size();
 }
 //----------------------------------------------------------------------------
-inline BPModule *BPFile::GetLogicModule(int i)
+inline BPModule *BPFile::GetBPModule(int i)
 {
 	return mBPModules[i];
 }

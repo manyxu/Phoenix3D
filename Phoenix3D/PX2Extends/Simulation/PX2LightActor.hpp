@@ -41,7 +41,8 @@ namespace PX2
 		bool IsBake_CalShadow() const;
 
 	public_internal:
-		virtual void SetParent(Movable* parent);
+		virtual void OnBeAttached();
+		virtual void OnBeDetach();
 
 	protected:
 		void UpdateWorldData(double applicationTime, double elapsedTime);
@@ -54,7 +55,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(LightActor);
-	typedef Pointer0<LightActor> LightActorPtr;
+	typedef PointerRef<LightActor> LightActorPtr;
 #include "PX2LightActor.inl"
 
 }

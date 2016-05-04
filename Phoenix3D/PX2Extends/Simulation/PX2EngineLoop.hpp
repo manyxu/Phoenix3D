@@ -16,17 +16,19 @@
 #include "PX2ScriptManager.hpp"
 #include "PX2FontManager.hpp"
 #include "PX2AddDeleteManager.hpp"
-#include "PX2Selection.hpp"
+#include "PX2SelectionManager.hpp"
 #include "PX2RedoUndo.hpp"
 #include "PX2Creater.hpp"
 #include "PX2AccoutManager.hpp"
 #include "PX2VBIBObj.hpp"
 #include "PX2Project.hpp"
 #include "PX2BPManager.hpp"
+#include "PX2BPEdit.hpp"
 #include "PX2UIAuiManager.hpp"
 #include "PX2UISkinManager.hpp"
 #include "PX2Edit.hpp"
-#include "PX2SimulationEventHandler.hpp"
+#include "PX2GeneralEventHandler.hpp"
+#include "PX2EngineCanvas.hpp"
 
 namespace PX2
 {
@@ -53,7 +55,10 @@ namespace PX2
 		// init term
 	public:
 		bool Initlize();
+		void InitlizeDefaultEngineCanvas();
 		bool InitlizeRenderer();
+		Renderer *CreateRenderer(const std::string &name, void *winHandle, 
+			int width, int height, int numMultisamples);
 
 		void WillEnterForeground(bool isFirstTime);
 		void DidEnterBackground();
@@ -61,7 +66,8 @@ namespace PX2
 		bool Terminate();
 
 	private:
-		RendererInput *mRendererInput;
+		std::map<std::string, RendererInput *> mRendererInputMap;
+		std::map<std::string, Renderer*> mRenderersMap;
 
 		DynLibManager *mDynLibMan;
 		PluginManager *mPluginMan;
@@ -75,16 +81,18 @@ namespace PX2
 		ResourceManager *mResMan;
 		FontManager *mFontMan;
 		AddDeleteManager *mADMan;
-		Selection *mSelection;
+		SelectionManager *mSelectionMan;
 		Creater *mCreater;
 		URDoManager *mURDoMan;
 		BPManager *mBPMan;
+		BPEdit *mBPEdit;
+		FunObjectManager *mFunObjectManager;
 		AccoutManager *mAccoutManager;
 		VBIBManager *mVBIBManager;
 		Edit *mEdit;
 		UIAuiManager *mUIAuiManager;
 		UISkinManager *mUISkinManager;
-
+		
 	protected:
 		bool mIsInBackground;
 
@@ -125,7 +133,7 @@ namespace PX2
 		bool SaveProject();
 		bool SaveProjectAs(const std::string &pathname);
 		void CloseProject();
-		std::string GetProjectFilePath() { return mProjectFilePath; }
+		const std::string &GetProjectFilePath() const;
 
 		void NewScene();
 		bool LoadScene(const std::string &pathname);
@@ -136,25 +144,24 @@ namespace PX2
 		bool LoadUI(const std::string &pathname);
 		void CloseUI();
 
+		bool LoadBP(const std::string &pathname);
+		void CloseBP();
+
 	protected:
 		std::string _CalSavePath(const std::string &pathname);
 		bool _SaveSceneInternal(const std::string &pathname);
 
 		std::string mProjectFilePath;
+		std::string mSceneFilePath;
+		std::string mUIFilePath;
+		std::string mBPFilePath;
 
 		// screen adjust
 	public:
 		void SetScreenSize(const Sizef &screenSize);
 		const Sizef &GetScreenSize() const;
-		
-		const Rectf &GetAdjustViewPort() const;
-
-		Rectf GetViewPortAdjustFromProject(const Rectf &viewPort);
-		Rectf GetViewPortAdjustFromProject(float left, float bottom,
-			float width, float height);
 
 	protected:
-		bool mIsDoAdjustScreenViewRect;
 		Sizef mScreenSize;
 
 		// Tick
@@ -185,28 +192,23 @@ namespace PX2
 		void Play(PlayType type);
 		PlayType GetPlayType() const;
 
-		bool IsDoAdjustScreenViewRect() const;
-		
 	protected:
-		void _SetDoAdjustScreenViewRect(bool adjust);
-
 		PlayType mPlayType;
-		Rectf mAdjustViewPort;
 
 		// Project Keep
 	public_internal:
-		Pointer0<Project> msProject;
+		PointerRef<Project> TheProject;
 
 		// Event
 	public:
 		void FireEventGeneralString(const std::string &str, float timeDelay=0.0f);
-
+		
 		// SimuEventHandler
-		public:
-			SimuES_EventHandler *GetSimuES_EventHandler();
+	public:
+		General_EventHandler *GetGeneral_EventHandler();
 
-		protected:
-			SimuES_EventHandlerPtr mSimuES_EventHandler;
+	protected:
+		General_EventHandlerPtr mSimuES_EventHandler;
 	};
 
 #include "PX2EngineLoop.inl"

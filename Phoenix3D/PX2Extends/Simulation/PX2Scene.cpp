@@ -5,6 +5,7 @@
 #include "PX2Creater.hpp"
 #include "PX2Actor.hpp"
 #include "PX2SimulationEventType.hpp"
+#include "PX2ScriptManager.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI_V(PX2, Node, Scene, 4);
@@ -43,7 +44,7 @@ mShadowRenderTargetSize(Float2(512.0f, 512.0f))
 	CameraActor *camActor = new0 CameraActor();
 	AttachChild(camActor);
 	camActor->SetName("DefaultCameraActor");
-	camActor->LocalTransform.SetTranslate(APoint(0.0f, -5.0f, 1.0f));
+	camActor->LocalTransform.SetTranslate(APoint(0.0f, -15.0f, 1.0f));
 	SetUseCameraActor(camActor);
 
 	mDefaultAmbientRegionActor = new0 AmbientRegionActor();
@@ -51,6 +52,8 @@ mShadowRenderTargetSize(Float2(512.0f, 512.0f))
 	mDefaultAmbientRegionActor->SetName("DefaultAmbientRegionActor");
 
 	SetColor(Float3::WHITE);
+
+	WorldTransformIsCurrent = true;
 
 	mIsShowHelpNode = true;
 }
@@ -89,36 +92,28 @@ void Scene::SetUseCameraActor(CameraActor *cameraActor)
 	}
 }
 //----------------------------------------------------------------------------
-int Scene::AttachChild(Movable* child)
+void Scene::OnChildAttached(Movable* child)
 {
+	Node::OnChildAttached(child);
+
 	Actor *actor = DynamicCast<Actor>(child);
 	if (actor)
 	{
 		TerrainActor *terrainActor = DynamicCast<TerrainActor>(child);
 		if (terrainActor) mTerrainActor = terrainActor;
-
-		SkyActor *skyActor = DynamicCast<SkyActor>(child);
-		if (skyActor) mSkyActor = skyActor;
 	}
-
-	return Node::AttachChild(child);
 }
 //----------------------------------------------------------------------------
-int Scene::DetachChild(Movable* child)
+void Scene::OnChildDetach(Movable* child)
 {
-	if (mDefaultAmbientRegionActor == child) return -1;
+	Node::OnChildDetach(child);
 
 	Actor *actor = DynamicCast<Actor>(child);
 	if (actor)
 	{
 		if (mTerrainActor == child)
 			mTerrainActor = 0;
-
-		if (mSkyActor == child)
-			mSkyActor = 0;
 	}
-
-	return Node::DetachChild(child);
 }
 //----------------------------------------------------------------------------
 void Scene::RemoveActor(Actor *actor)
@@ -193,8 +188,10 @@ void Scene::_RemoveActor(Actor *actor)
 	}
 }
 //----------------------------------------------------------------------------
-void _SceneTravelExecuteFun (Movable *mov, Any *data)
+void _SceneTravelExecuteFun (Movable *mov, Any *data, bool &goOn)
 {
+	PX2_UNUSED(goOn);
+
 	Actor *actor = DynamicCast<Actor>(mov);
 
 	if (actor)
@@ -304,8 +301,10 @@ void Scene::SetBloomWeight(float weight)
 	}
 }
 //----------------------------------------------------------------------------
-void _SceneTravelExecuteFun_ShadowMap(Movable *mov, Any *data)
+void _SceneTravelExecuteFun_ShadowMap(Movable *mov, Any *data, bool &goOn)
 {
+	PX2_UNUSED(goOn);
+
 	Actor *actor = DynamicCast<Actor>(mov);
 
 	if (actor)
@@ -516,7 +515,6 @@ void Scene::Load(InStream& source)
 	source.ReadPointer(mCameraActor);
 	source.ReadPointer(mDefaultAmbientRegionActor);
 	source.ReadPointer(mTerrainActor);
-	source.ReadPointer(mSkyActor);
 
 	int readedVersion = GetReadedVersion();
 	if (1 <= readedVersion)
@@ -566,9 +564,6 @@ void Scene::Link(InStream& source)
 	if (mTerrainActor)
 		source.ResolveLink(mTerrainActor);
 
-	if (mSkyActor)
-		source.ResolveLink(mSkyActor);
-
 	mBloomBrightParam[0] = mBloomBrightWeight;
 	mBloomParam[0] = mBloomWeight;
 }
@@ -576,8 +571,6 @@ void Scene::Link(InStream& source)
 void Scene::PostLink()
 {
 	Node::PostLink();
-
-	RegistToScriptSystem();
 }
 //----------------------------------------------------------------------------
 bool Scene::Register(OutStream& target) const
@@ -595,9 +588,6 @@ bool Scene::Register(OutStream& target) const
 
 		if (mTerrainActor)
 			target.Register(mTerrainActor);
-
-		if (mSkyActor)
-			target.Register(mSkyActor);
 		
 		return true;
 	}
@@ -616,7 +606,6 @@ void Scene::Save(OutStream& target) const
 	target.WritePointer(mCameraActor);
 	target.WritePointer(mDefaultAmbientRegionActor);
 	target.WritePointer(mTerrainActor);
-	target.WritePointer(mSkyActor);
 
 	target.WriteBool(mIsShowHelpNode);
 
@@ -649,7 +638,6 @@ int Scene::GetStreamingSize(Stream &stream) const
 	size += PX2_POINTERSIZE(mCameraActor);
 	size += PX2_POINTERSIZE(mDefaultAmbientRegionActor);
 	size += PX2_POINTERSIZE(mTerrainActor);
-	size += PX2_POINTERSIZE(mSkyActor);
 
 	if (stream.IsIn())
 	{

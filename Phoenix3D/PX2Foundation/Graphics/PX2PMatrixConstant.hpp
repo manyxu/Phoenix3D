@@ -23,7 +23,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(PMatrixConstant);
-	typedef Pointer0<PMatrixConstant> PMatrixConstantPtr;
+	typedef PointerRef<PMatrixConstant> PMatrixConstantPtr;
 
 }
 

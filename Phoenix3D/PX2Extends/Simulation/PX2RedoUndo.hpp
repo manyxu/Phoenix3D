@@ -87,7 +87,7 @@ namespace PX2
 		std::deque<URDoPtr> mReDoCommands;
 	};
 
-#define PX2_URDOMAN URDoManager::GetSingleton()
+#define PX2_URDOM URDoManager::GetSingleton()
 
 }
 

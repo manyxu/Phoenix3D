@@ -28,7 +28,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(ShadowMap_Material);
-	typedef Pointer0<ShadowMap_Material> ShadowMap_MaterialPtr;
+	typedef PointerRef<ShadowMap_Material> ShadowMap_MaterialPtr;
 
 }
 

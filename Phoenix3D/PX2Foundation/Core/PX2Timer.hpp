@@ -4,7 +4,7 @@
 #define PX2TIMER_HPP
 
 #include "PX2CorePre.hpp"
-#include "PX2SmartPointer.hpp"
+#include "PX2SmartPointerRef.hpp"
 #include "PX2Timestamp.hpp"
 
 namespace PX2
@@ -28,7 +28,7 @@ public_internal:
 		void *Action;
 		void *UserData;
 	};
-	typedef Pointer0<Timer> TimerPtr;
+	typedef PointerRef<Timer> TimerPtr;
 
 }
 

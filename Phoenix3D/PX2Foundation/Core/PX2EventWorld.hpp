@@ -6,7 +6,7 @@
 #include "PX2CorePre.hpp"
 #include "PX2EventHandler.hpp"
 #include "PX2Singleton_NeedNew.hpp"
-#include "PX2SmartPointer.hpp"
+#include "PX2SmartPointerRef.hpp"
 
 namespace PX2
 {
@@ -30,8 +30,11 @@ namespace PX2
 		void BroadcastingLocalEvent (Event* event);
 		void BroadcastingNetEvent (Event* event);
 
+	public_internal:
+		bool IsInComingIn(const EventHandler *handler) const;
+
 	private:
-		bool _IsInComingOut(EventHandler *handler);
+		bool _IsInComingOut(const EventHandler *handler) const;
 
 		typedef std::vector<Event*> EventList;
 		typedef std::vector<EventHandler*> EventHandlerList;
@@ -50,7 +53,7 @@ namespace PX2
 		EventList *mEventListBroadcasting;
 	};
 
-	typedef Pointer0<EventWorld> EventWorldPtr;
+	typedef PointerRef<EventWorld> EventWorldPtr;
 
 #define PX2_EW EventWorld::GetSingleton()
 

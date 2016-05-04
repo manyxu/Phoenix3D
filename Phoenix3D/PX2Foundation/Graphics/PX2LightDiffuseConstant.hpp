@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(LightDiffuseConstant);
-	typedef Pointer0<LightDiffuseConstant> LightDiffuseConstantPtr;
+	typedef PointerRef<LightDiffuseConstant> LightDiffuseConstantPtr;
 
 }
 

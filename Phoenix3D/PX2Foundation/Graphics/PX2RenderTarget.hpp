@@ -52,7 +52,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(RenderTarget);
-	typedef Pointer0<RenderTarget> RenderTargetPtr;
+	typedef PointerRef<RenderTarget> RenderTargetPtr;
 #include "PX2RenderTarget.inl"
 
 }

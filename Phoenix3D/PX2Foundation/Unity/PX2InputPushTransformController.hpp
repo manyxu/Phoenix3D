@@ -79,7 +79,7 @@ namespace PX2
 
 #include "PX2InputPushTransformController.inl"
 	PX2_REGISTER_STREAM(InputPushTransformController);
-	typedef Pointer0<InputPushTransformController> InputPushTransformControllerPtr;
+	typedef PointerRef<InputPushTransformController> InputPushTransformControllerPtr;
 
 }
 

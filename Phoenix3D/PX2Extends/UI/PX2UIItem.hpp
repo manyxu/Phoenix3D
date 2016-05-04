@@ -10,25 +10,46 @@
 #include "PX2UIAuiBlockFrame.hpp"
 #include "PX2UIButton.hpp"
 #include "PX2UIFText.hpp"
+#include "PX2UIFPicBox.hpp"
+#include "PX2UICheckButton.hpp"
+#include "PX2UIEditBox.hpp"
 
 namespace PX2
 {
 
-	class UIItem : public UIFrame
+	class UIComboBox;
+
+	class PX2_EXTENDS_ITEM UIItem : public UIFrame
 	{
 		PX2_DECLARE_RTTI;
+		PX2_DECLARE_NAMES;
 		PX2_DECLARE_STREAM(UIItem);
 
 	public:
 		UIItem();
 		virtual ~UIItem();
 
-		UIItem *AddItem(const std::string &label);
-		virtual void OnChildAdded(Movable *child);
+		void SetRootItem(bool root);
+		bool IsRootItem() const;
+
+		void ShowItem(bool show);
+		bool IsShowItem() const;
+
+		UIItem *AddItem(const std::string &label, 
+			const std::string &name, Object *obj);
+		virtual void OnChildAttached(Movable *child);
 		bool RemoveItem(UIItem *item);
 		void RemoveAllChildItems();
-		virtual void OnChildRemoved(Movable *child);
+		virtual void OnChildDetach(Movable *child);
 		int GetNumChildItem() const;
+		
+		void SetItemObject(Object* obj);
+		Object *GetItemObject();
+		UIItem *GetItemByObject(Object *obj);
+
+		UICheckButton *CreateButArrow();
+		UICheckButton *GetButArrow();
+		void DestoryArrowBut();
 
 		void Expand(bool expand);
 		bool IsExpand() const;
@@ -48,25 +69,34 @@ namespace PX2
 		IconArrowState GetIconArrowState() const;
 
 		UIButton *GetButBack();
-		UIPicBox *GetIconArrow0();
-		UIPicBox *GetIconArrow1();
-		UIPicBox *GetIcon();
+		UIFPicBox *GetIcon();
 		UIFText *GetFText();
+
+		void Select(bool select);
+		bool IsSelected() const;
 
 		virtual void OnSizeChanged();
 
-	public_internal:
-		void _SetLevel(int level);
-		int _GetLevel() const;
+		void SetLevelAdjust(float adjust);
+		float GetLevelAdjust() const;
 
-		void _ShowRootItem(bool show);
+	public_internal:
+		void _SetLevel(float level);
+		float _GetLevel() const;
+
+		bool _IsNeedRecal() const;
 
 	protected:
+		virtual void PreUIPick(const UIInputData &inputData, UICanvas *canvas);
 		virtual void UpdateWorldData(double applicationTime,
 			double elapsedTime);
+		void _TellParentChildrenExpand();
 		void _RecalNumChildExpand();
 		void _TellParentChildrenRecal();
 		void _Recal();
+
+		bool mIsRootItem;
+		bool mIsShowItem;
 
 		bool mIsNeedRecal;
 
@@ -76,20 +106,29 @@ namespace PX2
 
 		IconArrowState mIconArrowState;
 		UIButtonPtr mButBack;
-		UIPicBoxPtr mIconArrow0;
-		UIPicBoxPtr mIconArrow1;
-		UIPicBoxPtr mIcon;
+		UICheckButtonPtr mButArrow;
+		UIFPicBoxPtr mIcon;
 		UIFTextPtr mFText;
-		bool mIsShowRootItem;
+		bool mIsSelected;
 
-		int mLevel;
+		float mLevelAdjust;
+		float mLevel;
 
-		std::vector<Pointer0<UIItem> > mChildItems;
+		Object *mObject;
+
+		std::vector<PointerRef<UIItem> > mChildItems;
+
+	public:
+		void SetValue(const Any &val);
+		const Any &GetValue() const;
+
+	protected:
+		Any mValue;
 	};
 
 #include "PX2UIItem.inl"
 	PX2_REGISTER_STREAM(UIItem);
-	typedef Pointer0<UIItem> UIItemPtr;
+	typedef PointerRef<UIItem> UIItemPtr;
 
 }
 

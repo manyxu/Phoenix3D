@@ -39,7 +39,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(DepthProperty);
-	typedef Pointer0<DepthProperty> DepthPropertyPtr;
+	typedef PointerRef<DepthProperty> DepthPropertyPtr;
 
 }
 

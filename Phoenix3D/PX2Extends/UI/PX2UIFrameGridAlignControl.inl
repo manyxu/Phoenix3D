@@ -11,12 +11,6 @@ inline const Float2 &UIFrameGridAlignControl::GetSpacing() const
 	return mSpacing;
 }
 //----------------------------------------------------------------------------
-inline UIFrameGridAlignControl::StartCornerType UIFrameGridAlignControl::
-GetStartCorner() const
-{
-	return mStartCornerType;
-}
-//----------------------------------------------------------------------------
 inline UIFrameGridAlignControl::StartAxisType UIFrameGridAlignControl::
 GetStartAxis() const
 {
@@ -33,5 +27,35 @@ inline UIFrameGridAlignControl::ConstraintType UIFrameGridAlignControl::
 GetConstraintType() const
 {
 	return mConstraintType;
+}
+//----------------------------------------------------------------------------
+inline int UIFrameGridAlignControl::GetConstraintValue() const
+{
+	return mConstraintValue;
+}
+//----------------------------------------------------------------------------
+inline bool UIFrameGridAlignControl::IsConstraintExtend() const
+{
+	return mIsConstraintExtend;
+}
+//----------------------------------------------------------------------------
+inline bool UIFrameGridAlignControl::IsLayoutChanged() const
+{
+	return mIsLayoutChanged;
+}
+//----------------------------------------------------------------------------
+inline void UIFrameGridAlignControl::SetAutoAdjustContentSize(bool adjust)
+{
+	mIsAutoAdjustContentSize = adjust;
+}
+//----------------------------------------------------------------------------
+inline bool UIFrameGridAlignControl::IsAutoAdjustContentSize() const
+{
+	return mIsAutoAdjustContentSize;
+}
+//----------------------------------------------------------------------------
+inline Sizef UIFrameGridAlignControl::GetContentSize() const
+{
+	return mContentSize;
 }
 //----------------------------------------------------------------------------

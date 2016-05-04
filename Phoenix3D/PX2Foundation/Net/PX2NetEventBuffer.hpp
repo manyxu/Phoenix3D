@@ -13,12 +13,12 @@ namespace PX2
 	class PX2_FOUNDATION_ITEM BufferEvent
 	{
 	public:
-		void Init (int bufsize);
-		void Reset ();
-		void PushData (const char *pdata, int datalen);
-		char *PrepareDataSpace (int datalen);
+		void Init(int bufsize);
+		void Reset();
+		void PushData(const char *pdata, int datalen);
+		char *PrepareDataSpace(int datalen);
 
-		int GetMessageID ();
+		int GetMessageID();
 
 	public:
 		enum
@@ -77,7 +77,7 @@ namespace PX2
 		int GetEventQueLen();
 
 	private:
-		std::vector<BufferEventPool *>mPools;	
+		std::vector<BufferEventPool *>mPools;
 		int mMinBufSizeIndex;
 		int mMaxBufSizeIndex;
 
@@ -94,27 +94,27 @@ namespace PX2
 	const int MSGID_BYTES = 1;			//msgid用多少个字节表示
 	const int MSGLEN_BYTES = 2;			//msg的长度用多少字节表示
 
-	inline int ReadMessageID (const void *pbuffer)
+	inline int ReadMessageID(const void *pbuffer)
 	{
 		return *(unsigned char *)pbuffer;
 	}
 
-	inline void WriteMessageID (void *pbuffer, int msgid)
+	inline void WriteMessageID(void *pbuffer, int msgid)
 	{
 		*(unsigned char *)pbuffer = (unsigned char)msgid;
 	}
 
-	inline int ReadMessageLen (const void *pbuffer)
+	inline int ReadMessageLen(const void *pbuffer)
 	{
 		const unsigned char *ptmp = (const unsigned char *)pbuffer;
-		return ptmp[0] + (ptmp[1]<<8);
+		return ptmp[0] + (ptmp[1] << 8);
 	}
 
-	inline void WriteMessageLen (void *pbuffer, int len)
+	inline void WriteMessageLen(void *pbuffer, int len)
 	{
 		unsigned char *ptmp = (unsigned char *)pbuffer;
-		ptmp[0] = len&0xff;
-		ptmp[1] = (len>>8)&0xff;
+		ptmp[0] = len & 0xff;
+		ptmp[1] = (len >> 8) & 0xff;
 	}
 
 	template<class T>
@@ -123,10 +123,10 @@ namespace PX2
 		int nbytes = msg.ByteSize();
 
 		BufferEvent *pevent = peventque->AllocBufferEvent(nbytes + MSGID_BYTES);
-		if(pevent == 0) return 0;
+		if (pevent == 0) return 0;
 
 		WriteMessageID(pevent->mBuffer, msgid);
-		if(!msg.SerializeToArray(pevent->mBuffer+MSGID_BYTES, nbytes))
+		if (!msg.SerializeToArray(pevent->mBuffer + MSGID_BYTES, nbytes))
 		{
 			peventque->FreeBufferEvent(pevent);
 			assert(false);
@@ -138,25 +138,39 @@ namespace PX2
 	}
 
 	template<class T>
-	int MsgToRawBuffer (int msgid, T &msg, char *buffer, int buffersize)
+	int MsgToRawBuffer(int msgid, T &msg, char *buffer, int buffersize)
 	{
 		int nbytes = msg.ByteSize();
-		assert(nbytes < buffersize-MSGLEN_BYTES-MSGID_BYTES);
+		assert(nbytes < buffersize - MSGLEN_BYTES - MSGID_BYTES);
 
-		WriteMessageLen(buffer, (MSGID_BYTES+nbytes));
-		WriteMessageID(buffer+MSGLEN_BYTES, msgid);
+		WriteMessageLen(buffer, (MSGID_BYTES + nbytes));
+		WriteMessageID(buffer + MSGLEN_BYTES, msgid);
 
-		if(!msg.SerializeToArray(buffer+MSGLEN_BYTES+MSGID_BYTES, nbytes))
+		if (!msg.SerializeToArray(buffer + MSGLEN_BYTES + MSGID_BYTES, nbytes))
 		{
 			assert(false);
 			return -1;
 		}
 
-		return nbytes+MSGLEN_BYTES+MSGID_BYTES;
+		return nbytes + MSGLEN_BYTES + MSGID_BYTES;
+	}
+
+	inline BufferEvent *MsgToBufferEventBuffer(
+		BufferEventQueue *peventque,
+		int msgid, const char *buf, int nbytes)
+	{
+		BufferEvent *pevent = peventque->AllocBufferEvent(nbytes + MSGID_BYTES);
+		if (pevent == 0) return 0;
+
+		WriteMessageID(pevent->mBuffer, msgid);
+		memcpy(pevent->mBuffer + MSGID_BYTES, buf, nbytes);
+
+		pevent->mDataLength = nbytes + MSGID_BYTES;
+		return pevent;
 	}
 
 #include "PX2NetEventBuffer.inl"
-	
+
 }
 
 #endif

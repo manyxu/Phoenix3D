@@ -26,7 +26,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(EffectModelNodeController);
-	typedef Pointer0<EffectModelNodeController> EffectModelNodeControllerPtr;
+	typedef PointerRef<EffectModelNodeController> EffectModelNodeControllerPtr;
 
 }
 

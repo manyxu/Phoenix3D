@@ -33,6 +33,7 @@ namespace PX2
 
 		/// 是否半角英文标点符号
 		virtual bool IsPunctuation (const unsigned char *character) = 0;
+		virtual bool IsPoint(const unsigned char *character) = 0;
 
 		/// 将字符转换为Unicode
 		virtual unsigned short ToUnicode (const unsigned char *character) = 0;

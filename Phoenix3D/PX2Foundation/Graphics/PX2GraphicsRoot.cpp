@@ -95,11 +95,22 @@ bool GraphicsRoot::Initlize ()
 		::CreateUniqueInstance());
 	mTriMeshYZ->Update(Time::GetTimeInSeconds(), false);
 
+	mMainRenderWindow = new0 RenderWindow();
+	mMainRenderWindow->SetMain(true);
+	mMainRenderWindow->SetName("Main");
+	mMainRenderWindow->SetFloat(false);
+	mMainRenderWindow->SetID(0);
+	mMainRenderWindow->SetScreenSize(Sizef(800.0f, 600.0f));
+	AddRenderWindow("Main", mMainRenderWindow);
+
 	return true;
 }
 //-----------------------------------------------------------------------------
 bool GraphicsRoot::Terminate ()
 {
+	mRenderWindows.clear();
+	mMainRenderWindow = 0;
+
 	mCurEnvirParam = 0;
 
 	mTriMeshXY = 0;
@@ -107,9 +118,6 @@ bool GraphicsRoot::Terminate ()
 	mTriMeshYZ = 0;
 
 	PX2_MATERIALMAN.Terminate();
-
-	mCanvasMap.clear();
-	mCanvasVec.clear();
 
 	mCreatedVFs.clear();
 
@@ -120,148 +128,75 @@ bool GraphicsRoot::Terminate ()
 	return true;
 }
 //----------------------------------------------------------------------------
-void GraphicsRoot::SetScreenSize(const Sizef &size)
-{
-	mScreenSize = size;
-
-	std::map<FString, CanvasPtr>::iterator it = mCanvasMap.begin();
-	for (; it != mCanvasMap.end(); it++)
-	{
-		Canvas *renderStep = it->second;
-		renderStep->SetScreenSize(size);
-	}
-}
-//----------------------------------------------------------------------------
-bool GraphicsRoot::AddCanvas(const char *name, Canvas *step)
-{
-	if (IsHasCanvas(name))
-		return false;
-
-	if ("Scene" == std::string(name)) mCanvasScene = step;
-	if ("UI" == std::string(name)) mCanvasUI = step;
-
-	mCanvasMap[name] = step;
-	mCanvasVec.push_back(step);
-
-	SortCanvass();
-
-	return true;
-}
-//----------------------------------------------------------------------------
-bool GraphicsRoot::IsHasCanvas(const char *name) const
-{
-	return mCanvasMap.find(name) != mCanvasMap.end();
-}
-//----------------------------------------------------------------------------
-bool GraphicsRoot::RemoveCanvas(const char *name)
-{
-	std::map<FString, CanvasPtr>::iterator it = mCanvasMap.find(name);
-	if (it != mCanvasMap.end())
-	{
-		std::vector<Canvas*>::iterator itVec = mCanvasVec.begin();
-		for (; itVec != mCanvasVec.end();)
-		{
-			if (*itVec == it->second)
-			{
-				itVec = mCanvasVec.erase(itVec);
-			}
-			else
-			{
-				itVec++;
-			}
-		}
-
-		mCanvasMap.erase(it);
-		
-		return true;
-	}
-
-	return false;
-}
-//----------------------------------------------------------------------------
-void GraphicsRoot::RemoveCanvass(Canvas *step)
-{
-	std::vector<Canvas*>::iterator itVec = mCanvasVec.begin();
-	for (; itVec != mCanvasVec.end();)
-	{
-		if (*itVec == step)
-		{
-			itVec = mCanvasVec.erase(itVec);
-		}
-		else
-		{
-			itVec++;
-		}
-	}
-
-	std::map<FString, CanvasPtr>::iterator it = mCanvasMap.begin();
-	for (; it != mCanvasMap.end(); it++)
-	{
-		if (it->second == step)
-		{
-			mCanvasMap.erase(it);
-			return;
-		}
-	}
-}
-//----------------------------------------------------------------------------
-void GraphicsRoot::SortCanvass()
-{
-	std::sort(mCanvasVec.begin(), mCanvasVec.end(),
-		Canvas::LessThan);
-}
-//----------------------------------------------------------------------------
-Canvas *GraphicsRoot::GetCanvas(const char *name)
-{
-	std::map<FString, CanvasPtr>::iterator it = mCanvasMap.find(name);
-
-	if (it != mCanvasMap.end())
-		return it->second;
-
-	return 0;
-}
-//----------------------------------------------------------------------------
 void GraphicsRoot::Update(double appSeconds, double elapsedSeconds)
 {
-	for (int i = 0; i < (int)mCanvasVec.size(); i++)
+	std::map<std::string, RenderWindowPtr>::iterator it = 
+		mRenderWindows.begin();
+	for (; it != mRenderWindows.end(); it++)
 	{
-		if (!mCanvasVec[i]->GetParent())
+		RenderWindow *rw = it->second;
+		if (rw)
 		{
-			mCanvasVec[i]->Update(appSeconds, elapsedSeconds);
+			rw->Update(appSeconds, elapsedSeconds);
 		}
-	}
-}
-//----------------------------------------------------------------------------
-void GraphicsRoot::ComputeVisibleSetAndEnv()
-{
-	for (int i = 0; i < (int)mCanvasVec.size(); i++)
-	{
-		mCanvasVec[i]->ClearVisibleSet();
-		mCanvasVec[i]->ComputeVisibleSetAndEnv();
 	}
 }
 //----------------------------------------------------------------------------
 void GraphicsRoot::Draw()
 {
-	for (int i = 0; i < (int)mCanvasVec.size(); i++)
+	std::map<std::string, RenderWindowPtr>::iterator it =
+		mRenderWindows.begin();
+	for (; it != mRenderWindows.end(); it++)
 	{
-		if (!mCanvasVec[i]->GetParent())
+		RenderWindow *rw = it->second;
+		if (rw)
 		{
-			std::vector<Canvas*> childCanvas =
-				mCanvasVec[i]->GetCuller().GetVisibleCanvas();
-			mCanvasVec[i]->Draw();
-
-			for (int i = 0; i < (int)childCanvas.size(); i++)
-			{
-				childCanvas[i]->Draw();
-
-				if (childCanvas[i]->GetCuller().GetVisibleSet().GetNumVisible() > 0)
-				{
-					int aa = 0;
-				}
-			}
+			rw->ComputeVisibleSetAndEnv();
+			rw->Draw();
 		}
 	}
+}
+//----------------------------------------------------------------------------
+bool GraphicsRoot::AddRenderWindow(const std::string &name, RenderWindow *rw)
+{
+	if (IsHasRenderWindow(name))
+	{
+		assertion(false, "RenderWindow %s already exist.", name.c_str());
+		return false;
+	}
+
+	mRenderWindows[name] = rw;
+
+	if ("Main" == name)
+		mMainRenderWindow = rw;
+
+	return true;
+}
+//----------------------------------------------------------------------------
+bool GraphicsRoot::IsHasRenderWindow(const std::string &name)
+{
+	return mRenderWindows.find(name) != mRenderWindows.end();
+}
+//----------------------------------------------------------------------------
+bool GraphicsRoot::RemoveRenderWindow(const std::string &name)
+{
+	if (!IsHasRenderWindow(name))
+		return false;
+
+	mRenderWindows.erase(name);
+
+	if ("Main" == name)
+		mMainRenderWindow = 0;
+
+	return true;
+}
+//----------------------------------------------------------------------------
+RenderWindow *GraphicsRoot::GetRenderWindow(const std::string &name)
+{
+	if (!IsHasRenderWindow(name))
+		return 0;
+
+	return mRenderWindows[name];
 }
 //----------------------------------------------------------------------------
 VertexFormat *GraphicsRoot::GetVertexFormat(VertexFormatType type)

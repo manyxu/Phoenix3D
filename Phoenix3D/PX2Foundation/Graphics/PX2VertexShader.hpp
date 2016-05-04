@@ -42,7 +42,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(VertexShader);
-	typedef Pointer0<VertexShader> VertexShaderPtr;
+	typedef PointerRef<VertexShader> VertexShaderPtr;
 
 }
 

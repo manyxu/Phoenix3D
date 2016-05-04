@@ -4,6 +4,8 @@
 #include "PX2EU_BPFrame.hpp"
 #include "PX2UISkinManager.hpp"
 #include "PX2UICanvas.hpp"
+#include "PX2SimulationEventType.hpp"
+#include "PX2Project.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, EU_BluePrintFrame);
@@ -21,25 +23,51 @@ EU_BluePrintFrame::EU_BluePrintFrame()
 	mTableFrame->SetSkinAui(false);
 	mTableFrame->SetAnchorHor(0.0f, 1.0f);
 	mTableFrame->SetAnchorVer(0.0f, 1.0f);
-	AddBPFrame("BP0");
-	AddBPFrame("BP1");
-	AddBPFrame("BP2");
-	mTableFrame->SetActiveTab("BP0");
+
+	ComeInEventWorld();
 }
 //----------------------------------------------------------------------------
 EU_BluePrintFrame::~EU_BluePrintFrame()
 {
+	GoOutEventWorld();
 }
 //----------------------------------------------------------------------------
-EU_BPFrame *EU_BluePrintFrame::AddBPFrame(const std::string &name)
+void EU_BluePrintFrame::DoExecute(PX2::Event *event)
 {
-	EU_BPFrame *bpFrame = new0 EU_BPFrame();
-	mTableFrame->AddTab(name, bpFrame);
-	bpFrame->LocalTransform.SetTranslateY(-1.0f);
-	bpFrame->SetAnchorHor(0.0f, 1.0f);
-	bpFrame->SetAnchorVer(0.0f, 1.0f);
-	bpFrame->SetName(name);
-	bpFrame->CreateChildUICanvas();
+	if (SimuES::IsEqual(event, SimuES::NewBP) ||
+		SimuES::IsEqual(event, SimuES::LoadedBP))
+	{
+		mTableFrame->RemoveAllTabs();
+
+		BPPackage *bpPackage = PX2_PROJ.GetBPPackage();
+		if (bpPackage)
+		{
+			AddBPFrame(bpPackage->GetName(), bpPackage);
+			mTableFrame->SetActiveTab(bpPackage->GetName());
+		}
+	}
+	else if (SimuES::IsEqual(event, SimuES::CloseBP))
+	{
+		mTableFrame->RemoveAllTabs();
+	}
+}
+//----------------------------------------------------------------------------
+EU_BPFrame *EU_BluePrintFrame::AddBPFrame(const std::string &name,
+	UIFrame *bpObject)
+{
+	EU_BPFrame *bpFrame = 0;
+
+	if (!mTableFrame->IsHasTab(name))
+	{
+		bpFrame = new0 EU_BPFrame();
+		mTableFrame->AddTab(name, name, bpFrame);
+		bpFrame->LocalTransform.SetTranslateY(-1.0f);
+		bpFrame->SetAnchorHor(0.0f, 1.0f);
+		bpFrame->SetAnchorVer(0.0f, 1.0f);
+		bpFrame->SetName(name);
+		UICanvas *canvas = bpFrame->CreateChildUICanvas();
+		canvas->AttachChild(bpObject);
+	}
 
 	return bpFrame;
 }

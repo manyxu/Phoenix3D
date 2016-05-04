@@ -45,7 +45,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(TextureCube);
-	typedef Pointer0<TextureCube> TextureCubePtr;
+	typedef PointerRef<TextureCube> TextureCubePtr;
 #include "PX2TextureCube.inl"
 
 }

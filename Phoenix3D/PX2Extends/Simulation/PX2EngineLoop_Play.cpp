@@ -4,32 +4,34 @@
 #include "PX2ScriptManager.hpp"
 #include "PX2Project.hpp"
 #include "PX2GraphicsRoot.hpp"
+#include "PX2SimulationEventType.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------
 void EngineLoop::Play(EngineLoop::PlayType type)
 {
-	PX2_GR.SetPlayType((GraphicsRoot::PlayType)type);
+	if (!Project::GetSingletonPtr()) return;
+	if (mPlayType == type) return;
 
+	PX2_GR.SetPlayType((GraphicsRoot::PlayType)type);
 	mPlayType = type;
 
-	_SetDoAdjustScreenViewRect(PT_PLAY == type);
-
-	if (!Project::GetSingletonPtr()) return;
-
-	if (!PX2_GR.IsInEditor())
+	if (PT_PLAY == mPlayType)
 	{
-		std::string callFilename;
-		if (PT_PLAY == type)
-		{
-			callFilename = "Data/" + mProjectName + "/scripts/start.lua";
-		}
-		else
-		{
-			callFilename = "Data/" + mProjectName + "/scripts/end.lua";
-		}
+		std::string callFilenameLua = "Data/" + mProjectName + "/scripts/lua/start.lua";
+		PX2_SC_LUA->CallFile(callFilenameLua.c_str());
 
-		PX2_SM.CallFile(callFilename.c_str());
+		std::string callFilenameAS = "Data/" + mProjectName + "/scripts/as/start.as";
+		PX2_SC_AS->CallFileFunction(callFilenameAS.c_str(), "void start()");
+
+		BPPackage *bpPackage = PX2_PROJ.GetBPPackage();
+		if (bpPackage)
+		{
+			PX2_BPM.Call(bpPackage, false);
+		}
 	}
+
+	Event *ent = SimuES::CreateEventX(SimuES::Play);
+	PX2_EW.BroadcastingLocalEvent(ent);
 }
 //----------------------------------------------------------------------------

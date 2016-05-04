@@ -4,7 +4,6 @@
 #define PX2SELECTION_HPP
 
 #include "PX2SimulationPre.hpp"
-#include "PX2Singleton_NeedNew.hpp"
 #include "PX2Object.hpp"
 #include "PX2APoint.hpp"
 #include "PX2AVector.hpp"
@@ -12,7 +11,7 @@
 namespace PX2
 {
 
-	class PX2_EXTENDS_ITEM Selection : public Singleton<Selection>
+	class PX2_EXTENDS_ITEM Selection
 	{
 	public:
 		Selection();
@@ -44,7 +43,7 @@ namespace PX2
 	};
 
 #include "PX2Selection.inl"
-#define PX2_SELECTION Selection::GetSingleton()
+	typedef Pointer0<Selection> SelectionPtr;
 
 }
 

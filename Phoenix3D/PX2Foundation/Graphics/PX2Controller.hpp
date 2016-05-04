@@ -100,7 +100,7 @@ public_internal:
 	};
 
 	PX2_REGISTER_STREAM(Controller);
-	typedef Pointer0<Controller> ControllerPtr;
+	typedef PointerRef<Controller> ControllerPtr;
 #include "PX2Controller.inl"
 
 }

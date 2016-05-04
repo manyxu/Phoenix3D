@@ -31,7 +31,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(LightGroupConstant);
-	typedef Pointer0<LightGroupConstant> LightGroupConstantPtr;
+	typedef PointerRef<LightGroupConstant> LightGroupConstantPtr;
 
 }
 

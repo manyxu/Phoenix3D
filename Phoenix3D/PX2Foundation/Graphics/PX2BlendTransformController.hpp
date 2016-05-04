@@ -45,7 +45,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(BlendTransformController);
-	typedef Pointer0<BlendTransformController> BlendTransformControllerPtr;
+	typedef PointerRef<BlendTransformController> BlendTransformControllerPtr;
 #include "PX2BlendTransformController.inl"
 
 }

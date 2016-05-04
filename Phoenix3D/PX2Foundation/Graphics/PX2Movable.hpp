@@ -7,6 +7,7 @@
 #include "PX2Controlledable.hpp"
 #include "PX2Bound.hpp"
 #include "PX2Transform.hpp"
+#include "PX2Function.hpp"
 
 namespace PX2
 {
@@ -23,6 +24,7 @@ namespace PX2
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;
 		PX2_DECLARE_PROPERTY;
+		PX2_DECLARE_FUNCTION;
 		PX2_DECLARE_STREAM(Movable);
 
 	protected:
@@ -38,6 +40,9 @@ namespace PX2
 		Transform LocalTransform;
 		Transform WorldTransform;
 		bool WorldTransformIsCurrent;
+
+		Transform &GetLocalTransform();
+		Transform &GetWorldTransform();
 
 		bool IsSkinCtrlSetWroldTrans;
 		Transform BoundWorldTransform;
@@ -79,13 +84,17 @@ namespace PX2
 		void SetUpdateOnce (bool once);
 		bool IsUpdateOnce () const;
 
-		/// 获得父亲
+		/// 父亲
+		virtual void OnBeAttached();
+		virtual void OnBeDetach();
 		Movable* GetParent ();
 		void SetParentTransformIngore (bool trans, bool rotate, bool scale);
 		void GetParentTransformIngore (bool &trans, bool &rotate, bool &scale);
 
 		Movable *GetTopestParent();
-		Movable *GetFirstParentDerivedFromType(const Rtti &type, int *numLevels=0);
+
+		template <typename CLASSTYPE>
+		CLASSTYPE *GetFirstParentDerivedFromType(int *numLevels = 0);
 
 		// Pick
 	public:
@@ -123,11 +132,20 @@ namespace PX2
 		virtual void SetReceiveShadow(bool reciveShadow);
 		bool IsReceiveShadow() const;
 
+		// enable active
+	public:
+		void SetEnableSelfCtrled(bool selfCtrled);
+		bool IsEnableSelfCtrled() const;
+
+		void SetActivateSelfCtrled(bool selfCtrled);
+		bool IsActivateSelfCtrled() const;
+
 		// Update
 	public:
 		void SetUpdateTime (float time);
 		float GetUpdateTime () const;
 
+		// 数值越大，更新优先级越高
 		void SetUpdatePriority (int updatePriority);
 		int GetUpdatePriority () const;
 
@@ -143,7 +161,7 @@ public_internal:
 		virtual void OnGetVisibleSet (Culler& culler, bool noCull) = 0;
 
 		// 设置父节点，节点在attach/detach的时候调用此函数。
-		virtual void SetParent (Movable* parent);
+		void SetParent (Movable* parent);
 
 		void SetSaveWriteIngore(bool doSaveWrite);
 		bool IsSaveWriteIngore() const;
@@ -163,6 +181,9 @@ public_internal:
 		bool mIsBrightnessSelfCtrled;
 		float mBrightness;
 
+		bool mIsEnableSelfCtrled;
+		bool mIsActivateSelfCtrled;
+
 		float mUpdateTime;
 		float mUpdateTiming;
 		float mUpdateTimingInit;
@@ -179,7 +200,7 @@ public_internal:
 	};
 
 	PX2_REGISTER_STREAM(Movable);
-	typedef Pointer0<Movable> MovablePtr;
+	typedef PointerRef<Movable> MovablePtr;
 #include "PX2Movable.inl"
 
 }

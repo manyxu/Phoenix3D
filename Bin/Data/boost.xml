@@ -3,7 +3,7 @@
 		<var width="568" height="320"/>
 	</config>
 	<play>
-		<var projectname="QPuzzle" playlogicmode="logic"/>
+		<var projectname="AngelScriptTest" playlogicmode="logic"/>
 	</play>
 </boost>
 

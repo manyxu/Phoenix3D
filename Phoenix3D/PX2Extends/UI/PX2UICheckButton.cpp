@@ -32,6 +32,8 @@ UICheckButton::UICheckButton()
 	picDis->SetName("Dis");
 	picDis->SetPicBoxType(UIPicBox::PBT_NORMAL);
 
+	SetButType(BT_PICBOXSWAP);
+
 	SetPicBox(BS_NORMAL, picNormal);
 	SetPicBox(BS_HOVERED, picOver);
 	SetPicBox(BS_PRESSED, picDown);
@@ -94,11 +96,6 @@ void UICheckButton::OnCheck()
 	{
 		(*it)->Visit(this, (int)UICT_CHECKED);
 	}
-
-	if (!mUIScriptHandler.empty())
-	{
-		CallString(mUIScriptHandler.c_str(), "i", (int)UICT_CHECKED);
-	}
 }
 //----------------------------------------------------------------------------
 void UICheckButton::OnDisCheck()
@@ -113,11 +110,6 @@ void UICheckButton::OnDisCheck()
 	{
 		(*it)->Visit(this, (int)UICT_DISCHECKED);
 	}
-
-	if (!mUIScriptHandler.empty())
-	{
-		CallString(mUIScriptHandler.c_str(), "i", (int)UICT_DISCHECKED);
-	}
 }
 //----------------------------------------------------------------------------
 void UICheckButton::UpdateWorldData(double applicationTime,
@@ -126,17 +118,13 @@ void UICheckButton::UpdateWorldData(double applicationTime,
 	UIButtonBase::UpdateWorldData(applicationTime, elapsedTime);
 }
 //----------------------------------------------------------------------------
-void UICheckButton::OnUIPicked(int info, Movable *child)
+void UICheckButton::OnUIPicked(const UIInputData &data)
 {
-	UIButtonBase::OnUIPicked(info, child);
-
-	PX2_UNUSED(child);
-
-	if (2 == info)
+	if (UIPT_RELEASED == data.PickType)
 	{
 		ButtonState state = GetButtonState();
 
-		if (BS_NORMAL == state || BS_PRESSED==state)
+		if (BS_NORMAL == state)
 		{
 			Check(true);
 		}
@@ -145,14 +133,6 @@ void UICheckButton::OnUIPicked(int info, Movable *child)
 			Check(false);
 		}
 	}
-}
-//----------------------------------------------------------------------------
-void UICheckButton::OnNotPicked(int info)
-{
-	if (!IsEnable())
-		return;
-
-	PX2_UNUSED(info);
 }
 //----------------------------------------------------------------------------
 

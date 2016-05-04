@@ -1,6 +1,10 @@
 // PX2Node.cpp
 
 #include "PX2Node.hpp"
+#include "PX2FunObject.hpp"
+#include "PX2GraphicsEventType.hpp"
+#include "PX2EventWorld.hpp"
+#include "PX2GraphicsEventData.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, Movable, Node);
@@ -97,8 +101,6 @@ int Node::AttachChild (Movable* child)
         return -1;
     }
 
-	mIsNeedCalUpdateChild = true;
-
     child->SetParent(this);
 
 	// 将孩子插入到第一个可用位置
@@ -109,7 +111,8 @@ int Node::AttachChild (Movable* child)
         if (*iter == 0)
         {
             *iter = child;
-			OnChildAdded(child);
+			OnChildAttached(child);
+			child->OnBeAttached();
 
             return i;
         }
@@ -118,7 +121,8 @@ int Node::AttachChild (Movable* child)
 	// 所有空位都用完了，将孩子插入队列末尾
     const int numChildren = (int)mChild.size();
     mChild.push_back(child);
-	OnChildAdded(child);
+	OnChildAttached(child);
+	child->OnBeAttached();
 
     return numChildren;
 }
@@ -137,8 +141,6 @@ void Node::InsertChild (Movable *before, Movable *child)
 		return;
 	}
 
-	mIsNeedCalUpdateChild = true;
-
 	child->SetParent(this);
 
 	// 将孩子插入到第一个可用位置
@@ -152,12 +154,14 @@ void Node::InsertChild (Movable *before, Movable *child)
 			if (itP1 != end)
 			{
 				mChild.insert(itP1, child);
-				OnChildAdded(child);
+				OnChildAttached(child);
+				child->OnBeAttached();
 			}
 			else
 			{
 				mChild.push_back(child);
-				OnChildAdded(child);
+				OnChildAttached(child);
+				child->OnBeAttached();
 			}
 			
 			return;
@@ -175,11 +179,10 @@ int Node::DetachChild (Movable* child)
         {
             if (*iter == child)
             {
+				child->OnBeDetach();
+				OnChildDetach(child);
                 (*iter)->SetParent(0);
-				OnChildRemoved(*iter);
                 *iter = 0;
-
-				mIsNeedCalUpdateChild = true;
 
                 return i;
             }
@@ -196,11 +199,10 @@ bool Node::DetachChildByName (const std::string &name)
 
 		if (child != 0 && child->GetName() == name)
 		{
+			child->OnBeDetach();
 			child->SetParent(0);
-			OnChildRemoved(child);
+			OnChildDetach(child);
 			mChild[i] = 0;
-
-			mIsNeedCalUpdateChild = true;
 
 			return true;
 		}
@@ -217,11 +219,10 @@ MovablePtr Node::DetachChildAt (int i)
         MovablePtr child = mChild[i];
         if (child)
         {
+			child->OnBeDetach();
             child->SetParent(0);
-			OnChildRemoved(child);
+			OnChildDetach(child);
             mChild[i] = 0;
-
-			mIsNeedCalUpdateChild = true;
         }
         return child;
     }
@@ -236,13 +237,12 @@ void Node::DetachAllChildren ()
 
 		 if (child)
 		 {
+			 child->OnBeDetach();
 			 child->SetParent(0);
-			 OnChildRemoved(child);
+			 OnChildDetach(child);
 			 mChild[i] = 0;
 		 }
 	}
-
-	mIsNeedCalUpdateChild = true;
 }
 //----------------------------------------------------------------------------
 int Node::GetNumValidChildren () const
@@ -265,8 +265,6 @@ MovablePtr Node::SetChild (int i, Movable* child)
         assertion(!child->GetParent(), "The child already has a parent.\n");
     }
 
-	mIsNeedCalUpdateChild = true;
-
     const int numChildren = (int)mChild.size();
     if (0 <= i && i < numChildren)
     {
@@ -274,15 +272,17 @@ MovablePtr Node::SetChild (int i, Movable* child)
         MovablePtr previousChild = mChild[i];
         if (previousChild)
         {
+			previousChild->OnBeDetach();
             previousChild->SetParent(0);
-			OnChildRemoved(previousChild);
+			OnChildDetach(previousChild);
         }
 
 		// 插入新的孩子到空位
         if (child)
         {
             child->SetParent(this);
-			OnChildAdded(child);
+			OnChildAttached(child);
+			child->OnBeAttached();
         }
 
         mChild[i] = child;
@@ -293,7 +293,8 @@ MovablePtr Node::SetChild (int i, Movable* child)
     if (child)
     {
         child->SetParent(this);
-		OnChildAdded(child);
+		OnChildAttached(child);
+		child->OnBeAttached();
     }
     mChild.push_back(child);
 
@@ -309,14 +310,31 @@ MovablePtr Node::GetChild (int i)
     return 0;
 }
 //----------------------------------------------------------------------------
-void Node::OnChildAdded(Movable *child)
+std::vector<MovablePtr> &Node::GetChildren()
 {
-	PX2_UNUSED(child);
+	return mChild;
 }
 //----------------------------------------------------------------------------
-void Node::OnChildRemoved(Movable *child)
+void Node::OnChildAttached(Movable *child)
 {
-	PX2_UNUSED(child);
+	mIsNeedCalUpdateChild = true;
+
+	AddObjectData data;
+	data.ParentObj = this;
+	data.Obj = child;
+
+	Event *ent = GraphicsES::CreateEventX(GraphicsES::AddObject);
+	ent->SetData<AddObjectData>(data);
+	PX2_EW.BroadcastingLocalEvent(ent);
+}
+//----------------------------------------------------------------------------
+void Node::OnChildDetach(Movable *child)
+{
+	mIsNeedCalUpdateChild = true;
+
+	Event *ent = GraphicsES::CreateEventX(GraphicsES::RemoveObject);
+	ent->SetData<Object*>((Object*)child);
+	PX2_EW.BroadcastingLocalEvent(ent);
 }
 //----------------------------------------------------------------------------
 MovablePtr Node::GetChildByName (const std::string &name)
@@ -348,9 +366,22 @@ void Node::Enable(bool enable)
 
 	for (int i = 0; i < GetNumChildren(); i++)
 	{
-		if (mChild[i])
+		if (mChild[i] && !mChild[i]->IsEnableSelfCtrled())
 		{
 			mChild[i]->Enable(enable);
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void Node::SetActivate(bool act)
+{
+	Movable::SetActivate(act);
+
+	for (int i = 0; i < GetNumChildren(); i++)
+	{
+		if (mChild[i] && !mChild[i]->IsActivateSelfCtrled())
+		{
+			mChild[i]->SetActivate(act);
 		}
 	}
 }
@@ -413,17 +444,6 @@ void Node::SetReceiveShadow(bool reciveShadow)
 	{
 		if (mChild[i])
 			mChild[i]->SetReceiveShadow(reciveShadow);
-	}
-}
-//----------------------------------------------------------------------------
-void Node::RegistToScriptSystemAll()
-{
-	Movable::RegistToScriptSystemAll();
-
-	for (int i = 0; i < GetNumChildren(); i++)
-	{
-		if (mChild[i])
-			mChild[i]->RegistToScriptSystemAll();
 	}
 }
 //----------------------------------------------------------------------------
@@ -509,7 +529,7 @@ void Node::UpdateWorldBound ()
 //----------------------------------------------------------------------------
 void Node::OnGetVisibleSet (Culler& culler, bool noCull)
 {
-    std::vector<MovablePtr>::iterator iter = mChild.begin();
+	std::vector<MovablePtr>::iterator iter = mChild.begin();
     std::vector<MovablePtr>::iterator end = mChild.end();
     for (/**/; iter != end; ++iter)
     {
@@ -523,7 +543,11 @@ void Node::OnGetVisibleSet (Culler& culler, bool noCull)
 //----------------------------------------------------------------------------
 void Node::TravelExecute(Movable *mov, TravelExecuteFun fun, Any *data)
 {
-	(*fun)(mov, data);
+	bool goOn = true;
+
+	(*fun)(mov, data, goOn);
+	
+	if (!goOn) return;
 
 	Node *node = DynamicCast<Node>(mov);
 	if (node)
@@ -600,6 +624,35 @@ void Node::OnPropertyChanged (const PropertyObject &obj)
 //----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
+// Functions
+//----------------------------------------------------------------------------
+FunObject * Node::RegistClassFunctions()
+{
+	FunObject * parentFunObj = Movable::RegistClassFunctions();
+
+	FunObject *thisFunObj = parentFunObj->GetAddClass("Node");
+
+	{
+		FunObjectPtr funObj = new0 FunObject();
+		funObj->FunName = "AttachChild";
+		funObj->AddInput("handler", FPT_POINTER_THIS, (Object*)0);
+		funObj->AddInput("in_child", FPT_POINTER, (Object*)0);
+		thisFunObj->AddFunObject(funObj);
+	}
+
+	{
+		FunObjectPtr funObj = new0 FunObject();
+		funObj->FunName = "DetachChild";
+		funObj->AddInput("handler", FPT_POINTER_THIS, (Object*)0);
+		funObj->AddInput("in_child", FPT_POINTER, (Object*)0);
+		thisFunObj->AddFunObject(funObj);
+	}
+
+	return thisFunObj;
+}
+//----------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------
 // 持久化支持
 //----------------------------------------------------------------------------
 Node::Node(LoadConstructor value) :
@@ -654,7 +707,8 @@ void Node::PostLink ()
 		if (mChild[i])
 		{
 			mChild[i]->SetParent(this);
-			OnChildAdded(mChild[i]);
+			OnChildAttached(mChild[i]);
+			mChild[i]->OnBeAttached();
 		}
 	}
 }

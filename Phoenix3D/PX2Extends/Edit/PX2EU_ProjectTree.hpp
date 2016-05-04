@@ -4,6 +4,7 @@
 #define PX2EU_PROJECTTREE_HPP
 
 #include "PX2UITree.hpp"
+#include "PX2EU_ProjectItem.hpp"
 
 namespace PX2
 {
@@ -14,17 +15,17 @@ namespace PX2
 		PX2_DECLARE_STREAM(EU_ProjectTree);
 
 	public:
-		enum ProjectTreeType
-		{
-			PTT_PROJECT,
-			PTT_SCENE,
-			PTT_UI,
-			PTT_MAX_TYPE
-		};
-		EU_ProjectTree(ProjectTreeType ptt);
+		EU_ProjectTree();
 		virtual ~EU_ProjectTree();
 
+		void SetShowType(ShowType st);
+		ShowType GetShowType() const;
+
+		virtual UIItem *AddItem(UIItem *parentItem, const std::string &label,
+			const std::string &name = "", Object *obj = 0);
+
 		virtual void DoExecute(Event *ent);
+		virtual void OnSelected(UIItem *item);
 
 	protected:
 		void _RefreshProject();
@@ -32,16 +33,24 @@ namespace PX2
 
 		void _RefreshScene();
 		void _ClearScene();
-		void _RefreshOnMoveable(UIItem *parentItem, Movable *mov);
+		void _RefreshOnMoveableScene(UIItem *parentItem, Movable *mov);
 
 		void _RefreshUI();
 		void _ClearUI();
 
-		ProjectTreeType mProjectTreeType;
+		ShowType mShowType;
+
+		UIItemPtr mItemProject;
+
+		UIItemPtr mItemSetting;		
+	
+		UIItemPtr mItemSceneCanvas;
+
+		UIItemPtr mItemUICanvas;
 	};
 
 	PX2_REGISTER_STREAM(EU_ProjectTree);
-	typedef Pointer0<EU_ProjectTree> EU_ProjectTreePtr;
+	typedef PointerRef<EU_ProjectTree> EU_ProjectTreePtr;
 
 }
 

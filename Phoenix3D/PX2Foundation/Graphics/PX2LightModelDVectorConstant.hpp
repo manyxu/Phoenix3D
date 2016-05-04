@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(LightModelDVectorConstant);
-	typedef Pointer0<LightModelDVectorConstant> LightModelDVectorConstantPtr;
+	typedef PointerRef<LightModelDVectorConstant> LightModelDVectorConstantPtr;
 
 }
 

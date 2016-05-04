@@ -15,6 +15,11 @@ Rtti::~Rtti ()
 {
 }
 //----------------------------------------------------------------------------
+inline std::string Rtti::GetName()
+{
+	return mName;
+}
+//----------------------------------------------------------------------------
 bool Rtti::IsDerived (const Rtti& type) const
 {
     const Rtti* search = this;

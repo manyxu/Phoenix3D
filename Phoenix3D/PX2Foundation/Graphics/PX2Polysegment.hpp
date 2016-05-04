@@ -51,7 +51,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Polysegment);
-	typedef Pointer0<Polysegment> PolysegmentPtr;
+	typedef PointerRef<Polysegment> PolysegmentPtr;
 #include "PX2Polysegment.inl"
 
 }

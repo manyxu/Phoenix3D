@@ -5,6 +5,7 @@
 #include "PX2UITabFrame.hpp"
 #include "PX2UIAuiFrame.hpp"
 #include "PX2UIAuiManager.hpp"
+#include "PX2Math.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, UIAuiBlockFrame);
@@ -13,13 +14,16 @@ PX2_IMPLEMENT_FACTORY(UIAuiBlockFrame);
 
 //----------------------------------------------------------------------------
 UIAuiBlockFrame::UIAuiBlockFrame(UILayoutPosType posType) :
+mIsCaptured(false),
+mBrotherFrame(0),
 mPosType(posType),
+mIsAutoExpand(true),
 mSideFrameHor0(0),
 mSideFrameHor1(0),
 mSideFrameVer0(0),
 mSideFrameVer1(0),
-mParentAuiBlockFrame(0),
-mIsFramesSortNeedUpdate(true)
+mSpliterFrame(0),
+mParentAuiBlockFrame(0)
 {
 }
 //----------------------------------------------------------------------------
@@ -27,9 +31,37 @@ UIAuiBlockFrame::~UIAuiBlockFrame()
 {
 }
 //----------------------------------------------------------------------------
-int UIAuiBlockFrame::AttachChild(Movable* child)
+void UIAuiBlockFrame::Caputure(bool capture)
 {
-	int ret = UIFrame::AttachChild(child);
+	mIsCaptured = capture;
+
+	if (capture)
+	{
+		PX2_UIAUIM.SetCaptureBlockFrame(this);
+	}
+	else
+	{
+		UIAuiBlockFrame *blockFrame = PX2_UIAUIM.GetCaptureBlockFrame();
+		if (blockFrame == this)
+		{
+			PX2_UIAUIM.SetCaptureBlockFrame(0);
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void UIAuiBlockFrame::SetBrotherFrame(UIAuiBlockFrame *frame)
+{
+	mBrotherFrame = frame;
+}
+//----------------------------------------------------------------------------
+void UIAuiBlockFrame::SetAutoExpand(bool expand)
+{
+	mIsAutoExpand = expand;
+}
+//----------------------------------------------------------------------------
+void UIAuiBlockFrame::OnChildAttached(Movable *child)
+{
+	UIFrame::OnChildAttached(child);
 
 	UITabFrame *tabFrame = DynamicCast<UITabFrame>(child);
 	if (tabFrame)
@@ -41,40 +73,78 @@ int UIAuiBlockFrame::AttachChild(Movable* child)
 	UISplitterFrame *splitFrame = DynamicCast<UISplitterFrame>(child);
 	if (splitFrame)
 	{
-		splitFrame->SetUpdatePriority(10.0f);
-
-		mSplitterFrames.push_back(splitFrame);
-
-		if (splitFrame->IsHor())
-		{
-			mSplitterFrames_Hor.push_back(splitFrame);
-		}
-		else
-		{
-			mSplitterFrames_Ver.push_back(splitFrame);
-		}
-
-		mIsFramesSortNeedUpdate = true;
+		splitFrame->SetUpdatePriority(10);
 	}
 
-	return ret;
+	mIsLayoutChanged = true;
+}
+//----------------------------------------------------------------------------
+void UIAuiBlockFrame::OnChildDetach(Movable *child)
+{
+	UIFrame::OnChildDetach(child);
+
+	UITabFrame *tabFrame = DynamicCast<UITabFrame>(child);
+	if (tabFrame)
+	{
+		tabFrame->SetAuiBlockFrame(0);
+		mUITabFrame = 0;
+	}
+
+	mIsLayoutChanged = true;
 }
 //----------------------------------------------------------------------------
 void UIAuiBlockFrame::OnSizeChanged()
 {
-	Sizef sizeTemp = mSize;
-	
-	if (!mMinSize.IsEmpty())
-	{
-		if (sizeTemp.Width < mMinSize.Width)
-			sizeTemp.Width = mMinSize.Width;
-
-		if (sizeTemp.Height < mMinSize.Height)
-			sizeTemp.Height = mMinSize.Height;
-	}
-	mSize = sizeTemp;
-
 	UIFrame::OnSizeChanged();
+
+	float splitterSize = PX2_UISM.Size_Splitter;
+	const Sizef &size = GetSize();
+
+	if (mSpliterFrame)
+	{
+		UISplitterFrame::PosType pt = mSpliterFrame->GetPosType();
+
+		if (UISplitterFrame::PT_LEFT == pt)
+		{
+			float spVal = Mathf::FAbs(mSpliterFrame->GetAnchorParamHor()[0]);
+			float adjWidth = size.Width - splitterSize / 2.0f;
+
+			if (adjWidth < spVal)
+			{
+				mSpliterFrame->SetAnchorParamHor(size.Width - splitterSize / 2.0f, 0.0f);
+			}
+		}
+		else if (UISplitterFrame::PT_RIGHT == pt)
+		{
+			float spVal = Mathf::FAbs(mSpliterFrame->GetAnchorParamHor()[0]);
+			float adjWidth = size.Width - splitterSize / 2.0f;
+
+			if (adjWidth < spVal)
+			{
+				mSpliterFrame->SetAnchorParamHor(-size.Width + splitterSize / 2.0f, 0.0f);
+			}
+		}
+		else if (UISplitterFrame::PT_BOTTOM == pt)
+		{
+			float spVal = Mathf::FAbs(mSpliterFrame->GetAnchorParamVer()[0]);
+			float adjWidth = size.Height - splitterSize / 2.0f;
+
+			if (adjWidth < spVal)
+			{
+				mSpliterFrame->SetAnchorParamVer(size.Height - splitterSize / 2.0f, 0.0f);
+			}
+		}
+		else if (UISplitterFrame::PT_TOP == pt)
+		{
+			float spVal = Mathf::FAbs(mSpliterFrame->GetAnchorParamVer()[0]);
+			float adjWidth = size.Height - splitterSize / 2.0f;
+
+			if (adjWidth < spVal)
+			{
+				mSpliterFrame->SetAnchorParamVer(-size.Height + splitterSize / 2.0f, 0.0f);
+			}
+		}
+	}
 }
 //----------------------------------------------------------------------------
 void UIAuiBlockFrame::SetMinSize(const Sizef &minSize)
@@ -84,83 +154,28 @@ void UIAuiBlockFrame::SetMinSize(const Sizef &minSize)
 //----------------------------------------------------------------------------
 void UIAuiBlockFrame::UpdateWorldData(double applicationTime, double elapsedTime)
 {
-	if (mIsFramesSortNeedUpdate)
-	{
-		_CalSideFrames(mSplitterFrames_Hor);
-		_CalSideFrames(mSplitterFrames_Ver);
-
-		mIsFramesSortNeedUpdate = false;
-	}
-
 	UIFrame::UpdateWorldData(applicationTime, elapsedTime);
-}
-//----------------------------------------------------------------------------
-bool SplitterLessThan(UISplitterFrame *sp0, UISplitterFrame *sp1)
-{
-	UIFrame *parent = DynamicCast<UIFrame>(sp0->GetParent());
-
-	AVector parentOffset = parent->LeftBottomCornerOffset;
-	Sizef parentSize = parent->GetSize();
-	parentSize = Sizef(100000.0f, 100000.0f);
-
-	if (sp0->IsHor())
-	{
-		float pos0 = parentOffset.Z() + parentSize.Height * sp0->GetAnchorVer()[0] +
-			sp0->GetAnchorParamVer()[0];
-		float pos1 = parentOffset.Z() + parentSize.Height * sp1->GetAnchorVer()[0] +
-			sp1->GetAnchorParamVer()[0];
-
-		if (pos0 != pos1)
-		{
-			return pos0 < pos1;
-		}
-	}
-	else
-	{
-		float pos0 = parentOffset.X() + parentSize.Width * sp0->GetAnchorHor()[0] +
-			sp0->GetAnchorParamHor()[0];
-		float pos1 = parentOffset.X() + parentSize.Width * sp1->GetAnchorHor()[0] +
-			sp1->GetAnchorParamHor()[0];
-
-		if (pos0 != pos1)
-		{
-			return pos0 < pos1;
-		}
-	}
-
-	return sp0 < sp1;
-}
-//----------------------------------------------------------------------------
-void UIAuiBlockFrame::_CalSideFrames(std::vector<UISplitterFramePtr> &frames)
-{
-	std::sort(frames.begin(), frames.end(), SplitterLessThan);
-
-	int numFrames = (int)frames.size();
-	for (int i = 0; i < numFrames; i++)
-	{
-		UISplitterFrame *frame0 = 0;
-		UISplitterFrame *frame1 = 0;
-
-		if (1 <= i) frame0 = frames[i - 1];
-		if (i <= numFrames - 2) frame1 = frames[i + 1];
-
-		//frames[i]->_SetSideFrame0(frame0);
-		//frames[i]->_SetSideFrame1(frame1);
-	}
 }
 //----------------------------------------------------------------------------
 void UIAuiBlockFrame::SetSideFrameHor0(UISplitterFrame *frame)
 {
 	if (mSideFrameHor0)
 	{
-		frame->_RemoveAuiBlockFrame(this);
+		mSideFrameHor0->_RemoveAuiBlockFrame1(this);
 	}
 
 	mSideFrameHor0 = frame;
 
 	if (frame)
 	{
-		frame->_AddAuiBlockFrame(this);
+		frame->_AddAuiBlockFrame1(this);
+	}
+
+	std::map<UILayoutPosType, PointerRef<UIAuiBlockFrame> >::iterator it =
+		mSideFrames.find(UILPT_BOTTOM);
+	if (it != mSideFrames.end())
+	{
+		it->second->SetSideFrameHor0(frame);
 	}
 }
 //----------------------------------------------------------------------------
@@ -168,14 +183,21 @@ void UIAuiBlockFrame::SetSideFrameHor1(UISplitterFrame *frame)
 {
 	if (mSideFrameHor1)
 	{
-		frame->_RemoveAuiBlockFrame(this);
+		mSideFrameHor1->_RemoveAuiBlockFrame0(this);
 	}
 
 	mSideFrameHor1 = frame;
 
 	if (frame)
 	{
-		frame->_AddAuiBlockFrame(this);
+		frame->_AddAuiBlockFrame0(this);
+	}
+
+	std::map<UILayoutPosType, PointerRef<UIAuiBlockFrame> >::iterator it =
+		mSideFrames.find(UILPT_TOP);
+	if (it != mSideFrames.end())
+	{
+		it->second->SetSideFrameHor1(frame);
 	}
 }
 //----------------------------------------------------------------------------
@@ -183,14 +205,21 @@ void UIAuiBlockFrame::SetSideFrameVer0(UISplitterFrame *frame)
 {
 	if (mSideFrameVer0)
 	{
-		frame->_RemoveAuiBlockFrame(this);
+		mSideFrameVer0->_RemoveAuiBlockFrame1(this);
 	}
 
 	mSideFrameVer0 = frame;
 
 	if (frame)
 	{
-		frame->_AddAuiBlockFrame(this);
+		frame->_AddAuiBlockFrame1(this);
+	}
+
+	std::map<UILayoutPosType, PointerRef<UIAuiBlockFrame> >::iterator it =
+		mSideFrames.find(UILPT_LEFT);
+	if (it != mSideFrames.end())
+	{
+		it->second->SetSideFrameVer0(frame);
 	}
 }
 //----------------------------------------------------------------------------
@@ -198,20 +227,27 @@ void UIAuiBlockFrame::SetSideFrameVer1(UISplitterFrame *frame)
 {
 	if (mSideFrameVer1)
 	{
-		frame->_RemoveAuiBlockFrame(this);
+		mSideFrameVer1->_RemoveAuiBlockFrame0(this);
 	}
 
 	mSideFrameVer1 = frame;
 
 	if (frame)
 	{
-		frame->_AddAuiBlockFrame(this);
+		frame->_AddAuiBlockFrame0(this);
+	}
+
+	std::map<UILayoutPosType, PointerRef<UIAuiBlockFrame> >::iterator it =
+		mSideFrames.find(UILPT_RIGHT);
+	if (it != mSideFrames.end())
+	{
+		it->second->SetSideFrameVer1(frame);
 	}
 }
 //----------------------------------------------------------------------------
-bool _IsSameParent(UISplitterFrame *frame0, UISplitterFrame *frame1)
+void UIAuiBlockFrame::SetSpliterFrame(UISplitterFrame *frame)
 {
-	return frame0->GetParent() == frame1->GetParent();
+	mSpliterFrame = frame;
 }
 //----------------------------------------------------------------------------
 void UIAuiBlockFrame::_UpdateLayout(UIAuiBlockFrame *auiBlockFrame,
@@ -277,17 +313,18 @@ void UIAuiBlockFrame::_UpdateLayout(UIAuiBlockFrame *auiBlockFrame,
 	}
 }
 //----------------------------------------------------------------------------
-void UIAuiBlockFrame::UpdateLayout()
+void UIAuiBlockFrame::UpdateLayout(Movable *parent)
 {
 	_UpdateLayout(this);
 
-	std::map<UILayoutPosType, Pointer0<UIAuiBlockFrame> >::iterator it = mSideFrames.begin();
+	std::map<UILayoutPosType, PointerRef<UIAuiBlockFrame> >::iterator it = 
+		mSideFrames.begin();
 	for (; it != mSideFrames.end(); it++)
 	{
 		UILayoutPosType posType = it->first;
 		UIAuiBlockFrame *auiBlockFrame = it->second;
-
-		_UpdateLayout(auiBlockFrame);
+		if (auiBlockFrame)
+			_UpdateLayout(auiBlockFrame);
 	}
 
 	mIsLayoutChanged = false;
@@ -295,7 +332,7 @@ void UIAuiBlockFrame::UpdateLayout()
 //----------------------------------------------------------------------------
 UIAuiBlockFrame *UIAuiBlockFrame::_GetSideFrame(UILayoutPosType pos)
 {
-	std::map<UILayoutPosType, Pointer0<UIAuiBlockFrame> >::iterator it =
+	std::map<UILayoutPosType, PointerRef<UIAuiBlockFrame> >::iterator it =
 		mSideFrames.find(pos);
 
 	if (it != mSideFrames.end())
@@ -445,119 +482,283 @@ UISplitterFrame *UIAuiBlockFrame::_CalGetLinkFrame1(UILayoutPosType pos)
 UIAuiBlockFrame *UIAuiBlockFrame::CreateAddPosFrame(UILayoutPosType pos,
 	const Sizef &size)
 {
-	UIAuiFrame *auiFrame = DynamicCast<UIAuiFrame>(GetParent());
-	assertion(0 != auiFrame, "parent must be AuiFrame.\n");
+	std::map<UILayoutPosType, UIAuiBlockFramePtr>::iterator it =
+		mSideFrames.find(pos);
+	if (it != mSideFrames.end())
+	{
+		assertion(false, "frame already exist!");
+		return 0;
+	}
 	
+	UIAuiBlockFrame *auiBlockFrame = new0 UIAuiBlockFrame(pos);
+	auiBlockFrame->SetSize(size);
+
+	AttachChild(auiBlockFrame);
+	auiBlockFrame->SetMinSize(Sizef(2.0f, 55.0f));
+	auiBlockFrame->SetName("AuiBlockFrame");
+
 	float splitterSize = PX2_UISM.Size_Splitter;
 
+	float splitterY = -2.0f;
+	if (UILPT_LEFT == pos)
+	{
+		UISplitterFrame *newSplitterFrame = new0 UISplitterFrame(false);
+		AttachChild(newSplitterFrame);
+		newSplitterFrame->SetPosType(UISplitterFrame::PT_LEFT);
+		newSplitterFrame->SetName("SpFrame_Left");
+		newSplitterFrame->LocalTransform.SetTranslateY(splitterY);
+
+		newSplitterFrame->SetAnchorHor(0.0f, 0.0f);
+		newSplitterFrame->SetAnchorParamHor(size.Width + splitterSize / 2.0f, 0.0f);
+		newSplitterFrame->SetAnchorVer(0.0f, 1.0f);
+		newSplitterFrame->SetAnchorParamVer(0.0f, 0.0f);
+
+		auiBlockFrame->SetSideFrameVer0(_CalGetNewSideFrameVer0());
+		auiBlockFrame->SetSideFrameVer1(newSplitterFrame);
+		auiBlockFrame->SetSideFrameHor0(_CalGetNewSideFrameHor0());
+		auiBlockFrame->SetSideFrameHor1(_CalGetNewSideFrameHor1());
+
+		SetSpliterFrame(newSplitterFrame);
+	}
+	else if (UILPT_RIGHT == pos)
+	{
+		UISplitterFrame *newSplitterFrame = new0 UISplitterFrame(false);
+		AttachChild(newSplitterFrame);
+		newSplitterFrame->SetPosType(UISplitterFrame::PT_RIGHT);
+		newSplitterFrame->SetName("SpFrame_Right");
+		newSplitterFrame->LocalTransform.SetTranslateY(splitterY);
+
+		newSplitterFrame->SetAnchorHor(1.0f, 1.0f);
+		newSplitterFrame->SetAnchorParamHor(-size.Width - splitterSize / 2.0f, 0.0f);
+		newSplitterFrame->SetAnchorVer(0.0f, 1.0f);
+		newSplitterFrame->SetAnchorParamVer(0.0f, 0.0f);
+
+		auiBlockFrame->SetSideFrameVer0(newSplitterFrame);
+		auiBlockFrame->SetSideFrameVer1(_CalGetNewSideFrameVer1());
+		auiBlockFrame->SetSideFrameHor0(_CalGetNewSideFrameHor0());
+		auiBlockFrame->SetSideFrameHor1(_CalGetNewSideFrameHor1());
+
+		SetSpliterFrame(newSplitterFrame);
+	}
+	else if (UILPT_BOTTOM == pos)
+	{
+		UISplitterFrame *newSplitterFrame = new0 UISplitterFrame(true);
+		AttachChild(newSplitterFrame);
+		newSplitterFrame->SetPosType(UISplitterFrame::PT_BOTTOM);
+		newSplitterFrame->SetName("SpFrame_Bottom");
+		newSplitterFrame->LocalTransform.SetTranslateY(splitterY);
+
+		newSplitterFrame->SetAnchorHor(0.0f, 1.0f);
+		newSplitterFrame->SetAnchorParamHor(0.0f, 0.0f);
+		newSplitterFrame->SetAnchorVer(0.0f, 0.0f);
+		newSplitterFrame->SetAnchorParamVer(size.Height + splitterSize / 2.0f, 0.0f);
+
+		auiBlockFrame->SetSideFrameVer0(_CalGetNewSideFrameVer0());
+		auiBlockFrame->SetSideFrameVer1(_CalGetNewSideFrameVer1());
+		auiBlockFrame->SetSideFrameHor0(_CalGetNewSideFrameHor0());
+		auiBlockFrame->SetSideFrameHor1(newSplitterFrame);
+
+		SetSpliterFrame(newSplitterFrame);
+	}
+	else if (UILPT_TOP == pos)
+	{
+		UISplitterFrame *newSplitterFrame = new0 UISplitterFrame(true);
+		AttachChild(newSplitterFrame);
+		newSplitterFrame->SetPosType(UISplitterFrame::PT_TOP);
+		newSplitterFrame->SetName("SpFrame_Top");
+		newSplitterFrame->LocalTransform.SetTranslateY(splitterY);
+
+		newSplitterFrame->SetAnchorHor(0.0f, 1.0f);
+		newSplitterFrame->SetAnchorParamHor(0.0f, 0.0f);
+		newSplitterFrame->SetAnchorVer(1.0f, 1.0f);
+		newSplitterFrame->SetAnchorParamVer(-size.Height - splitterSize / 2.0f, 0.0f);
+
+		auiBlockFrame->SetSideFrameVer0(_CalGetNewSideFrameVer0());
+		auiBlockFrame->SetSideFrameVer1(_CalGetNewSideFrameVer1());
+		auiBlockFrame->SetSideFrameHor0(newSplitterFrame);
+		auiBlockFrame->SetSideFrameHor1(_CalGetNewSideFrameHor1());
+
+		SetSpliterFrame(newSplitterFrame);
+	}
+	else if (UILPT_CENTER == pos)
+	{
+		auiBlockFrame->SetSideFrameVer0(_CalGetNewSideFrameVer0());
+		auiBlockFrame->SetSideFrameVer1(_CalGetNewSideFrameVer1());
+		auiBlockFrame->SetSideFrameHor0(_CalGetNewSideFrameHor0());
+		auiBlockFrame->SetSideFrameHor1(_CalGetNewSideFrameHor1());
+	}
+
+	mSideFrames[pos] = auiBlockFrame;
+	auiBlockFrame->SetParentAuiBlockFrame(this);
+
+	return auiBlockFrame;
+}
+//----------------------------------------------------------------------------
+struct _SPReplaceData
+{
+	_SPReplaceData()
+	{
+		SPFrom = 0;
+		SPTo = 0;
+	}
+
+	UISplitterFrame *SPFrom;
+	UISplitterFrame *SPTo;
+};
+void _NodeTravelExecuteSetSideFrame(Movable *mov, Any *data, bool &goOn)
+{
+	PX2_UNUSED(goOn);
+
+	_SPReplaceData dt = PX2_ANY_AS(*data, _SPReplaceData);
+	UISplitterFrame *from = dt.SPFrom;
+	UISplitterFrame *to = dt.SPTo;
+
+	UIAuiBlockFrame *blockFrame = DynamicCast<UIAuiBlockFrame>(mov);
+	UISplitterFrame *spFrame = DynamicCast<UISplitterFrame>(mov);
+	if (blockFrame)
+	{
+		if (from == blockFrame->GetSideFrameHor0())
+		{
+			blockFrame->SetSideFrameHor0(to);
+		}
+		if (from == blockFrame->GetSideFrameHor1())
+		{
+			blockFrame->SetSideFrameHor1(to);
+		}
+		if (from == blockFrame->GetSideFrameVer0())
+		{
+			blockFrame->SetSideFrameVer0(to);
+		}
+		if (from == blockFrame->GetSideFrameVer1())
+		{
+			blockFrame->SetSideFrameVer1(to);
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void UIAuiBlockFrame::RemovePosFrame(UILayoutPosType pos)
+{
 	std::map<UILayoutPosType, UIAuiBlockFramePtr>::iterator it =
 		mSideFrames.find(pos);
 	if (it == mSideFrames.end())
+		return;
+
+	UIAuiBlockFramePtr blockFrame = it->second;
+	UIAuiBlockFramePtr brotherFrame = blockFrame->GetBrotherFrame();
+	UILayoutPosType brotherPos = brotherFrame->GetLayOutPosType();
+	UISplitterFramePtr spFrame = GetSpliterFrame();
+	bool isHor = spFrame->IsHor();
+
+	mSideFrames.clear();
+	DestoryBackgroundPicBox();
+	DetachAllChildren();
+	std::vector<MovablePtr> children = brotherFrame->GetChildren();
+	brotherFrame->DetachAllChildren();
+
+	UISplitterFrame *spFrameTo = 0;
+	if (isHor)
 	{
-		UIAuiBlockFrame *auiBlockFrame = new0 UIAuiBlockFrame(pos);
-		auiFrame->AttachChild(auiBlockFrame);
-		auiBlockFrame->SetSize(size);
-		auiBlockFrame->SetMinSize(Sizef(200.0f, 200.0f));
-		auiBlockFrame->SetName("AuiBlockFrame"); 
-
-		if (UILPT_LEFT == pos)
+		if (UILPT_BOTTOM == pos)
 		{
-			UISplitterFrame *newSplitterFrame = new0 UISplitterFrame(false);
-			AttachChild(newSplitterFrame);
-			newSplitterFrame->SetName("SpFrame_Left");
-
-			newSplitterFrame->SetAnchorHor(0.0f, 0.0f);
-			newSplitterFrame->SetAnchorParamHor(size.Width + splitterSize/2.0f, 0.0f);
-			newSplitterFrame->SetAnchorVer(0.0f, 1.0f);
-			newSplitterFrame->SetAnchorParamVer(0.0f, 0.0f);
-
-			newSplitterFrame->SetLinkFrame0(_CalGetLinkFrame0(pos));
-			newSplitterFrame->SetLinkFrame1(_CalGetLinkFrame1(pos));
-
-			auiBlockFrame->SetSideFrameVer0(_CalGetNewSideFrameVer0());
-			auiBlockFrame->SetSideFrameVer1(newSplitterFrame);
-			auiBlockFrame->SetSideFrameHor0(_CalGetNewSideFrameHor0());
-			auiBlockFrame->SetSideFrameHor1(_CalGetNewSideFrameHor1());
-		}
-		else if (UILPT_RIGHT == pos)
-		{
-			UISplitterFrame *newSplitterFrame = new0 UISplitterFrame(false);
-			AttachChild(newSplitterFrame);
-			newSplitterFrame->SetName("SpFrame_Right");
-
-			newSplitterFrame->SetAnchorHor(1.0f, 1.0f);
-			newSplitterFrame->SetAnchorParamHor(-size.Width - splitterSize / 2.0f, 0.0f);
-			newSplitterFrame->SetAnchorVer(0.0f, 1.0f);
-			newSplitterFrame->SetAnchorParamVer(0.0f, 0.0f);
-
-			newSplitterFrame->SetLinkFrame0(_CalGetLinkFrame0(pos));
-			newSplitterFrame->SetLinkFrame1(_CalGetLinkFrame1(pos));
-
-			auiBlockFrame->SetSideFrameVer0(newSplitterFrame);
-			auiBlockFrame->SetSideFrameVer1(_CalGetNewSideFrameVer1());
-			auiBlockFrame->SetSideFrameHor0(_CalGetNewSideFrameHor0());
-			auiBlockFrame->SetSideFrameHor1(_CalGetNewSideFrameHor1());
-		}
-		else if (UILPT_BOTTOM == pos)
-		{
-			UISplitterFrame *newSplitterFrame = new0 UISplitterFrame(true);
-			AttachChild(newSplitterFrame);
-			newSplitterFrame->SetName("SpFrame_Bottom");
-
-			newSplitterFrame->SetAnchorHor(0.0f, 1.0f);
-			newSplitterFrame->SetAnchorParamHor(0.0f, 0.0f);
-			newSplitterFrame->SetAnchorVer(0.0f, 0.0f);
-			newSplitterFrame->SetAnchorParamVer(size.Height + splitterSize / 2.0f, 0.0f);
-
-			newSplitterFrame->SetLinkFrame0(_CalGetLinkFrame0(pos));
-			newSplitterFrame->SetLinkFrame1(_CalGetLinkFrame1(pos));
-
-			auiBlockFrame->SetSideFrameVer0(_CalGetNewSideFrameVer0());
-			auiBlockFrame->SetSideFrameVer1(_CalGetNewSideFrameVer1());
-			auiBlockFrame->SetSideFrameHor0(_CalGetNewSideFrameHor0());
-			auiBlockFrame->SetSideFrameHor1(newSplitterFrame);
+			spFrameTo = GetSideFrameHor0();
 		}
 		else if (UILPT_TOP == pos)
 		{
-			UISplitterFrame *newSplitterFrame = new0 UISplitterFrame(true);
-			AttachChild(newSplitterFrame);
-			newSplitterFrame->SetName("SpFrame_Top");
-
-			newSplitterFrame->SetAnchorHor(0.0f, 1.0f);
-			newSplitterFrame->SetAnchorParamHor(0.0f, 0.0f);
-			newSplitterFrame->SetAnchorVer(1.0f, 1.0f);
-			newSplitterFrame->SetAnchorParamVer(-size.Height - splitterSize / 2.0f, 0.0f);
-
-			newSplitterFrame->SetLinkFrame0(_CalGetLinkFrame0(pos));
-			newSplitterFrame->SetLinkFrame1(_CalGetLinkFrame1(pos));
-
-			auiBlockFrame->SetSideFrameVer0(_CalGetNewSideFrameVer0());
-			auiBlockFrame->SetSideFrameVer1(_CalGetNewSideFrameVer1());
-			auiBlockFrame->SetSideFrameHor0(newSplitterFrame);
-			auiBlockFrame->SetSideFrameHor1(_CalGetNewSideFrameHor1());
+			spFrameTo = GetSideFrameHor1();
 		}
 		else if (UILPT_CENTER == pos)
 		{
-			auiBlockFrame->SetSideFrameVer0(_CalGetNewSideFrameVer0());
-			auiBlockFrame->SetSideFrameVer1(_CalGetNewSideFrameVer1());
-			auiBlockFrame->SetSideFrameHor0(_CalGetNewSideFrameHor0());
-			auiBlockFrame->SetSideFrameHor1(_CalGetNewSideFrameHor1());
+			if (UILPT_BOTTOM == brotherPos)
+			{
+				spFrameTo = GetSideFrameHor1();
+			}
+			else if (UILPT_TOP == brotherPos)
+			{
+				spFrameTo = GetSideFrameHor0();
+			}
 		}
-
-		mSideFrames[pos] = auiBlockFrame;
-		auiBlockFrame->SetParentAuiBlockFrame(this);
-
-		PX2_UIAUIM.AddUIAuiBlockFrame(auiBlockFrame);
-
-		return auiBlockFrame;
 	}
 	else
 	{
-		UIAuiBlockFrame *existFrame = it->second;
-		UIAuiBlockFrame * auiBlockFrame = existFrame->CreateAddPosFrame(pos, 
-			size);
+		if (UILPT_LEFT == pos)
+		{
+			spFrameTo = GetSideFrameVer0();
+		}
+		else if (UILPT_RIGHT == pos)
+		{
+			spFrameTo = GetSideFrameVer1();
+		}
+		else if (UILPT_CENTER == pos)
+		{
+			if (UILPT_LEFT == brotherPos)
+			{
+				spFrameTo = GetSideFrameVer1();
+			}
+			else if (UILPT_RIGHT == brotherPos)
+			{
+				spFrameTo = GetSideFrameVer0();
+			}
+		}
+	}
+	
+	for (int i = 0; i < (int)children.size(); i++)
+	{
+		Movable *mov = children[i];
 
-		return auiBlockFrame;
+		UIAuiBlockFrame *childBlockFrame = DynamicCast<UIAuiBlockFrame>(mov);
+		UISplitterFrame *childSPFrame = DynamicCast<UISplitterFrame>(mov);
+		UITabFrame *tabFrame = DynamicCast<UITabFrame>(mov);
+		if (childBlockFrame)
+		{
+			AttachChild(childBlockFrame);
+	
+			UILayoutPosType pos = childBlockFrame->GetLayOutPosType();
+			mSideFrames[pos] = childBlockFrame;
+			childBlockFrame->SetParentAuiBlockFrame(this);
+		}
+		if (childSPFrame)
+		{
+			SetSpliterFrame(childSPFrame);
+			AttachChild(childSPFrame);
+		}
+		if (tabFrame)
+		{
+			AttachChild(tabFrame);
+		}
+
+		if (childBlockFrame || childSPFrame)
+		{
+			_SPReplaceData data;
+			data.SPFrom = spFrame;
+			data.SPTo = spFrameTo;
+			Any anyData = data;
+			Node::TravelExecute(mov, _NodeTravelExecuteSetSideFrame, &anyData);
+		}
+	}
+
+	UIPicBox *backPicBox = CreateAddBackgroundPicBox();
+	backPicBox->SetColor(PX2_UISM.Color_ViewBackground);
+}
+//----------------------------------------------------------------------------
+UIAuiBlockFrame *UIAuiBlockFrame::_GetSameSizeBlockFrame(UIAuiBlockFrame *frame)
+{
+	std::map<UILayoutPosType, PointerRef<UIAuiBlockFrame> >::iterator it =
+		mSideFrames.begin();
+	for (; it != mSideFrames.end(); it++)
+	{
+		UIAuiBlockFrame *compFrame = it->second;
+		if (compFrame != frame)
+		{
+			const Sizef &frameSize = frame->GetSize();
+			const Sizef &compSize = compFrame->GetSize();
+
+			float widthDiff = Mathf::FAbs(frameSize.Width - compSize.Width);
+			float heightDiff = Mathf::FAbs(frameSize.Height - compSize.Height);
+			if ((widthDiff < 5.0f || heightDiff < 5.0f) && compFrame->IsAutoExpand())
+			{
+				return compFrame;
+			}
+		}
 	}
 
 	return 0;
@@ -565,7 +766,7 @@ UIAuiBlockFrame *UIAuiBlockFrame::CreateAddPosFrame(UILayoutPosType pos,
 //----------------------------------------------------------------------------
 UIAuiBlockFrame *UIAuiBlockFrame::GetPosFrame(UILayoutPosType pos)
 {
-	std::map<UILayoutPosType, Pointer0<UIAuiBlockFrame> >::iterator it =
+	std::map<UILayoutPosType, PointerRef<UIAuiBlockFrame> >::iterator it =
 		mSideFrames.find(pos);
 
 	if (it != mSideFrames.end())
@@ -574,6 +775,11 @@ UIAuiBlockFrame *UIAuiBlockFrame::GetPosFrame(UILayoutPosType pos)
 	}
 
 	return 0;
+}
+//----------------------------------------------------------------------------
+int UIAuiBlockFrame::GetNumChildPosFrames()
+{
+	return (int)mSideFrames.size();
 }
 //----------------------------------------------------------------------------
 void UIAuiBlockFrame::SetParentAuiBlockFrame(UIAuiBlockFrame *frame)
@@ -587,12 +793,15 @@ void UIAuiBlockFrame::SetParentAuiBlockFrame(UIAuiBlockFrame *frame)
 //----------------------------------------------------------------------------
 UIAuiBlockFrame::UIAuiBlockFrame(LoadConstructor value) :
 UIFrame(value),
+mIsCaptured(false),
+mBrotherFrame(0),
+mIsAutoExpand(true),
 mSideFrameHor0(0),
 mSideFrameHor1(0),
 mSideFrameVer0(0),
 mSideFrameVer1(0),
-mParentAuiBlockFrame(0),
-mIsFramesSortNeedUpdate(true)
+mSpliterFrame(0),
+mParentAuiBlockFrame(0)
 {
 }
 //----------------------------------------------------------------------------

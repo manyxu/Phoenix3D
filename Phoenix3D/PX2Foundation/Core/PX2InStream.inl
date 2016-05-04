@@ -206,7 +206,7 @@ bool InStream::ReadPointerRR (int& numElements, T**& objects)
 }
 //----------------------------------------------------------------------------
 template <typename T>
-bool InStream::ReadPointer (Pointer0<T>& object)
+bool InStream::ReadPointer (PointerRef<T>& object)
 {
 	unsigned int uniqueID;
 	mSource.Read(sizeof(unsigned int), &uniqueID);
@@ -216,7 +216,7 @@ bool InStream::ReadPointer (Pointer0<T>& object)
 }
 //----------------------------------------------------------------------------
 template <typename T>
-bool InStream::ReadPointerVV (int numElements, Pointer0<T>* objects)
+bool InStream::ReadPointerVV (int numElements, PointerRef<T>* objects)
 {
 	if (numElements > 0)
 	{
@@ -232,11 +232,11 @@ bool InStream::ReadPointerVV (int numElements, Pointer0<T>* objects)
 }
 //----------------------------------------------------------------------------
 template <typename T>
-bool InStream::ReadPointerVR (int numElements, Pointer0<T>*& objects)
+bool InStream::ReadPointerVR (int numElements, PointerRef<T>*& objects)
 {
 	if (numElements > 0)
 	{
-		objects = new1<Pointer0<T> >(numElements);
+		objects = new1<PointerRef<T> >(numElements);
 		for (int i = 0; i < numElements; ++i)
 		{
 			if (!ReadPointer(objects[i]))
@@ -254,7 +254,7 @@ bool InStream::ReadPointerVR (int numElements, Pointer0<T>*& objects)
 }
 //----------------------------------------------------------------------------
 template <typename T>
-bool InStream::ReadPointerRR (int& numElements, Pointer0<T>*& objects)
+bool InStream::ReadPointerRR (int& numElements, PointerRef<T>*& objects)
 {
 	if (!mSource.Read(sizeof(int), &numElements))
 	{
@@ -265,7 +265,7 @@ bool InStream::ReadPointerRR (int& numElements, Pointer0<T>*& objects)
 
 	if (numElements > 0)
 	{
-		objects = new1<Pointer0<T> >(numElements);
+		objects = new1<PointerRef<T> >(numElements);
 		for (int i = 0; i < numElements; ++i)
 		{
 			if (!ReadPointer(objects[i]))
@@ -311,7 +311,7 @@ void InStream::ResolveLink (int numElements, T** objects)
 }
 //----------------------------------------------------------------------------
 template <class T>
-void InStream::ResolveLink (Pointer0<T>& object)
+void InStream::ResolveLink (PointerRef<T>& object)
 {
 	if (object)
 	{
@@ -331,7 +331,7 @@ void InStream::ResolveLink (Pointer0<T>& object)
 }
 //----------------------------------------------------------------------------
 template <typename T>
-void InStream::ResolveLink (int numElements, Pointer0<T>* objects)
+void InStream::ResolveLink (int numElements, PointerRef<T>* objects)
 {
 	for (int i = 0; i < numElements; ++i)
 	{

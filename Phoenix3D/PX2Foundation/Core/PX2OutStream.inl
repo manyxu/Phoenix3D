@@ -127,7 +127,7 @@ bool OutStream::WritePointerN (int numElements, T* const* objects)
 }
 //----------------------------------------------------------------------------
 template <typename T>
-bool OutStream::WritePointer (const Pointer0<T>& object)
+bool OutStream::WritePointer (const PointerRef<T>& object)
 {
 	RegisterMap::iterator iter = mRegistered.find(object);
 	if (iter != mRegistered.end())
@@ -140,7 +140,7 @@ bool OutStream::WritePointer (const Pointer0<T>& object)
 }
 //----------------------------------------------------------------------------
 template <typename T>
-bool OutStream::WritePointerW (int numElements, const Pointer0<T>* objects)
+bool OutStream::WritePointerW (int numElements, const PointerRef<T>* objects)
 {
 	if (!mTarget.Write(sizeof(int), &numElements))
 	{
@@ -161,7 +161,7 @@ bool OutStream::WritePointerW (int numElements, const Pointer0<T>* objects)
 }
 //----------------------------------------------------------------------------
 template <typename T>
-bool OutStream::WritePointerN (int numElements, const Pointer0<T>* objects)
+bool OutStream::WritePointerN (int numElements, const PointerRef<T>* objects)
 {
 	if (numElements > 0)
 	{
@@ -195,7 +195,7 @@ void OutStream::Register(int numElements, T* const* objects)
 }
 //----------------------------------------------------------------------------
 template <typename T>
-void OutStream::Register(const Pointer0<T>& object)
+void OutStream::Register(const PointerRef<T>& object)
 {
 	if (object)
 	{
@@ -204,7 +204,7 @@ void OutStream::Register(const Pointer0<T>& object)
 }
 //----------------------------------------------------------------------------
 template <typename T>
-void OutStream::Register(int numElements, Pointer0<T> const* objects)
+void OutStream::Register(int numElements, PointerRef<T> const* objects)
 {
 	for (int i = 0; i < numElements; ++i)
 	{

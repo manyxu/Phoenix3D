@@ -20,10 +20,16 @@ namespace PX2
 		Float3 Color_ViewBackground;
 
 		float Size_ToolBar;
+		float Size_ToolBarBut;
+
 		Float3 Color_ToolBar;
+		Float3 Color_ToolBarSpliter;
+
+		float Size_SearchBar;
 
 		float Size_Splitter;
 		Float3 Color_Splitter;
+		Float3 Color_Splitter_Over;
 		Float3 Color_Splitter_Draging;
 
 		Float3 Color_AuiButTab_Normal;
@@ -36,8 +42,23 @@ namespace PX2
 		Float3 Color_ButTab_Pressed;
 		Float3 Color_ButTab_Active;
 
+		float Size_MainToolBar;
+		Float3 Color_MainToolBar;
+
 		float Size_StatusBar;
 		Float3 Color_StatusBar;
+
+		Float3 Color_SelectItem;
+
+		Float3 Color_PropertyClass;
+		float Size_PropertyFontScale;
+
+		// font
+		Float3 Color_ContentFont;
+		Float3 Color_ContentFontDisable;
+		Float3 Color_ContentBackground;
+
+		Float3 Color_TableFont;
 	};
 
 #define PX2_UISM UISkinManager::GetSingleton()

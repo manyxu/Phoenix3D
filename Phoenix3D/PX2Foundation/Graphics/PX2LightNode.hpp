@@ -44,9 +44,6 @@ namespace PX2
 		inline Light* GetLight ();
 		inline const Light* GetLight () const;
 
-	public_internal:
-		virtual void SetParent(Movable* parent);
-
 	protected:
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
 
@@ -55,7 +52,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(LightNode);
-	typedef Pointer0<LightNode> LightNodePtr;
+	typedef PointerRef<LightNode> LightNodePtr;
 #include "PX2LightNode.inl"
 
 }

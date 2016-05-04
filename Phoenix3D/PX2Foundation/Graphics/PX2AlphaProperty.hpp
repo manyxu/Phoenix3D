@@ -83,7 +83,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(AlphaProperty);
-	typedef Pointer0<AlphaProperty> AlphaPropertyPtr;
+	typedef PointerRef<AlphaProperty> AlphaPropertyPtr;
 
 }
 

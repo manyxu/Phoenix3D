@@ -24,6 +24,8 @@ namespace PX2
 			Allocator allocator = &DefaultAllocator,
 			Deallocator deallocator = &DefaultDeallocator
 			);
+		static Allocator msAllocator;
+		static Deallocator msDeallocator;
 
 		static void Terminate (const std::string& filename, bool alwaysReportFile=true);
 
@@ -122,8 +124,6 @@ private_internal:
 		// msMutex被用来阻止同时访问msMap
 		static MemoryMap* msMap;
 		static Mutex *msMutex;
-		static Allocator msAllocator;
-		static Deallocator msDeallocator;
 
 public_internal:
 		static void BeforeEraseInformation(void *data);

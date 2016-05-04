@@ -1,0 +1,15 @@
+// PX2Simulation.pkg
+
+$pfile "PX2Simulation/PX2Project.pkg"
+$pfile "PX2Simulation/PX2EngineLoop.pkg"
+$pfile "PX2Simulation/PX2Selection.pkg"
+$pfile "PX2Simulation/PX2Creater.pkg"
+$pfile "PX2Simulation/PX2Scene.pkg"
+$pfile "PX2Simulation/PX2Actor.pkg"
+$pfile "PX2Simulation/PX2CameraActor.pkg"
+$pfile "PX2Simulation/PX2TriggerActor.pkg"
+$pfile "PX2Simulation/PX2RedoUndo.pkg"
+$pfile "PX2Simulation/PX2BPFile.pkg"
+$pfile "PX2Simulation/PX2BPModule.pkg"
+$pfile "PX2Simulation/PX2BPManager.pkg"
+$pfile "PX2Simulation/PX2GeneralEventHandler.pkg"

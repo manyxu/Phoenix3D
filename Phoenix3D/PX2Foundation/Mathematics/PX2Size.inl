@@ -26,6 +26,11 @@ Height(size.Height)
 }
 //----------------------------------------------------------------------------
 template <typename T>
+Size<T>::~Size()
+{
+}
+//----------------------------------------------------------------------------
+template <typename T>
 Size<T> &Size<T>::operator-= (const Size &size)
 {
 	Width -= size.Width;

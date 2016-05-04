@@ -1,0 +1,23 @@
+// PX2Project.pkg
+
+	class Project
+	{
+		// SINGLETON
+	
+		// Scene
+	public:
+		void SetScene(Scene *scene);
+		Scene *GetScene();
+		const std::string &GetSceneFilename() const;
+	
+		void SetUIFrame(UIFrame *ui);
+		UIFrame *GetUIFrame();
+		const std::string &GetUIFilename() const;
+		UICanvas *GetUICanvas();
+		
+		void SetSize(float width, float height);
+		void SetSize(const Sizef &size);
+		const Sizef & GetSize() const;
+		float GetWidth() const;
+		float GetHeight() const;
+	};

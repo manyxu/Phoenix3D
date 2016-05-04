@@ -20,35 +20,68 @@ namespace PX2
 	{
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_PROPERTY;
+		PX2_DECLARE_FUNCTION;
 		PX2_DECLARE_STREAM(UIFrame);
 
 	public:
 		UIFrame();
 		virtual ~UIFrame();
 
-		typedef void (UIFrame::*MemUICallback)(UIFrame *frame, UICallType type);
+		virtual void OnChildAttached(Movable *child);
+		virtual void OnChildDetach(Movable *child);
 
-		virtual int AttachChild (Movable* child);
+		UICanvas *GetBelongUICanvas();
+
+	public_internal:
+		static void TravelExecuteSetCanvas(Movable *mov, Any *data, bool &goOn);
+
+		void SetBelongUICanvas(UICanvas *canvas);
+		void _SetBelongUICanvas(UICanvas *canvas);
+
+	protected:
+		UICanvas *mBelongUICanvas;
 
 	public:
 		virtual void OnSizeChanged();
 		virtual void OnPvoitChanged();
 
-		UIPicBox *CreateAddBackgroundPicBox();
+		UIPicBox *CreateAddBackgroundPicBox(bool setWhite=true);
+		UIPicBox *GetBackgroundPicBox();
+		void DestoryBackgroundPicBox();
+
+		void SetActivateColor(const Float3 &color);
+		const Float3 &GetActivateColor() const;
+		void SetActivateAlpha(float alpha);
+		float GetActivateAlpha() const;
+		void SetActivateBrightness(float brightness);
+		float GetActivateBrightness() const;
 
 	protected:
-		Pointer0<UIPicBox> mBackgroundPicBox;
+		UIPicBoxPtr mBackgroundPicBox;
+		Float3 mActivatedColor;
+		float mActivatedAlpha;
+		float mActivatedBrightness;
 
-	public_internal:
-		// info为1表示Pressed，为2表示Released
-		virtual void OnUIBeforePicked(int info);
-		virtual void OnUIPicked(int info, Movable *child);
-		virtual void OnUINotPicked(int info);
+	public:
+		void SetUIChildPickOnlyInSizeRange(bool onlyInRange);
+		bool IsUIChildPickOnlyInSizeRange() const;
+
+		virtual void PreUIPick(const UIInputData &inputData, UICanvas *canvas);
+		virtual void OnUIPicked(const UIInputData &inputData);
+		virtual void OnUINotPicked(const UIInputData &inputData);
+
+	protected:
+		bool mIsUIChildPickOnlyInSizeRange;
 
 		// calls
 	public:
+		void SetWidget(bool isWidget);
+		bool IsWidget() const;
+
 		void SetUICallback(UICallback callback);
 		UICallback GetUICallback() const;
+
+		typedef void (UIFrame::*MemUICallback)(UIFrame *frame, UICallType type);
 
 		void SetMemUICallback(UIFrame *object, MemUICallback callback);
 		MemUICallback GetMemUICallback() const;
@@ -57,10 +90,23 @@ namespace PX2
 		const std::string &GetScriptHandler() const;
 
 	protected:
+		bool mIsWidget;
 		UICallback mUICallback;
 		UIFrame *mMemObject;
 		MemUICallback mMemUICallback;
 		std::string mUIScriptHandler;
+
+		// mask
+	public:
+		UIPicBox *CreateAddMask();
+		void SetMaskVal(int maskVal);
+		int GetMaskVal() const;
+		UIPicBox *GetMask();
+		void DestoryMask();
+
+	protected:
+		int mMaskVal;
+		UIPicBoxPtr mMaskPicBox;
 
 		// InputTrans
 	public:
@@ -82,7 +128,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(UIFrame);
-	typedef Pointer0<UIFrame> UIFramePtr;
+	typedef PointerRef<UIFrame> UIFramePtr;
 #include "PX2UIFrame.inl"
 
 }

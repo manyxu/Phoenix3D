@@ -26,6 +26,16 @@ void InputEventListener::OnInputEventData(InputEventData &data)
 	EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
 }
 //----------------------------------------------------------------------------
+void InputEventListener::SetViewSize(const Sizef &size)
+{
+	mViewSize = size;
+}
+//----------------------------------------------------------------------------
+const Sizef &InputEventListener::GetViewSize() const
+{
+	return mViewSize;
+}
+//----------------------------------------------------------------------------
 void InputEventListener::EnterView()
 {
 	InputEventData data;
@@ -100,12 +110,13 @@ void InputEventListener::MouseReleased(MouseButtonID id, const APoint &pos)
 	OnInputEventData(data);
 }
 //----------------------------------------------------------------------------
-void InputEventListener::MouseWheeled(float val)
+void InputEventListener::MouseWheeled(float val, const APoint &pos)
 {
 	InputEventData data;
 	data.TheEventType = InputEventSpace::MouseWheeled;
 	data.MButtonID = MBID_MIDDLE;
 	data.MWheel = val;
+	data.MTPos = pos;
 
 	OnInputEventData(data);
 }
@@ -163,8 +174,7 @@ void InputEventListener::_OnTouchData(InputEventData &data, int num,
 		float y = ys[i];
 		PX2_UNUSED(id);
 
-		const Sizef &size = PX2_GR.GetScreenSize();
-		y = size.Height - y;
+		y = mViewSize.Height - y;
 
 		APoint pos = APoint(x, 0.0f, y);
 

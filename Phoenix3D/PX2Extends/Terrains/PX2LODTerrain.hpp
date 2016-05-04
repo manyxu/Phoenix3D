@@ -45,7 +45,7 @@ namespace PX2
 #include "PX2LODTerrain.inl"
 
 	PX2_REGISTER_STREAM(LODTerrain);
-	typedef Pointer0<LODTerrain> LODTerrainPtr;
+	typedef PointerRef<LODTerrain> LODTerrainPtr;
 
 }
 

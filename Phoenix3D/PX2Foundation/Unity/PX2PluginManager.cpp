@@ -34,15 +34,6 @@ void PluginManager::Load(const std::string &filename)
 	pFunc();
 }
 //----------------------------------------------------------------------------
-void PluginManager::TerminateAllPlugins()
-{
-	for (std::vector<Plugin *>::reverse_iterator i = mPlugins.rbegin();
-		i != mPlugins.rend(); ++i)
-	{
-		(*i)->OnTerminate();
-	}
-}
-//----------------------------------------------------------------------------
 void PluginManager::Unload(const std::string &filename)
 {
 	std::vector<DynLib *>::iterator i;
@@ -73,7 +64,7 @@ void PluginManager::UnloadPlugins()
 	for (std::vector<Plugin *>::reverse_iterator i = mPlugins.rbegin();
 		i != mPlugins.rend(); ++i)
 	{
-		(*i)->OnUnstall();
+		(*i)->OnUninstall();
 	}
 	mPlugins.clear();
 
@@ -111,10 +102,12 @@ void PluginManager::UninstallPlugin(Plugin* plugin)
 		mPlugins.end(), plugin);
 	if (i != mPlugins.end())
 	{
-		plugin->OnUnstall();
+		plugin->OnUninstall();
 
 		mPlugins.erase(i);
 	}
+
+	delete plugin;
 
 	PX2_LOG_INFO("Plugin successfully uninstalled");
 }

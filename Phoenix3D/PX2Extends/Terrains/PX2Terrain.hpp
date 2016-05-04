@@ -21,7 +21,7 @@ namespace PX2
 	public:
 		virtual ~Terrain ();
 
-		virtual int DetachChild (Movable* child);
+		virtual void OnChildDetach(Movable* child);
 
 		// members
 		inline int GetRowQuantity () const;
@@ -66,7 +66,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Terrain);
-	typedef Pointer0<Terrain> TerrainPtr;
+	typedef PointerRef<Terrain> TerrainPtr;
 #include "PX2Terrain.inl"
 
 }

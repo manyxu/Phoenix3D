@@ -55,7 +55,7 @@ namespace PX2
 		PX2::UITextPtr mText;
 	};
 
-	typedef Pointer0<UICurveGroup> UICurveGroupPtr;
+	typedef PointerRef<UICurveGroup> UICurveGroupPtr;
 
 }
 

@@ -6,6 +6,8 @@
 #include "PX2Node.hpp"
 #include "PX2Float2.hpp"
 #include "PX2Size.hpp"
+#include "PX2Rect.hpp"
+#include "PX2Function.hpp"
 
 namespace PX2
 {
@@ -14,6 +16,7 @@ namespace PX2
 	{
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;
+		PX2_DECLARE_FUNCTION;
 		PX2_DECLARE_STREAM(SizeNode);
 
 	public:
@@ -22,6 +25,8 @@ namespace PX2
 
 	protected:
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
+		virtual void OnBeAttached();
+		virtual void OnBeDetach();
 
 		// Size
 	public:
@@ -33,25 +38,27 @@ namespace PX2
 		void SetHeight(float height);
 		float GetHeight() const;
 
-		void SetBorderSize(float width, float height);
-		void SetBorderSize(const Sizef &size);
-		const Sizef &GetBorderSize() const;
-		void SetBorderWidth(float width);
-		float GetBorderWidth() const;
-		void SetBorderHeight(float height);
-		float GetBorderHeight() const;
-
 		virtual void OnSizeChanged();
-		virtual void OnBorderSizeChanged();
+
+		Rectf GetLocalRect() const;
+		Rectf GetWorldRect() const;
+		APoint WorldPosToViewPortPos(const APoint &worldPos);
+		bool IsInSizeRange(const SizeNode *node) const;
+		bool IsIntersectSizeRange(const SizeNode *node) const;
+
+		typedef void (SizeNode::*SizeChangeCallback)(SizeNode *tellObject);
+		void SetSizeChangeCallback(SizeNode *object, SizeChangeCallback callback);
 
 	protected:
 		Sizef mSize;
-		Sizef mBorderSize;
+
+		SizeChangeCallback mSizeChangeCallback;
+		SizeNode *mSizeChangeTellToObject;
 
 		// Pvoit
 	public:
 		void SetPivot(float x, float y);
-		virtual void SetPivot(const Float2 &pvoit);
+		void SetPivot(const Float2 &pvoit);
 		const Float2 &GetPvoit() const;
 
 		virtual void OnPvoitChanged();
@@ -62,7 +69,7 @@ namespace PX2
 		// Anchor Layout
 	public:
 		void EnableAnchorLayout(bool enable);
-		const bool IsAnchorLayoutEnable() const;
+		bool IsAnchorLayoutEnable() const;
 
 		void SetAnchorHor(float anchorX, float anchorY);
 		void SetAnchorHor(const Float2 &anchor);
@@ -89,14 +96,17 @@ namespace PX2
 		Float2 mAnchorParamHor;
 		Float2 mAnchorParamVer;
 
+	public_internal:
+		virtual void UpdateLayout(Movable *parent);
+		virtual void UpdateLeftBottomCornerOffset(Movable *parent);
+
 	protected:
-		virtual void UpdateLayout();
 		bool mIsLayoutChanged;
 
 	};
 
 	PX2_REGISTER_STREAM(SizeNode);
-	typedef Pointer0<SizeNode> SizeNodePtr;
+	typedef PointerRef<SizeNode> SizeNodePtr;
 #include "PX2SizeNode.inl"
 
 }

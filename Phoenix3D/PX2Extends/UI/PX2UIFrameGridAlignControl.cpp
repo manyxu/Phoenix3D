@@ -13,11 +13,13 @@ UIFrameGridAlignControl::UIFrameGridAlignControl() :
 mIsLayoutChanged(true)
 {
 	mCellSize = Sizef(100.0f, 50.0f);
-	mSpacing = Float2(0.0f, 0.0f);
-	mStartCornerType = SCT_UPPER_LEFT;
+	mSpacing = Float2(10.0f, 10.0f);
 	mStartAxisType = SAT_HORIZONTAL;
 	mChildAlignmentType = CAT_UPPER_LEFT;
 	mConstraintType = CT_FLEXIBLE;
+	mConstraintValue = 2;
+	mIsConstraintExtend = false;
+	mIsAutoAdjustContentSize = false;
 }
 //----------------------------------------------------------------------------
 UIFrameGridAlignControl::~UIFrameGridAlignControl()
@@ -36,11 +38,24 @@ void UIFrameGridAlignControl::SetSpacing(const Float2 &spacing)
 	mIsLayoutChanged = true;
 }
 //----------------------------------------------------------------------------
-void UIFrameGridAlignControl::SetStartCorner(
-	UIFrameGridAlignControl::StartCornerType sc)
+void UIFrameGridAlignControl::SetBorder(float left, float right,
+	float bottom, float top)
 {
-	mStartCornerType = sc;
+	mBorder[0] = left;
+	mBorder[1] = right;
+	mBorder[2] = bottom;
+	mBorder[3] = top;
+
 	mIsLayoutChanged = true;
+}
+//----------------------------------------------------------------------------
+void UIFrameGridAlignControl::GetBorder(float &left, float &right, 
+	float &bottom, float &top)
+{
+	left = mBorder[0];
+	right = mBorder[1];
+	bottom = mBorder[2];
+	top = mBorder[3];
 }
 //----------------------------------------------------------------------------
 void UIFrameGridAlignControl::SetStartAxis(
@@ -64,7 +79,19 @@ void UIFrameGridAlignControl::SetConstraintType(
 	mIsLayoutChanged = true;
 }
 //----------------------------------------------------------------------------
-void UIFrameGridAlignControl::MarkRelatvieChange()
+void UIFrameGridAlignControl::SetConstraintValue(int value)
+{
+	mConstraintValue = value;
+	mIsLayoutChanged = true;
+}
+//----------------------------------------------------------------------------
+void UIFrameGridAlignControl::SetConstraintExtend(bool extend)
+{
+	mIsConstraintExtend = extend;
+	mIsLayoutChanged = true;
+}
+//----------------------------------------------------------------------------
+void UIFrameGridAlignControl::MarkLayoutChanged()
 {
 	mIsLayoutChanged = true;
 }
@@ -85,10 +112,10 @@ void UIFrameGridAlignControl::_Update(double applicationTime,
 	}
 }
 //----------------------------------------------------------------------------
-int UIFrameGridAlignControl::_UpdateAlignItems()
+void UIFrameGridAlignControl::_UpdateAlignItems()
 {
 	UIFrame *parent = DynamicCast<UIFrame>(GetControlledable());
-	if (!parent) return 0;
+	if (!parent) return;
 
 	std::vector<UIFrame*> frames;
 	for (int i=0; i<parent->GetNumChildren(); i++)
@@ -101,90 +128,159 @@ int UIFrameGridAlignControl::_UpdateAlignItems()
 		}
 	}
 
-	_UpdateItems(parent, frames, mStartCornerType, mStartAxisType,
-		mChildAlignmentType);
-
-	return 0;
+	_UpdateItems(parent, frames, mStartAxisType, mChildAlignmentType);
 }
 //----------------------------------------------------------------------------
 void UIFrameGridAlignControl::_UpdateItems(UIFrame *parent, 
 										   const std::vector<UIFrame*> &frames,
-										   StartCornerType startCornerType,
 										   StartAxisType startAxisType,
 										   ChildAlignmentType childAlignmentTypeType)
 {
-	if (0 == (int)frames.size())
+	int numFrames = (int)frames.size();
+	if (0 == numFrames)
+	{
+		mContentSize.Width = 0.0f;
+		mContentSize.Height = 0.0f;
 		return;
+	}
 
 	const Sizef &size = parent->GetSize();
-	const Sizef &borderSize = parent->GetBorderSize();
-	const Sizef contentSize = Sizef(size.Width-borderSize.Width*2.0f, 
-		size.Height-borderSize.Height*2.0f);
 	const AVector &leftBottomCornerOffset = parent->LeftBottomCornerOffset;
 
-	for (int i=0; i<(int)frames.size(); i++)
+	// cell size
+	Sizef cellSize = mCellSize;
+	if (CT_FIXED_COLUMN_COUNT == mConstraintType && mIsConstraintExtend)
+	{
+		if (mConstraintValue >=1)
+			cellSize.Width = (size.Width - mBorder[0] - mBorder[1] - 
+			mSpacing[0] * (mConstraintValue-1)) / mConstraintValue;
+	}
+	else if (CT_FIXED_ROW_COUNT == mConstraintType && mIsConstraintExtend)
+	{
+		if (mConstraintValue >= 1)
+			cellSize.Height = (size.Height - mBorder[2] - mBorder[3] -
+			mSpacing[1] * (mConstraintValue - 1)) / mConstraintValue;
+	}
+	Float2 halfCellSize = Float2(cellSize.Width / 2.0f, cellSize.Height / 2.0f);
+
+	int numWidth = 0;
+	int numHeight = 0;
+	float allCotWidth = 0.0f;
+	float allCotHeight = 0.0f;
+	if (SAT_HORIZONTAL == startAxisType)
+	{
+		float contentWidth = size.Width - mBorder[0] - mBorder[1];
+
+		if (CT_FLEXIBLE == mConstraintType)
+		{
+			numWidth = (int)((contentWidth + mSpacing[0]) / (cellSize.Width + mSpacing[0]));
+		}
+		else if (CT_FIXED_COLUMN_COUNT == mConstraintType)
+		{
+			numWidth = mConstraintValue;
+		}
+		else if (CT_FIXED_ROW_COUNT == mConstraintType)
+		{
+
+		}
+
+		if (0 == numWidth)
+			numWidth = 1;
+
+		numHeight = (int)Mathf::Ceil((float)numFrames / (float)numWidth);
+	}
+	else if (SAT_VERTICAL == startAxisType)
+	{
+		numHeight = (int)((size.Height + mSpacing[1]) / cellSize.Height);
+
+		if (0 == numHeight)
+			numHeight = 1;
+
+		numWidth = 0;
+	}
+
+	if (numWidth > 0)
+	{
+		allCotWidth = (cellSize.Width + mSpacing[0]) * numWidth - mSpacing[0];
+		allCotHeight = (cellSize.Height + mSpacing[1]) * numHeight - mSpacing[1];
+	}
+
+	if (numHeight > 0)
+	{
+		allCotHeight = (cellSize.Height + mSpacing[1]) * numHeight - mSpacing[1];
+	}
+
+	for (int i = 0; i < (int)frames.size(); i++)
 	{
 		UIFrame *frame = frames[i];
 
-		frame->SetSize(mCellSize);
+		frame->SetSize(cellSize);
+		frame->SetPivot(0.5f, 0.5f);
 
-		if (SCT_UPPER_LEFT == startCornerType)
-		{
-			frame->SetAnchorHor(Float2(0.0f, 0.0f));
-			frame->SetAnchorVer(Float2(1.0f, 1.0f));
-		}
-		else if (SCT_UPPER_RIGHT == startCornerType)
-		{
-			frame->SetAnchorHor(Float2(1.0f, 1.0f));
-			frame->SetAnchorVer(Float2(1.0f, 1.0f));
-		}
-		else if (SCT_LOWER_LEFT == startCornerType)
-		{
-			frame->SetAnchorHor(Float2(0.0f, 0.0f));
-			frame->SetAnchorVer(Float2(0.0f, 0.0f));
-		}
-		else if (SCT_LOWER_RIGHT == startCornerType)
-		{
-			frame->SetAnchorHor(Float2(1.0f, 1.0f));
-			frame->SetAnchorVer(Float2(0.0f, 0.0f));
-		}
-
-		int numWidth = 0;
-		int numHeight = 0;
+		int indexX = 0;
+		int indexZ = 0;
 		if (SAT_HORIZONTAL == startAxisType)
 		{
-			numWidth = (int)((contentSize.Width+mSpacing[0]) / mCellSize.Width);
-
-			int xIndex = 0;
-			int zIndex = 0;
-			Float2 horParam;
-			Float2 verParam;
-			if (CAT_UPPER_LEFT == childAlignmentTypeType)
-			{
-				xIndex = i % numWidth;
-				zIndex = i / numWidth;
-
-				horParam[0] = leftBottomCornerOffset.X() + xIndex * (mCellSize.Width+mSpacing[0]);
-				horParam[1] = leftBottomCornerOffset.Z() + size.Height -borderSize.Height -zIndex * (mCellSize.Height+mSpacing[1]);
-				frame->SetAnchorParamHor(horParam);
-			}
-			else if (CAT_MIDDLE_LEFT == mChildAlignmentType)
-			{
-				//xIndex = i % numWidth;
-				//zIndex = i / numWidth;
-
-				//horParam[0] = leftBottomCornerOffset.X() + xIndex * (mCellSize.Width+mSpacing[0]);
-				//horParam[1] = leftBottomCornerOffset.Z() + size.Height -borderSize.Height -zIndex * (mCellSize.Height+mSpacing[1]);
-				//frame->SetAnchorParamHor(horParam);
-			}
+			indexX = (i + numWidth) % numWidth;
+			indexZ = i / numWidth;
 		}
-		else if (SAT_VERTICAL == startAxisType)
+		else
 		{
-			numHeight =(int)((contentSize.Height+mSpacing[1])/mCellSize.Height);
-
-			int xIndex = i / numHeight;
-			int zIndex = i % numHeight;
 		}
+
+		Float2 anchorHor;
+		Float2 anchorParamHor;
+		Float2 anchorVer;
+		Float2 anchorParamVer;
+
+		if (CAT_UPPER_LEFT == mChildAlignmentType)
+		{
+			anchorHor = Float2(0.0f, 0.0f);
+			anchorVer = Float2(1.0f, 1.0f);
+
+			anchorParamHor[0] = halfCellSize[0] + (mSpacing[0] + cellSize.Width)*indexX + +mBorder[0];
+			anchorParamVer[0] = -(halfCellSize[1] + (mSpacing[1] + cellSize.Height)*indexZ) + +mBorder[2];
+		}
+		else if (CAT_UPPER_CENTER == mChildAlignmentType)
+		{
+			anchorHor = Float2(0.5f, 0.5f);
+			anchorVer = Float2(1.0f, 1.0f);
+
+			anchorParamHor[0] = -allCotWidth / 2.0f + halfCellSize[0] + (mSpacing[0] + cellSize.Width)*indexX;
+			anchorParamVer[0] = -(halfCellSize[1] + (mSpacing[1] + cellSize.Height)*indexZ) - mBorder[3];
+		}
+		else if (CAT_UPPER_RIGHT == mChildAlignmentType)
+		{
+			anchorHor = Float2(1.0f, 1.0f);
+			anchorVer = Float2(1.0f, 1.0f);
+
+			anchorParamHor[0] = -(halfCellSize[0] + (mSpacing[0] + cellSize.Width)*indexX) + +mBorder[0];
+			anchorParamVer[0] = -(halfCellSize[1] + (mSpacing[1] + cellSize.Height)*indexZ) + mBorder[2];
+		}
+
+		frame->SetAnchorHor(anchorHor);
+		frame->SetAnchorParamHor(anchorParamHor);
+		frame->SetAnchorVer(anchorVer);
+		frame->SetAnchorParamVer(anchorParamVer);
+	}
+
+	if (SAT_HORIZONTAL == startAxisType)
+	{
+		mContentSize.Width = 0.0f;
+		mContentSize.Height = mBorder[2] + mBorder[3] + allCotHeight;
+	}
+	else if (SAT_VERTICAL == startAxisType)
+	{
+		mContentSize.Width = 0.0f;
+		mContentSize.Height = 0.0f;
+	}
+
+	SizeNode *sn = DynamicCast<SizeNode>(GetControlledable());
+	if (sn && mIsAutoAdjustContentSize)
+	{
+		sn->SetSize(mContentSize);
+		sn->UpdateLayout(sn->GetParent());
+		sn->UpdateLeftBottomCornerOffset(sn->GetParent());
 	}
 }
 //----------------------------------------------------------------------------
@@ -216,8 +312,6 @@ void UIFrameGridAlignControl::Link(InStream& source)
 void UIFrameGridAlignControl::PostLink()
 {
 	Controller::PostLink();
-
-	RegistToScriptSystemAll();
 }
 //----------------------------------------------------------------------------
 bool UIFrameGridAlignControl::Register(OutStream& target) const

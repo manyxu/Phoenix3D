@@ -1,8 +1,0 @@
-// PX2EditMap.pkg
-
-	class EditMap
-	{
-	public:
-		EditMap();
-		~EditMap();
-	};

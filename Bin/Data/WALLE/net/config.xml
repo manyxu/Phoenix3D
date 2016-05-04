@@ -1,3 +1,0 @@
-<servers>
-	<server_walle name="server_walle" ip="127.0.0.1" wwwaddr="" port="8000" nummaxconnect="10"/>
-</servers>

@@ -28,7 +28,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(GlobalMaterial);
-	typedef Pointer0<GlobalMaterial> GlobalMaterialPtr;
+	typedef PointerRef<GlobalMaterial> GlobalMaterialPtr;
 
 }
 

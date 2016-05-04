@@ -13,11 +13,11 @@ void EngineLoop::NewProject(const std::string &pathname,
 
 	CloseProject();
 
-	Project *proj = new0 Project();
-	proj->SetName(projName);
-	proj->SetScreenOrientation((Project::ScreenOrientation)so);
-	proj->SetSize((float)width, (float)height);
-	proj->Save(pathname);
+	TheProject = new0 Project();
+	TheProject->SetName(projName);
+	TheProject->SetScreenOrientation((Project::ScreenOrientation)so);
+	TheProject->SetSize((float)width, (float)height);
+	TheProject->Save(pathname);
 	mProjectFilePath = pathname;
 
 	Event *ent = SimuES::CreateEventX(SimuES::NewProject);
@@ -25,31 +25,55 @@ void EngineLoop::NewProject(const std::string &pathname,
 
 	Event *entUI = SimuES::CreateEventX(SimuES::NewUI);
 	PX2_EW.BroadcastingLocalEvent(entUI);
+
+	Event *entBP = SimuES::CreateEventX(SimuES::NewBP);
+	PX2_EW.BroadcastingLocalEvent(entBP);
 }
 //----------------------------------------------------------------------------
 bool EngineLoop::LoadProject(const std::string &pathname)
 {
-	bool canDoChange = (EngineLoop::PT_NONE == PX2_ENGINELOOP.GetPlayType());
-	if (!canDoChange) return false;
-
 	CloseProject();
 
-	Project *newProj = new0 Project();
-	if (newProj->Load(pathname))
+	TheProject = new0 Project();
+	if (TheProject->Load(pathname))
 	{
+		if (ScriptManager::GetSingletonPtr())
+		{
+			PX2_SC_LUA->SetUserTypePointer("PX2_PROJ", "Project", Project::GetSingletonPtr());
+		}
+
+		std::string debugTag = "";
+#if defined (_DEBUG) 
+		debugTag = "D";
+#endif
+		std::string projName = PX2_PROJ.GetName();
+		std::string folder = "Projects/" + projName + "/";
+		std::string projDllPath = folder + projName + debugTag + ".dll";
+
+		if (PX2_RM.IsFloderExist("", folder))
+		{
+			PX2_PLUGINMAN.Load(projDllPath);
+		}
+
 		Event *event = SimuES::CreateEventX(SimuES::LoadedProject);
 		EventWorld::GetSingleton().BroadcastingLocalEvent(event);
 
-		const std::string &sceneFilename = newProj->GetSceneFilename();
+		std::string sceneFilename = TheProject->GetSceneFilename();
 		if (!sceneFilename.empty())
 		{
 			LoadScene(sceneFilename);
 		}
 
-		const std::string &uiFilename = newProj->GetUIFilename();
+		std::string uiFilename = TheProject->GetUIFilename();
 		if (!uiFilename.empty())
 		{
 			LoadUI(uiFilename);
+		}
+
+		const std::string &bpFilename = TheProject->GetBPFilename();
+		if (!bpFilename.empty())
+		{
+			//LoadBP(bpFilename);
 		}
 
 		mProjectFilePath = pathname;
@@ -120,44 +144,62 @@ bool EngineLoop::SaveProjectAs(const std::string &pathname)
 //----------------------------------------------------------------------------
 void EngineLoop::CloseProject()
 {
-	bool canDoChange = (EngineLoop::PT_NONE == PX2_ENGINELOOP.GetPlayType());
-	if (!canDoChange) return;
+	Project *oldProj = Project::GetSingletonPtr();
+	if (!oldProj) return;
 
-	PX2_EDIT.Reset();
+	Play(EngineLoop::PT_NONE);
 
 	CloseScene();
 	CloseUI();
+	CloseBP();
 
-	Project *oldProj = Project::GetSingletonPtr();
-	if (oldProj)
+	PX2_EDIT.Reset();
+
+	Event *ent = SimuES::CreateEventX(SimuES::CloseProject);
+	EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
+
+	std::string callFilename = "Data/" + mProjectName + "/scripts/lua/end.lua";
+	PX2_SC_LUA->CallFile(callFilename.c_str());
+
+	std::string callFilenameAS = "Data/" + mProjectName + "/scripts/as/end.as";
+	PX2_SC_AS->CallFileFunction(callFilenameAS.c_str(), "void end()");
+
+	std::string debugTag = "";
+#if defined (_DEBUG) 
+	debugTag = "D";
+#endif
+
+	std::string projName = PX2_PROJ.GetName();
+	std::string folder = "Projects/" + projName + "/";
+	std::string projDllPath = folder + projName + debugTag + ".dll";
+
+	if (PX2_RM.IsFloderExist("", folder))
 	{
-		Event *ent = SimuES::CreateEventX(SimuES::CloseProject);
-		EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
-
-		Project::Destory();
-
-		PX2_RM.ClearRes(mProjectFilePath);
-		mProjectFilePath.clear();
+		PX2_PLUGINMAN.Unload(projDllPath);
 	}
+
+	Project::Destory();
+
+	PX2_RM.ClearRes(mProjectFilePath);
+	PX2_RM.ClearRes(mProjectFilePath);
+	PX2_RM.Clear();
+	mProjectFilePath.clear();
 }
 //----------------------------------------------------------------------------
 void EngineLoop::NewScene()
 {
-	bool canDoChange = (EngineLoop::PT_NONE == PX2_ENGINELOOP.GetPlayType());
-	if (!canDoChange) return;
-
 	CloseScene();
 
 	Scene *scene = new0 Scene();
 	PX2_PROJ.SetScene(scene);
 	PX2_PROJ.SetSceneFilename("");
-
-	Event *ent = SimuES::CreateEventX(SimuES::NewScene);
-	PX2_EW.BroadcastingLocalEvent(ent);
 }
 //----------------------------------------------------------------------------
 bool EngineLoop::LoadScene(const std::string &pathname)
 {
+	if (!Project::GetSingletonPtr())
+		return false;
+
 	bool canDoChange = (EngineLoop::PT_NONE == PX2_ENGINELOOP.GetPlayType());
 	if (!canDoChange) return false;
 
@@ -166,11 +208,10 @@ bool EngineLoop::LoadScene(const std::string &pathname)
 	Scene *newscene = DynamicCast<Scene>(PX2_RM.BlockLoad(pathname));
 	if (newscene)
 	{
+		mSceneFilePath = pathname;
+
 		Project::GetSingleton().SetScene(newscene);
 		Project::GetSingleton().SetSceneFilename(pathname);
-
-		Event *ent = SimuES::CreateEventX(SimuES::LoadedScene);
-		EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
 
 		return true;
 	}
@@ -218,11 +259,8 @@ void EngineLoop::CloseScene()
 	{
 		PX2_PROJ.SetScene(0);
 		PX2_PROJ.SetSceneFilename("");
-		PX2_RM.ClearRes(scene->GetResourcePath());
-		scene = 0;
-
-		Event *ent = SimuES::CreateEventX(SimuES::CloseScene);
-		PX2_EW.BroadcastingLocalEvent(ent);
+		PX2_RM.ClearRes(mSceneFilePath);
+		mSceneFilePath.clear();
 	}
 }
 //----------------------------------------------------------------------------
@@ -232,10 +270,9 @@ bool EngineLoop::LoadUI(const std::string &pathname)
 	UIFrame *ui = DynamicCast<UIFrame>(uiObj);
 	if (ui)
 	{
-		Project::GetSingleton().SetUIFrame(ui);
+		mUIFilePath = pathname;
 
-		Event *eventUI = SimuES::CreateEventX(SimuES::LoadedUI);
-		EventWorld::GetSingleton().BroadcastingLocalEvent(eventUI);
+		Project::GetSingleton().SetUIFrame(ui);
 
 		return true;
 	}
@@ -249,9 +286,40 @@ void EngineLoop::CloseUI()
 	if (!proj) return;
 
 	PX2_PROJ.SetUIFrame(0);
+	PX2_RM.ClearRes(mUIFilePath);
+	mUIFilePath.clear();
+}
+//----------------------------------------------------------------------------
+bool EngineLoop::LoadBP(const std::string &pathname)
+{
+	ObjectPtr bpObj = PX2_RM.BlockLoad(pathname);
+	BPPackage *bpPackage = DynamicCast<BPPackage>(bpObj);
+	if (bpPackage)
+	{
+		mBPFilePath = pathname;
 
-	Event *eventUI = SimuES::CreateEventX(SimuES::CloseUI);
-	EventWorld::GetSingleton().BroadcastingLocalEvent(eventUI);
+		Project::GetSingleton().SetBPPackage(bpPackage);
+
+		Event *eventBP = SimuES::CreateEventX(SimuES::LoadedBP);
+		EventWorld::GetSingleton().BroadcastingLocalEvent(eventBP);
+
+		return true;
+	}
+
+	return false;
+}
+//----------------------------------------------------------------------------
+void EngineLoop::CloseBP()
+{
+	Project *proj = Project::GetSingletonPtr();
+	if (!proj) return;
+
+	PX2_PROJ.SetBPPackage(0);
+	PX2_RM.ClearRes(mBPFilePath);
+	mBPFilePath.clear();
+
+	Event *eventBP = SimuES::CreateEventX(SimuES::CloseBP);
+	PX2_EW.BroadcastingLocalEvent(eventBP);
 }
 //----------------------------------------------------------------------------
 std::string EngineLoop::_CalSavePath(const std::string &pathname)

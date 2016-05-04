@@ -7,6 +7,7 @@
 #include "PX2Controller.hpp"
 #include "PX2Size.hpp"
 #include "PX2Float2.hpp"
+#include "PX2Float4.hpp"
 
 namespace PX2
 {
@@ -28,16 +29,8 @@ namespace PX2
 		void SetSpacing(const Float2 &spacing);
 		const Float2 &GetSpacing() const;
 
-		enum StartCornerType
-		{
-			SCT_UPPER_LEFT,
-			SCT_UPPER_RIGHT,
-			SCT_LOWER_LEFT,
-			SCT_LOWER_RIGHT,
-			SCT_MAX_TYPE
-		};
-		void SetStartCorner(StartCornerType sc);
-		StartCornerType GetStartCorner() const;
+		void SetBorder(float left, float right, float bottom, float top);
+		void GetBorder(float &left, float &right, float &bottom, float &top);
 
 		enum StartAxisType
 		{
@@ -73,28 +66,41 @@ namespace PX2
 		};
 		void SetConstraintType(ConstraintType type);
 		ConstraintType GetConstraintType() const;
+		void SetConstraintValue(int value);
+		int GetConstraintValue() const;
+		void SetConstraintExtend(bool extend);
+		bool IsConstraintExtend() const;
 
-		void MarkRelatvieChange();
+		void MarkLayoutChanged();
+		bool IsLayoutChanged() const;
+
+		void SetAutoAdjustContentSize(bool adjust);
+		bool IsAutoAdjustContentSize() const;
+		Sizef GetContentSize() const;
 
 	protected:
 		virtual void _Update(double applicationTime, double elapsedTime);
-		int _UpdateAlignItems();
+		void _UpdateAlignItems();
 		void _UpdateItems(UIFrame *parent, const std::vector<UIFrame*> &frames,
-			StartCornerType startCorner, StartAxisType startAxis,
-			ChildAlignmentType childAlignmentType);
+			StartAxisType startAxis, ChildAlignmentType childAlignmentType);
 
 		bool mIsLayoutChanged;
 		Sizef mCellSize;
 		Float2 mSpacing;
-		StartCornerType mStartCornerType;
+		Float4 mBorder;
 		StartAxisType mStartAxisType;
 		ChildAlignmentType mChildAlignmentType;
 		ConstraintType mConstraintType;
+		int mConstraintValue;
+		bool mIsConstraintExtend;
+
+		bool mIsAutoAdjustContentSize;
+		Sizef mContentSize;
 	};
 
 #include "PX2UIFrameGridAlignControl.inl"
 	PX2_REGISTER_STREAM(UIFrameGridAlignControl);
-	typedef Pointer0<UIFrameGridAlignControl> UIFrameGridAlignControlPtr;
+	typedef PointerRef<UIFrameGridAlignControl> UIFrameGridAlignControlPtr;
 
 }
 

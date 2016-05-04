@@ -21,11 +21,6 @@ inline Edit::EditMode Edit::GetEditMode() const
 	return mEditMode;
 }
 //----------------------------------------------------------------------------
-inline EditMap *Edit::GetEditMap()
-{
-	return mEditMap;
-}
-//----------------------------------------------------------------------------
 inline GeoObjFactory *Edit::GetGOF()
 {
 	return mGeoObjFactory;
@@ -56,9 +51,14 @@ inline float Edit::GetCameraMoveSpeed() const
 	return mCameraMoveSpeedBase * mCameraMoveLevel;
 }
 //----------------------------------------------------------------------------
-inline const APoint &Edit::GetPickPos() const
+inline APoint Edit::GetPickPos() const
 {
 	return mPickPos;
+}
+//----------------------------------------------------------------------------
+inline const std::string &Edit::GetSelectResDir() const
+{
+	return mSelectResDir;
 }
 //----------------------------------------------------------------------------
 inline void Edit::SetSelectPath_ChildFilenames(

@@ -297,6 +297,7 @@ void ServerPoll::_CloseClientSocket(ClientContext *pcontext)
 //----------------------------------------------------------------------------
 bool ServerPoll::_PostRead(ClientContext *pcontext, ServerBuffer *pbuf)
 {
+	PX2_UNUSED(pcontext);
 	PX2_UNUSED(pbuf);
 
 	return true;

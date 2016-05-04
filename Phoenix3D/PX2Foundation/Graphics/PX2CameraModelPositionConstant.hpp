@@ -23,7 +23,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(CameraModelPositionConstant);
-	typedef Pointer0<CameraModelPositionConstant> CameraModelPositionConstantPtr;
+	typedef PointerRef<CameraModelPositionConstant> CameraModelPositionConstantPtr;
 
 }
 

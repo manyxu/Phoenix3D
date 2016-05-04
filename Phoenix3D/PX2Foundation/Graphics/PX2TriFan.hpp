@@ -28,7 +28,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(TriFan);
-	typedef Pointer0<TriFan> TriFanPtr;
+	typedef PointerRef<TriFan> TriFanPtr;
 
 }
 

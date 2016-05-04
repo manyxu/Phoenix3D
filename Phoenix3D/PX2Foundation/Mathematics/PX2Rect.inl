@@ -30,6 +30,11 @@ Bottom(rct.Bottom)
 }
 //----------------------------------------------------------------------------
 template <typename T>
+Rect<T>::~Rect()
+{
+}
+//----------------------------------------------------------------------------
+template <typename T>
 T Rect<T>::Width() const
 {
 	return Right - Left;

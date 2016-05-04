@@ -38,11 +38,6 @@ mPhysicsType(PHYS_NONE),
 mFogIP_Height(1.0f),
 mFogIP_Distance(1.0f)
 {
-	AllowRed = true;
-	AllowGreen = true;
-	AllowBlue = true;
-	AllowAlpha = true;
-
 	SetRenderLayer(RL_SCENE);
 	SetUpdatePriority(-1);
 
@@ -87,11 +82,6 @@ mPhysicsType(PHYS_NONE),
 mFogIP_Height(1.0f),
 mFogIP_Distance(1.0f)
 {
-	AllowRed = true;
-	AllowGreen = true;
-	AllowBlue = true;
-	AllowAlpha = true;
-
 	SetRenderLayer(RL_SCENE);
 	UpdateModelSpace(GU_MODEL_BOUND_ONLY);
 	SetUpdatePriority(-1);
@@ -186,6 +176,8 @@ void Renderable::SetLightTexture (Texture2D *tex)
 //----------------------------------------------------------------------------
 void Renderable::SetUseLightTexture (bool use, Texture2D *lightTex)
 {
+	PX2_UNUSED(use);
+	PX2_UNUSED(lightTex);
 }
 //----------------------------------------------------------------------------
 void Renderable::SetAlpha (float alpha)
@@ -453,7 +445,7 @@ void Renderable::RegistProperties ()
 	AddProperty("TechniqueName", PT_STRING, mMaterialInstance->GetTechniqueName());
 	AddProperty("TechniqueIndex", PT_INT, mMaterialInstance->GetTechniqueIndex());
 
-	AddProperty("SortIndex", PT_INT, GetSortIndex(), false);
+	AddProperty("SortIndex", PT_INT, (int)GetSortIndex(), false);
 	AddProperty("NumLights", PT_INT, GetNumLights(), false);
 	AddProperty("EyeDistance", PT_FLOAT, mEyeDistance, false);
 	AddProperty("IsTransparent", PT_BOOL, IsTransparent(), false);
@@ -591,11 +583,6 @@ mPhysicsType(PHYS_NONE),
 mFogIP_Height(1.0f),
 mFogIP_Distance(1.0f)
 {
-	AllowRed = true;
-	AllowGreen = true;
-	AllowBlue = true;
-	AllowAlpha = true;
-
 	SetUpdatePriority(-1);
 
 	mPhysicsParam = Float3::UNIT;
@@ -617,10 +604,6 @@ void Renderable::Load (InStream& source)
 	source.ReadEnum(mLayer);
 	SetRenderLayer(mLayer);
 
-	source.ReadBool(AllowRed);
-	source.ReadBool(AllowGreen);
-	source.ReadBool(AllowBlue);
-	source.ReadBool(AllowAlpha);
 	source.ReadPointer(mDefaultShine);
 	source.ReadBool(mIsUseLightTexture);
 	source.ReadString(mLightTexPath);
@@ -700,10 +683,7 @@ void Renderable::Save (OutStream& target) const
 	target.WritePointer(mIBuffer);
 	target.WritePointer(mMaterialInstance);
 	target.WriteEnum(mLayer);
-	target.WriteBool(AllowRed);
-	target.WriteBool(AllowGreen);
-	target.WriteBool(AllowBlue);
-	target.WriteBool(AllowAlpha);
+
 	target.WritePointer(mDefaultShine);
 	target.WriteBool(mIsUseLightTexture);
 	target.WriteString(mLightTexPath);
@@ -734,10 +714,6 @@ int Renderable::GetStreamingSize (Stream &stream) const
 	size += PX2_POINTERSIZE(mMaterialInstance);
 	size += PX2_ENUMSIZE(mLayer);
 
-	size += PX2_BOOLSIZE(AllowRed);
-	size += PX2_BOOLSIZE(AllowGreen);
-	size += PX2_BOOLSIZE(AllowBlue);
-	size += PX2_BOOLSIZE(AllowAlpha);
 	size += PX2_POINTERSIZE(mDefaultShine);
 	size += PX2_BOOLSIZE(mIsUseLightTexture);
 	size += PX2_STRINGSIZE(mLightTexPath);

@@ -42,7 +42,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(PixelShader);
-	typedef Pointer0<PixelShader> PixelShaderPtr;
+	typedef PointerRef<PixelShader> PixelShaderPtr;
 
 }
 

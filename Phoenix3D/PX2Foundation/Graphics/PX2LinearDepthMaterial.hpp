@@ -28,7 +28,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(LinearDepth_Material);
-	typedef Pointer0<LinearDepth_Material> LinearDepth_MaterialPtr;
+	typedef PointerRef<LinearDepth_Material> LinearDepth_MaterialPtr;
 
 }
 

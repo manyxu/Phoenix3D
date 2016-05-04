@@ -29,7 +29,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(TriMesh);
-	typedef Pointer0<TriMesh> TriMeshPtr;
+	typedef PointerRef<TriMesh> TriMeshPtr;
 
 }
 

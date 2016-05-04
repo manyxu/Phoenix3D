@@ -11,9 +11,15 @@ namespace PX2
 	class PX2_FOUNDATION_ITEM Time
 	{
 	public:
+		Time();
+		~Time();
+
 		static double GetTimeInMicroseconds();
 		static double GetTimeInSeconds();
 		static void ResetTime();
+
+		static double FrameElapsedSeconds;
+		static double FrameRunnedSeconds;
 	};
 
 }

@@ -47,7 +47,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(EffectableController);
-	typedef Pointer0<EffectableController> EffectableControllerPtr;
+	typedef PointerRef<EffectableController> EffectableControllerPtr;
 #include "PX2EffectableController.inl"
 
 }

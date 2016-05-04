@@ -46,28 +46,3 @@ inline Animation *Character::GetCurPlayingAnim()
 	return mCurPlayingAnim;
 }
 //----------------------------------------------------------------------------
-inline float Character::GetBaseHPCurLevel() const
-{
-	return mBaseHPCurLevel;
-}
-//----------------------------------------------------------------------------
-inline bool Character::IsDead() const
-{
-	return mIsDead;
-}
-//----------------------------------------------------------------------------
-inline void Character::SetDieDoDelete(bool isDieDoDelete)
-{
-	mIsDieDoDelete = isDieDoDelete;
-}
-//----------------------------------------------------------------------------
-inline bool Character::IsDieDoDelete() const
-{
-	return mIsDieDoDelete;
-}
-//----------------------------------------------------------------------------
-inline float Character::GetBaseAPCurLevel() const
-{
-	return mBaseAPCurLevel;
-}
-//----------------------------------------------------------------------------

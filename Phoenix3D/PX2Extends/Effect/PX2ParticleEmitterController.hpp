@@ -43,7 +43,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(ParticleEmitterController);
-	typedef Pointer0<ParticleEmitterController> ParticleEmitterControllerPtr;
+	typedef PointerRef<ParticleEmitterController> ParticleEmitterControllerPtr;
 #include "PX2ParticleEmitterController.inl"
 
 }

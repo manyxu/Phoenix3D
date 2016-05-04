@@ -21,11 +21,6 @@ inline TerrainActor *Scene::GetTerrainActor()
 	return mTerrainActor;
 }
 //----------------------------------------------------------------------------
-inline SkyActor *Scene::GetSkyActor()
-{
-	return mSkyActor;
-}
-//----------------------------------------------------------------------------
 inline bool Scene::IsShowHelpNode() const
 {
 	return mIsShowHelpNode;

@@ -6,6 +6,8 @@
 #include "PX2SimulationPre.hpp"
 #include "PX2UIFrame.hpp"
 #include "PX2UIButton.hpp"
+#include "PX2UIFText.hpp"
+#include "PX2FunObject.hpp"
 
 namespace PX2
 {
@@ -27,7 +29,7 @@ namespace PX2
 		bool IsExe() const;
 
 		void SetDataType(FunParamType type);
-		Object::FunParamType GetDataType() const;
+		FunParamType GetDataType() const;
 		bool IsOwnObjectParam() const;
 
 		void SetValue(const Any &any);
@@ -78,7 +80,7 @@ namespace PX2
 	protected:
 		bool mIsIn;
 		bool mIsExe;
-		Object::FunParamType mDataType;
+		FunParamType mDataType;
 		Any mData;
 		std::string mOutputScriptVarString;
 
@@ -97,9 +99,13 @@ namespace PX2
 		std::vector<BPParam *> mLinkMeParams;
 
 		// UI
+	public:
+		UIButton *GetButton();
+		UIFText *GetNameText();
+
 	protected:
 		UIButtonPtr mBut;
-		UITextPtr mNameText;
+		UIFTextPtr mNameText;
 		InterpCurveFloat mCurveLinking;
 		PolysegmentPtr mPolysegmentLinking;
 
@@ -108,7 +114,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(BPParam);
-	typedef Pointer0<BPParam> BPParamPtr;
+	typedef PointerRef<BPParam> BPParamPtr;
 #include "PX2BPParam.inl"
 
 }

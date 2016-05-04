@@ -66,6 +66,17 @@ bool EventHandler::IsInWorld (EventWorld* world) const
 	return false;
 }
 //----------------------------------------------------------------------------
+bool EventHandler::IsInOrIningWorld(EventWorld *world) const
+{
+	if (IsInWorld(world))
+		return true;
+
+	if (world->IsInComingIn(this))
+		return true;
+
+	return false;
+}
+//----------------------------------------------------------------------------
 void EventHandler::DoEnter ()
 {
 }

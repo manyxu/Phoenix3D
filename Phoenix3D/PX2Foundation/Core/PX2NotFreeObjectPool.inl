@@ -2,8 +2,7 @@
 
 //----------------------------------------------------------------------------
 template <typename T>
-NotFreeObjectPool<T>::NotFreeObjectPool ()
-	:
+NotFreeObjectPool<T>::NotFreeObjectPool () :
 mNumMaxObjects(0)
 {
 }
@@ -32,7 +31,7 @@ bool NotFreeObjectPool<T>::AllocAllObjects (uint32_t numMaxObjects,
 	{
 		mIDsQueue.push(i);
 
-		T *tmp = new T();
+		T *tmp = new0 T();
 		if (!tmp)
 			return false;
 
@@ -47,13 +46,8 @@ bool NotFreeObjectPool<T>::AllocAllObjects (uint32_t numMaxObjects,
 }
 //----------------------------------------------------------------------------
 template <typename T>
-bool NotFreeObjectPool<T>::FreeAllObjects ()
+bool NotFreeObjectPool<T>::ClearAllObjects()
 {
-	for (size_t i=0; i<mObjects.size(); ++i)
-	{
-		delete mObjects[i];
-	}
-
 	while(!mIDsQueue.empty())
 	{
 		mIDsQueue.pop();
@@ -151,6 +145,20 @@ void NotFreeObjectPool<T>::FreeObject (uint32_t objID)
 		mAllAlloctIDs.erase(objID);
 		mObjectFlags[objID] = 0;
 	}
+}
+//----------------------------------------------------------------------------
+template <typename T>
+void NotFreeObjectPool<T>::FreeAllAllocedObjects()
+{
+	std::set<uint32_t> ids = mAllAlloctIDs;
+
+	std::set<uint32_t>::iterator it = ids.begin();
+	for (; it != ids.end(); it++)
+	{
+		FreeObject(*it);
+	}
+
+	mAllAlloctIDs.clear();
 }
 //----------------------------------------------------------------------------
 template <typename T>

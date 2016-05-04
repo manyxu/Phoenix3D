@@ -33,7 +33,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(RawTerrain);
-	typedef Pointer0<RawTerrain> RawTerrainPtr;
+	typedef PointerRef<RawTerrain> RawTerrainPtr;
 
 }
 

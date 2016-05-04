@@ -1,10 +1,11 @@
-// PX2UIGridButton.hpp
+// PX2UIGridFrame.hpp
 
-#ifndef PX2UIGRIDBUTTON_HPP
-#define PX2UIGRIDBUTTON_HPP
+#ifndef PX2UIGRIDFRAME_HPP
+#define PX2UIGRIDFRAME_HPP
 
+#include "PX2UIPre.hpp"
 #include "PX2UIFrame.hpp"
-#include "PX2Float2.hpp"
+#include "PX2UISlider.hpp"
 
 namespace PX2
 {
@@ -17,54 +18,36 @@ namespace PX2
 
 	public:
 		UIGridFrame();
-		~UIGridFrame();
+		virtual ~UIGridFrame();
+
+		void AddItem(UIFrame *item);
+		void RemoveAllItems();
 
 		virtual void OnSizeChanged();
-		virtual void OnBorderSizeChanged();
-
-		// element
-		enum AlignItemType
-		{
-			ATT_SIZE_WIDTH,
-			ATT_SIZE_HEIGHT,
-			ATT_NUM_WIDTH,
-			ATT_NUM_HEIGHT,
-			AT_MAX_TYPE
-		};
-		void SetAlignItemType(AlignItemType type);
-		AlignItemType GetAlignItemType() const;
-
-		void SetAlignItemSize(float width, float height);
-		void SetAlignItemSize(const Sizef &size);
-		float GetAlignItemWidth() const;
-		float GetAlignItemHeight() const;
-		const Sizef &GetAlignItemSize() const;
-
-		void SetAlignItemNum(float numWidth, float numHeight);
-		void SetAlignItemNum(const Float2 &itemNum);
-		float GetAlignItemNumWidth() const;
-		float GetAlignItemNumHeight() const;
-		const Float2 &GetAlignItemNum() const;
-
-		// add obj
-		virtual int AttachChild(Movable* child);
 
 	protected:
-		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
-		int _UpdateAlignItems();
+		virtual void UpdateWorldData(double applicationTime,
+			double elapsedTime);
+		void _UpdateContentPos();
+		void _SliderCallback(UIFrame *frame, UICallType type);
 
-		AlignItemType mAlignItemType;
+		bool mIsNeedRecal;
+		bool mIsUpdateSliderVisible;
+		bool mIsUpdateContentPos;
 
-		Sizef mItemSize;
-		Float2 mAlignItemNum;
-		float mContentLength;
-		float mNeedMoveLength;
+		float mSliderSize;
+		float mItemHeight;
+		UIFramePtr mMaskFrame;
+		UIFramePtr mContentFrame;
+		std::vector<UIFramePtr> mItems;
+		UISliderPtr mSlider;
 
-		bool mIsBagFrameNeedUpdate;
+		std::vector<UIFramePtr> mSelectedItems;
+		int mSelectedIndex;
 	};
 
 	PX2_REGISTER_STREAM(UIGridFrame);
-	typedef Pointer0<UIGridFrame> UIGridFramePtr;
+	typedef PointerRef<UIGridFrame> UIGridFramePtr;
 
 }
 

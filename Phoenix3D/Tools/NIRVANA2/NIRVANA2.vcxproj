@@ -91,10 +91,8 @@
     <ClInclude Include="PX2N_DlgCreateProject.hpp" />
     <ClInclude Include="PX2N_App.hpp" />
     <ClInclude Include="PX2N_Frame.hpp" />
-    <ClInclude Include="PX2N_PopUpMenuWindow.hpp" />
     <ClInclude Include="PX2N_Pre.hpp" />
     <ClInclude Include="PX2N_RenderView.hpp" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PX2N_DlgCreateProject.cpp" />
@@ -103,7 +101,6 @@
     <ClCompile Include="PX2N_Frame_General.cpp" />
     <ClCompile Include="PX2N_Frame_Menu.cpp" />
     <ClCompile Include="PX2N_Frame_Frames.cpp" />
-    <ClCompile Include="PX2N_PopUpMenuWindow.cpp" />
     <ClCompile Include="PX2N_RenderView.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

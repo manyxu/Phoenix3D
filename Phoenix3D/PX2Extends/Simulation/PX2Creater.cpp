@@ -2,7 +2,6 @@
 
 #include "PX2Creater.hpp"
 #include "PX2Actor.hpp"
-#include "PX2EffectActor.hpp"
 #include "PX2Scene.hpp"
 #include "PX2Controller.hpp"
 #include "PX2Animation.hpp"
@@ -13,6 +12,8 @@
 #include "PX2GraphicsRoot.hpp"
 #include "PX2EffectableController.hpp"
 #include "PX2EffectModule.hpp"
+#include "PX2BPManager.hpp"
+#include "PX2FunObject.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------
@@ -22,13 +23,6 @@ Creater::Creater()
 //----------------------------------------------------------------------------
 Creater::~Creater()
 {
-}
-//----------------------------------------------------------------------------
-Object *Creater::New0(const std::string &className)
-{
-	PX2_UNUSED(className);
-
-	return 0;
 }
 //----------------------------------------------------------------------------
 Actor *Creater::CreateActor_Rectangle(Node *parent, const APoint &pos, 
@@ -94,24 +88,6 @@ Actor *Creater::CreateActor_Sphere(Node *parent, const APoint &pos,
 	return actor;
 }
 //----------------------------------------------------------------------------
-Actor *Creater::CreateActor_Effect(Node *parent, const APoint &pos,
-	bool posIsLocal)
-{
-	APoint localPos = pos;
-	if (parent && !posIsLocal)
-	{
-		localPos = parent->WorldTransform.Inverse() * localPos;
-	}
-
-	ActorPtr actor = new0 EffectActor();
-	actor->LocalTransform.SetTranslate(localPos);
-
-	if (parent)
-		AddObject(parent, actor);
-
-	return actor;
-}
-//----------------------------------------------------------------------------
 Actor *Creater::CreateActor_Actor(Node *parent, const APoint &pos,
 	bool posIsLocal)
 {
@@ -159,42 +135,6 @@ Character *Creater::CreateActor_Character(Node *parent, const APoint &pos,
 		AddObject(parent, chara);
 
 	return chara;
-}
-//----------------------------------------------------------------------------
-TriggerActor *Creater::CreateActor_Trigger(Node *parent, const APoint &pos,
-	bool posIsLocal)
-{
-	APoint localPos = pos;
-	if (parent && !posIsLocal)
-	{
-		localPos = parent->WorldTransform.Inverse() * localPos;
-	}
-
-	TriggerActor *actor = new0 TriggerActor();
-	actor->LocalTransform.SetTranslate(localPos);
-
-	if (parent)
-		AddObject(parent, actor);
-
-	return actor;
-}
-//----------------------------------------------------------------------------
-SkyActor *Creater::CreateActor_Sky(Node *parent, const APoint &pos,
-	bool posIsLocal)
-{
-	APoint localPos = pos;
-	if (parent && !posIsLocal)
-	{
-		localPos = parent->WorldTransform.Inverse() * localPos;
-	}
-
-	SkyActor *actor = new0 SkyActor();
-	actor->LocalTransform.SetTranslate(localPos);
-
-	if (parent)
-		AddObject(parent, actor);
-
-	return actor;
 }
 //----------------------------------------------------------------------------
 LightActor *Creater::CreateActor_Light(Node *parent, const APoint &pos,
@@ -634,6 +574,17 @@ InterpCurveColorController *Creater::CreateICC_Color(Movable *mov)
 	return ctrl;
 }
 //----------------------------------------------------------------------------
+InterpCurveBrightnessController *Creater::CreateICC_Brightness(Movable *mov)
+{
+	InterpCurveBrightnessController *ctrl = 
+		new0 InterpCurveBrightnessController();
+
+	if (mov)
+		AddObject(mov, ctrl);
+
+	return ctrl;
+}
+//----------------------------------------------------------------------------
 InterpCurveUniformScaleController *Creater::CreateICC_UniformScale(Movable *mov)
 {
 	InterpCurveUniformScaleController *ctrl = new0 InterpCurveUniformScaleController();
@@ -674,9 +625,16 @@ InterpCurveTranslateController *Creater::CreateICC_Translate(Movable *mov)
 	return ctrl;
 }
 //----------------------------------------------------------------------------
-Node *Creater::CreateNode(Node *parent)
+Node *Creater::CreateNode(Node *parent, const APoint &pos, bool posIsLocal)
 {
+	APoint localPos = pos;
+	if (parent && !posIsLocal)
+	{
+		localPos = parent->WorldTransform.Inverse() * localPos;
+	}
+
 	Node *node = new0 Node();
+	node->LocalTransform.SetTranslate(localPos);
 
 	if (parent)
 		AddObject(parent, node);
@@ -734,7 +692,45 @@ Character *Creater::CreateCharacter(Node *parent, const std::string &resPath,
 	return 0;
 }
 //----------------------------------------------------------------------------
-EffectActor *Creater::CreateEffectActor(Node *parent, const std::string &resPath,
+PX2::BPPackage *Creater::CreateBPPackage(Node *parent, const APoint &pos,
+	bool posIsLocal)
+{
+	APoint localPos = pos;
+	if (parent && !posIsLocal)
+	{
+		localPos = parent->WorldTransform.Inverse() * localPos;
+	}
+
+	localPos.Y() = -1.0f;
+
+	BPPackage *lg = new0 BPPackage();
+	lg->LocalTransform.SetTranslate(localPos);
+
+	AddObject(parent, lg);
+
+	return lg;
+}
+//----------------------------------------------------------------------------
+PX2::BPFile *Creater::CreateBPFile(Node *parent, const APoint &pos,
+	bool posIsLocal)
+{
+	APoint localPos = pos;
+	if (parent && !posIsLocal)
+	{
+		localPos = parent->WorldTransform.Inverse() * localPos;
+	}
+
+	localPos.Y() = -1.0f;
+
+	BPFile *lf = new0 BPFile();
+	lf->LocalTransform.SetTranslate(localPos);
+
+	AddObject(parent, lf);
+	return lf;
+}
+//----------------------------------------------------------------------------
+BPModule *Creater::CreateBPModule(Node *parent,
+	const std::string &className, const std::string &funName,
 	const APoint &pos, bool posIsLocal)
 {
 	APoint localPos = pos;
@@ -743,17 +739,171 @@ EffectActor *Creater::CreateEffectActor(Node *parent, const std::string &resPath
 		localPos = parent->WorldTransform.Inverse() * localPos;
 	}
 
-	Movable *mov = DynamicCast<Movable>(PX2_RM.BlockLoad(resPath));
-	if (mov)
+	localPos.Y() = -1.0f;
+
+	FunObject *funObjObject = FunObjectManager::GetSingleton().GetFunObject();
+	FunObject *funObj = funObjObject->GetFunObject(className, funName);
+	if (funObj)
 	{
-		EffectActor *ea = new0 EffectActor();
-		ea->SetMovableFilename(resPath);
-		ea->LocalTransform.SetTranslate(localPos);
+		BPModule *logicModule = new0 BPModule(BPModule::MT_FUNCTION_OBJECT);
+		logicModule->RegistFunObj(*funObj);
+		logicModule->LocalTransform.SetTranslate(localPos);
 
-		if (parent)
-			AddObject(parent, ea);
+		AddObject(parent, logicModule);
 
-		return ea;
+		return logicModule;
+	}
+
+	return 0;
+}
+//----------------------------------------------------------------------------
+PX2::BPModule *Creater::CreateBPModuleGeneral(Node *parent,
+	const std::string &genFunName, const APoint &pos, bool posIsLocal)
+{
+	APoint localPos = pos;
+	if (parent && !posIsLocal)
+	{
+		localPos = parent->WorldTransform.Inverse() * localPos;
+	}
+
+	localPos.Y() = -1.0f;
+
+	std::string scriptName = PX2_BPM.GetGFScript(genFunName);
+	FunObject *funObj = PX2_BPM.GetGF(genFunName);
+
+	if (!scriptName.empty() && funObj)
+	{
+		BPModule *logicModule = new0 BPModule(BPModule::MT_FUNCTION_GENERAL);
+		logicModule->RegistFunObj(*funObj);
+		logicModule->LocalTransform.SetTranslate(localPos);
+
+		AddObject(parent, logicModule);
+
+		return logicModule;
+	}
+
+	return 0;
+}
+//----------------------------------------------------------------------------
+PX2::BPModule *Creater::CreateBPModuleFunctionStart(Node *parent, 
+	const APoint &pos, bool posIsLocal)
+{
+	APoint localPos = pos;
+	if (parent && !posIsLocal)
+	{
+		localPos = parent->WorldTransform.Inverse() * localPos;
+	}
+
+	localPos.Y() = -1.0f;
+
+	BPModule *logicModule = new0 BPModule(BPModule::MT_FUNCTION_START);
+	logicModule->RegistFunObj(*PX2_BPM.GetStartGF());
+	logicModule->LocalTransform.SetTranslate(localPos);
+
+	AddObject(parent, logicModule);
+
+	return logicModule;
+}
+//----------------------------------------------------------------------------
+PX2::BPModule *Creater::CreateBPEvent(PX2::Node *parent,
+	const std::string &eventName, const APoint &pos, bool posIsLocal)
+{
+	APoint localPos = pos;
+	if (parent && !posIsLocal)
+	{
+		localPos = parent->WorldTransform.Inverse() * localPos;
+	}
+
+	localPos.Y() = -1.0f;
+
+	FunObject *eventObj = PX2_BPM.GetEvent(eventName);
+	if (eventObj)
+	{
+		BPModule *logicModule = new0 BPModule(BPModule::MT_EVENT);
+		logicModule->RegistFunObj(*eventObj);
+		logicModule->LocalTransform.SetTranslate(localPos);
+
+		AddObject(parent, logicModule);
+
+		return logicModule;
+	}
+
+	return 0;
+}
+//----------------------------------------------------------------------------
+PX2::BPModule *Creater::CreateBPOption(Node *parent,
+	const std::string &optionName, const APoint &pos, bool posIsLocal)
+{
+	APoint localPos = pos;
+	if (parent && !posIsLocal)
+	{
+		localPos = parent->WorldTransform.Inverse() * localPos;
+	}
+
+	localPos.Y() = -1.0f;
+
+	FunObject *eventObj = PX2_BPM.GetOption(optionName);
+	if (eventObj)
+	{
+		BPModule *logicModule = new0 BPModule(BPModule::MT_OPTION);
+		logicModule->RegistFunObj(*eventObj);
+		logicModule->LocalTransform.SetTranslate(localPos);
+
+		AddObject(parent, logicModule);
+
+		return logicModule;
+	}
+
+	return 0;
+}
+//----------------------------------------------------------------------------
+PX2::BPModule *Creater::CreateBPOperator(Node *parent,
+	const std::string &operatorName, const APoint &pos, bool posIsLocal)
+{
+	APoint localPos = pos;
+	if (parent && !posIsLocal)
+	{
+		localPos = parent->WorldTransform.Inverse() * localPos;
+	}
+
+	localPos.Y() = -1.0f;
+
+	FunObject *eventObj = PX2_BPM.GetOperator(operatorName);
+	if (eventObj)
+	{
+		BPModule *logicModule = new0 BPModule(BPModule::MT_FUNCTION_OPERATOR);
+		logicModule->RegistFunObj(*eventObj);
+		logicModule->LocalTransform.SetTranslate(localPos);
+
+		AddObject(parent, logicModule);
+
+		return logicModule;
+	}
+
+	return 0;
+}
+//----------------------------------------------------------------------------
+PX2::BPModule *Creater::CreateBPParam(Node *parent,
+	const std::string &paramName, const APoint &pos, bool posIsLocal)
+{
+	APoint localPos = pos;
+	if (parent && !posIsLocal)
+	{
+		localPos = parent->WorldTransform.Inverse() * localPos;
+	}
+
+	localPos.Y() = -1.0f;
+
+	FunObject *eventObj = PX2_BPM.GetParam(paramName);
+	if (eventObj)
+	{
+		BPModule *logicModule = new0 BPModule(BPModule::MT_PARAM);
+		logicModule->RegistFunObj(*eventObj);
+		logicModule->LocalTransform.SetTranslate(localPos);
+
+		AddObject(parent, logicModule);
+
+		return logicModule;
 	}
 
 	return 0;
@@ -771,12 +921,6 @@ void Creater::AddObject(Object *parent, Object *obj, bool command)
 
 	bool added = false;
 
-	//else if (character && anim3d)
-	//{
-	//	character->AddAnim(anim3d);
-
-	//	added = true;
-	//}
 	if (mov && nodePar)
 	{
 		nodePar->AttachChild(mov);
@@ -796,17 +940,10 @@ void Creater::AddObject(Object *parent, Object *obj, bool command)
 		added = true;
 	}
 
-	if (added)
-	{
-		Event *ent = SimuES_E::CreateEventX(SimuES_E::AddObject);
-		ent->SetData<Object*>(obj);
-		EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
-	}
-
 	if (added && command)
 	{
 		ObjectAddDeleteURDo *cmd = new0 ObjectAddDeleteURDo(true, obj);
-		PX2_URDOMAN.PushUnDo(cmd);
+		PX2_URDOM.PushUnDo(cmd);
 	}
 }
 //----------------------------------------------------------------------------
@@ -859,17 +996,9 @@ bool Creater::RemoveObject(Object *obj, bool command)
 		removed = true;
 	}
 
-	if (removed)
-	{
-		Event *ent = 0;
-		ent = SimuES_E::CreateEventX(SimuES_E::RemoveObject);
-		ent->SetData<Object*>(obj);
-		EventWorld::GetSingleton().BroadcastingLocalEvent(ent);
-	}
-
 	if (removed && command)
 	{
-		PX2_URDOMAN.PushUnDo(theCommand);
+		PX2_URDOM.PushUnDo(theCommand);
 	}
 
 	return true;

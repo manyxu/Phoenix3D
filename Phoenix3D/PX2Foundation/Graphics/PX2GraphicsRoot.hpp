@@ -15,6 +15,7 @@
 #include "PX2FString.hpp"
 #include "PX2Projector.hpp"
 #include "PX2TriMesh.hpp"
+#include "PX2RenderWindow.hpp"
 
 namespace PX2
 {
@@ -30,31 +31,22 @@ namespace PX2
 	{
 	public:
 		GraphicsRoot ();
-		~GraphicsRoot ();
+		virtual ~GraphicsRoot ();
 
 		bool Initlize ();
 		bool Terminate ();
+
+		void Update(double appSeconds, double elapsedSeconds);
+		void Draw();
 		
 		void SetInEditor (bool isInEditor);
 		bool IsInEditor () const;
-
-		// Size Rect
-		void SetScreenSize (const Sizef &size);	// screen size
-		const Sizef &GetScreenSize () const;		
-		void SetViewRect (const Rectf &rect);	// view rect
-		const Rectf &GetViewRect () const;
-
-		void SetProjectSize(const Sizef &size);
-		const Sizef &GetProjectSize() const;
 
 		const static std::string sEmptyResPath;
 		const static std::string sTerResPath;
 
 	private:
 		bool mIsInEditor;
-		Rectf mViewRect;
-		Sizef mScreenSize;
-		Sizef mProjectSize;
 
 		// Environment
 	public:
@@ -70,26 +62,17 @@ namespace PX2
 	protected:
 		EnvirParamPtr mCurEnvirParam;
 
-		// Canvas;
+		//window
 	public:
-		bool AddCanvas(const char *name, Canvas *step);
-		bool IsHasCanvas(const char *name) const;
-		bool RemoveCanvas(const char *name);
-		void RemoveCanvass(Canvas *step);
-		Canvas *GetCanvas(const char *name);
-		Canvas *GetCanvasScene();
-		Canvas *GetCanvasUI();
-		void SortCanvass();
-
-		void Update(double appSeconds, double elapsedSeconds);
-		void ComputeVisibleSetAndEnv();
-		void Draw();
+		bool AddRenderWindow(const std::string &name, RenderWindow *rw);
+		bool IsHasRenderWindow(const std::string &name);
+		bool RemoveRenderWindow(const std::string &name);
+		RenderWindow *GetRenderWindow(const std::string &name);
+		RenderWindow *GetMainWindow();
 
 	protected:
-		CanvasPtr mCanvasScene;
-		CanvasPtr mCanvasUI;
-		std::map<FString, CanvasPtr> mCanvasMap;
-		std::vector<Canvas *> mCanvasVec;
+		std::map<std::string, RenderWindowPtr> mRenderWindows;
+		RenderWindowPtr mMainRenderWindow;
 
 		// Play
 	public:
@@ -132,9 +115,9 @@ namespace PX2
 		TriMesh *GetYZPlane();
 
 	protected:
-		Pointer0<TriMesh> mTriMeshXY;
-		Pointer0<TriMesh> mTriMeshXZ;
-		Pointer0<TriMesh> mTriMeshYZ;
+		PointerRef<TriMesh> mTriMeshXY;
+		PointerRef<TriMesh> mTriMeshXZ;
+		PointerRef<TriMesh> mTriMeshYZ;
 
 		// Load
 	public:

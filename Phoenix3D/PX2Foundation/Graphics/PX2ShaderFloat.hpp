@@ -74,7 +74,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(ShaderFloat);
-	typedef Pointer0<ShaderFloat> ShaderFloatPtr;
+	typedef PointerRef<ShaderFloat> ShaderFloatPtr;
 #include "PX2ShaderFloat.inl"
 
 }

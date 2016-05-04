@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(WireProperty);
-	typedef Pointer0<WireProperty> WirePropertyPtr;
+	typedef PointerRef<WireProperty> WirePropertyPtr;
 
 }
 

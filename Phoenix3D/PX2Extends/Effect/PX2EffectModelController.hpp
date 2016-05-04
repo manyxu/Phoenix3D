@@ -32,7 +32,7 @@ namespace PX2
 
 #include "PX2EffectModelController.inl"
 	PX2_REGISTER_STREAM(EffectModelController);
-	typedef Pointer0<EffectModelController> EffectModelControllerPtr;
+	typedef PointerRef<EffectModelController> EffectModelControllerPtr;
 
 }
 

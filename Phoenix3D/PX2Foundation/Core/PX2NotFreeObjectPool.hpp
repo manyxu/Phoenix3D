@@ -5,6 +5,7 @@
 
 #include "PX2CorePre.hpp"
 #include "PX2Any.hpp"
+#include "PX2SmartPointerRef.hpp"
 
 namespace PX2
 {
@@ -13,7 +14,7 @@ namespace PX2
 	/// Initlize()一下
 	/**
 	* T 需要实现
-	*	void OnAllocAll (int userData);
+	*	void OnAllocAll (const Any &userData);
 	*	void OnAlloc ();
 	*	void OnFree ();
 	*	void SetObjectID (uint32_t id);
@@ -29,7 +30,7 @@ namespace PX2
 		virtual ~NotFreeObjectPool (); 
 
 		bool AllocAllObjects (uint32_t numMaxObjects, const Any &initParam);
-		bool FreeAllObjects ();
+		bool ClearAllObjects ();
 		uint32_t GetNumAllocedObjects ();
 		T *GetAllocedObjectAt (uint32_t index);
 
@@ -39,6 +40,7 @@ namespace PX2
 		void FreeObject (uint32_t objID);	
 		uint32_t GetNumObjects ();
 
+		void FreeAllAllocedObjects();
 		const std::set<uint32_t> &GetAllObjectIDs();
 
 		T *GetObjectByID (uint32_t objID);
@@ -46,7 +48,7 @@ namespace PX2
 	private:
 		uint32_t mNumMaxObjects;
 		std::queue<uint32_t> mIDsQueue;
-		std::vector<T*> mObjects;
+		std::vector<PointerRef<T> > mObjects;
 		std::vector<char> mObjectFlags;
 		std::set<uint32_t> mAllAlloctIDs; // 所有有效的对象ID
 		Any mInitParam;

@@ -9,13 +9,16 @@ PX2_IMPLEMENT_FACTORY(OffsetProperty);
 PX2_IMPLEMENT_DEFAULT_NAMES(Object, OffsetProperty);
 
 //----------------------------------------------------------------------------
-OffsetProperty::OffsetProperty ()
-    :
-    FillEnabled(false),
-    LineEnabled(false),
-    PointEnabled(false),
-    Scale(0.0f),
-    Bias(0.0f)
+OffsetProperty::OffsetProperty() :
+FillEnabled(false),
+LineEnabled(false),
+PointEnabled(false),
+AllowRed(true),
+AllowGreen(true),
+AllowBlue(true),
+AllowAlpha(true),
+Scale(0.0f),
+Bias(0.0f)
 {
 	SetName("OProp");
 }
@@ -70,14 +73,17 @@ void OffsetProperty::OnPropertyChanged (const PropertyObject &obj)
 //----------------------------------------------------------------------------
 // ³Ö¾Ã»¯
 //----------------------------------------------------------------------------
-OffsetProperty::OffsetProperty (LoadConstructor value)
-    :
-    Object(value),
-    FillEnabled(false),
-    LineEnabled(false),
-    PointEnabled(false),
-    Scale(0.0f),
-    Bias(0.0f)
+OffsetProperty::OffsetProperty(LoadConstructor value) :
+Object(value),
+FillEnabled(false),
+LineEnabled(false),
+PointEnabled(false),
+AllowRed(true),
+AllowGreen(true),
+AllowBlue(true),
+AllowAlpha(true),
+Scale(0.0f),
+Bias(0.0f)
 {
 }
 //----------------------------------------------------------------------------
@@ -91,6 +97,10 @@ void OffsetProperty::Load (InStream& source)
     source.ReadBool(FillEnabled);
     source.ReadBool(LineEnabled);
     source.ReadBool(PointEnabled);
+	//source.ReadBool(AllowRed);
+	//source.ReadBool(AllowGreen);
+	//source.ReadBool(AllowBlue);
+	//source.ReadBool(AllowAlpha);
     source.Read(Scale);
     source.Read(Bias);
 
@@ -122,6 +132,10 @@ void OffsetProperty::Save (OutStream& target) const
     target.WriteBool(FillEnabled);
     target.WriteBool(LineEnabled);
     target.WriteBool(PointEnabled);
+	//target.WriteBool(AllowRed);
+	//target.WriteBool(AllowGreen);
+	//target.WriteBool(AllowBlue);
+	//target.WriteBool(AllowAlpha);
     target.Write(Scale);
     target.Write(Bias);
 
@@ -135,6 +149,10 @@ int OffsetProperty::GetStreamingSize (Stream &stream) const
     size += PX2_BOOLSIZE(FillEnabled);
     size += PX2_BOOLSIZE(LineEnabled);
     size += PX2_BOOLSIZE(PointEnabled);
+	//size += PX2_BOOLSIZE(AllowRed);
+	//size += PX2_BOOLSIZE(AllowGreen);
+	//size += PX2_BOOLSIZE(AllowBlue);
+	//size += PX2_BOOLSIZE(AllowAlpha);
     size += sizeof(Scale);
     size += sizeof(Bias);
     return size;

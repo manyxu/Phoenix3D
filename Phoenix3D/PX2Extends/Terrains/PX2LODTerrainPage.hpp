@@ -106,7 +106,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(LODTerrainPage);
-	typedef Pointer0<LODTerrainPage> LODTerrainPagePtr;
+	typedef PointerRef<LODTerrainPage> LODTerrainPagePtr;
 #include "PX2LODTerrainPage.inl"
 
 }

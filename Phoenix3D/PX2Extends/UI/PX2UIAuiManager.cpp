@@ -15,6 +15,18 @@ UIAuiManager::~UIAuiManager()
 {
 }
 //----------------------------------------------------------------------------
+void UIAuiManager::Clear()
+{
+	mUIAuiFrames.clear();
+
+	mAuiTabFrames.clear();
+
+	mAuiContentFrames.clear();
+
+	mActiveTableBut = 0;
+	mActiveTableContentFrame = 0;
+}
+//----------------------------------------------------------------------------
 std::string UIAuiManager::GenName(const std::string &tag)
 {
 	msNameID++;
@@ -22,27 +34,21 @@ std::string UIAuiManager::GenName(const std::string &tag)
 	return tag + StringHelp::IntToString(msNameID);
 }
 //----------------------------------------------------------------------------
-void UIAuiManager::SetAuiFrame(UIAuiFrame *frame)
+void UIAuiManager::AddAuiFrame(RenderWindow *rw, UIAuiFrame *frame)
 {
-	mUIAuiFrame = frame;
+	mUIAuiFrames[rw] = frame;
 }
 //----------------------------------------------------------------------------
-void UIAuiManager::AddUIAuiBlockFrame(UIAuiBlockFrame *auiBlockFrame)
+UIAuiFrame *UIAuiManager::GetAuiFrame(RenderWindow *rw)
 {
-	mUIAuiBlockFrames.push_back(auiBlockFrame);
-}
-//----------------------------------------------------------------------------
-void UIAuiManager::RemoveUIAuiBlockFrame(UIAuiBlockFrame *auiBlockframe)
-{
-	std::vector<UIAuiBlockFramePtr>::iterator it = mUIAuiBlockFrames.begin();
-	for (; it != mUIAuiBlockFrames.end(); it++)
+	std::map<RenderWindow *, UIAuiFramePtr>::iterator it = 
+		mUIAuiFrames.find(rw);
+	if (it != mUIAuiFrames.end())
 	{
-		if (auiBlockframe == *it)
-		{
-			mUIAuiBlockFrames.erase(it);
-			return;
-		}
+		return it->second;
 	}
+
+	return 0;
 }
 //----------------------------------------------------------------------------
 void UIAuiManager::AddTabFrame(const std::string &name, UITabFrame *tab)
@@ -83,38 +89,56 @@ UITabFrame *UIAuiManager::GetTabFrame(const std::string &name)
 //----------------------------------------------------------------------------
 void UIAuiManager::AddTabContentFrame(UIButton *tabBut, UIFrame *frame)
 {
-	mAuiContentFrames[tabBut] = frame;
+	const std::string &tabName = tabBut->GetName();
+	std::map<std::string, UIButtonPtr>::iterator it = mAuiTabButs.find(tabName);
+	if (it == mAuiTabButs.end())
+	{
+		mAuiTabButs[tabName] = tabBut;
+		mAuiContentFrames[tabBut] = frame;
+	}
+	else
+	{
+		assertion(false, "tabBut %s already exist.", tabName.c_str());
+	}
 }
 //----------------------------------------------------------------------------
-void UIAuiManager::SetActiveTableFrame(UIButton *tabBut, UIFrame *tableFrame)
+void UIAuiManager::SetActiveTableFrame(const std::string &tabName)
 {
-	if (mActiveTableBut)
+	std::map<std::string, UIButtonPtr>::iterator it = mAuiTabButs.find(tabName);
+	if (it != mAuiTabButs.end())
 	{
-		mActiveTableBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetColor(
-			PX2_UISM.Color_AuiButTab_Normal);
+		UIButton *tabBut = it->second;
+		UIFrame *uiContentFrame = mAuiContentFrames[tabBut];
+		UITabFrame *tabFrame = DynamicCast<UITabFrame>(
+			uiContentFrame->GetParent()->GetParent());
 
-		mActiveTableBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED)->SetColor(
-			PX2_UISM.Color_AuiButTab_Horvered);
+		tabFrame->_SetActiveTab(tabBut->GetName());
 
-		mActiveTableBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetColor(
-			PX2_UISM.Color_AuiButTab_Pressed);
+		if (mActiveTableBut)
+		{
+			mActiveTableBut->SetActivate(false);
+			mActiveTableBut = 0;
+		}
 
-		mActiveTableContentFrame = 0;
+		if (mActiveTableContentFrame)
+		{
+			mActiveTableContentFrame->SetActivate(false);
+			mActiveTableContentFrame = 0;
+		}
+
+		mActiveTableBut = tabBut;
+		mActiveTableContentFrame = uiContentFrame;
+
+		if (mActiveTableBut)
+			mActiveTableBut->SetActivate(true);
+
+		if (mActiveTableContentFrame)
+			mActiveTableContentFrame->SetActivate(true);
 	}
-
-	mActiveTableBut = tabBut;
-	mActiveTableContentFrame = tableFrame;
-
-	if (mActiveTableBut)
-	{
-		mActiveTableBut->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetColor(
-			PX2_UISM.Color_AuiButTab_Active);
-
-		mActiveTableBut->GetPicBoxAtState(UIButtonBase::BS_HOVERED)->SetColor(
-			PX2_UISM.Color_AuiButTab_Active);
-
-		mActiveTableBut->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetColor(
-			PX2_UISM.Color_AuiButTab_Active);
-	}
+}
+//----------------------------------------------------------------------------
+void UIAuiManager::SetCaptureBlockFrame(UIAuiBlockFrame *blockFrame)
+{
+	mCaptureBlockFrame = blockFrame;
 }
 //----------------------------------------------------------------------------

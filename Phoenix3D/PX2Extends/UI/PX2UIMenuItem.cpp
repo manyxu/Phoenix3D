@@ -18,14 +18,12 @@ mScriptFun(scriptFun)
 	SetName(name);
 
 	mBut = new0 UIButton();
+	AttachChild(mBut);
 
-	mTitleText = new0 UIText();
+	mTitleText = new0 UIFText();
 	AttachChild(mTitleText);
-	mTitleText->LocalTransform.SetTranslateY(-0.1f);
-	mTitleText->SetRectUseage(UIText::RU_ALIGNS);
-	mTitleText->SetAligns(TEXTALIGN_HCENTER|TEXTALIGN_VCENTER);
-
-	mTitleText->SetText(title);
+	mTitleText->LocalTransform.SetTranslateY(-4.0f);
+	mTitleText->GetText()->SetText(title);
 }
 //----------------------------------------------------------------------------
 UIMenuItem::~UIMenuItem()

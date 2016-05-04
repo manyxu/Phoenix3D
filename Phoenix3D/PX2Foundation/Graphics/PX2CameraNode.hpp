@@ -57,7 +57,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(CameraNode);
-	typedef Pointer0<CameraNode> CameraNodePtr;
+	typedef PointerRef<CameraNode> CameraNodePtr;
 #include "PX2CameraNode.inl"
 
 

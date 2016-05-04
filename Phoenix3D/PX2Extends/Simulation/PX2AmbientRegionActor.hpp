@@ -3,12 +3,12 @@
 #ifndef PX2AMBIENTREGIONACTOR_HPP
 #define PX2AMBIENTREGIONACTOR_HPP
 
-#include "PX2TriggerActor.hpp"
 #include "PX2Light.hpp"
 #include "PX2LightNode.hpp"
 #include "PX2Camera.hpp"
 #include "PX2CameraNode.hpp"
 #include "PX2Float2.hpp"
+#include "PX2TriggerActor.hpp"
 
 namespace PX2
 {
@@ -63,7 +63,8 @@ namespace PX2
 		const Float2 &GetFogParamDistance() const;
 
 	public_internal:
-		virtual void SetParent(Movable* parent);
+		virtual void OnBeAttached();
+		virtual void OnBeDetach();
 
 	protected:
 		void _UpdateDirLightCamera();
@@ -94,7 +95,7 @@ namespace PX2
 
 #include "PX2AmbientRegionActor.inl"
 	PX2_REGISTER_STREAM(AmbientRegionActor);
-	typedef Pointer0<AmbientRegionActor> AmbientRegionActorPtr;
+	typedef PointerRef<AmbientRegionActor> AmbientRegionActorPtr;
 
 }
 

@@ -20,17 +20,19 @@ namespace PX2
 		virtual ~UICanvasController();
 
 		virtual void DoExecute(Event *event);
-
+		
 	protected:
 		bool mIsRightPressed;
 		APoint mRightPressedPos;
+		bool mIsMiddlePressed;
+		APoint mMiddlePressedPos;
 		APoint mCurPos;
 		APoint mLastPos;
 	};
 
 #include "PX2UICanvasController.inl"
 	PX2_REGISTER_STREAM(UICanvasController);
-	typedef Pointer0<UICanvasController> UICanvasControllerPtr;
+	typedef PointerRef<UICanvasController> UICanvasControllerPtr;
 
 }
 

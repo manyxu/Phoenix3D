@@ -15,6 +15,8 @@ namespace PX2
 		UICT_NONE = 0,
 		UICT_PRESSED,
 		UICT_RELEASED,
+		UICT_PRESSED_NOTPICK,
+		UICT_RELEASED_NOTPICK,
 		UICT_DOUBLECLICK,
 		UICT_PROGRESSCHANGED,
 		UICT_SLIDERCHANGED,
@@ -24,6 +26,12 @@ namespace PX2
 		UICT_EDITBOX_ENTER,
 		UICT_CHECKED,
 		UICT_DISCHECKED,
+		UICT_LIST_SELECTED,
+		UICT_TABFRAME_DRAG_BEGIN,
+		UICT_TABFRAME_DRAG_END,
+		UICT_COMBOBOX_CHOOSED,
+		UICT_TABFRAME_SETACTIVE,
+		UICT_SPLITTER_DRAGING,
 		UICT_MAX_TYPE
 	};
 
@@ -33,7 +41,31 @@ namespace PX2
 		UIPT_PRESSED,
 		UIPT_RELEASED,
 		UIPT_MOVED,
+		UIPT_WHELLED,
 		UIPT_MAX_TYPE
+	};
+
+	class PX2_EXTENDS_ITEM UIInputData
+	{
+	public:
+		UIInputData();
+		~UIInputData();
+
+		enum MouseTag
+		{
+			MT_NONE,
+			MT_LEFT,
+			MT_RIGHT,
+			MT_MIDDLE,
+			MT_MAX_TYPE
+		};
+		MouseTag TheMouseTag;
+
+		UIPickType PickType;
+
+		APoint WorldPos;
+		AVector MoveDelta;
+		float Wheel;
 	};
 
 	typedef void(*UICallback) (UIFrame *frame, UICallType type);

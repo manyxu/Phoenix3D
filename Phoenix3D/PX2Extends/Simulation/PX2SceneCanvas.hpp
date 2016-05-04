@@ -21,18 +21,18 @@ namespace PX2
 		SceneCanvas();
 		virtual ~SceneCanvas();
 
-		virtual void SetRenderer(Renderer *renderer);
-
-		virtual void Update(double appSeconds, double elapsedSeconds);
 		virtual void ComputeVisibleSetAndEnv();
-		virtual void Draw();
+		virtual void Draw(Renderer *renderer);
+
+	protected:
+		virtual void UpdateWorldData(double applicationTime, 
+			double elapsedTime);
 
 	public:
-		virtual void SetSize(const Sizef &size);
+		virtual void OnSizeChanged();
 
 	public:
 		virtual void SetScreenSize(const Sizef &size);
-		void SetViewPortAdjustWithScene(const Rectf &viewPort);
 
 		// Event
 	public:
@@ -100,7 +100,7 @@ namespace PX2
 		CanvasPtr mHelpGridCanvas;
 	};
 
-	typedef Pointer0<SceneCanvas> SceneCanvasPtr;
+	typedef PointerRef<SceneCanvas> SceneCanvasPtr;
 
 }
 

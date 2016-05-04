@@ -19,7 +19,7 @@ namespace PX2
 		int Offset;
 		int Num;
 	};
-	typedef Pointer0<DBObject_V> DBObject_VPtr;
+	typedef PointerRef<DBObject_V> DBObject_VPtr;
 
 	class PX2_FOUNDATION_ITEM DBObject_I
 	{
@@ -30,7 +30,7 @@ namespace PX2
 		int Offset;
 		int Num;
 	};
-	typedef Pointer0<DBObject_I> DBObject_IPtr;
+	typedef PointerRef<DBObject_I> DBObject_IPtr;
 
 }
 

@@ -40,7 +40,7 @@ namespace PX2
 
 #include "PX2AnimationFrames.inl"
 	PX2_REGISTER_STREAM(AnimationFrames);
-	typedef Pointer0<AnimationFrames> AnimationFramesPtr;
+	typedef PointerRef<AnimationFrames> AnimationFramesPtr;
 
 }
 

@@ -55,7 +55,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(StencilProperty);
-	typedef Pointer0<StencilProperty> StencilPropertyPtr;
+	typedef PointerRef<StencilProperty> StencilPropertyPtr;
 
 }
 

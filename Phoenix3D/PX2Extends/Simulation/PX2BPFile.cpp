@@ -12,37 +12,45 @@ PX2_IMPLEMENT_FACTORY(BPFile);
 //----------------------------------------------------------------------------
 BPFile::BPFile()
 {
+	EnableAnchorLayout(false);
+	SetPivot(0.0f, 1.0f);
+
 	SetName("BPFile");
 
 	mIsEnable = true;
 
-	mSize = Sizef(1024.0f, 400.0f);
-
-	mBackPicBox = new0 UIPicBox();
-	AttachChild(mBackPicBox);
-	mBackPicBox->SetPivot(0.0f, 1.0f);
-	mBackPicBox->SetPicBoxType(UIPicBox::PBT_NINE);
-	mBackPicBox->SetTexCornerSize(10.0f, 10.0f);
-	mBackPicBox->SetTexture("Data/engine/white.png");
-
-	mNameText = new0 UIText();
+	mNameText = new0 UIFText();
 	AttachChild(mNameText);
-	mNameText->SetFontScale(0.65f);
-	mNameText->SetColor(Float3::WHITE);
-	mNameText->SetText(GetName());
+	mNameText->LocalTransform.SetTranslateY(-1.0f);
+	mNameText->GetText()->SetFontScale(0.65f);
+	mNameText->GetText()->SetColor(Float3::WHITE);
+	mNameText->GetText()->SetText(GetName());
+	mNameText->GetText()->SetAligns(TEXTALIGN_LEFT);
+	mNameText->SetAnchorHor(0.0f, 1.0f);
+	mNameText->SetAnchorVer(1.0f, 1.0f);
+	mNameText->SetAnchorParamVer(5.0f, 0.0f);
 
-	mTipText = new0 UIText();
+	mTipText = new0 UIFText();
 	AttachChild(mTipText);
-	mTipText->SetFontScale(0.5f);
-	mTipText->SetColor(Float3::YELLOW);
-	mTipText->SetText("BPFile contains functions.");
+	mTipText->LocalTransform.SetTranslateY(-1.0f);
+	mTipText->GetText()->SetFontScale(0.5f);
+	mTipText->GetText()->SetColor(Float3::YELLOW);
+	mTipText->GetText()->SetText("BPFile contains functions.");
+	mTipText->GetText()->SetAligns(TEXTALIGN_RIGHT);
+	mTipText->SetAnchorHor(0.5f, 1.0f);
+	mTipText->SetAnchorVer(1.0f, 1.0f);
+	mTipText->SetAnchorParamVer(5.0f, 0.0f);
 
 	BPModulePtr startModule = new0 BPModule(BPModule::MT_FUNCTION_START);
 	startModule->RegistFunObj(*PX2_BPM.GetStartGF());
-	startModule->LocalTransform.SetTranslate(APoint(5.0f, -1.0f, -5.0f));
+	startModule->LocalTransform.SetTranslate(APoint(0.0f, -1.0f, 0.0f));
 	AttachChild(startModule);
 
+	mSize = Sizef(1000.0f, 400.0f);
 	SetSize(mSize);
+
+	UIPicBox *backPicBox = CreateAddBackgroundPicBox();
+	backPicBox->SetAlpha(0.5f);
 }
 //----------------------------------------------------------------------------
 BPFile::~BPFile()
@@ -53,15 +61,15 @@ void BPFile::Enable(bool enable)
 {
 	mIsEnable = enable;
 
-	if (mBackPicBox)
+	if (mBackgroundPicBox)
 	{
 		if (mIsEnable)
 		{
-			mBackPicBox->SetColor(Float3::WHITE);
+			mBackgroundPicBox->SetColor(Float3::WHITE);
 		}
 		else
 		{
-			mBackPicBox->SetColor(Float3(0.3f, 0.3f, 0.3f));
+			mBackgroundPicBox->SetColor(Float3(0.3f, 0.3f, 0.3f));
 		}
 	}
 }
@@ -69,67 +77,48 @@ void BPFile::Enable(bool enable)
 void BPFile::SetTip(const std::string &tip)
 {
 	mTip = tip;
-	mTipText->SetText(tip);
+	mTipText->GetText()->SetText(tip);
 }
 //----------------------------------------------------------------------------
-void BPFile::SetSize(const Sizef &size)
+void BPFile::OnSizeChanged()
 {
-	mSize = size;
-
-	if (mBackPicBox)
-		mBackPicBox->SetSize(mSize);
-
-	if (mNameText)
-		mNameText->LocalTransform.SetTranslateZ(4.0f);
-
-	if (mTipText)
-		mTipText->LocalTransform.SetTranslateZ(4.0f);
+	UIFrame::OnSizeChanged();
 
 	_UpdateModuleColorPos();
 }
 //----------------------------------------------------------------------------
-int BPFile::AttachChild(Movable* child)
+void BPFile::OnChildAttached(Movable *child)
 {
-	int ret = UIFrame::AttachChild(child);
+	UIFrame::OnChildAttached(child);
 
-	if (-1 != ret)
+	BPModule *logicModule = DynamicCast<BPModule>(child);
+	if (logicModule)
 	{
-		BPModule *logicModule = DynamicCast<BPModule>(child);
-		if (logicModule)
-		{
-			mBPModules.push_back(logicModule);
-		}
+		mBPModules.push_back(logicModule);
 	}
-
-	return ret;
 }
 //----------------------------------------------------------------------------
-int BPFile::DetachChild(Movable* child)
+void BPFile::OnChildDetach(Movable *child)
 {
-	int ret = UIFrame::DetachChild(child);
+	UIFrame::OnChildDetach(child);
 
-	if (-1 != ret)
+	BPModule *logicModule = DynamicCast<BPModule>(child);
+	if (logicModule)
 	{
-		BPModule *logicModule = DynamicCast<BPModule>(child);
-		if (logicModule)
+		std::vector<BPModulePtr>::iterator it = mBPModules.begin();
+		for (; it != mBPModules.end(); it++)
 		{
-			std::vector<BPModulePtr>::iterator it = mBPModules.begin();
-			for (; it != mBPModules.end(); it++)
+			if (*it == logicModule)
 			{
-				if (*it == logicModule)
-				{
-					logicModule->OnDetach();
-					mBPModules.erase(it);
-					break;
-				}
+				logicModule->OnDetach();
+				mBPModules.erase(it);
+				break;
 			}
 		}
 	}
-
-	return ret;
 }
 //----------------------------------------------------------------------------
-bool BPFile::IsHasLogicModule(BPModule *logicModule)
+bool BPFile::IsHasBPModule(BPModule *logicModule)
 {
 	std::vector<BPModulePtr>::iterator it = mBPModules.begin();
 	for (; it != mBPModules.end(); it++)
@@ -185,8 +174,6 @@ const std::string &BPFile::Compile()
 		}
 	}
 
-	mCompiledString += "\n\n";
-
 	// 处理函数
 	for (int i = 0; i < (int)mBPModules.size(); i++)
 	{
@@ -204,7 +191,7 @@ const std::string &BPFile::Compile()
 		}
 	}
 
-	mCompiledString += "\n\n";
+	mCompiledString += "\n";
 
 	// 调用事件
 	for (int i = 0; i < (int)mBPModules.size(); i++)
@@ -224,24 +211,6 @@ const std::string &BPFile::Compile()
 void BPFile::_UpdateModuleColorPos()
 {
 	mTipText->SetColor(Float3::YELLOW);
-
-	float width = 0.0f;
-	float height = 0.0f;
-	PX2_FM.GetDefaultFont()->GetTextExtent(mNameText->GetText().c_str(), 
-		width, height);
-	width *= mNameText->GetFontScale();
-
-	if (mNameText)
-	{
-		mNameText->LocalTransform.SetTranslateZ(4.0f);
-	}
-
-	if (mTipText)
-	{
-		mTipText->SetRectUseage(UIText::RU_NONE);
-		mTipText->LocalTransform.SetTranslateX(width + 5.0f);
-		mTipText->LocalTransform.SetTranslateZ(4.0f);
-	}
 }
 //----------------------------------------------------------------------------
 
@@ -273,14 +242,15 @@ void BPFile::RegistProperties()
 {
 	Movable::RegistProperties();
 
+	SetNamePropChangeable(true);
+
 	AddPropertyClass("BPFile");
 
 	AddProperty("Tip", Object::PT_STRING, mTipText->GetText());
-	AddProperty("Size", Object::PT_SIZE, mSize);
 
 	AddProperty("IsEnable", PT_BOOL, IsEnable());
 
-	AddProperty("NumLogicModules", Object::PT_INT, GetNumLogicModules(), false);
+	AddProperty("NumBPModules", Object::PT_INT, GetNumBPModules(), false);
 }
 //----------------------------------------------------------------------------
 void BPFile::OnPropertyChanged(const PropertyObject &obj)
@@ -289,7 +259,7 @@ void BPFile::OnPropertyChanged(const PropertyObject &obj)
 
 	if ("Name" == obj.Name)
 	{
-		mNameText->SetText(PX2_ANY_AS(obj.Data, std::string));
+		mNameText->GetText()->SetText(PX2_ANY_AS(obj.Data, std::string));
 		_UpdateModuleColorPos();
 	}
 	else if ("IsEnable" == obj.Name)
@@ -299,10 +269,6 @@ void BPFile::OnPropertyChanged(const PropertyObject &obj)
 	else if ("Tip" == obj.Name)
 	{
 		SetTip(PX2_ANY_AS(obj.Data, std::string));
-	}
-	else if ("Size" == obj.Name)
-	{
-		SetSize(PX2_ANY_AS(obj.Data, Sizef));
 	}
 }
 //----------------------------------------------------------------------------
@@ -333,8 +299,6 @@ void BPFile::Load(InStream& source)
 		source.ReadPointerVV(lmSize, &mBPModules[0]);
 	}
 
-	source.ReadAggregate(mSize);
-	source.ReadPointer(mBackPicBox);
 	source.ReadPointer(mNameText);
 	source.ReadPointer(mTipText);
 
@@ -356,7 +320,6 @@ void BPFile::Link(InStream& source)
 		}
 	}
 
-	source.ResolveLink(mBackPicBox);
 	source.ResolveLink(mNameText);
 	source.ResolveLink(mTipText);
 }
@@ -373,9 +336,6 @@ void BPFile::PostLink()
 			mBPModules[i]->PostLink();
 		}
 	}
-
-	if (mBackPicBox)
-		mBackPicBox->PostLink();
 
 	if (mNameText)
 		mNameText->PostLink();
@@ -399,7 +359,6 @@ bool BPFile::Register(OutStream& target) const
 			}
 		}
 
-		target.Register(mBackPicBox);
 		target.Register(mNameText);
 		target.Register(mTipText);
 
@@ -431,8 +390,6 @@ void BPFile::Save(OutStream& target) const
 		}
 	}
 
-	target.WriteAggregate(mSize);
-	target.WritePointer(mBackPicBox);
 	target.WritePointer(mNameText);
 	target.WritePointer(mTipText);
 
@@ -455,8 +412,6 @@ int BPFile::GetStreamingSize(Stream &stream) const
 		size += numLms*PX2_POINTERSIZE(mBPModules[0]);
 	}
 
-	size += sizeof(mSize);
-	size += PX2_POINTERSIZE(mBackPicBox);
 	size += PX2_POINTERSIZE(mNameText);
 	size += PX2_POINTERSIZE(mTipText);
 

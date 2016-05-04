@@ -37,7 +37,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(TerrainActor);
-	typedef Pointer0<TerrainActor> TerrainActorPtr;
+	typedef PointerRef<TerrainActor> TerrainActorPtr;
 #include "PX2TerrainActor.inl"
 
 }

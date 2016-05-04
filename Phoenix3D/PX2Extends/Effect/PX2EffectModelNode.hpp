@@ -77,7 +77,7 @@ public_internal:
 	};
 
 	PX2_REGISTER_STREAM(EffectModelNode);
-	typedef Pointer0<EffectModelNode> EffectModelNodePtr;
+	typedef PointerRef<EffectModelNode> EffectModelNodePtr;
 #include "PX2EffectModelNode.inl"
 
 }

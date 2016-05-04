@@ -150,7 +150,7 @@ inline const Float2 &Effectable::GetTexAnim_Repeat () const
 	return mTexAnim_Repeat;
 }
 //----------------------------------------------------------------------------
-inline const std::string Effectable::GetTexPackAnim () const
+inline const std::string &Effectable::GetTexPackAnim () const
 {
 	return mTexFilename;
 }
@@ -200,7 +200,7 @@ inline bool Effectable::IsAnimFramesPlayOnce () const
 	return mIsAnimFramesPlayOnce;
 }
 //----------------------------------------------------------------------------
-inline const std::string Effectable::GetMaskTex () const
+inline const std::string &Effectable::GetMaskTex () const
 {
 	return mTexMaskFilename;
 }

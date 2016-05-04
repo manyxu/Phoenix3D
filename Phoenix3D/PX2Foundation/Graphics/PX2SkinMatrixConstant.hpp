@@ -28,7 +28,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(SkinMatrixConstant);
-	typedef Pointer0<SkinMatrixConstant> SkinMatrixConstantPtr;
+	typedef PointerRef<SkinMatrixConstant> SkinMatrixConstantPtr;
 
 }
 

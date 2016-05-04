@@ -33,7 +33,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(VertexColor4Material);
-	typedef Pointer0<VertexColor4Material> VertexColor4MaterialPtr;
+	typedef PointerRef<VertexColor4Material> VertexColor4MaterialPtr;
 
 }
 

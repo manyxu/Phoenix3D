@@ -67,11 +67,6 @@ void LightNode::UpdateWorldData(double applicationTime, double elapsedTime)
 	}
 }
 //----------------------------------------------------------------------------
-void LightNode::SetParent(Movable* parent)
-{
-	Node::SetParent(parent);
-}
-//----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
 // Name support.

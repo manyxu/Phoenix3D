@@ -82,7 +82,7 @@ namespace PX2
 	};
 
 #include "PX2Animation.inl"
-	typedef Pointer0<Animation> AnimationPtr;
+	typedef PointerRef<Animation> AnimationPtr;
 
 }
 

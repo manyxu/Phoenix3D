@@ -6,11 +6,12 @@
 #include "PX2GraphicsPre.hpp"
 #include "PX2Movable.hpp"
 #include "PX2Culler.hpp"
+#include "PX2Function.hpp"
 
 namespace PX2
 {
 
-	typedef void(*TravelExecuteFun) (Movable *mov, Any *data);
+	typedef void(*TravelExecuteFun) (Movable *mov, Any *data, bool &goOn);
 
 	/// 场景节点类
 	/**
@@ -22,6 +23,7 @@ namespace PX2
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;
 		PX2_DECLARE_PROPERTY;
+		PX2_DECLARE_FUNCTION;
 		PX2_DECLARE_STREAM(Node);
 
 	public:
@@ -45,10 +47,12 @@ namespace PX2
 		virtual void DetachAllChildren ();
 		virtual MovablePtr SetChild (int i, Movable* child);
 		virtual MovablePtr GetChild (int i);
+		std::vector<MovablePtr> &GetChildren();
 		virtual MovablePtr GetChildByName (const std::string &name);
 		bool IsHasChild(const Movable *child) const;
 
 		virtual void Enable(bool enable);
+		virtual void SetActivate(bool act);
 
 		virtual void SetAlpha (float alpha);
 		virtual void SetColor (const Float3 &color);
@@ -66,13 +70,11 @@ namespace PX2
 		void SetAnchorID (int anchorID);
 		int GetAnchorID () const;
 
-		virtual void RegistToScriptSystemAll();
-
 		static void TravelExecute(Movable *mov, TravelExecuteFun fun, Any *data=0);
 
 	protected:
-		virtual void OnChildAdded(Movable *child);
-		virtual void OnChildRemoved(Movable *child);
+		virtual void OnChildAttached(Movable *child);
+		virtual void OnChildDetach(Movable *child);
 
 		// 几何图形更新
 		virtual void UpdateWorldData (double applicationTime, double elapsedTime);
@@ -93,7 +95,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Node);
-	typedef Pointer0<Node> NodePtr;
+	typedef PointerRef<Node> NodePtr;
 #include "PX2Node.inl"
 
 }

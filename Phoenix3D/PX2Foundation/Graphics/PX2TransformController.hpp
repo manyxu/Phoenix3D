@@ -40,7 +40,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(TransformController);
-	typedef Pointer0<TransformController> TransformControllerPtr;
+	typedef PointerRef<TransformController> TransformControllerPtr;
 #include "PX2TransformController.inl"
 
 }

@@ -22,24 +22,24 @@ namespace PX2
 	PX2_EVENT(N_CloseScene)
 	PX2_EVENT(N_Exit)
 	PX2_EVENT(N_Window)
+	PX2_EVENT(N_Simu)
+	PX2_EVENT(N_ObjectNameChanged)
+	PX2_EVENT(N_PlayTip)
 
-	PX2_EVENT(RefreshRes)
+	PX2_EVENT(SelectResDir)
+	PX2_EVENT(SelectRes)
+	PX2_EVENT(SetPreViewObject)
 
 	PX2_EVENT(ObjectTransformChanged)
 	PX2_EVENT(ObjectSizeChanged)
 
-	PX2_EVENT(SetTheme)
-
 	PX2_EVENT(SetEditType)
 	PX2_EVENT(SetEditAxisMode)
 	PX2_EVENT(SetEditMode)
-	PX2_EVENT(SceneNodeDrag) // data==1 drag; data==0 no drag
+
+	PX2_EVENT(SetTheme)
 	
 	PX2_EVENT(SetPickPos)
-
-	PX2_EVENT(SelectRes)
-
-	PX2_EVENT(SetPreViewObject)
 
 	PX2_EVENT(FindActorInProjectTree)
 	PX2_EVENT(FindActorInResTree)

@@ -57,7 +57,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Controlledable);
-	typedef Pointer0<Controlledable> ControlledablePtr;
+	typedef PointerRef<Controlledable> ControlledablePtr;
 #include "PX2Controlledable.inl"
 
 }

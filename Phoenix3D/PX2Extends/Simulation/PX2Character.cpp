@@ -19,17 +19,10 @@ PX2_IMPLEMENT_DEFAULT_NAMES(Actor, Character);
 Character::Character() :
 mAnimType(AT_SKELETON),
 mDefaultAnimID(0),
-mBaseHPCurLevel(0.0f),
-mIsDieDoDelete(true),
-mBaseAPCurLevel(0.0f),
-mIsDead(false),
 mIsMovableAutoWorldBound(true),
 mMovableAutoWorldBoundRadius(2.0f)
 {
 	SetName("Chara");
-
-	PX2_INIT_PM_F(HP);
-	PX2_INIT_PM_F(AP);
 
 	VertexFormat *vf = PX2_GR.GetVertexFormat(GraphicsRoot::VFT_PC);
 	StandardMesh stdMesh(vf);
@@ -340,10 +333,6 @@ void Character::OnPropertyChanged(const PropertyObject &obj)
 Character::Character(LoadConstructor value) :
 Actor(value),
 mDefaultAnimID(0),
-mBaseHPCurLevel(0.0f),
-mIsDieDoDelete(true),
-mBaseAPCurLevel(0.0f),
-mIsDead(false),
 mIsMovableAutoWorldBound(true),
 mMovableAutoWorldBoundRadius(2.0f)
 {

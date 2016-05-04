@@ -30,7 +30,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(IndexBuffer);
-	typedef Pointer0<IndexBuffer> IndexBufferPtr;
+	typedef PointerRef<IndexBuffer> IndexBufferPtr;
 #include "PX2IndexBuffer.inl"
 
 }

@@ -365,8 +365,8 @@ namespace PX2
 		void Draw (const VisibleSet& visibleSet, GlobalMaterial* globalMaterial = 0);
 
 		// 绘制单个对象的入口
-		void Draw (const Renderable* renderable);
-		void Draw (const Renderable* renderable, const MaterialInstance* instance);
+		void Draw (Renderable* renderable);
+		void Draw (Renderable* renderable, const MaterialInstance* instance);
 
 	private:
 		static Mutex &GetMutex ();

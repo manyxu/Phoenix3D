@@ -18,15 +18,20 @@ mIsAutoPlay(false)
 //----------------------------------------------------------------------------
 Controlledable::~Controlledable ()
 {
+	if ("ScriptActor" == GetName())
+	{
+		int a = 0;
+	}
+
 	// we do not use it
-	//for (int i = 0; i < (int)mControllers.size(); i++)
-	//{
-	//	if (mControllers[i])
-	//	{
-	//		mControllers[i]->SetControlledable(0);
-	//		mControllers[i] = 0;
-	//	}
-	//}
+	for (int i = 0; i < (int)mControllers.size(); i++)
+	{
+		if (mControllers[i])
+		{
+			//mControllers[i]->SetControlledable(0);
+			mControllers[i] = 0;
+		}
+	}
 }
 //----------------------------------------------------------------------------
 void Controlledable::ResetPlay ()

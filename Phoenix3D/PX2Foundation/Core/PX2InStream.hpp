@@ -76,13 +76,13 @@ public_internal:
 		template <typename T> bool ReadPointerVR (int numElements, T**& objects);
 		template <typename T> bool ReadPointerRR (int& numElements, T**& objects);
 
-		template <typename T> bool ReadPointer (Pointer0<T>& object);
+		template <typename T> bool ReadPointer (PointerRef<T>& object);
 		template <typename T> bool ReadPointerVV (int numElements,
-			Pointer0<T>* objects);
+			PointerRef<T>* objects);
 		template <typename T> bool ReadPointerVR (int numElements,
-			Pointer0<T>*& objects);
+			PointerRef<T>*& objects);
 		template <typename T> bool ReadPointerRR (int& numElements,
-			Pointer0<T>*& objects);
+			PointerRef<T>*& objects);
 
 		// 支持扩展类型的读取。这些扩展类型必须在扩展类型的组件中专门写，在
 		// TDCore中不会被实现。
@@ -96,9 +96,9 @@ public_internal:
 		void ReadUniqueID (Object* object);
 		template <typename T> void ResolveLink (T*& object);
 		template <typename T> void ResolveLink (int numElements, T** object);
-		template <typename T> void ResolveLink (Pointer0<T>& object);
+		template <typename T> void ResolveLink (PointerRef<T>& object);
 		template <typename T> void ResolveLink (int numElements,
-			Pointer0<T>* objects);
+			PointerRef<T>* objects);
 
 	private:
 		typedef std::map<uint64_t, Object*> LinkMap; //< uint64_t记录在mOrdered中的顺序号，Object*记录当前对象指针

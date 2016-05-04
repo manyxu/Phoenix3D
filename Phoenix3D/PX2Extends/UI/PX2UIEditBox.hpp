@@ -5,7 +5,7 @@
 
 #include "PX2UIFrame.hpp"
 #include "PX2UIInputText.hpp"
-#include "PX2UIPicBox.hpp"
+#include "PX2UIFPicBox.hpp"
 
 namespace PX2
 {
@@ -26,42 +26,46 @@ namespace PX2
 		void SetPassword(bool isPassword);
 		bool IsPassword() const;
 
-		void SetBackPicBox(UIPicBox *picBox);
-		UIPicBox *GetBackPicBox() const;
-
-		void SetFadePicBox(UIPicBox *picBox);
-		UIPicBox *GetFadePicBox() const;
+		UIFPicBox *GetBackPicBox() const;
 
 		void SetText(const std::string &text);
 		const std::string &GetText() const;
 		const std::string &GetRealText() const;
+		UIInputText *GetInputText();
 
 		void SetFixedWidth(float fixedWidth);
 		float GetFixedWidth() const;
 
+		virtual void OnPvoitChanged();
 		virtual void OnSizeChanged();
+		virtual void UpdateLeftBottomCornerOffset(Movable *parent);
 
 		virtual void OnAttachWithIME();
 		virtual void OnDetachWithIME();
 		virtual void OnTextChanged();
 		virtual void OnEnter(); // »Ø³µ
 
-	public_internal:
-		virtual void OnChildPicked(int info, Movable *child);
-		virtual void OnNotPicked(int pickInfo);
+	protected:
+		virtual void OnUIPicked(const UIInputData &data);
+		virtual void OnUINotPicked(const UIInputData &data);
+		void AttachIME();
+		void DetachIME();
+		void _AdjustFadePicBoxPos();
 
 	protected:
 		UIInputTextPtr mInputText;
-		UIPicBoxPtr mBackPicBox;
-		UIPicBoxPtr mFadePicBox;
+		UIFPicBoxPtr mBackPicBox;
+		UIFPicBoxPtr mFadePicBox;
 		InterpCurveAlphaControllerPtr mFadeCtrl;
 
-		float mFadePicBoxStartX;
+		float mFadePicBoxSideWidth;
 		float mFixedWidth;
+
+		bool mIsAttachedIME;
 	};
 
 	PX2_REGISTER_STREAM(UIEditBox);
-	typedef Pointer0<UIEditBox> UIEditBoxPtr;
+	typedef PointerRef<UIEditBox> UIEditBoxPtr;
 #include "PX2UIEditBox.inl"
 
 }

@@ -28,7 +28,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(UIAuiFrame);
-	typedef Pointer0<UIAuiFrame> UIAuiFramePtr;
+	typedef PointerRef<UIAuiFrame> UIAuiFramePtr;
 
 }
 

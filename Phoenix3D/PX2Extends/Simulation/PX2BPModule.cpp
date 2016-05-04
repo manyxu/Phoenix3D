@@ -13,70 +13,90 @@ PX2_IMPLEMENT_DEFAULT_NAMES(UIFrame, BPModule);
 //----------------------------------------------------------------------------
 BPModule::BPModule(ModuleType type) :
 mModuleType(type),
-mIsEnable(false),
 mOwnObjectParam(0),
 mIsCompiled(false),
 mIsCompilingAsParam_DoNotNeedCall(false)
 {
-	mSize = Sizef(125.0f, 50.0f);
-	mItemHeight = 16.0f;
-	mInOutButSize = 12.0f;
+	EnableAnchorLayout(false);
+	SetPivot(0.0f, 1.0f);
 
-	mBackPicBox = new0 UIPicBox();
-	AttachChild(mBackPicBox);
-	mBackPicBox->SetPivot(0.0f, 1.0f);
-	mBackPicBox->SetPicBoxType(UIPicBox::PBT_NINE);
-	mBackPicBox->SetTexCornerSize(20.0f, 20.0f);
-	mBackPicBox->SetTexture("Data/engine/white.png");
-	mBackPicBox->SetBrightness(1.4f);
+	mItemHeight = 16.0f;
+	mInOutStartPos = -mItemHeight*2.5f;
 
 	mActInBut = new0 BPParam(true, true);
 	AttachChild(mActInBut);
 	mActInBut->SetName("");
 	mActInBut->SetModule(this);
 	mActInBut->LocalTransform.SetTranslateY(-1.0f);
+	mActInBut->SetAnchorHor(0.0f, 0.0f);
+	mActInBut->SetAnchorVer(1.0f, 1.0f);
+	mActInBut->SetPivot(0.0f, 0.5f);
+	mActInBut->SetAnchorParamHor(0.0f, 0.0f);
+	mActInBut->SetAnchorParamVer(-mItemHeight / 2.0f, 0.0f);
+	mActInBut->GetButton()->SetAnchorParamVer(2.0f, 0.0f);
 
 	mActOutBut = new0 BPParam(false, true);
 	AttachChild(mActOutBut);
 	mActOutBut->SetName("");
 	mActOutBut->SetModule(this);
 	mActOutBut->LocalTransform.SetTranslateY(-1.0f);
+	mActOutBut->SetAnchorHor(1.0f, 1.0f);
+	mActOutBut->SetAnchorVer(1.0f, 1.0f);
+	mActOutBut->SetPivot(1.0f, 0.5f);
+	mActOutBut->SetAnchorParamHor(0.0f, 0.0f);
+	mActOutBut->SetAnchorParamVer(-mItemHeight/2.0f, 0.0f);
+	mActOutBut->GetButton()->SetAnchorParamVer(2.0f, 0.0f);
 
-	mClassText = new0 UIText();
+	mClassText = new0 UIFText();
 	AttachChild(mClassText);
-	mClassText->SetFontScale(0.4f);
+	mClassText->LocalTransform.SetTranslateY(-2.0f);
+	mClassText->GetText()->SetFontScale(0.4f);
 	mClassText->SetColor(Float3::GREEN);
-	mClassText->SetRectUseage(UIText::RU_ALIGNS);
-	mClassText->SetAligns(TEXTALIGN_HCENTER | TEXTALIGN_VCENTER);
-	mClassText->SetRect(Rectf(0.0f, 0.0f, mSize.Width, mItemHeight));
+	mClassText->GetText()->SetAligns(TEXTALIGN_HCENTER | TEXTALIGN_VCENTER);
+	mClassText->SetAnchorHor(0.0f, 1.0f);
+	mClassText->SetAnchorVer(1.0f, 1.0f);
+	mClassText->SetAnchorParamVer(-mItemHeight*1.5f, 0.0f);
+	mClassText->SetSize(0.0f, mItemHeight);
+	mClassText->SetDoPick(false);
+	UIPicBox *uiPicBox = mClassText->CreateAddBackgroundPicBox();
+	mClassText->GetText()->LocalTransform.SetTranslateY(-1.0f);
 
-	mNameText = new0 UIText();
+	mNameText = new0 UIFText();
 	AttachChild(mNameText);
-	mNameText->SetFontScale(0.5f);
+	mNameText->LocalTransform.SetTranslateY(-1.0f);
+	mNameText->GetText()->SetFontScale(0.5f);
 	mNameText->SetColor(Float3::WHITE);
-	mNameText->SetRectUseage(UIText::RU_ALIGNS);
-	mNameText->SetAligns(TEXTALIGN_HCENTER | TEXTALIGN_VCENTER);
-	mNameText->SetRect(Rectf(0.0f, 0.0f, mSize.Width, mItemHeight));
+	mNameText->SetAnchorHor(0.0f, 1.0f);
+	mNameText->SetAnchorVer(1.0f, 1.0f);
+	mNameText->SetAnchorParamVer(-mItemHeight*0.5f, 0.0f);
+	mNameText->SetSize(0.0f, mItemHeight);
+	mNameText->SetDoPick(false);
 
+	mSize = Sizef(125.0f, 50.0f);
 	SetSize(mSize);
+
+	UIPicBox *picBox = CreateAddBackgroundPicBox();
 }
 //----------------------------------------------------------------------------
 BPModule::~BPModule()
 {
 }
 //----------------------------------------------------------------------------
-void BPModule::Enable(bool enable)
-{
-	mIsEnable = enable;
-}
-//----------------------------------------------------------------------------
-void BPModule::RegistFunObj(const Object::FunObject &funObj)
+void BPModule::RegistFunObj(const FunObject &funObj)
 {
 	SetName(funObj.FunName);
 
+	float fntMaxWidth0 = 0.0f;
+	float fntMaxWidth1 = 0.0f;
+
+	float fntParamInWidth = 0.0f;
+	float fntParamHeight = 0.0f;
+
+	Font *defFont = PX2_FM.GetDefaultFont();
+
 	for (int i = 0; i < funObj.GetNumInParams(); i++)
 	{
-		const Object::FunParam &funParam = funObj.GetInParam(i);
+		const FunParam &funParam = funObj.GetInParam(i);
 
 		std::map<std::string, BPParam*>::iterator it = mInputParams.find(funParam.Name);
 		if (it == mInputParams.end())
@@ -85,23 +105,41 @@ void BPModule::RegistFunObj(const Object::FunObject &funObj)
 			param->SetName(funParam.Name);
 			param->SetDataType(funParam.Type);
 			param->SetValue(funParam.Value);
+			param->SetPivot(0.0f, 0.5f);
+			param->SetAnchorHor(0.0f, 0.0f);
+			param->SetAnchorVer(1.0f, 1.0f);
+			param->SetAnchorParamVer(mInOutStartPos - i*mItemHeight, 0.0f);
 
 			mInputParams[funParam.Name] = param;
 			mInputParamsVec.push_back(param);
 
 			AttachChild(param);
+			param->LocalTransform.SetTranslateY(-1.0f);
 			param->SetModule(this);
 
-			if (Object::FPT_POINTER_THIS == funParam.Type)
+			if (FPT_POINTER_THIS == funParam.Type || FPT_POINTER_THIS_STATIC == funParam.Type)
 			{
 				mOwnObjectParam = param;
 			}
+
+			if (FPT_POINTER_THIS_STATIC == funParam.Type)
+			{
+				mOwnObjectParam->Enable(false);
+			}
+
+			float fontScale = param->GetNameText()->GetText()->GetFontScale();
+			defFont->GetTextExtent(param->GetName().c_str(), fntParamInWidth, fntParamHeight, 
+				false, fontScale);
+			if (fntMaxWidth0 < fntParamInWidth)
+				fntMaxWidth0 = fntParamInWidth;
+
+			param->SetSize(fntMaxWidth0, mItemHeight);
 		}
 	}
 
 	for (int i = 0; i < funObj.GetNumOutParams(); i++)
 	{
-		const Object::FunParam &funParam = funObj.GetOutParam(i);
+		const FunParam &funParam = funObj.GetOutParam(i);
 
 		std::map<std::string, BPParam*>::iterator it = mOutputParams.find(funParam.Name);
 		if (it == mOutputParams.end())
@@ -116,27 +154,53 @@ void BPModule::RegistFunObj(const Object::FunObject &funObj)
 			param->SetName(funParam.Name);
 			param->SetDataType(funParam.Type);
 			param->SetValue(funParam.Value);
+			param->SetPivot(1.0f, 0.5f);
+			param->SetAnchorHor(1.0f, 1.0f);
+			param->SetAnchorVer(1.0f, 1.0f);
+			param->SetAnchorParamVer(mInOutStartPos - i*mItemHeight, 0.0f);
 
 			mOutputParams[funParam.Name] = param;
 			mOutputParamsVec.push_back(param);
 
 			AttachChild(param);
+			param->LocalTransform.SetTranslateY(-1.0f);
 			param->SetModule(this);
 
-			if (Object::FPT_NONE == funParam.Type)
+			if (FPT_NONE == funParam.Type)
 			{
 				param->Show(false);
 			}
+
+			float fontScale = param->GetNameText()->GetText()->GetFontScale();
+			defFont->GetTextExtent(param->GetName().c_str(), fntParamInWidth, fntParamHeight, 
+				false, fontScale);
+			if (fntMaxWidth1 < fntParamInWidth)
+				fntMaxWidth1 = fntParamInWidth;
+
+			param->SetSize(fntMaxWidth1, mItemHeight);
 		}
 	}
 
-	mNameText->SetText(funObj.FunName);
-	mClassText->SetText(funObj.ClassName);
+	mNameText->GetText()->SetText(funObj.FunName);
+	mClassText->GetText()->SetText(funObj.ClassName);
 
 	float heightIn = -(mInOutStartPos - mItemHeight*0.5f - mItemHeight * (float)mInputParamsVec.size());
 	float heightOut = -(mInOutStartPos - mItemHeight*0.5f - mItemHeight * (float)mOutputParamsVec.size());
 
+	float widthLast = fntMaxWidth0 + fntMaxWidth1;
+	mSize.Width = Mathf::Max(mSize.Width, widthLast);
 	mSize.Height = Mathf::Max(heightIn, heightOut);
+
+	float fntNameWidth = 0.0f;
+	float fntNameHeight = 0.0f;
+	float fontScale = mNameText->GetText()->GetFontScale();
+	defFont->GetTextExtent(GetName().c_str(), fntNameWidth, fntNameHeight, 
+		false, fontScale);
+	fntNameWidth += 100.0f;
+
+	mSize.Width = Mathf::Max(mSize.Width, fntNameWidth);
+
+	SetSize(mSize);
 
 	_UpdateModuleColorPos();
 }
@@ -213,7 +277,7 @@ void BPModule::Compile(std::string &script, int numTable,
 		{
 			BPModule *linktoModule = linkToParams[i]->GetModule();
 			script += outputScriptVarString +
-				":AddCall(" + "\"" + linktoModule->GetName() + "\"" + ")\n";
+				":AddCall(" + "\"" + linktoModule->GetFunctionName() + "\"" + ")\n";
 		}
 	}
 	else if (MT_FUNCTION_START == mModuleType)
@@ -236,7 +300,7 @@ void BPModule::Compile(std::string &script, int numTable,
 		else
 		{ // 函数调用
 			for (int i = 0; i < numTable; i++) script += "	";
-			script += GetName() + " ()\n";
+			script += GetFunctionName() + " ()\n";
 		}
 	}
 	else if (MT_PARAM == mModuleType)
@@ -314,7 +378,7 @@ void BPModule::Compile(std::string &script, int numTable,
 				linktoModule->Compile(script, numTable, false);
 			}
 		}
-		else if ("Compare" == moduleName)
+		else if ("Compare" == moduleName || "CompareString"==moduleName)
 		{
 			script += "\n";
 			for (int i = 0; i < numTable; i++) script += "	";
@@ -350,7 +414,7 @@ void BPModule::Compile(std::string &script, int numTable,
 			script += "end\n";
 			script += "\n";
 		}
-		else if (moduleName.find("Switch") != std::string::npos)
+		else if (moduleName.find("Switch4") != std::string::npos)
 		{
 			std::string numStr = moduleName.substr(std::string("Switch").size(),
 				(int)moduleName.size() - 1);
@@ -401,8 +465,19 @@ void BPModule::FunStartOnPreCompile(std::string &script)
 {
 	if (MT_FUNCTION_START == mModuleType)
 	{
-		script += "\nfunction " + GetName() + " ()\n";
+		script += "\nfunction " + GetFunctionName() + " ()\n";
 	}
+}
+//----------------------------------------------------------------------------
+std::string BPModule::GetFunctionName()
+{
+	BPFile *bpFile = DynamicCast<BPFile>(GetParent());
+	if (bpFile)
+	{
+		return bpFile->GetName() + "_" + GetName();
+	}
+
+	return GetName();
 }
 //----------------------------------------------------------------------------
 void BPModule::FunEndOnAfterCompile(std::string &script)
@@ -457,19 +532,32 @@ void BPModule::_ProcessOperations(std::string &script)
 	{
 		// owner
 		std::string callObjectStr;
-		int numLinkMeParams = mOwnObjectParam->GetNumLinkMeParams();
-		if (numLinkMeParams > 0)
-		{ // 一般说来，这里只会有一个
-			const BPParam *linkMeParam = mOwnObjectParam->GetLinkMeParam(0);
-			callObjectStr = linkMeParam->GetOutputScriptVarString();
-		}
-		else
+		if (mOwnObjectParam)
 		{
-			callObjectStr = mOwnObjectParam->GetValueScriptStr();
-		}
+			FunParamType fpt = mOwnObjectParam->GetDataType();
+			if (fpt == FPT_POINTER_THIS)
+			{
+				int numLinkMeParams = mOwnObjectParam->GetNumLinkMeParams();
+				if (numLinkMeParams > 0)
+				{ // 一般说来，这里只会有一个
+					const BPParam *linkMeParam = mOwnObjectParam->GetLinkMeParam(0);
+					callObjectStr = linkMeParam->GetOutputScriptVarString();
+				}
+				else
+				{
+					callObjectStr = mOwnObjectParam->GetValueScriptStr();
+				}
 
-		// params
-		script += callObjectStr + ":" + GetName();
+				// params
+				script += callObjectStr + ":" + GetName();
+			}
+			else
+			{
+				callObjectStr = mClassText->GetText()->GetText();
+
+				script += callObjectStr + ":" + GetName();
+			}
+		}
 	}
 	else if (MT_FUNCTION_GENERAL == mModuleType)
 	{
@@ -567,33 +655,46 @@ void BPModule::_ProcessInputParams(std::string &script,
 //----------------------------------------------------------------------------
 void BPModule::_UpdateModuleColorPos()
 {
-	float fntWidth = 0.0f;
-	float fntHeight = 0.0f;
-	PX2_FM.GetDefaultFont()->GetTextExtent(GetName().c_str(), fntWidth, fntHeight);
-	fntWidth *= mNameText->GetFontScale();
-	if (mSize.Width <= fntWidth)
-		mSize.Width = fntWidth + 30;
-	SetSize(mSize);
+	if (mBackgroundPicBox)
+		mBackgroundPicBox->SetColor(Float3::MakeColor(230, 230, 230));
+
+	UIPicBox *classPB = mClassText->GetBackgroundPicBox();
 
 	if (MT_EVENT == mModuleType)
 	{
-		mBackPicBox->SetColor(Float3::RED);
+		if (mBackgroundPicBox)
+			mBackgroundPicBox->SetColor(Float3::MakeColor(255, 174, 201));
+
+		mClassText->Show(false);
 	}
 	else if (MT_FUNCTION_START == mModuleType)
 	{
-		mBackPicBox->SetColor(Float3::BLUE);
+		if (mBackgroundPicBox)
+			mBackgroundPicBox->SetColor(Float3::MakeColor(153, 217, 234));
+
+		mClassText->Show(false);
+	}
+	else if (MT_FUNCTION_OBJECT == mModuleType)
+	{
+		if (mBackgroundPicBox)
+			mBackgroundPicBox->SetColor(Float3::MakeColor(230, 230, 230));
+
+		mClassText->Show(true);
 	}
 	else if (MT_OPTION == mModuleType)
 	{
-		mBackPicBox->SetColor(Float3::GREEN);
+		if (mBackgroundPicBox)
+			mBackgroundPicBox->SetColor(Float3::MakeColor(206, 239, 107));
+
+		mClassText->Show(false);
 	}
 	else if (MT_PARAM == mModuleType)
 	{
-		mBackPicBox->SetColor(Float3::YELLOW);
-	}
+		if (mBackgroundPicBox)
+			mBackgroundPicBox->SetColor(Float3::MakeColor(239, 228, 176));
 
-	mClassText->SetRect(Rectf(0.0f, 0.0f, mSize.Width, mItemHeight));
-	mNameText->SetRect(Rectf(0.0f, 0.0f, mSize.Width, mItemHeight));
+		mClassText->Show(false);
+	}
 
 	if (MT_OPTION == mModuleType)
 	{
@@ -645,47 +746,6 @@ void BPModule::OnDetach()
 	}
 }
 //----------------------------------------------------------------------------
-void BPModule::SetSize(const Sizef &size)
-{
-	mSize = size;
-
-	mBackPicBox->SetSize(mSize);
-	mBackPicBox->LocalTransform.SetTranslateY(0.5f);
-
-	mNameText->LocalTransform.SetTranslateZ(-mItemHeight);
-	mClassText->LocalTransform.SetTranslateZ(-mItemHeight*2.0f);
-
-	mActInBut->LocalTransform.SetTranslate(
-		APoint(mInOutButSize / 2.0f, 0.0f, -mInOutButSize*0.5f));
-	mActOutBut->LocalTransform.SetTranslate(
-		APoint(mSize.Width - mInOutButSize / 2.0f, 0.0f, -mInOutButSize*0.5f));
-
-	mInOutStartPos = -mItemHeight*2.0f;
-
-	_AdjustInOutPos();
-}
-//----------------------------------------------------------------------------
-void BPModule::_AdjustInOutPos()
-{
-	for (int i = 0; i < (int)mInputParamsVec.size(); i++)
-	{
-		BPParam *param = mInputParamsVec[i];
-
-		float zPos = mInOutStartPos - mItemHeight*0.5f - mItemHeight * (float)(i);
-		param->LocalTransform.SetTranslate(
-			APoint(-mInOutButSize / 2.0f, 0.0f, zPos));
-	}
-
-	for (int i = 0; i < (int)mOutputParamsVec.size(); i++)
-	{
-		BPParam *param = mOutputParamsVec[i];
-
-		float zPos = mInOutStartPos - mItemHeight*0.5f - mItemHeight * (float)(i);
-		param->LocalTransform.SetTranslate(
-			APoint(mSize.Width + mInOutButSize / 2.0f, 0.0f, zPos));
-	}
-}
-//----------------------------------------------------------------------------
 void BPModule::UpdateCurve()
 {
 	int outputSize = (int)mOutputParamsVec.size();
@@ -716,7 +776,7 @@ void BPModule::RegistProperties()
 		SetNamePropChangeable(false);
 	}
 
-	Movable::RegistProperties();
+	Object::RegistProperties();
 
 	AddPropertyClass("BPModule");
 
@@ -725,35 +785,31 @@ void BPModule::RegistProperties()
 	moduleTypes.push_back("MT_PROCESS");
 	AddPropertyEnum("ModuleType", (int)GetModuleType(), moduleTypes, false);
 	AddProperty("IsEnable", Object::PT_BOOL, IsEnable());
-	AddProperty("NumInputs", Object::PT_INT, false);
-	AddProperty("NumOutputs", Object::PT_INT, false);
+	AddProperty("NumInputs", Object::PT_INT, GetNumInputs(), false);
+	AddProperty("NumOutputs", Object::PT_INT, GetNumOutputs(), false);
 }
 //----------------------------------------------------------------------------
 void BPModule::OnPropertyChanged(const PropertyObject &obj)
 {
-	Movable::OnPropertyChanged(obj);
+	Object::OnPropertyChanged(obj);
 
 	if ("Name" == obj.Name)
 	{
 		std::string nameStr = PX2_ANY_AS(obj.Data, std::string);
-		mNameText->SetText(nameStr);
-	}
-	else if ("IsEnable" == obj.Name)
-	{
-		Enable(PX2_ANY_AS(obj.Data, bool));
+		mNameText->GetText()->SetText(nameStr);
 	}
 }
 //----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
-BPModule::BPModule(LoadConstructor value)
-:
+BPModule::BPModule(LoadConstructor value) :
 UIFrame(value),
-mIsEnable(false),
 mOwnObjectParam(0),
 mIsCompiled(false),
 mIsCompilingAsParam_DoNotNeedCall(false)
 {
+	mItemHeight = 16.0f;
+	mInOutStartPos = -mItemHeight*2.0f;
 }
 //----------------------------------------------------------------------------
 void BPModule::Load(InStream& source)
@@ -764,7 +820,6 @@ void BPModule::Load(InStream& source)
 	PX2_VERSION_LOAD(source);
 
 	source.ReadEnum(mModuleType);
-	source.ReadBool(mIsEnable);
 
 	int inputSize = 0;
 	source.Read(inputSize);
@@ -782,14 +837,10 @@ void BPModule::Load(InStream& source)
 		source.ReadPointer(mOutputParamsVec[i]);
 	}
 
-	source.ReadAggregate(mSize);
-	source.ReadPointer(mBackPicBox);
-
 	source.Read(mItemHeight);
 	source.ReadPointer(mClassText);
 	source.ReadPointer(mNameText);
 
-	source.Read(mInOutButSize);
 	source.ReadPointer(mActInBut);
 	source.ReadPointer(mActOutBut);
 	source.Read(mInOutStartPos);
@@ -818,9 +869,6 @@ void BPModule::Link(InStream& source)
 			source.ResolveLink(mOutputParamsVec[i]);
 		}
 	}
-
-	if (mBackPicBox)
-		source.ResolveLink(mBackPicBox);
 
 	if (mClassText)
 		source.ResolveLink(mClassText);
@@ -853,7 +901,8 @@ void BPModule::PostLink()
 
 			mInputParams[mInputParamsVec[i]->GetName()] = mInputParamsVec[i];
 
-			if (FPT_POINTER_THIS == mInputParamsVec[i]->GetDataType())
+			if (FPT_POINTER_THIS == mInputParamsVec[i]->GetDataType() ||
+				FPT_POINTER_THIS_STATIC == mInputParamsVec[i]->GetDataType())
 			{
 				mOwnObjectParam = mInputParamsVec[i];
 			}
@@ -903,9 +952,6 @@ bool BPModule::Register(OutStream& target) const
 			target.Register(mOutputParamsVec[i]);
 		}
 
-		if (mBackPicBox)
-			target.Register(mBackPicBox);
-
 		if (mClassText)
 			target.Register(mClassText);
 
@@ -931,7 +977,6 @@ void BPModule::Save(OutStream& target) const
 	PX2_VERSION_SAVE(target);
 
 	target.WriteEnum(mModuleType);
-	target.WriteBool(mIsEnable);
 
 	int inputSize = (int)mInputParamsVec.size();
 	target.Write(inputSize);
@@ -947,14 +992,10 @@ void BPModule::Save(OutStream& target) const
 		target.WritePointer(mOutputParamsVec[i]);
 	}
 
-	target.WriteAggregate(mSize);
-	target.WritePointer(mBackPicBox);
-
 	target.Write(mItemHeight);
 	target.WritePointer(mClassText);
 	target.WritePointer(mNameText);
 
-	target.Write(mInOutButSize);
 	target.WritePointer(mActInBut);
 	target.WritePointer(mActOutBut);
 	target.Write(mInOutStartPos);
@@ -968,7 +1009,6 @@ int BPModule::GetStreamingSize(Stream &stream) const
 	size += PX2_VERSION_SIZE(mVersion);
 
 	size += PX2_ENUMSIZE(mModuleType);
-	size += PX2_BOOLSIZE(mIsEnable);
 
 	int inputSize = (int)mInputParamsVec.size();
 	size += sizeof(inputSize);
@@ -980,14 +1020,10 @@ int BPModule::GetStreamingSize(Stream &stream) const
 	if (outputSize > 0)
 		size += outputSize * PX2_POINTERSIZE(mOutputParamsVec[0]);
 
-	size += sizeof(mSize);
-	size += PX2_POINTERSIZE(mBackPicBox);
-
 	size += sizeof(mItemHeight);
 	size += PX2_POINTERSIZE(mClassText);
 	size += PX2_POINTERSIZE(mNameText);
 
-	size += sizeof(mInOutButSize);
 	size += PX2_POINTERSIZE(mActInBut);
 	size += PX2_POINTERSIZE(mActOutBut);
 	size += sizeof(mInOutStartPos);

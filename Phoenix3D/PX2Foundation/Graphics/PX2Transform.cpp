@@ -1,6 +1,7 @@
 // PX2Transform.cpp
 
 #include "PX2Transform.hpp"
+#include "PX2FunObject.hpp"
 using namespace PX2;
 
 const Transform Transform::IDENTITY;
@@ -149,7 +150,7 @@ void Transform::SetUniformScale (float scale)
 	UpdateHMatrix();
 }
 //----------------------------------------------------------------------------
-void Transform::GetRotate(float &x, float &y, float &z)
+void Transform::GetRotate(float &x, float &y, float &z) const
 {
 	Matrix3f mat = GetRotate();
 	mat.ExtractEulerXYZ(x, y, z);
@@ -446,5 +447,28 @@ void Transform::Invert3x3 (const HMatrix& mat, HMatrix& invMat)
 	invMat[2][0] *= invDet;
 	invMat[2][1] *= invDet;
 	invMat[2][2] *= invDet;
+}
+//----------------------------------------------------------------------------
+FunObject *Transform::RegistClassFunctions()
+{
+	FunObject *funObj = FunObjectManager::GetSingleton().GetAddFunMap("Transform");
+
+	{
+		//FunObjectPtr funObj = new0 FunObject();
+		//funObj->FunName = "GetLocalTransform";
+		//funObj->AddInput("handler", FPT_POINTER_THIS, (Object*)0);
+		//funObj->AddOutput("in_trans", FPT_POINTER, (Object*)0);
+		//funObj->AddFunObject(funObj);
+	}
+
+	{
+		//FunObjectPtr funObj = new0 FunObject();
+		//funObj->FunName = "GetWorldTransform";
+		//funObj->AddInput("handler", FPT_POINTER_THIS, (Object*)0);
+		//funObj->AddOutput("in_trans", FPT_POINTER, (Object*)0);
+		//funObj->AddFunObject(funObj);
+	}
+
+	return funObj;
 }
 //----------------------------------------------------------------------------

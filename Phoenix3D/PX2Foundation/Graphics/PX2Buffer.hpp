@@ -86,7 +86,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Buffer);
-	typedef Pointer0<Buffer> BufferPtr;
+	typedef PointerRef<Buffer> BufferPtr;
 #include "PX2Buffer.inl"
 
 }

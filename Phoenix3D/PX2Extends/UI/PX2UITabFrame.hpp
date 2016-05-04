@@ -34,21 +34,50 @@ namespace PX2
 		void SetLayoutPos(LayoutPosType posType);
 		LayoutPosType GetLayoutPos() const;
 
+		void SetTabBarHeight(float height);
+		float GetTabBarHeight() const;
+
 		void SetTabWidth(float width);
 		float GetTabWidth() const;
 
 		void SetTabHeight(float height);
 		float GetTabHeight() const;
 
-		void AddTab(const std::string &name, UIFrame *tabContentFrame);
+		enum TabLayoutType
+		{
+			TLT_FIX,
+			TLT_SCALE,
+			TLT_MAX_TYPE
+		};
+		void SetTabLayoutType(TabLayoutType tlt);
+		TabLayoutType GetTabLayoutType() const;
+
+		virtual void OnSizeChanged();
+
+		void AddTab(const std::string &name, const std::string &title,
+			UIFrame *tabContentFrame);
 		bool IsHasTab(const std::string &name);
 		UIFrame *GetTab(const std::string &name);
 		void RemoveTab(const std::string &name);
+		void RemoveAllTabs();
+		int GetNumTabs();
 		void SetActiveTab(const std::string &name);
+		std::string GetActiveTab() const;
 		UIButton *GetTabButton(const std::string &name);
+		UIFrame *GetTitleBarFrame();
+		void OnSetActive();
+
+		void OnDragBegin();
+		
+		virtual void PreUIPick(const UIInputData &inputData, UICanvas *canvas);
+		virtual void OnUIPicked(const UIInputData &inputData);
+		virtual void OnUINotPicked(const UIInputData &inputData);
+
+	public_internal:
+		void _SetActiveTab(const std::string &name);
 
 	protected:
-		void TabCallback(UIFrame *frame, UICallType type);
+		void _TabButCallback(UIFrame *frame, UICallType type);
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
 		void _CalTabs();
 
@@ -56,9 +85,11 @@ namespace PX2
 		LayoutPosType mLayoutPosType;
 
 		bool mIsTabsNeedReCal;
+		TabLayoutType mTabLayoutType;
 
 		UIFramePtr mFrame_TitleBar;
 		std::vector<UIButtonPtr> mTabButs;
+		float mTabBarHeight;
 		float mTabWidth;
 		float mTabHeight;
 
@@ -67,6 +98,8 @@ namespace PX2
 
 		UIButtonPtr mActiveTabBut;
 		UIFramePtr mActiveTabFrame;
+		bool mIsDragingTab;
+		std::string mPressingTabName;
 
 public_internal:
 		void SetAuiBlockFrame(UIAuiBlockFrame *auiBlockFrame);
@@ -78,7 +111,7 @@ public_internal:
 
 #include "PX2UITabFrame.inl"
 	PX2_REGISTER_STREAM(UITabFrame);
-	typedef Pointer0<UITabFrame> UITabFramePtr;
+	typedef PointerRef<UITabFrame> UITabFramePtr;
 
 }
 

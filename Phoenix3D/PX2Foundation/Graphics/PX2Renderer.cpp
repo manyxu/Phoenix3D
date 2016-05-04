@@ -2,6 +2,7 @@
 
 #include "PX2Renderer.hpp"
 #include "PX2GlobalMaterial.hpp"
+#include "PX2Canvas.hpp"
 
 #ifdef PX2_USE_DX9
 #include "PX2Dx9IndexBuffer.hpp"
@@ -1976,8 +1977,8 @@ void Renderer::Draw (const VisibleSet& visibleSet, GlobalMaterial* globalMateria
 		const int numVisible = visibleSet.GetNumVisible();
 		for (int i = 0; i < numVisible; ++i)
 		{
-			const Renderable *renderable = 
-				(const Renderable*)visibleSet.GetVisible(i);
+			Renderable *renderable = visibleSet.GetVisible(
+				i);
 			const MaterialInstance *instance = renderable->GetMaterialInstance();
 
 			Draw(renderable, instance);
@@ -1989,51 +1990,60 @@ void Renderer::Draw (const VisibleSet& visibleSet, GlobalMaterial* globalMateria
 	}
 }
 //----------------------------------------------------------------------------
-void Renderer::Draw (const Renderable* renderable)
+void Renderer::Draw (Renderable* renderable)
 {
 	const MaterialInstance* instance = renderable->GetMaterialInstance();
 	Draw(renderable, instance);
 }
 //----------------------------------------------------------------------------
-void Renderer::Draw (const Renderable* renderable,
+void Renderer::Draw (Renderable* renderable,
 					 const MaterialInstance* instance)
 {
-	mCurRenderable = renderable;
-
-	SetColorMask(renderable->AllowGreen, renderable->AllowBlue,
-		renderable->AllowGreen, renderable->AllowAlpha);
-
-	const VertexFormat* vformat = renderable->GetVertexFormat();
-	const VertexBuffer* vbuffer = renderable->GetVertexBuffer();
-	const IndexBuffer* ibuffer = renderable->GetIndexBuffer();
-
-	Enable(vbuffer);
-	
-	Enable(vformat);
-
-	if (ibuffer) Enable(ibuffer);
-
-	const int numPasses = instance->GetNumPasses();
-	for (int i = 0; i < numPasses; ++i)
+	Renderable::PrimitiveType pt = renderable->GetPrimitiveType();
+	if (Renderable::PT_NONE == pt)
+	{ // Canvas Binder
+		Canvas *canvas = DynamicCast<Canvas>(renderable->GetParent());
+		if (canvas)
+		{
+			canvas->Draw(this);
+		}
+	}
+	else
 	{
-		// 激活Pass
-		Enable(renderable, instance, i);
+		mCurRenderable = renderable;
 
-		// 绘制几何图形
-		DrawPrimitive(renderable);
+		const VertexFormat* vformat = renderable->GetVertexFormat();
+		const VertexBuffer* vbuffer = renderable->GetVertexBuffer();
+		const IndexBuffer* ibuffer = renderable->GetIndexBuffer();
 
-//		// 取消激活Pass
-//		Disable(renderable, instance, i);
-//
-//#ifdef PX2_RESET_STATE_AFTER_DRAW
-//		// 恢复到缺省渲染状态
-//		SetAlphaProperty(mDefaultAlphaProperty);
-//		SetCullProperty(mDefaultCullProperty);
-//		SetDepthProperty(mDefaultDepthProperty);
-//		SetOffsetProperty(mDefaultOffsetProperty);
-//		SetStencilProperty(mDefaultStencilProperty);
-//		SetWireProperty(mDefaultWireProperty);
-//#endif
+		Enable(vbuffer);
+
+		Enable(vformat);
+
+		if (ibuffer) Enable(ibuffer);
+
+		const int numPasses = instance->GetNumPasses();
+		for (int i = 0; i < numPasses; ++i)
+		{
+			// 激活Pass
+			Enable(renderable, instance, i);
+
+			// 绘制几何图形
+			DrawPrimitive(renderable);
+
+			//		// 取消激活Pass
+			//		Disable(renderable, instance, i);
+			//
+			//#ifdef PX2_RESET_STATE_AFTER_DRAW
+			//		// 恢复到缺省渲染状态
+			//		SetAlphaProperty(mDefaultAlphaProperty);
+			//		SetCullProperty(mDefaultCullProperty);
+			//		SetDepthProperty(mDefaultDepthProperty);
+			//		SetOffsetProperty(mDefaultOffsetProperty);
+			//		SetStencilProperty(mDefaultStencilProperty);
+			//		SetWireProperty(mDefaultWireProperty);
+			//#endif
+		}
 	}
 }
 //----------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 // PX2RedoUndo.cpp
 
 #include "PX2RedoUndo.hpp"
-#include "PX2Selection.hpp"
+#include "PX2SelectionManager.hpp"
 #include "PX2Movable.hpp"
 #include "PX2SimulationEventType.hpp"
 #include "PX2Creater.hpp"
@@ -30,7 +30,7 @@ void URDo::OnReDo()
 //----------------------------------------------------------------------------
 MovableTransURDo::MovableTransURDo()
 {
-	int num = PX2_SELECTION.GetNumObjects();
+	int num = PX2_SELECTM_E->GetNumObjects();
 
 	mObjects.resize(num);
 	mPositions.resize(num);
@@ -45,7 +45,7 @@ MovableTransURDo::MovableTransURDo()
 
 	for (int i = 0; i < num; i++)
 	{
-		Object *obj = PX2_SELECTION.GetObjectAt(i);
+		Object *obj = PX2_SELECTM_E->GetObjectAt(i);
 		Movable *mov = DynamicCast<Movable>(obj);
 		if (mov)
 		{

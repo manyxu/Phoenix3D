@@ -33,7 +33,7 @@ namespace PX2
 
 #include "PX2BillboardController.inl"
 	PX2_REGISTER_STREAM(BillboardController);
-	typedef Pointer0<BillboardController> BillboardControllerPtr;
+	typedef PointerRef<BillboardController> BillboardControllerPtr;
 
 }
 

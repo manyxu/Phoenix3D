@@ -67,13 +67,13 @@ public_internal:
 		template <typename T> bool WritePointerN (int numElements,
 			T* const* objects);
 
-		template <typename T> bool WritePointer (const Pointer0<T>& object);
+		template <typename T> bool WritePointer (const PointerRef<T>& object);
 
 		template <typename T> bool WritePointerW (int numElements,
-			Pointer0<T> const* objects);
+			PointerRef<T> const* objects);
 
 		template <typename T> bool WritePointerN (int numElements,
-			Pointer0<T> const* objects);
+			PointerRef<T> const* objects);
 
 		// 支持扩展类型的写入。这些扩展类型必须在扩展类型的组件中专门写，在
 		// TDCore中不会被实现。
@@ -90,9 +90,9 @@ public_internal:
 
 		template <typename T> void Register(const T* object);
 		template <typename T> void Register(int numElements, T* const* objects);
-		template <typename T> void Register(const Pointer0<T>& object);
+		template <typename T> void Register(const PointerRef<T>& object);
 		template <typename T> void Register(int numElements,
-			Pointer0<T> const* objects);
+			PointerRef<T> const* objects);
 
 	private:
 		typedef std::map<const Object*, unsigned int> RegisterMap;

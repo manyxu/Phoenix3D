@@ -22,7 +22,7 @@ FontManager::~FontManager()
 bool FontManager::Initlize ()
 {
 	mFonts.clear();
-	mDefaultFont = CreateTypeFont(24, 24, "Data/engine/arial.ttf", CCT_UTF8,
+	mDefaultFont = CreateTypeFont(16, 16, "Data/engine/arial.ttf", CCT_UTF8,
 		FES_NORMAL);
 
 	return true;
@@ -134,7 +134,7 @@ void FontManager::RenderText (TriMesh *mesh, Font *font, const char *text,
 		shadowBorderSize, style, doTransfer, scale, depth);
 }
 //----------------------------------------------------------------------------
-void FontManager::RenderText (TriMesh *mesh, Font *font, const char *text, 
+void FontManager::RenderTextRect(TriMesh *mesh, Font *font, const char *text,
 	unsigned int style,	unsigned int align, Rectf &rect, const Float2 &space, 
 	float offX, float offY,
 	const Float4 &color, const Float4 &borderShadowColor,
@@ -144,6 +144,11 @@ void FontManager::RenderText (TriMesh *mesh, Font *font, const char *text,
 	{
 		assertion(false, "font must exist.\n");
 		return;
+	}
+
+	if ("Resource" == std::string(text))
+	{
+		int a = 0;
 	}
 
 	font->SetHorInterval(space[0]);
@@ -159,45 +164,45 @@ void FontManager::RenderText (TriMesh *mesh, Font *font, const char *text,
 	float textHeight = 0.0f;
 	float offsetX = 0.0f;
 	float offsetY = 0.0f;
-	font->GetTextExtent(text, textWidth, textHeight, doTransfer);
-
-	textWidth *= scale;
-	textHeight *= scale;
+	font->GetTextExtent(text, textWidth, textHeight, doTransfer, scale);
 
 	if (align & TEXTALIGN_LEFT)
 	{
-		offsetX = rect.Left;
+		offsetX = 0.0f;
 	}
 	else if (align & TEXTALIGN_HCENTER)
 	{
-		offsetX = rect.Left + (rect.Width() - textWidth) / 2.0f;
+		offsetX = 0.0f + (rect.Width() - textWidth) / 2.0f;
 	}
 	else if (align & TEXTALIGN_RIGHT)
 	{
-		offsetX = rect.Left + (rect.Width() - textWidth);
+		offsetX = 0.0f + (rect.Width() - textWidth);
 	}
 
 	if (align & TEXTALIGN_TOP)
 	{
-		offsetY = rect.Bottom + rect.Height() - (fontHeight+lineInterval)*scale;
+		offsetY = 0.0f;
 	}
 	else if (align & TEXTALIGN_VCENTER)
 	{
-		offsetY = rect.Bottom + rect.Height()/2.0f + textHeight/2.0f - (fontHeight+lineInterval)*scale;
+		offsetY = -rect.Height() / 2.0f + (float)fontHeight / 2.0f*scale 
+			+ lineInterval*scale;
 	}
 	else if (align & TEXTALIGN_BOTTOM)
 	{
-		offsetY = rect.Bottom + textHeight - (fontHeight+lineInterval)*scale;
+		offsetY = -textHeight + fontHeight / 2.0f + lineInterval*scale;
 	}
 
-	RenderText(mesh, font, text, style, offsetX+offX, offsetY+offY, space,
+	RenderTextRect(mesh, font, text, style, rect, space,
+		offsetX + offX, offsetY + offY, false,
 		color, borderShadowColor, shadowBorderSize, scale, doTransfer);
 }
 //----------------------------------------------------------------------------
-void FontManager::RenderText (TriMesh *mesh, Font *font, const char *text, 
-	unsigned int style, Rectf &rect,  const Float2 &space, float offsetX, float offsetY, bool autoWrap,
-	const Float4 &color, const Float4 &borderShadowColor, 
-	float shadowBorderSize,  float scale, bool doTransfer)
+void FontManager::RenderTextRect(TriMesh *mesh, Font *font, const char *text,
+	unsigned int style, Rectf &rect,  const Float2 &space, float offsetX, 
+	float offsetY, bool autoWrap, const Float4 &color, 
+	const Float4 &borderShadowColor, float shadowBorderSize, float scale,
+	bool doTransfer, bool isPointAsPunctuation)
 {
 	if (!font)
 	{
@@ -205,7 +210,8 @@ void FontManager::RenderText (TriMesh *mesh, Font *font, const char *text,
 		return;
 	}
 
-	font->TextOutRect(mesh, text, rect, space, offsetX, offsetY, autoWrap, color,
-		borderShadowColor, shadowBorderSize, style, doTransfer, scale);
+	font->TextOutRect(mesh, text, rect, space, offsetX, offsetY, autoWrap, 
+		color, borderShadowColor, shadowBorderSize, style, doTransfer, scale, 
+		isPointAsPunctuation);
 }
 //----------------------------------------------------------------------------

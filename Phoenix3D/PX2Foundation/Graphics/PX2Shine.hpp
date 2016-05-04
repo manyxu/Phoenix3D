@@ -49,7 +49,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Shine);
-	typedef Pointer0<Shine> ShinePtr;
+	typedef PointerRef<Shine> ShinePtr;
 
 }
 

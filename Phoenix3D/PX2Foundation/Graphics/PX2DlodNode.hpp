@@ -47,7 +47,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(DlodNode);
-	typedef Pointer0<DlodNode> DlodNodePtr;
+	typedef PointerRef<DlodNode> DlodNodePtr;
 #include "PX2DlodNode.inl"
 
 }

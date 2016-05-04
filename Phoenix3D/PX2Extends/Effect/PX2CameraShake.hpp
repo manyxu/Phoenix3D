@@ -82,7 +82,7 @@ public_internal:
 
 #include "PX2CameraShake.inl"
 	PX2_REGISTER_STREAM(CameraShake);
-	typedef Pointer0<CameraShake> CameraShakePtr;
+	typedef PointerRef<CameraShake> CameraShakePtr;
 
 }
 

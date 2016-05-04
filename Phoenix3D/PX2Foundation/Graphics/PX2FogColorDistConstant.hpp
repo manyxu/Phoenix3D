@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(FogColorDistConstant);
-	typedef Pointer0<FogColorDistConstant> FogColorDistConstantPtr;
+	typedef PointerRef<FogColorDistConstant> FogColorDistConstantPtr;
 
 }
 

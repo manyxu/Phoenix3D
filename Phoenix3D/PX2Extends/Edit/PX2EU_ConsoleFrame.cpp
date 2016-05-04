@@ -1,4 +1,4 @@
-// PX2EU_Console.cpp
+// PX2EU_ConsoleFrame.cpp
 
 #include "PX2EU_ConsoleFrame.hpp"
 #include "PX2UISkinManager.hpp"
@@ -15,25 +15,60 @@ EU_ConcoleFrame::EU_ConcoleFrame()
 	AttachChild(mToolFrame);
 	mToolFrame->LocalTransform.SetTranslateY(-1.0f);
 	UIPicBox *picBox = mToolFrame->CreateAddBackgroundPicBox();
-	picBox->SetTexture("Data/engine/white.png");
 	picBox->SetColor(PX2_UISM.Color_ToolBar);
 	mToolFrame->SetAnchorHor(0.0f, 1.0f);
 	mToolFrame->SetAnchorVer(1.0f, 1.0f);
 	mToolFrame->SetPivot(0.5f, 1.0f);
-	mToolFrame->SetSize(Sizef(0.0f, PX2_UISM.Size_ToolBar));
+	mToolFrame->SetSize(0.0f, PX2_UISM.Size_ToolBar);
+
+	mEditBox = new0 UIEditBox();
+	AttachChild(mEditBox);
+	mEditBox->LocalTransform.SetTranslateY(-1.0f);
+	mEditBox->SetAnchorHor(0.0f, 1.0f);
+	mEditBox->SetAnchorVer(1.0f, 1.0f);
+	mEditBox->SetAnchorParamVer(-PX2_UISM.Size_ToolBar, 0.0f);
+	mEditBox->SetPivot(0.5f, 1.0f);
+	mEditBox->SetSize(0.0f, PX2_UISM.Size_SearchBar);
 
 	mList = new0 UIList();
 	AttachChild(mList);
 	mList->SetAnchorHor(0.0f, 1.0f);
 	mList->SetAnchorVer(0.0f, 1.0f);
-	mList->SetAnchorParamVer(0.0f, PX2_UISM.Size_ToolBar);
+	mList->SetAnchorParamVer(0.0f, -PX2_UISM.Size_ToolBar - PX2_UISM.Size_SearchBar);
 
-	mList->AddItem("Welcome to Phoenix3D NIRVANA2");
+	mList->AddItem("Welcome!");
+	mList->AddItem("Welcome!");
+	mList->AddItem("Welcome!");
 }
 //----------------------------------------------------------------------------
 EU_ConcoleFrame::~EU_ConcoleFrame()
 {
+}
+//----------------------------------------------------------------------------
+void EU_ConcoleFrame::Handle(const LogBuffer *logBuffer,
+	const char *timeStamp)
+{
+	std::string timeStampStr(timeStamp);
+	std::string logStr = timeStampStr + std::string((char*)logBuffer->Buffer);
 
+	int level = logBuffer->Level;
+
+	Float3 color;
+	if (PX2::LT_INFO == level)
+	{
+		color = Float3(240, 240, 240);
+	}
+	else if (PX2::LT_ERROR == level)
+	{
+		color = Float3::RED;
+	}
+	else if (PX2::LT_USER == level)
+	{
+		color = Float3::GREEN;
+	}
+
+	UIItem *item = mList->AddItem(logStr);
+	item->GetFText()->GetText()->SetFontColor(color);
 }
 //----------------------------------------------------------------------------
 

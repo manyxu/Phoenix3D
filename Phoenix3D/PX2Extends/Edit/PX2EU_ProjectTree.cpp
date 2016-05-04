@@ -4,6 +4,12 @@
 #include "PX2SimulationEventType.hpp"
 #include "PX2Project.hpp"
 #include "PX2Scene.hpp"
+#include "PX2SelectionManager.hpp"
+#include "PX2EditEventType.hpp"
+#include "PX2GraphicsEventType.hpp"
+#include "PX2GraphicsEventData.hpp"
+#include "PX2UISkinManager.hpp"
+#include "PX2EU_ProjectItem.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UITree, EU_ProjectTree);
@@ -11,50 +17,29 @@ PX2_IMPLEMENT_STREAM(EU_ProjectTree);
 PX2_IMPLEMENT_FACTORY(EU_ProjectTree);
 
 //----------------------------------------------------------------------------
-EU_ProjectTree::EU_ProjectTree(ProjectTreeType ptt) :
-mProjectTreeType(ptt)
+EU_ProjectTree::EU_ProjectTree() :
+mShowType(ST_GENERAL)
 {
 	ShowRootItem(false);
 	ComeInEventWorld();
 
-	if (PTT_PROJECT == mProjectTreeType)
-	{
-		UIItem *itemProject = AddItem(mRootItem, "Project");
-		itemProject->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_NORMAL)
-			->SetColor(Float3::MakeColor(255, 127, 35));
-		itemProject->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_HOVERED)
-			->SetColor(Float3::MakeColor(255, 127, 35));
-		itemProject->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_HOVERED)
-			->SetBrightness(1.2f);
+	float levelAdjust = -0.5f;
 
-		UIItem *itemBluePrints = AddItem(mRootItem, "BluePrints");
-		itemBluePrints->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_NORMAL)
-			->SetColor(Float3::MakeColor(255, 201, 14));
-		itemBluePrints->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_HOVERED)
-			->SetColor(Float3::MakeColor(255, 127, 35));
-		itemBluePrints->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_HOVERED)
-			->SetBrightness(1.2f);
-	}
-	else if (PTT_SCENE == mProjectTreeType)
-	{
-		UIItem *itemProject = AddItem(mRootItem, "Scene");
-		itemProject->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_NORMAL)
-			->SetColor(Float3::MakeColor(0, 162, 232));
-		itemProject->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_HOVERED)
-			->SetColor(Float3::MakeColor(0, 162, 232));
-		itemProject->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_HOVERED)
-			->SetBrightness(1.2f);
-	}
-	else if (PTT_UI == mProjectTreeType)
-	{
-		UIItem *itemProject = AddItem(mRootItem, "UI");
-		itemProject->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_NORMAL)
-			->SetColor(Float3::MakeColor(34, 177, 76));
-		itemProject->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_HOVERED)
-			->SetColor(Float3::MakeColor(34, 177, 76));
-		itemProject->GetButBack()->GetPicBoxAtState(UIButtonBase::BS_HOVERED)
-			->SetBrightness(1.2f);
-	}		
+	mItemProject = AddItem(mRootItem, "Project");
+	mItemProject->GetFText()->GetText()->SetFontScale(0.8f);
+
+	mItemSetting = AddItem(mItemProject, "Setting");
+	mItemSetting->SetLevelAdjust(levelAdjust);
+	AddItem(mItemSetting, "Set");
+	AddItem(mItemSetting, "Build");
+
+	mItemSceneCanvas = AddItem(mItemProject, "SceneCanvas");
+	mItemSceneCanvas->SetLevelAdjust(levelAdjust);
+	mItemSceneCanvas->GetFText()->GetText()->SetFontColor(Float3::MakeColor(0, 162, 232));
+
+	mItemUICanvas = AddItem(mItemProject, "UICanvas");
+	mItemUICanvas->SetLevelAdjust(levelAdjust);
+	mItemUICanvas->GetFText()->GetText()->SetFontColor(Float3::MakeColor(34, 177, 76));
 }
 //----------------------------------------------------------------------------
 EU_ProjectTree::~EU_ProjectTree()
@@ -62,25 +47,98 @@ EU_ProjectTree::~EU_ProjectTree()
 	GoOutEventWorld();
 }
 //----------------------------------------------------------------------------
+void EU_ProjectTree::SetShowType(ShowType st)
+{
+	mShowType = st;
+
+	for (int i = 0; i < (int)mSelectedItems.size(); i++)
+	{
+		EU_ProjectItem *item = DynamicCast<EU_ProjectItem>(mSelectedItems[i]);
+		item->SetShowType(st);
+	}
+}
+//----------------------------------------------------------------------------
+ShowType EU_ProjectTree::GetShowType() const
+{
+	return mShowType;
+}
+//----------------------------------------------------------------------------
+void EU_ProjectTreeCallback(UIFrame *frame, UICallType type)
+{
+	UICheckButton *checkBut = DynamicCast<UICheckButton>(frame);
+	if (checkBut)
+	{
+		UIItem *item = checkBut->GetUserData<UIItem*>("Item");
+
+		if (UICT_CHECKED == type)
+		{
+			item->Expand(false);
+		}
+		else if (UICT_DISCHECKED == type)
+		{
+			item->Expand(true);
+		}
+	}
+}
+//----------------------------------------------------------------------------
+UIItem *EU_ProjectTree::AddItem(UIItem *parentItem, const std::string &label,
+	const std::string &name, Object *obj)
+{
+	EU_ProjectItem *item = new0 EU_ProjectItem();
+	item->SetEU_ProjectTree(this);
+	parentItem->AttachChild(item);
+	item->SetName(name);
+	item->SetSize(parentItem->GetSize());
+	item->GetFText()->GetText()->SetText(label);
+	item->SetItemObject(obj);
+
+	UIButton *butBack = item->GetButBack();
+	if (butBack)
+	{
+		butBack->SetMemUICallback(this,
+			(UIFrame::MemUICallback)(&UITree::SelectCallback));
+	}
+
+	if (!name.empty())
+	{
+		mTagItems[name] = item;
+	}
+
+	item->GetFText()->GetText()->SetColor(Float3::WHITE);
+	item->GetFText()->GetText()->SetColorSelfCtrled(true);
+	item->GetFText()->GetText()->SetFontColor(PX2_UISM.Color_ContentFont);
+	item->GetFText()->GetText()->SetDrawStyle(FD_SHADOW);
+	item->GetFText()->GetText()->SetBorderShadowAlpha(0.5f);
+
+	UICheckButton *cb = parentItem->GetButArrow();
+	if (!cb)
+		cb = parentItem->CreateButArrow();
+
+	cb->GetPicBoxAtState(UIButtonBase::BS_NORMAL)->SetTexture(
+		"DataNIRVANA2/images/icons/tree/tree_expanded.png");
+	cb->GetPicBoxAtState(UIButtonBase::BS_PRESSED)->SetTexture(
+		"DataNIRVANA2/images/icons/tree/tree_collapsed.png");
+
+	cb->SetUICallback(EU_ProjectTreeCallback);
+	cb->SetUserData("Item", parentItem);
+
+	item->SetLevelAdjust(-0.25f);
+
+	return item;
+}
+//----------------------------------------------------------------------------
 void EU_ProjectTree::DoExecute(Event *ent)
 {
-	if (SimuES::IsEqual(ent, SimuES::NewProject) ||
-		SimuES::IsEqual(ent, SimuES::LoadedProject))
-	{
-		_RefreshProject();
-	}
-	else if (SimuES::IsEqual(ent, SimuES::CloseProject))
-	{
-		_ClearProject();
-	}
-	
-	if (PTT_SCENE == mProjectTreeType)
-	{
-		if (SimuES::IsEqual(ent, SimuES::NewScene))
+		if (SimuES::IsEqual(ent, SimuES::NewProject) ||
+			SimuES::IsEqual(ent, SimuES::LoadedProject))
 		{
-			_RefreshScene();
+			_RefreshProject();
 		}
-		else if (SimuES::IsEqual(ent, SimuES::LoadedScene))
+		else if (SimuES::IsEqual(ent, SimuES::CloseProject))
+		{
+			_ClearProject();
+		}
+		else if (SimuES::IsEqual(ent, SimuES::NewScene))
 		{
 			_RefreshScene();
 		}
@@ -88,14 +146,7 @@ void EU_ProjectTree::DoExecute(Event *ent)
 		{
 			_ClearScene();
 		}
-	}
-	else if (PTT_UI == mProjectTreeType)
-	{
 		if (SimuES::IsEqual(ent, SimuES::NewUI))
-		{
-			_RefreshUI();
-		}
-		else if (SimuES::IsEqual(ent, SimuES::LoadedUI))
 		{
 			_RefreshUI();
 		}
@@ -103,6 +154,51 @@ void EU_ProjectTree::DoExecute(Event *ent)
 		{
 			_ClearUI();
 		}
+	
+	if (GraphicsES::IsEqual(ent, GraphicsES::AddObject))
+	{
+		AddObjectData objData = ent->GetData<AddObjectData>();
+		Object *parentObj = objData.ParentObj;
+		UIItem *itemParent = GetItemByObject(parentObj);
+		if (itemParent)
+		{
+			const std::string &name = objData.Obj->GetName();
+			UIItem *addedItem = AddItem(itemParent, name, name, objData.Obj);
+			_RefreshOnMoveableScene(addedItem, DynamicCast<Movable>(objData.Obj));
+		}
+	}
+	else if (GraphicsES::IsEqual(ent, GraphicsES::RemoveObject))
+	{
+		Object *obj = ent->GetData<Object*>();
+		if (obj)
+		{
+			UIItem *item = GetItemByObject(obj);
+			if (item)
+			{
+				RemoveItem(item);
+			}
+		}
+	}
+	else if (EditEventSpace::IsEqual(ent, EditEventSpace::N_ObjectNameChanged))
+	{
+		Object *obj = ent->GetData<Object*>();
+		UIItem *item = GetItemByObject(obj);
+		if (item)
+		{
+			item->SetName(obj->GetName());
+			item->GetFText()->GetText()->SetText(obj->GetName());
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void EU_ProjectTree::OnSelected(UIItem *item)
+{
+	Object *obj = item->GetItemObject();
+
+	if (obj)
+	{
+		PX2_SELECTM_E->Clear();
+		PX2_SELECTM_E->AddObject(obj);
 	}
 }
 //----------------------------------------------------------------------------
@@ -113,23 +209,25 @@ void EU_ProjectTree::_RefreshProject()
 	Project *proj = Project::GetSingletonPtr();
 	if (!proj) return;
 
-	AddItem(mRootItem, proj->GetName());
+	mItemUICanvas->RemoveAllChildItems();
+	mItemUICanvas->SetItemObject(PX2_PROJ.GetSceneCanvas());
 }
 //----------------------------------------------------------------------------
 void EU_ProjectTree::_ClearProject()
 {
-	RemoveAllItemsExceptRoot();
 }
 //----------------------------------------------------------------------------
 void EU_ProjectTree::_RefreshScene()
 {
-	RemoveAllItemsExceptRoot();
+	mItemSceneCanvas->RemoveAllChildItems();
 
 	Scene *scene = PX2_PROJ.GetScene();
-	_RefreshOnMoveable(mRootItem, scene);
+	UIItem *sceneItem = AddItem(mItemSceneCanvas, scene->GetName(),
+		scene->GetName(), scene);
+	_RefreshOnMoveableScene(sceneItem, scene);
 }
 //----------------------------------------------------------------------------
-void EU_ProjectTree::_RefreshOnMoveable(UIItem *parentItem, Movable *mov)
+void EU_ProjectTree::_RefreshOnMoveableScene(UIItem *parentItem, Movable *mov)
 {
 	Node *node = DynamicCast<Node>(mov);
 
@@ -138,14 +236,17 @@ void EU_ProjectTree::_RefreshOnMoveable(UIItem *parentItem, Movable *mov)
 		for (int i = 0; i < node->GetNumChildren(); i++)
 		{
 			Movable *mov = node->GetChild(i);
-			if (mov)
+			Actor *actor = DynamicCast<Actor>(mov);
+
+			if (actor)
 			{
 				std::string name = mov->GetName();
 				if (name.empty())
 					name = "Empty";
 
-				UIItem *item = AddItem(parentItem, name);
-				_RefreshOnMoveable(item, mov);
+				UIItem *item = AddItem(parentItem, name, "", mov);
+				_RefreshOnMoveableScene(item, mov);
+				item->Expand(false);
 			}
 		}
 	}
@@ -153,18 +254,28 @@ void EU_ProjectTree::_RefreshOnMoveable(UIItem *parentItem, Movable *mov)
 //----------------------------------------------------------------------------
 void EU_ProjectTree::_ClearScene()
 {
+	if (mItemSceneCanvas)
+		mItemSceneCanvas->RemoveAllChildItems();
 }
 //----------------------------------------------------------------------------
 void EU_ProjectTree::_RefreshUI()
 {
-	RemoveAllItemsExceptRoot();
+	_ClearUI();
 
-	AddItem(mRootItem, "UICanvas");
+	UICanvas *uiCanvas = PX2_PROJ.GetUICanvas();
+	mItemUICanvas->SetItemObject(uiCanvas);
+
+	UIFrame *uiFrame = PX2_PROJ.GetUIFrame();
+	UIItem *uiItem = AddItem(mItemUICanvas, uiFrame->GetName(),
+		uiFrame->GetName(), uiFrame);
+
+	//_RefreshOnMoveable(uiItem, uiFrame);
 }
 //----------------------------------------------------------------------------
 void EU_ProjectTree::_ClearUI()
 {
-
+	if (mItemUICanvas)
+		mItemUICanvas->RemoveAllChildItems();
 }
 //----------------------------------------------------------------------------
 

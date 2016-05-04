@@ -25,7 +25,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(CullProperty);
-	typedef Pointer0<CullProperty> CullPropertyPtr;
+	typedef PointerRef<CullProperty> CullPropertyPtr;
 
 }
 

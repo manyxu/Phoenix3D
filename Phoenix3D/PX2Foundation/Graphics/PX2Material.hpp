@@ -49,7 +49,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Material);
-	typedef Pointer0<Material> MaterialPtr;
+	typedef PointerRef<Material> MaterialPtr;
 #include "PX2Material.inl"
 
 }

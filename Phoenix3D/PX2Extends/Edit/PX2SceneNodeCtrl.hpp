@@ -85,15 +85,14 @@ namespace PX2
 		PX2::AVector GetZDir();
 
 		// PX2 Event
-		virtual void DoEnter();
 		virtual void DoExecute(Event *event);
-		virtual void DoLeave();
+
+		void UpdateCtrlTrans();
 
 	private:
 		void UpdateCtrl();
-		void UpdateCtrlTrans();
 		SceneNodeCtrl::DragType GetDragType(Canvas *canvas, 
-			const PX2::APoint &point);
+			const PX2::APoint &viewPortPos);
 
 		AxisMode mAxisMode;
 		AVector mDirX;
@@ -124,9 +123,7 @@ namespace PX2
 
 		PX2::Node *GetCtrlsGroup() { return mCtrlsGroup; }
 
-		virtual void DoEnter();
 		virtual void DoExecute(PX2::Event *event);
-		virtual void DoLeave();
 
 		void UpdateCtrl();
 

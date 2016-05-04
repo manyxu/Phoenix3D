@@ -44,11 +44,13 @@ mJunglerStrength(1.0f)
 		VertexFormat::AU_TEXCOORD, VertexFormat::AT_FLOAT2, 0);
 }
 //----------------------------------------------------------------------------
-int Terrain::DetachChild (Movable* child)
+void Terrain::OnChildDetach(Movable* child)
 {
-	for (int i=0; i<mNumRows; i++)
+	Node::OnChildDetach(child);
+
+	for (int i = 0; i < mNumRows; i++)
 	{
-		for (int j=0; j<mNumCols; j++)
+		for (int j = 0; j < mNumCols; j++)
 		{
 			if (child == mPages[i][j])
 			{
@@ -56,9 +58,6 @@ int Terrain::DetachChild (Movable* child)
 			}
 		}
 	}
-
-	int index = Node::DetachChild(child);
-	return index;
 }
 //----------------------------------------------------------------------------
 TerrainPage *Terrain::GetPage (int row, int col)

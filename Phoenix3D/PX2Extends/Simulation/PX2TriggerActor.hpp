@@ -63,7 +63,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(TriggerActor);
-	typedef Pointer0<TriggerActor> TriggerActorPtr;
+	typedef PointerRef<TriggerActor> TriggerActorPtr;
 #include "PX2TriggerActor.inl"
 
 }

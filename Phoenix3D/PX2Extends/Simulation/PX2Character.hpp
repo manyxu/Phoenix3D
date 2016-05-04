@@ -96,42 +96,11 @@ namespace PX2
 		MovablePtr mModelAnimMovable;
 		std::map<FString, BlendTransformController*> mBTCMap;
 		AnimationObjectPtr mLastAnimObj;
-
-		// hp ap
-	public:
-		// hp
-		virtual void SetBaseHPCurLevel(float hp);
-		float GetBaseHPCurLevel() const;
-
-		PX2_DECLARE_PM_F(HP);
-	public:
-		float GetHPPercent() const;
-
-		virtual void SetDead(bool dead);
-		virtual void Die();
-		bool IsDead() const;
-
-		void SetDieDoDelete(bool isDieDoDelete);
-		bool IsDieDoDelete() const;
-
-		// ap
-		virtual void SetBaseAPCurLevel(float ap);
-		float GetBaseAPCurLevel() const;
-
-		PX2_DECLARE_PM_F(AP);
-
-	protected:
-		float mBaseHPCurLevel;
-		bool mIsDieDoDelete;
-
-		float mBaseAPCurLevel;
-
-		bool mIsDead;
 	};
 
 #include "PX2Character.inl"
 	PX2_REGISTER_STREAM(Character);
-	typedef Pointer0<Character> CharacterPtr;
+	typedef PointerRef<Character> CharacterPtr;
 
 }
 

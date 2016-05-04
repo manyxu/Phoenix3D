@@ -20,7 +20,9 @@ namespace PX2
 		EU_BluePrintFrame();
 		virtual ~EU_BluePrintFrame();
 
-		EU_BPFrame *AddBPFrame(const std::string &name);
+		virtual void DoExecute(PX2::Event *event);
+
+		EU_BPFrame *AddBPFrame(const std::string &name, UIFrame *bpObject);
 
 	protected:
 		UITabFramePtr mTableFrame;
@@ -28,7 +30,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(EU_BluePrintFrame);
-	typedef Pointer0<EU_BluePrintFrame> EU_BluePrintFramePtr;
+	typedef PointerRef<EU_BluePrintFrame> EU_BluePrintFramePtr;
 
 }
 

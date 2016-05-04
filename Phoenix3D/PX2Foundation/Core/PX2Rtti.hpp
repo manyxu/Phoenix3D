@@ -21,6 +21,7 @@ namespace PX2
 		~Rtti ();
 
 		inline const char* GetName () const;
+		inline std::string GetName();
 		inline unsigned short GetVersion () const;
 		inline bool IsExactly (const Rtti& type) const;
 		bool IsDerived (const Rtti& type) const;

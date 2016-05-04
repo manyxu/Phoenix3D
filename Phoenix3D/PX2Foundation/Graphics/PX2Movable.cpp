@@ -2,9 +2,10 @@
 
 #include "PX2Movable.hpp"
 #include "PX2Culler.hpp"
+#include "PX2FunObject.hpp"
 using namespace PX2;
 
-PX2_IMPLEMENT_RTTI_V(PX2, Controlledable, Movable, 5);
+PX2_IMPLEMENT_RTTI(PX2, Controlledable, Movable);
 PX2_IMPLEMENT_STREAM(Movable);
 PX2_IMPLEMENT_ABSTRACT_FACTORY(Movable);
 
@@ -20,6 +21,8 @@ mIsColorSelfCtrled(false),
 mColor(Float3::WHITE),
 mIsBrightnessSelfCtrled(false),
 mBrightness(1.0f),
+mIsEnableSelfCtrled(true),
+mIsActivateSelfCtrled(true),
 mUpdateTime(-1.0f),
 mUpdateTiming(0.0f),
 mUpdateTimingInit(-1.0f),
@@ -102,6 +105,14 @@ void Movable::Update(double applicationTime, double elapsedTime,
 	}
 }
 //----------------------------------------------------------------------------
+void Movable::OnBeAttached()
+{
+}
+//----------------------------------------------------------------------------
+void Movable::OnBeDetach()
+{
+}
+//----------------------------------------------------------------------------
 void Movable::SetParentTransformIngore (bool trans, bool rotate, bool scale)
 {
 	mIsIngoreParent_Translate = trans;
@@ -129,35 +140,6 @@ Movable *Movable::GetTopestParent()
 	}
 
 	return topestParent;
-}
-//----------------------------------------------------------------------------
-Movable *Movable::GetFirstParentDerivedFromType(const Rtti &type, 
-	int *numLevels)
-{
-	int numLev = 0;
-	Movable *topestParentTemp = mParent;
-	Movable *topestParent = mParent;
-
-	while (topestParentTemp)
-	{
-		topestParent = topestParentTemp;
-		numLev++;
-
-		if (topestParent->IsDerived(type))
-		{
-			if (numLevels)
-				*numLevels = numLev;
-
-			return topestParent;
-		}
-
-		topestParentTemp = topestParentTemp->GetParent();
-	}
-
-	if (numLevels)
-		*numLevels = 0;
-
-	return 0;
 }
 //----------------------------------------------------------------------------
 void Movable::OnPicked (int pickInfo)
@@ -327,6 +309,11 @@ void Movable::SetReceiveShadow(bool reciveShadow)
 	mIsReceiveShadow = reciveShadow;
 }
 //----------------------------------------------------------------------------
+void Movable::SetUpdatePriority(int updatePriority)
+{
+	mUpdatePriority = updatePriority;
+}
+//----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
 // 名称
@@ -342,6 +329,35 @@ void Movable::GetAllObjectsByName (const std::string& name,
 {
     // mParent不用查找，否则会无限循环
     Controlledable::GetAllObjectsByName(name, objects);
+}
+//----------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------
+// Movable
+//----------------------------------------------------------------------------
+FunObject *Movable::RegistClassFunctions()
+{
+	FunObject *parentFunObj = Controlledable::RegistClassFunctions();
+
+	FunObject *thisFunObj = parentFunObj->GetAddClass("Movable");
+
+	{
+		FunObjectPtr funObj = new0 FunObject();
+		funObj->FunName = "GetLocalTransform";
+		funObj->AddInput("handler", FPT_POINTER_THIS, (Object*)0);
+		funObj->AddOutput("in_trans", FPT_POINTER, (Object*)0);
+		thisFunObj->AddFunObject(funObj);
+	}
+
+	{
+		FunObjectPtr funObj = new0 FunObject();
+		funObj->FunName = "GetWorldTransform";
+		funObj->AddInput("handler", FPT_POINTER_THIS, (Object*)0);
+		funObj->AddOutput("in_trans", FPT_POINTER, (Object*)0);
+		thisFunObj->AddFunObject(funObj);
+	}
+
+	return thisFunObj;
 }
 //----------------------------------------------------------------------------
 
@@ -479,6 +495,8 @@ mIsColorSelfCtrled(false),
 mColor(Float3::WHITE),
 mIsBrightnessSelfCtrled(false),
 mBrightness(1.0f),
+mIsEnableSelfCtrled(true),
+mIsActivateSelfCtrled(true),
 mUpdateTime(-1.0f),
 mUpdateTiming(0.0f),
 mUpdateTimingInit(-1.0f),
@@ -513,37 +531,26 @@ void Movable::Load (InStream& source)
 	source.ReadAggregate(mColor);
 
 	int readedVersion = GetReadedVersion();
-	if (1 <= readedVersion)
-	{
-		source.Read(mUpdateTime);
-	}
+	PX2_UNUSED(readedVersion);
+
+	source.Read(mUpdateTime);
 
 	// mParent不被保存，它会在Node::Link中调用Node::SetChild被设置。
 
-	if (2 <= readedVersion)
-	{
-		source.ReadBool(mIsAlphaSelfCtrled);
-		source.ReadBool(mIsColorSelfCtrled);
-	}
+	source.ReadBool(mIsAlphaSelfCtrled);
+	source.ReadBool(mIsColorSelfCtrled);
 
-	if (3 <= readedVersion)
-	{
-		source.ReadBool(mIsBrightnessSelfCtrled);
-		source.Read(mBrightness);
-	}
+	source.ReadBool(mIsBrightnessSelfCtrled);
+	source.Read(mBrightness);
 
-	if (4 <= readedVersion)
-	{
-		source.ReadBool(mIsIngoreParent_Translate);
-		source.ReadBool(mIsIngoreParent_Rotate);
-		source.ReadBool(mIsIngoreParent_Scale);
-	}
+	source.ReadBool(mIsIngoreParent_Translate);
+	source.ReadBool(mIsIngoreParent_Rotate);
+	source.ReadBool(mIsIngoreParent_Scale);
 
-	if (5 <= readedVersion)
-	{
-		source.ReadBool(mIsCastShadow);
-		source.ReadBool(mIsReceiveShadow);
-	}
+	source.ReadBool(mIsCastShadow);
+	source.ReadBool(mIsReceiveShadow);
+
+	source.ReadBool(mIsDoPick);
 
     PX2_END_DEBUG_STREAM_LOAD(Movable, source);
 }
@@ -597,72 +604,44 @@ void Movable::Save (OutStream& target) const
 	target.WriteBool(mIsCastShadow);
 	target.WriteBool(mIsReceiveShadow);
 
+	target.WriteBool(mIsDoPick);
+
 	// mParent不被保存，它会在Node::Link中调用Node::SetChild被设置。
 
     PX2_END_DEBUG_STREAM_SAVE(Movable, target);
 }
 //----------------------------------------------------------------------------
-int Movable::GetStreamingSize (Stream &stream) const
+int Movable::GetStreamingSize(Stream &stream) const
 {
-    int size = Controlledable::GetStreamingSize(stream);
+	int size = Controlledable::GetStreamingSize(stream);
 	size += PX2_VERSION_SIZE(mVersion);
-    size += LocalTransform.GetStreamingSize();;
-    size += WorldTransform.GetStreamingSize();
-    size += PX2_BOOLSIZE(WorldTransformIsCurrent);
-    size += WorldBound.GetStreamingSize();
-    size += PX2_BOOLSIZE(WorldBoundIsCurrent);
-    size += PX2_ENUMSIZE(Culling);
+	size += LocalTransform.GetStreamingSize();;
+	size += WorldTransform.GetStreamingSize();
+	size += PX2_BOOLSIZE(WorldTransformIsCurrent);
+	size += WorldBound.GetStreamingSize();
+	size += PX2_BOOLSIZE(WorldBoundIsCurrent);
+	size += PX2_ENUMSIZE(Culling);
 	size += sizeof(mAlpha);
 	size += sizeof(mColor);
 
-	if (stream.IsIn())
-	{
-		int readedVersion = GetReadedVersion();
-		if (1 <= readedVersion)
-		{
-			size += sizeof(mUpdateTime);
-		}
-		if (2 <= readedVersion)
-		{
-			size += PX2_BOOLSIZE(mIsAlphaSelfCtrled);
-			size += PX2_BOOLSIZE(mIsColorSelfCtrled);
-		}
-		if (3 <= readedVersion)
-		{
-			size += PX2_BOOLSIZE(mIsBrightnessSelfCtrled);
-			size += sizeof(mBrightness);
-		}
-		if (4 <= readedVersion)
-		{
-			size += PX2_BOOLSIZE(mIsIngoreParent_Translate);
-			size += PX2_BOOLSIZE(mIsIngoreParent_Rotate);
-			size += PX2_BOOLSIZE(mIsIngoreParent_Scale);
-		}
-		if (5 <= readedVersion)
-		{
-			size += PX2_BOOLSIZE(mIsCastShadow);
-			size += PX2_BOOLSIZE(mIsReceiveShadow);
-		}
-	}
-	else
-	{
-		size += sizeof(mUpdateTime);
-		size += PX2_BOOLSIZE(mIsAlphaSelfCtrled);
-		size += PX2_BOOLSIZE(mIsColorSelfCtrled);
+	size += sizeof(mUpdateTime);
+	size += PX2_BOOLSIZE(mIsAlphaSelfCtrled);
+	size += PX2_BOOLSIZE(mIsColorSelfCtrled);
 
-		size += PX2_BOOLSIZE(mIsBrightnessSelfCtrled);
-		size += sizeof(mBrightness);
+	size += PX2_BOOLSIZE(mIsBrightnessSelfCtrled);
+	size += sizeof(mBrightness);
 
-		size += PX2_BOOLSIZE(mIsIngoreParent_Translate);
-		size += PX2_BOOLSIZE(mIsIngoreParent_Rotate);
-		size += PX2_BOOLSIZE(mIsIngoreParent_Scale);
+	size += PX2_BOOLSIZE(mIsIngoreParent_Translate);
+	size += PX2_BOOLSIZE(mIsIngoreParent_Rotate);
+	size += PX2_BOOLSIZE(mIsIngoreParent_Scale);
 
-		size += PX2_BOOLSIZE(mIsCastShadow);
-		size += PX2_BOOLSIZE(mIsReceiveShadow);
-	}
+	size += PX2_BOOLSIZE(mIsCastShadow);
+	size += PX2_BOOLSIZE(mIsReceiveShadow);
 
-    // mParent不被持久化
+	size += PX2_BOOLSIZE(mIsDoPick);
 
-    return size;
+	// mParent不被持久化
+
+	return size;
 }
 //----------------------------------------------------------------------------

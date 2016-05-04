@@ -28,8 +28,16 @@ void UIFText::OnSizeChanged()
 {
 	UIFrame::OnSizeChanged();
 
-	mText->SetRect(Rectf(-mSize.Width/2.0f, -mSize.Height/2.0f, 
-		mSize.Width / 2.0f, mSize.Height / 2.0f));
+	Rectf rect = GetLocalRect();
+	mText->SetRect(rect);
+}
+//----------------------------------------------------------------------------
+void UIFText::UpdateLeftBottomCornerOffset(Movable *parent)
+{
+	UIFrame::UpdateLeftBottomCornerOffset(parent);
+
+	Rectf rect = GetLocalRect();
+	mText->SetRect(rect);
 }
 //----------------------------------------------------------------------------
 

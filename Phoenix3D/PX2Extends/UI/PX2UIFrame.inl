@@ -1,6 +1,36 @@
 // PX2UIFrame.inl
 
 //----------------------------------------------------------------------------
+inline UICanvas *UIFrame::GetBelongUICanvas()
+{
+	return mBelongUICanvas;
+}
+//----------------------------------------------------------------------------
+inline UIPicBox *UIFrame::GetBackgroundPicBox()
+{
+	return mBackgroundPicBox;
+}
+//----------------------------------------------------------------------------
+inline const Float3 &UIFrame::GetActivateColor() const
+{
+	return mActivatedColor;
+}
+//----------------------------------------------------------------------------
+inline float UIFrame::GetActivateAlpha() const
+{
+	return mActivatedAlpha;
+}
+//----------------------------------------------------------------------------
+inline float UIFrame::GetActivateBrightness() const
+{
+	return mActivatedBrightness;
+}
+//----------------------------------------------------------------------------
+inline bool UIFrame::IsWidget() const
+{
+	return mIsWidget;
+}
+//----------------------------------------------------------------------------
 inline void UIFrame::SetUICallback(UICallback callback)
 {
 	mUICallback = callback;
@@ -30,6 +60,16 @@ inline void UIFrame::SetScriptHandler(const std::string &scriptHandler)
 inline const std::string &UIFrame::GetScriptHandler() const
 {
 	return mUIScriptHandler;
+}
+//----------------------------------------------------------------------------
+inline int UIFrame::GetMaskVal() const
+{
+	return mMaskVal;
+}
+//----------------------------------------------------------------------------
+inline UIPicBox *UIFrame::GetMask()
+{
+	return mMaskPicBox;
 }
 //----------------------------------------------------------------------------
 inline InputPushTransformController *UIFrame::GetIPTCtrl()

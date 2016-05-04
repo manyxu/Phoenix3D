@@ -95,7 +95,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(MaterialInstance);
-	typedef Pointer0<MaterialInstance> MaterialInstancePtr;
+	typedef PointerRef<MaterialInstance> MaterialInstancePtr;
 #include "PX2MaterialInstance.inl"
 
 }

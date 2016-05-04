@@ -13,12 +13,6 @@
 #include "PX2Actor.hpp"
 #include "PX2AmbientRegionActor.hpp"
 #include "PX2CameraActor.hpp"
-#include "PX2EffectActor.hpp"
-#include "PX2LightActor.hpp"
-#include "PX2TriggerActor.hpp"
-#include "PX2Character.hpp"
-#include "PX2SkyActor.hpp"
-#include "PX2SkyMesh.hpp"
 
 // Animation
 #include "PX2Animation.hpp"
@@ -29,6 +23,7 @@
 #include "PX2Creater.hpp"
 #include "PX2RedoUndo.hpp"
 #include "PX2Selection.hpp"
+#include "PX2SelectionManager.hpp"
 
 // Engine
 #include "PX2EngineLoop.hpp"

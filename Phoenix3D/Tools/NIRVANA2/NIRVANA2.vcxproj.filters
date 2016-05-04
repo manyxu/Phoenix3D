@@ -7,9 +7,6 @@
     <Filter Include="FrameView">
       <UniqueIdentifier>{04eb2ede-344e-4698-916b-9db0e8754879}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PopUp">
-      <UniqueIdentifier>{6314b79a-b367-44e0-863b-0ffe26c03f9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Dlgs">
       <UniqueIdentifier>{8ed675b3-adb5-42ea-9b3e-a0603571048d}</UniqueIdentifier>
     </Filter>
@@ -19,10 +16,6 @@
       <Filter>App</Filter>
     </ClInclude>
     <ClInclude Include="PX2N_Pre.hpp" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="PX2N_PopUpMenuWindow.hpp">
-      <Filter>PopUp</Filter>
-    </ClInclude>
     <ClInclude Include="PX2N_Frame.hpp">
       <Filter>FrameView</Filter>
     </ClInclude>
@@ -36,9 +29,6 @@
   <ItemGroup>
     <ClCompile Include="PX2N_App.cpp">
       <Filter>App</Filter>
-    </ClCompile>
-    <ClCompile Include="PX2N_PopUpMenuWindow.cpp">
-      <Filter>PopUp</Filter>
     </ClCompile>
     <ClCompile Include="PX2N_Frame.cpp">
       <Filter>FrameView</Filter>

@@ -17,8 +17,6 @@ void EngineLoop::Tick()
 	PX2_RM.Update(mAppTime, mElapsedTime);
 	PX2_FM.Update();
 
-	Project *proj = Project::GetSingletonPtr();
-
 	for (int i = 0; i < (int)mTickCallbacks.size(); i++)
 	{
 		(*mTickCallbacks[i])(mAppTime, mElapsedTime);
@@ -28,39 +26,7 @@ void EngineLoop::Tick()
 
 	if (mIsInBackground) return;
 
-	PX2_GR.ComputeVisibleSetAndEnv();
-
-	Renderer *defaultRenderer = Renderer::GetDefaultRenderer();
-	if (defaultRenderer && defaultRenderer->PreDraw())
-	{
-		// clear screen
-		defaultRenderer->SetViewport(Rectf(0.0f, 0.0f, mScreenSize.Width, mScreenSize.Height));
-        if (proj) defaultRenderer->SetClearColor(proj->GetBackgroundColor());
-		else defaultRenderer->SetClearColor(Float4(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f, 1.0f));
-		defaultRenderer->ClearBuffers();
-
-		if (mIsDoAdjustScreenViewRect)
-			defaultRenderer->SetViewport(mAdjustViewPort);
-
-		if (proj)
-		{
-			Scene *scene = proj->GetScene();
-			if (scene)
-			{
-				defaultRenderer->SetClearColor(MathHelp::Float3ToFloat4(scene->GetColor(), 1.0f));
-			}
-			else
-			{
-				defaultRenderer->SetClearColor(proj->GetProjBackgroundColor());
-			}
-			defaultRenderer->ClearBuffers();
-		}
-
-		PX2_GR.Draw();
-
-		defaultRenderer->PostDraw();
-		defaultRenderer->DisplayColorBuffer();
-	}
+	PX2_GR.Draw();
 }
 //----------------------------------------------------------------------------
 void EngineLoop::AddTickCallback(TickCallback callback)

@@ -21,6 +21,7 @@ namespace PX2
 			bool doTransfer);
 		virtual bool IsEnglish (const unsigned char *character);
 		virtual bool IsPunctuation(const unsigned char *character);
+		virtual bool IsPoint(const unsigned char *character);
 		virtual unsigned short ToUnicode(const unsigned char *character);
 		virtual unsigned int ToUniqueID(const unsigned char* character);
 	};

@@ -32,7 +32,7 @@ namespace PX2
 
 #include "PX2CameraShakeController.inl"
 	PX2_REGISTER_STREAM(CameraShakeController);
-	typedef Pointer0<CameraShakeController> CameraShakeControllerPtr;
+	typedef PointerRef<CameraShakeController> CameraShakeControllerPtr;
 
 }
 

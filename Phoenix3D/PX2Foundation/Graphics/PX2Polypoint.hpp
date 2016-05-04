@@ -29,7 +29,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Polypoint);
-	typedef Pointer0<Polypoint> PolypointPtr;
+	typedef PointerRef<Polypoint> PolypointPtr;
 #include "PX2Polypoint.inl"
 
 }

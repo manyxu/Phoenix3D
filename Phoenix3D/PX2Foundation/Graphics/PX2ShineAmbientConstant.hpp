@@ -24,7 +24,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(ShineAmbientConstant);
-	typedef Pointer0<ShineAmbientConstant> ShineAmbientConstantPtr;
+	typedef PointerRef<ShineAmbientConstant> ShineAmbientConstantPtr;
 
 }
 

@@ -30,35 +30,49 @@ namespace PX2
 		void SetDirectionType(DirectionType dt);
 		DirectionType GetDirectionType();
 
+		void SetSliderLength(float length);
+		float GetSliderLength() const;
+
 		void SetPercent(float percent);
 		float GetPercent() const;
 
-		bool IsDraging() const;	
+		void SetContentFrame(UIFrame *contentFrame);
+		UIFrame *GetContentFrame();
+
+		bool IsDraging() const;
+
+		virtual void OnBeAttached();
+		virtual void OnBeDetach();
 	
-	public_internal:
-		virtual void OnUIPicked(int info, Movable *child);
-		virtual void OnUINotPicked(int info);
+	protected:
+		virtual void OnUIPicked(const UIInputData &inputData);
+		virtual void OnUINotPicked(const UIInputData &inputData);
 
 	protected:
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
 		void _GenSlider();
+		void _UpdateSliderLength();
+		void _ReGenSliderLayout();
 		void _UpdateSlider();
 		void _SliderDrag(UIFrame *frame, UICallType type);
 		void _SetDraging(bool draging);
+		void _RelativeSizeChangeCallback(SizeNode *tellObject);
+
+		bool mIsNeedReGenSliderLayout;
 
 		DirectionType mDirectionType;
 		UIFPicBoxPtr mFPicBoxBack;
 		UIButtonPtr mButSlider;
-		float mButSliderWidth;
+		float mButSliderLength;
 		float mPercent;
 		bool mIsNeededUpdate;
 		bool mIsDraging;
 
-		APoint mDragStartPos;
+		UIFramePtr mContentFrame;
 	};
 
 	PX2_REGISTER_STREAM(UISlider);
-	typedef Pointer0<UISlider> UISliderPtr;
+	typedef PointerRef<UISlider> UISliderPtr;
 #include "PX2UISlider.inl"
 
 }

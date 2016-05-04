@@ -36,19 +36,19 @@ inline SceneCanvas *Project::GetSceneCanvas()
 	return mSceneCanvas;
 }
 //----------------------------------------------------------------------------
-inline UIFrame *Project::GetUIFrame()
-{
-	return mUIFrame;
-}
-//----------------------------------------------------------------------------
 inline const std::string &Project::GetUIFilename() const
 {
 	return mUIFilename;
 }
 //----------------------------------------------------------------------------
-inline UICanvas *Project::GetUICanvas()
+inline BPPackage *Project::GetBPPackage()
 {
-	return mUICanvas;
+	return mBPPackage;
+}
+//----------------------------------------------------------------------------
+inline const std::string &Project::GetBPFilename() const
+{
+	return mBPFilename;
 }
 //----------------------------------------------------------------------------
 inline const Rectf &Project::GetViewRect() const

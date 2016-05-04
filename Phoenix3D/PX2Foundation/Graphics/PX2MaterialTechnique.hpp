@@ -43,7 +43,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(MaterialTechnique);
-	typedef Pointer0<MaterialTechnique> MaterialTechniquePtr;
+	typedef PointerRef<MaterialTechnique> MaterialTechniquePtr;
 #include "PX2MaterialTechnique.inl"
 
 }

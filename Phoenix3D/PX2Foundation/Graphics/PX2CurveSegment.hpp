@@ -45,7 +45,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(CurveSegment);
-	typedef Pointer0<CurveSegment> CurveSegmentPtr;
+	typedef PointerRef<CurveSegment> CurveSegmentPtr;
 
 }
 

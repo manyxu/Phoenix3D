@@ -16,13 +16,13 @@ PX2_IMPLEMENT_DEFAULT_NAMES(TriMesh, UIPicBox);
 
 //----------------------------------------------------------------------------
 UIPicBox::UIPicBox(const std::string &filename, int isDynamicBuffer) :
-mIsDynamic(isDynamicBuffer>0),
+mIsDynamic(isDynamicBuffer > 0),
 mPicBoxType(PBT_NORMAL),
 mPivotPoint(0.5f, 0.5f),
 mSize(128.0f, 64.0f),
 mCornerSize(10.0f, 10.0f),
 mIsBufferNeedUpdate(true),
-mTexMode(TM_TEX),
+mPBTexMode(PBTM_TEX),
 mTexturePathname(filename)
 {
 	_Init();
@@ -49,7 +49,7 @@ mPivotPoint(0.5f, 0.5f),
 mSize(128.0f, 64.0f),
 mCornerSize(10.0f, 10.0f),
 mIsBufferNeedUpdate(true),
-mTexMode(TM_TEXPACK_ELE)
+mPBTexMode(PBTM_TEXPACK_ELE)
 {
 	_Init();
 
@@ -134,7 +134,7 @@ void UIPicBox::SetTexture(const std::string &filename)
 	{
 		mIsBufferNeedUpdate = true;
 
-		mTexMode = TM_TEX;
+		mPBTexMode = PBTM_TEX;
 
 		mTexturePackName = "";
 		mElementName = "";
@@ -162,7 +162,7 @@ void UIPicBox::SetTexture(const std::string &texPackName,
 	{
 		mIsBufferNeedUpdate = true;
 
-		mTexMode = TM_TEXPACK_ELE;
+		mPBTexMode = PBTM_TEXPACK_ELE;
 
 		mElementName = eleName;
 		mTexturePackName = texPackName;
@@ -267,7 +267,7 @@ void UIPicBox::UpdateBuffers(float elapsedTime)
 		uvs.push_back(Float2(1.0f, 0.0f));
 	}
 
-	if (TM_TEX == mTexMode)
+	if (PBTM_TEX == mPBTexMode)
 	{
 		/*_*/
 	}
@@ -583,15 +583,6 @@ void UIPicBox::OnForceBind()
 	}
 }
 //----------------------------------------------------------------------------
-void UIPicBox::UIPicked(int info)
-{
-	UIFrame *frame = DynamicCast<UIFrame>(GetParent());
-	if (frame)
-	{
-		frame->OnUIPicked(info, this);
-	}
-}
-//----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
 // UIPicBox
@@ -612,9 +603,9 @@ void UIPicBox::RegistProperties()
 	AddProperty("Size", PT_SIZE, GetSize());;
 
 	std::vector<std::string> texModes;
-	texModes.push_back("TM_TEX");
-	texModes.push_back("TM_TEXPACK_ELE");
-	AddPropertyEnum("TexMode", (int)GetTexMode(), texModes);
+	texModes.push_back("PBTM_TEX");
+	texModes.push_back("PBTM_TEXPACK_ELE");
+	AddPropertyEnum("PicBoxTexMode", (int)GetPicBoxTexMode(), texModes);
 
 	AddProperty("Tex", PT_STRINGBUTTON, mTexturePathname);
 	AddProperty("TexPack_Ele", PT_STRINGBUTTON, mElementName);
@@ -642,11 +633,11 @@ void UIPicBox::OnPropertyChanged(const PropertyObject &obj)
 	{
 		SetTexCornerSize(PX2_ANY_AS(obj.Data, Sizef));
 	}
-	else if ("Tex" == obj.Name && mTexMode == TM_TEX)
+	else if ("Tex" == obj.Name && mPBTexMode == PBTM_TEX)
 	{
 		SetTexture(PX2_ANY_AS(obj.Data, std::string));
 	}
-	else if ("TexPack_Ele" == obj.Name && mTexMode == TM_TEXPACK_ELE)
+	else if ("TexPack_Ele" == obj.Name && mPBTexMode == PBTM_TEXPACK_ELE)
 	{
 		SetTexture(PX2_ANY_AS(obj.Data1, std::string),
 			PX2_ANY_AS(obj.Data, std::string));
@@ -666,7 +657,7 @@ mPivotPoint(0.5f, 0.5f),
 mSize(128, 64),
 mCornerSize(6, 6),
 mIsBufferNeedUpdate(true),
-mTexMode(TM_TEX)
+mPBTexMode(PBTM_TEX)
 {
 }
 //----------------------------------------------------------------------------
@@ -687,15 +678,15 @@ void UIPicBox::Load(InStream& source)
 	source.ReadString(mTexturePathname);
 	source.ReadString(mTexturePackName);
 	source.ReadString(mElementName);
-	source.ReadEnum(mTexMode);
+	source.ReadEnum(mPBTexMode);
 
 	if (mTexturePackName.empty() && mElementName.empty())
 	{
-		mTexMode = TM_TEX;
+		mPBTexMode = PBTM_TEX;
 	}
 	else
 	{
-		mTexMode = TM_TEXPACK_ELE;
+		mPBTexMode = PBTM_TEXPACK_ELE;
 	}
 
 	PX2_END_DEBUG_STREAM_LOAD(UIPicBox, source);
@@ -714,8 +705,6 @@ void UIPicBox::PostLink()
 	{
 		SetTexture(mTexturePackName, mElementName);
 	}
-
-	RegistToScriptSystemAll();
 }
 //----------------------------------------------------------------------------
 bool UIPicBox::Register(OutStream& target) const
@@ -744,7 +733,7 @@ void UIPicBox::Save(OutStream& target) const
 	target.WriteString(mTexturePathname);
 	target.WriteString(mTexturePackName);
 	target.WriteString(mElementName);
-	target.WriteEnum(mTexMode);
+	target.WriteEnum(mPBTexMode);
 
 	PX2_END_DEBUG_STREAM_SAVE(UIPicBox, target);
 }
@@ -764,7 +753,7 @@ int UIPicBox::GetStreamingSize(Stream &stream) const
 	size += PX2_STRINGSIZE(mTexturePathname);
 	size += PX2_STRINGSIZE(mTexturePackName);
 	size += PX2_STRINGSIZE(mElementName);
-	size += PX2_ENUMSIZE(mTexMode);
+	size += PX2_ENUMSIZE(mPBTexMode);
 
 	return size;
 }

@@ -2,6 +2,9 @@
 
 #include "PX2Canvas.hpp"
 #include "PX2Renderer.hpp"
+#include "PX2GraphicsRoot.hpp"
+#include "PX2MaterialInstance.hpp"
+#include "PX2VertexColor4Material.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, SizeNode, Canvas);
@@ -11,7 +14,9 @@ PX2_IMPLEMENT_DEFAULT_NAMES(SizeNode, Canvas);
 
 //----------------------------------------------------------------------------
 Canvas::Canvas() :
-mRenderer(0),
+mRenderNode(0),
+mRenderWindow(0),
+mIsMain(false),
 mIsSizeChangeReAdjustCamera(true),
 mPriority(0),
 mBeforeDoClearColor(false),
@@ -19,19 +24,121 @@ mBeforeDoClearDepth(false),
 mBeforeDoClearStencil(false),
 mAfterDoClearColor(false),
 mAfterDoClearDepth(false),
-mAfterDoClearStencil(false)
+mAfterDoClearStencil(false),
+mIsPickOnlyInSizeRange(true),
+mIsInRange(false),
+mIsPressed(false),
+mIsLeftPressed(false),
+mIsRightPressed(false),
+mIsMiddlePressed(false),
+mIsMoved(false)
 {
 	mOverrideWireProperty = new0 WireProperty();
 	mOverrideWireProperty->Enabled = true;
 
-	ComeInEventWorld();
+	mPixelToWorld.first = 0.0f;
+	mPixelToWorld.second = 0.0f;
+
+	mCanvasRenderBind = new0 CanvasRenderBind();
+	AttachChild(mCanvasRenderBind);
+
+	VertexColor4MaterialPtr mtl = new0 VertexColor4Material();
+	AlphaProperty *alphaProperty = mtl->GetAlphaProperty(0, 0);
+	alphaProperty->BlendEnabled = true;
+	MaterialInstance *mtlInst = mtl->CreateUniqueInstance();
+	mtlInst->GetPass(0)->GetAlphaProperty()->BlendEnabled = true;
+
+	mCanvasRenderBind->SetMaterialInstance(mtlInst);
 }
 //----------------------------------------------------------------------------
 Canvas::~Canvas()
 {
-	if (mRenderer && mRenderer->GetCamera() == mCamera)
+}
+//----------------------------------------------------------------------------
+void Canvas::SetMain(bool main)
+{
+	mIsMain = main;
+}
+//----------------------------------------------------------------------------
+void Canvas::SetRenderNode(SizeNode *movable)
+{
+	mRenderNode = movable;
+}
+//----------------------------------------------------------------------------
+void Canvas::SetRenderWindow(RenderWindow *rw)
+{
+	mRenderWindow = rw;
+}
+//----------------------------------------------------------------------------
+void Canvas::OnSizeChanged()
+{
+	SizeNode::OnSizeChanged();
+
+	if (GetParent())
 	{
-		mRenderer->SetCamera(0);
+		APoint worldPos = WorldTransform.GetTranslate();
+		APoint leftPos = worldPos + LeftBottomCornerOffset;
+		SetViewPort(leftPos.X(), leftPos.Z(), mSize.Width, mSize.Height);
+	}
+
+	CalPixelToWorld();
+}
+//----------------------------------------------------------------------------
+void Canvas::OnBeAttached()
+{
+	SizeNode::OnBeAttached();
+
+	Movable *topMoveable = GetTopestParent();
+	Canvas *topestCanvas = DynamicCast<Canvas>(topMoveable);
+	if (topestCanvas)
+	{
+		RenderWindow *rw = topestCanvas->GetRenderWindow();
+		if (rw)
+			rw->_CollectCanvas();
+	}
+}
+//----------------------------------------------------------------------------
+void Canvas::OnBeDetach()
+{
+	Canvas *topestCanvas = DynamicCast<Canvas>(GetTopestParent());
+	if (topestCanvas)
+	{
+		RenderWindow *rw = topestCanvas->GetRenderWindow();
+		rw->_CollectCanvas();
+	}
+}
+//----------------------------------------------------------------------------
+void Canvas::UpdateWorldData(double applicationTime,
+	double elapsedTime)
+{
+	if (mIsLayoutChanged)
+	{
+		if (mIsAnchorLayoutEnable)
+		{
+			UpdateLayout(GetParent());
+			UpdateLeftBottomCornerOffset(GetParent());
+		}
+		else
+		{
+			UpdateLeftBottomCornerOffset(GetParent());
+		}
+
+		if (mRenderNode)
+		{
+			mRenderNode->_MarkRelatvieChange();
+
+			mRenderNode->UpdateLayout(GetParent());
+			mRenderNode->UpdateLeftBottomCornerOffset(GetParent());
+		}
+
+		mIsLayoutChanged = false;
+	}
+
+	SizeNode::UpdateWorldData(applicationTime, elapsedTime);
+
+	if (mRenderNode)
+	{
+		mRenderNode->Update(applicationTime, elapsedTime);
 	}
 }
 //----------------------------------------------------------------------------
@@ -76,24 +183,6 @@ void Canvas::UpdateWorldBound()
 	}
 }
 //----------------------------------------------------------------------------
-void Canvas::OnSizeChanged()
-{
-	if (mIsSizeChangeReAdjustCamera && mCamera)
-	{
-		if (mCamera->IsPerspective())
-		{
-			float fov = 0.0f;
-			float asp = 1.0f;
-			float dMin = 0.0f;
-			float dMax = 0.0f;
-			mCamera->GetFrustum(fov, asp, dMin, dMax);
-			mCamera->SetFrustum(fov, mSize.Width / mSize.Height, dMin, dMax);
-		}
-	}
-
-	SizeNode::OnSizeChanged();
-}
-//----------------------------------------------------------------------------
 void Canvas::SetSizeChangeReAdjustCamera(bool doReAdjust)
 {
 	mIsSizeChangeReAdjustCamera = doReAdjust;
@@ -123,11 +212,6 @@ void Canvas::SetViewPort(float left, float bottom, float width,
 	mViewPort.Top = bottom + height;
 }
 //----------------------------------------------------------------------------
-void Canvas::SetRenderer(Renderer *renderer)
-{
-	mRenderer = renderer;
-}
-//----------------------------------------------------------------------------
 void Canvas::SetCamera(Camera *camera)
 {
 	mCamera = camera;
@@ -136,66 +220,46 @@ void Canvas::SetCamera(Camera *camera)
 //----------------------------------------------------------------------------
 void Canvas::OnGetVisibleSet(Culler& culler, bool noCull)
 {
-	bool isInternalCanvas = culler.IsInternalCanvas();
 	Movable *cullingScene = culler.GetCurCullingScene();
-	
-	if (!isInternalCanvas)
-	{
-		// top
-		if (cullingScene == this)
-		{
-			std::vector<MovablePtr>::iterator iter = mChild.begin();
-			std::vector<MovablePtr>::iterator end = mChild.end();
-			for (/**/; iter != end; ++iter)
-			{
-				Movable* child = *iter;
-				if (child)
-				{
-					child->GetVisibleSet(culler, noCull);
-				}
-			}
-		}
-		else
-		{
-			culler.GetVisibleCanvas().push_back(this);
-			return;
-		}
-	}
-	else
-	{
+	if (cullingScene == this)
+	{ 
+		// 从当前canvas开始，根
+
 		std::vector<MovablePtr>::iterator iter = mChild.begin();
 		std::vector<MovablePtr>::iterator end = mChild.end();
 		for (/**/; iter != end; ++iter)
 		{
 			Movable* child = *iter;
-			if (child)
+			if (child && child != mCanvasRenderBind)
 			{
 				child->GetVisibleSet(culler, noCull);
 			}
 		}
+
+		if (mRenderNode)
+		{
+			mRenderNode->GetVisibleSet(culler, noCull);
+		}
+	}
+	else
+	{
+		// 内部canvas, 只把canvas的的CanvasRenderBind加入
+
+		mCanvasRenderBind->GetVisibleSet(culler, noCull);
+
+		ClearVisibleSet();
+		ComputeVisibleSetAndEnv();
 	}
 }
 //----------------------------------------------------------------------------
-bool Canvas::GetPickRay(float screenX, float screenY, APoint& origin, 
-	AVector& direction)
+bool Canvas::GetPickRay(float viewPortPosX, float viewPortPosZ,
+	APoint& origin, AVector& direction)
 {
 	if (!mCamera) return false;
 
-	Rectf viewPort = mViewPort;
-	if (viewPort.IsEmpty())
-		viewPort = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
-
-	if (viewPort.IsEmpty()) return false;
-
-	// Get the current viewport and test whether (x,y) is in it.
-	float viewX = viewPort.Left;
-	float viewY = viewPort.Bottom;
-	float viewW = viewPort.Width();
-	float viewH = viewPort.Height();
-
 	// Get the [0,1]^2-normalized coordinates of (x,y).
-	float r = ((float)(screenX - viewX)) / (float)viewW;
-	float u = ((float)(screenY - viewY)) / (float)viewH;
+	float r = viewPortPosX / (float)mSize.Width;
+	float u = viewPortPosZ / (float)mSize.Height;
 
 	// Get the relative coordinates in [rmin,rmax]x[umin,umax].
 	float rBlend = (1.0f - r)*mCamera->GetRMin() + r*mCamera->GetRMax();
@@ -219,7 +283,7 @@ bool Canvas::GetPickRay(float screenX, float screenY, APoint& origin,
 	return true;
 }
 //----------------------------------------------------------------------------
-Vector2f Canvas::PointWorldToViewPort(const APoint &point,
+Vector2f Canvas::WorldPos3DToViewPort(const APoint &worldPos,
 	bool *isInBack)
 {
 	Rectf viewPort = mViewPort;
@@ -227,7 +291,7 @@ Vector2f Canvas::PointWorldToViewPort(const APoint &point,
 		viewPort = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
 
 	HMatrix matProjView = mCamera->GetProjectionMatrix() * mCamera->GetViewMatrix();
-	HPoint hPoint(point.X(), point.Y(), point.Z(), point.W());
+	HPoint hPoint(worldPos.X(), worldPos.Y(), worldPos.Z(), worldPos.W());
 	HPoint tempPoint = matProjView * hPoint;
 
 	if (isInBack)
@@ -241,15 +305,15 @@ Vector2f Canvas::PointWorldToViewPort(const APoint &point,
 	float wInv = 1.0f / tempPoint.W();
 
 	//投影坐标范围为[-1,1]要变成[0,1]
-	Vector2f screenPoint;
-	screenPoint.X() = (1.0f + tempPoint.X()*wInv) / 2.0f;
-	screenPoint.Y() = (1.0f + tempPoint.Y()*wInv) / 2.0f;
+	Vector2f viewPortPos;
+	viewPortPos.X() = (1.0f + tempPoint.X()*wInv) / 2.0f;
+	viewPortPos.Y() = (1.0f + tempPoint.Y()*wInv) / 2.0f;
 
 	//投影坐标范围为[0,1]要变成视口内坐标
-	screenPoint.X() = viewPort.Left + screenPoint.X()*viewPort.Width();
-	screenPoint.Y() = viewPort.Bottom + screenPoint.Y()*viewPort.Height();
+	viewPortPos.X() = viewPort.Left + viewPortPos.X()*viewPort.Width();
+	viewPortPos.Y() = viewPort.Bottom + viewPortPos.Y()*viewPort.Height();
 
-	return screenPoint;
+	return viewPortPos;
 }
 //----------------------------------------------------------------------------
 AVector Canvas::ScreenVectorToCamera(const AVector &screenVec)
@@ -285,55 +349,66 @@ void Canvas::ComputeVisibleSetAndEnv()
 	const Camera *cam = mCuller.GetCamera();
 	if (cam)
 	{
-		mCuller.SetInternalCanvas(0 != GetParent());
 		mCuller.ComputeVisibleSet(this);
 		mCuller.GetVisibleSet().Sort();
 	}
-	else mCuller.Clear();
+	else
+	{
+		mCuller.Clear();
+	}
 }
 //----------------------------------------------------------------------------
-void Canvas::Draw()
+void Canvas::Draw(Renderer *renderer)
 {
-	if (!IsShow()) return;
+	if (!IsShow()) 
+		return;
 
-	if (mRenderer)
+	if (GetParent())
 	{
-		CameraPtr beforeCamer = mRenderer->GetCamera();
-
-		mRenderer->InitRenderStates();
-
-		Rectf viewPort = mViewPort;
-		if (viewPort.IsEmpty()) viewPort = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
-		mRenderer->SetViewport(viewPort);
-
-		Float4 renderClearColor = mRenderer->GetClearColor();
-		if (mBeforeDoClearColor)
-		{
-			mRenderer->SetClearColor(mClearColor);
-			mRenderer->ClearColorBuffer();
-		}
-
-		if (mBeforeDoClearDepth)
-			mRenderer->ClearDepthBuffer();
-
-		if (mBeforeDoClearStencil)
-			mRenderer->ClearStencilBuffer();
-
-		mRenderer->SetCamera(mCamera);
-		mRenderer->Draw(mCuller.GetVisibleSet());
-
-		mRenderer->SetCamera(beforeCamer);
-		mRenderer->SetClearColor(renderClearColor);
-
-		if (mAfterDoClearColor)
-			mRenderer->ClearColorBuffer();
-
-		if (mAfterDoClearDepth)
-			mRenderer->ClearDepthBuffer();
-
-		if (mAfterDoClearStencil)
-			mRenderer->ClearStencilBuffer();
+		APoint worldPos = WorldTransform.GetTranslate();
+		APoint leftPos = worldPos + LeftBottomCornerOffset;
+		SetViewPort(leftPos.X(), leftPos.Z(), mSize.Width, mSize.Height);
 	}
+
+	// before
+	renderer->InitRenderStates();
+	CameraPtr beforeCamer = renderer->GetCamera();
+	Rectf beforeViewPort = renderer->GetViewPort();
+	Float4 beforeClearColor = renderer->GetClearColor();
+
+	Rectf viewPort = mViewPort;
+	if (viewPort.IsEmpty()) 
+		viewPort = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
+	renderer->SetViewport(viewPort);
+
+	if (mBeforeDoClearColor)
+	{
+		renderer->SetClearColor(mClearColor);
+		renderer->ClearColorBuffer();
+	}
+
+	if (mBeforeDoClearDepth)
+		renderer->ClearDepthBuffer();
+
+	if (mBeforeDoClearStencil)
+		renderer->ClearStencilBuffer();
+
+	renderer->SetCamera(mCamera);
+	renderer->Draw(mCuller.GetVisibleSet());
+
+	renderer->SetCamera(beforeCamer);
+	renderer->SetClearColor(beforeClearColor);
+
+	if (mAfterDoClearColor)
+		renderer->ClearColorBuffer();
+
+	if (mAfterDoClearDepth)
+		renderer->ClearDepthBuffer();
+
+	if (mAfterDoClearStencil)
+		renderer->ClearStencilBuffer();
+
+	renderer->SetViewport(beforeViewPort);
 }
 //----------------------------------------------------------------------------
 void Canvas::SetBeforeDrawClear(bool color, bool depth, bool stencil)
@@ -378,6 +453,110 @@ bool Canvas::LessThan(const Canvas *step0, const Canvas *step1)
 		return step0 < step1;
 
 	return priority0 > priority1;
+}
+//----------------------------------------------------------------------------
+void Canvas::SetPickOnlyInSizeRange(bool inRange)
+{
+	mIsPickOnlyInSizeRange = inRange;
+}
+//----------------------------------------------------------------------------
+void Canvas::OnLeftDown(const APoint &worldPos)
+{
+	mIsPressed = true;
+	mIsLeftPressed = true;
+	mIsMoved = false;
+
+	mPressedPos = worldPos;
+
+	mLastPickPos = mCurPickPos;
+	mCurPickPos = mPressedPos;
+
+	mLeftPressedPos = worldPos;
+}
+//----------------------------------------------------------------------------
+void Canvas::OnLeftUp(const APoint &worldPos)
+{
+	mIsPressed = false;
+	mIsLeftPressed = false;
+	mIsMoved = false;
+
+	mLastPickPos = mCurPickPos;
+	mCurPickPos = mReleasedPos;
+
+	mLeftReleasedPos = worldPos;
+}
+//----------------------------------------------------------------------------
+void Canvas::OnLeftDClick(const APoint &worldPos)
+{
+	PX2_UNUSED(worldPos);
+}
+//----------------------------------------------------------------------------
+void Canvas::OnMiddleDown(const APoint &worldPos)
+{
+	mIsPressed = true;
+	mIsMiddlePressed = true;
+	mIsMoved = false;
+
+	mPressedPos = worldPos;
+
+	mLastPickPos = mCurPickPos;
+	mCurPickPos = worldPos;
+
+	mMiddlePressedPos = worldPos;
+}
+//----------------------------------------------------------------------------
+void Canvas::OnMiddleUp(const APoint &worldPos)
+{
+	mIsPressed = false;
+	mIsMiddlePressed = false;
+	mIsMoved = false;
+
+	mLastPickPos = mCurPickPos;
+	mCurPickPos = worldPos;
+
+	mMiddleReleasedPos = worldPos;
+}
+//----------------------------------------------------------------------------
+void Canvas::OnMouseWheel(const APoint &worldPos, float delta)
+{
+	PX2_UNUSED(worldPos);
+	PX2_UNUSED(delta);
+}
+//----------------------------------------------------------------------------
+void Canvas::OnRightDown(const APoint &worldPos)
+{
+	mIsPressed = true;
+	mIsRightPressed = true;
+	mIsMoved = false;
+
+	mPressedPos = worldPos;
+
+	mLastPickPos = mCurPickPos;
+	mCurPickPos = worldPos;
+
+	mRightPressedPos = worldPos;
+}
+//----------------------------------------------------------------------------
+void Canvas::OnRightUp(const APoint &worldPos)
+{
+	mIsPressed = false;
+	mIsRightPressed = false;
+	mIsMoved = false;
+
+	mLastPickPos = mCurPickPos;
+	mCurPickPos = worldPos;
+
+	mRightReleasedPos = worldPos;
+}
+//----------------------------------------------------------------------------
+void Canvas::OnMotion(const APoint &worldPos)
+{
+	mMoveDelta = worldPos - mCurPickPos;
+
+	mLastPickPos = mCurPickPos;
+	mCurPickPos = worldPos;
+
+	mIsMoved = true;
 }
 //----------------------------------------------------------------------------
 std::pair<float, float> Canvas::CalPixelToWorld()
@@ -425,6 +604,8 @@ std::pair<float, float> Canvas::CalPixelToWorld()
 
 	}
 
+	mPixelToWorld = pixelToWorld;
+
 	return pixelToWorld;
 }
 //----------------------------------------------------------------------------
@@ -434,7 +615,9 @@ std::pair<float, float> Canvas::CalPixelToWorld()
 //----------------------------------------------------------------------------
 Canvas::Canvas(LoadConstructor value) :
 SizeNode(value),
-mRenderer(0),
+mRenderNode(0),
+mRenderWindow(0),
+mIsMain(false),
 mIsSizeChangeReAdjustCamera(true),
 mPriority(0),
 mBeforeDoClearColor(false),
@@ -442,7 +625,14 @@ mBeforeDoClearDepth(false),
 mBeforeDoClearStencil(false),
 mAfterDoClearColor(false),
 mAfterDoClearDepth(false),
-mAfterDoClearStencil(false)
+mAfterDoClearStencil(false),
+mIsPickOnlyInSizeRange(true),
+mIsInRange(false),
+mIsPressed(false),
+mIsLeftPressed(false),
+mIsRightPressed(false),
+mIsMiddlePressed(false),
+mIsMoved(false)
 {
 }
 //----------------------------------------------------------------------------

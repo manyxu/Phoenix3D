@@ -142,11 +142,11 @@ public_internal:
 		static void EffectModuleFinal ();
 
 		static bool msIsRegisterInitFinal;
-		static std::map<std::string, Pointer0<EffectModule> > msPreCreatedModules;
+		static std::map<std::string, PointerRef<EffectModule> > msPreCreatedModules;
 	};
 
 	PX2_REGISTER_STREAM(EffectModule);
-	typedef Pointer0<EffectModule> EffectModulePtr;
+	typedef PointerRef<EffectModule> EffectModulePtr;
 #include "PX2EffectModule.inl"
 	static bool gsEffectModuleInitFinal = EffectModule::RegisterInitFinal();
 

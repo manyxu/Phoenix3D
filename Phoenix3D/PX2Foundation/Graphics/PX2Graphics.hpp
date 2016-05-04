@@ -173,6 +173,10 @@
 #include "PX2WireProperty.hpp"
 #include "PX2ShaderKeys.hpp"
 
+// CanvasWindow
+#include "PX2Canvas.hpp"
+#include "PX2RenderWindow.hpp"
+
 // GraphicsRoot
 #include "PX2GraphicsRoot.hpp"
 

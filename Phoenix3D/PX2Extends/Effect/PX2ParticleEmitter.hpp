@@ -90,7 +90,7 @@ namespace PX2
 		RotateAxisType GetRotateAxisType () const;
 
 		void SetEmitRotateAxis (const AVector &dir);
-		const AVector GetEmitRotateAxis () const;
+		const AVector &GetEmitRotateAxis() const;
 
 		void SetEmitRotateDegree (float degree);
 		float GetEmitRotateDegree () const;
@@ -193,7 +193,7 @@ public_internal:
 
 #include "PX2ParticleEmitter.inl"
 	PX2_REGISTER_STREAM(ParticleEmitter);
-	typedef Pointer0<ParticleEmitter> ParticleEmitterPtr;
+	typedef PointerRef<ParticleEmitter> ParticleEmitterPtr;
 
 }
 

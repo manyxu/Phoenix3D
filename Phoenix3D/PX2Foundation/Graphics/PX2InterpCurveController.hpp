@@ -40,7 +40,7 @@ namespace PX2
 #include "PX2InterpCurveController.inl"
 
 	PX2_REGISTER_STREAM(InterpCurveController);
-	typedef Pointer0<InterpCurveController> InterpCurveControllerPtr;
+	typedef PointerRef<InterpCurveController> InterpCurveControllerPtr;
 
 }
 

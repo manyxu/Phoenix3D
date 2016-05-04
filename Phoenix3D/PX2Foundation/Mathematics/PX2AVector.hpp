@@ -22,6 +22,12 @@ namespace PX2
 		AVector (const Vector3f& vec);
 		~AVector ();
 
+		void SetX(float x);
+		void SetY(float y);
+		void SetZ(float z);
+		void SetW(float w);
+		void Set(float x, float y, float z, float w = 1.0f);
+
 		// ÒþÊ½×ª»»
 		inline operator const Float3& () const;
 		inline operator Float3& ();

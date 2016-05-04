@@ -4,6 +4,10 @@
 #define PX2EU_RESFRAME_HPP
 
 #include "PX2EU_ResTree.hpp"
+#include "PX2EU_ResList.hpp"
+#include "PX2UISplitterFrame.hpp"
+#include "PX2UICanvas.hpp"
+#include "PX2EU_GridFrame.hpp"
 
 namespace PX2
 {
@@ -17,12 +21,24 @@ namespace PX2
 		EU_ResFrame();
 		virtual ~EU_ResFrame();
 
+		void _SpliterDragingCallback(UIFrame *frame, UICallType type);
+
+		virtual void OnSizeChanged();
+
 	protected:
-		EU_ResTreePtr mTree;
+		void _SetFramePos();
+
+		UIFramePtr mToolFrame;
+		UICanvasPtr mTreeCanvas;
+		EU_ResTreePtr mTreeDirs;
+		UICanvasPtr mResCanvas;
+		EU_ResListPtr mResList;
+		EU_GridFramePtr mResGrid;
+		UISplitterFramePtr mSplitter;
 	};
 
 	PX2_REGISTER_STREAM(EU_ResFrame);
-	typedef Pointer0<EU_ResFrame> EU_ResFramePtr;
+	typedef PointerRef<EU_ResFrame> EU_ResFramePtr;
 
 }
 

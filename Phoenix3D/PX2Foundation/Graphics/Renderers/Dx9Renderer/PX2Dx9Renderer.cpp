@@ -409,6 +409,9 @@ void Renderer::SetOffsetProperty (const OffsetProperty* offsetState)
 		mOffsetProperty = mOverrideOffsetProperty;
 	}
 
+	SetColorMask(offsetState->AllowGreen, offsetState->AllowBlue,
+		offsetState->AllowGreen, offsetState->AllowAlpha);
+
 	// LineEnabled和PointEnabled被Dx9 Render忽略，因为Dx9不支持这两种几何
 	// 图形的Offset。
 
@@ -1190,8 +1193,13 @@ void Renderer::DrawPrimitive (const Renderable* renderable)
 
 			hr = mData->mDevice->DrawIndexedPrimitive(gDX9PrimitiveType[type],
 				0, 0, numVertices, indicesOffset, numPrimitives);
-			assertion(hr == D3D_OK, "DrawIndexedPrimitive failed: %s\n",
-				DXGetErrorString(hr));
+
+			if (hr != D3D_OK)
+			{
+				std::string errorStr = DXGetErrorString(hr);
+				assertion(false, "DrawIndexedPrimitive failed: %s\n",
+					errorStr.c_str());
+			}
 
 			PX2_END_QUERY(query, numPixelsDrawn);
 		}

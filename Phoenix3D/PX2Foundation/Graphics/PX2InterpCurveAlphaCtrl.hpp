@@ -27,7 +27,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(InterpCurveAlphaController);
-	typedef Pointer0<InterpCurveAlphaController> InterpCurveAlphaControllerPtr;
+	typedef PointerRef<InterpCurveAlphaController> InterpCurveAlphaControllerPtr;
 
 }
 

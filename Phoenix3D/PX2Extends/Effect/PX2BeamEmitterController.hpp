@@ -43,7 +43,7 @@ public_internal:
 #include "PX2BeamEmitterController.inl"
 
 	PX2_REGISTER_STREAM(BeamEmitterController);
-	typedef Pointer0<BeamEmitterController> BeamEmitterControllerPtr;
+	typedef PointerRef<BeamEmitterController> BeamEmitterControllerPtr;
 
 }
 

@@ -493,7 +493,7 @@ void ResourceManager::Dump (const std::string &filename)
 			int refCount = -1;
 			if (LoadRecord::RT_OBJECT == record.TheRecordType)
 			{
-				refCount = record.Obj.GetCount();
+				refCount = record.Obj->GetReferences();
 			}
 			else if (LoadRecord::RT_BUFFER == record.TheRecordType)
 			{
@@ -558,7 +558,7 @@ void ResourceManager::EndDumpDiff (const std::string &filename)
 			int refCount = -1;
 			if (LoadRecord::RT_OBJECT == record.TheRecordType)
 			{
-				refCount = record.Obj.GetCount();
+				refCount = record.Obj->GetReferences();
 			}
 			else if (LoadRecord::RT_BUFFER == record.TheRecordType)
 			{
@@ -884,19 +884,31 @@ void ResourceManager::GarbageCollect (double appSeconds, double elapsedSeconds)
 		if (LS_LOADED==record.State && 
 			appSeconds>(record.LastTouchedTime+mGarbageCollectTime))
 		{
-			if (LoadRecord::RT_OBJECT==record.TheRecordType &&
-				1==record.Obj.GetCount())
+			if (LoadRecord::RT_OBJECT == record.TheRecordType)
 			{
-				ResTableIterator iter2 = mResTable.Iterate(iter);
-				mResTable.Erase(iter);
-				iter = iter2;
+				if (!record.Obj || 1 == record.Obj->GetReferences())
+				{
+					ResTableIterator iter2 = mResTable.Iterate(iter);
+					mResTable.Erase(iter);
+					iter = iter2;
+				}
+				else
+				{
+					iter = mResTable.Iterate(iter);
+				}
 			}
-			else if (LoadRecord::RT_BUFFER==record.TheRecordType &&
-				1==record.Buffer.GetCount())
+			else if (LoadRecord::RT_BUFFER == record.TheRecordType)
 			{
-				ResTableIterator iter2 = mResTable.Iterate(iter);
-				mResTable.Erase(iter);
-				iter = iter2;
+				if (!record.Buffer || 1 == record.Buffer.GetCount())
+				{
+					ResTableIterator iter2 = mResTable.Iterate(iter);
+					mResTable.Erase(iter);
+					iter = iter2;
+				}
+				else
+				{
+					iter = mResTable.Iterate(iter);
+				}
 			}
 			else
 			{

@@ -5,7 +5,6 @@
 
 #include "PX2Edit.hpp"
 #include "PX2EditDefine.hpp"
-#include "PX2EditMap.hpp"
 #include "PX2EU_Manager.hpp"
 
 #endif

@@ -176,7 +176,7 @@ namespace PX2
 	};
 
 	PX2_REGISTER_STREAM(Texture);
-	typedef Pointer0<Texture> TexturePtr;
+	typedef PointerRef<Texture> TexturePtr;
 #include "PX2Texture.inl"
 
 }

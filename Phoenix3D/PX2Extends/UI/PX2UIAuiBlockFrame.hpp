@@ -20,9 +20,20 @@ namespace PX2
 		UIAuiBlockFrame(UILayoutPosType posType);
 		virtual ~UIAuiBlockFrame();
 
+		void Caputure(bool capture);
+		bool IsCaputred() const;
+
+		void SetBrotherFrame(UIAuiBlockFrame *frame);
+		UIAuiBlockFrame *GetBrotherFrame();
+
 		UILayoutPosType GetLayOutPosType() const;
 
-		virtual int AttachChild(Movable* child);
+		void SetAutoExpand(bool expand);
+		bool IsAutoExpand() const;
+
+		virtual void OnChildAttached(Movable *child);
+		virtual void OnChildDetach(Movable *child);
+
 		UITabFrame *GetUITabFrame();
 
 		virtual void OnSizeChanged();
@@ -32,53 +43,54 @@ namespace PX2
 
 	protected:
 		virtual void UpdateWorldData(double applicationTime, double elapsedTime);
-		void _CalSideFrames(std::vector<UISplitterFramePtr> &frames);
+
+		bool mIsCaptured;
+		UIAuiBlockFrame *mBrotherFrame;
 
 		UILayoutPosType mPosType;
+		bool mIsAutoExpand;
 		UITabFramePtr mUITabFrame;
 
-		bool mIsFramesSortNeedUpdate;
-		std::vector<UISplitterFramePtr > mSplitterFrames;
-		std::vector<UISplitterFramePtr> mSplitterFrames_Hor;
-		std::vector<UISplitterFramePtr> mSplitterFrames_Ver;
 		Sizef mMinSize;
 
 		// ËÄÌõ±ß
 	public:
+		// hor:-_
+		// ver:||
 		void SetSideFrameHor0(UISplitterFrame *frame);
 		UISplitterFrame *GetSideFrameHor0();
-		bool IsSideFrameInnerHor0() const;
 
 		void SetSideFrameHor1(UISplitterFrame *frame);
 		UISplitterFrame *GetSideFrameHor1();
-		bool IsSideFrameInnerHor1() const;
 
 		void SetSideFrameVer0(UISplitterFrame *frame);
 		UISplitterFrame *GetSideFrameVer0();
-		bool IsSideFrameInnerVer0() const;
 
 		void SetSideFrameVer1(UISplitterFrame *frame);
 		UISplitterFrame *GetSideFrameVer1();
-		bool IsSideFrameInnerVer1() const;
+
+		void SetSpliterFrame(UISplitterFrame *frame);
+		UISplitterFrame *GetSpliterFrame();
 
 	public_internal:
 		static void _UpdateLayout(UIAuiBlockFrame *auiBlockFrame,
 			bool setToAuiBlockFrame = true,
 			Sizef *outSize = 0, APoint *outPos = 0);
 
+		UISplitterFrame *_CalGetNewSideFrameHor0();
+		UISplitterFrame *_CalGetNewSideFrameHor1();
+		UISplitterFrame *_CalGetNewSideFrameVer0();
+		UISplitterFrame *_CalGetNewSideFrameVer1();
+
 	protected:
 		UISplitterFrame *mSideFrameHor0;
 		UISplitterFrame *mSideFrameHor1;
 		UISplitterFrame *mSideFrameVer0;
 		UISplitterFrame *mSideFrameVer1;
+		UISplitterFramePtr mSpliterFrame;
 
 	protected:
-		virtual void UpdateLayout();
-
-		UISplitterFrame *_CalGetNewSideFrameHor0();
-		UISplitterFrame *_CalGetNewSideFrameHor1();
-		UISplitterFrame *_CalGetNewSideFrameVer0();
-		UISplitterFrame *_CalGetNewSideFrameVer1();
+		virtual void UpdateLayout(Movable *parent);
 
 		UISplitterFrame *_CalGetLinkFrame0(UILayoutPosType pos);
 		UISplitterFrame *_CalGetLinkFrame1(UILayoutPosType pos);
@@ -86,19 +98,23 @@ namespace PX2
 
 	public:
 		UIAuiBlockFrame *CreateAddPosFrame(UILayoutPosType pos, const Sizef &size);
+		void RemovePosFrame(UILayoutPosType pos);
 		UIAuiBlockFrame *GetPosFrame(UILayoutPosType pos);
+		int GetNumChildPosFrames();
 
 	protected:
+		UIAuiBlockFrame *_GetSameSizeBlockFrame(UIAuiBlockFrame *frame);
+
 		void SetParentAuiBlockFrame(UIAuiBlockFrame *frame);
 		UIAuiBlockFrame *GetParentSpBlockFrame();
 
-		std::map<UILayoutPosType, Pointer0<UIAuiBlockFrame> > mSideFrames;
+		std::map<UILayoutPosType, PointerRef<UIAuiBlockFrame> > mSideFrames;
 		UIAuiBlockFrame *mParentAuiBlockFrame;
 	};
 
 #include "PX2UIAuiBlockFrame.inl"
 	PX2_REGISTER_STREAM(UIAuiBlockFrame);
-	typedef Pointer0<UIAuiBlockFrame> UIAuiBlockFramePtr;
+	typedef PointerRef<UIAuiBlockFrame> UIAuiBlockFramePtr;
 
 }
 

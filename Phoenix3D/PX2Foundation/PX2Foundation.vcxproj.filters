@@ -115,9 +115,6 @@
     <Filter Include="Unity\IME">
       <UniqueIdentifier>{eb9bb664-b282-425e-8a1c-e68a76437ea2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Unity\Script">
-      <UniqueIdentifier>{4c61b61c-9db3-4b0b-957e-b381e84ad143}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Unity\Tools">
       <UniqueIdentifier>{20f8dcf6-179d-438b-b9f7-80d32426528c}</UniqueIdentifier>
     </Filter>
@@ -166,9 +163,6 @@
     <Filter Include="Core\Memory">
       <UniqueIdentifier>{a465ff97-cc47-4742-9c95-4c370c7beb12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Script">
-      <UniqueIdentifier>{389fde87-1361-4eca-9369-7db3efc0f9c6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\FileStream">
       <UniqueIdentifier>{11198003-aa50-495a-9603-9563d05f7d2b}</UniqueIdentifier>
     </Filter>
@@ -195,9 +189,6 @@
     </Filter>
     <Filter Include="Graphics\Resources">
       <UniqueIdentifier>{a9edd224-dbf7-472d-9b01-5f5b899b1346}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\SceneGraph">
-      <UniqueIdentifier>{3c42fb5b-825e-486a-be94-5c3581bf36dd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graphics\ShaderFloats">
       <UniqueIdentifier>{01335155-cc31-466f-bf0e-816e287268bf}</UniqueIdentifier>
@@ -231,12 +222,6 @@
     </Filter>
     <Filter Include="Graphics\Events">
       <UniqueIdentifier>{7b6f9d41-8d34-4b44-af43-34770ec9f622}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Unity\IME\Input">
-      <UniqueIdentifier>{2ba7fed1-42f2-416b-b1a0-b69d0811f8b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Unity\IME\Input\Language">
-      <UniqueIdentifier>{7a353a88-7698-4e0f-a614-6286a174ba30}</UniqueIdentifier>
     </Filter>
     <Filter Include="Net\Address">
       <UniqueIdentifier>{040e61a0-1195-4b4f-9c57-0f5cb2c12b00}</UniqueIdentifier>
@@ -286,11 +271,50 @@
     <Filter Include="Net\Server\ServerSocket">
       <UniqueIdentifier>{65bb203b-ce86-4492-881f-ea11020c70cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Canvas">
+    <Filter Include="Unity\Input">
+      <UniqueIdentifier>{2ba7fed1-42f2-416b-b1a0-b69d0811f8b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\Language">
+      <UniqueIdentifier>{7a353a88-7698-4e0f-a614-6286a174ba30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\FunctionObject">
+      <UniqueIdentifier>{838f04c7-8544-4011-96cb-6f5a61c5cfd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Dir">
+      <UniqueIdentifier>{3a42e64f-8f08-4b3b-bd46-27715a3187be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\CanvasWindow">
       <UniqueIdentifier>{93116300-7071-49d5-a365-fd2a1c530b60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\SceneGraph">
+      <UniqueIdentifier>{3c42fb5b-825e-486a-be94-5c3581bf36dd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graphics\SceneGraph\Node">
       <UniqueIdentifier>{f585ddfa-6335-4963-87e5-63431dcd51f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Memory\ObjectPool">
+      <UniqueIdentifier>{f9cae673-475a-4f4f-a684-b821a81cfad0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\AngelScript">
+      <UniqueIdentifier>{a7dc27f0-abb7-4f10-9f83-2338f152d636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\ModelImporter">
+      <UniqueIdentifier>{c454046f-b2d6-4dc4-8ed6-23677b99bf04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\ModelImporter\Obj">
+      <UniqueIdentifier>{e2575a52-e62e-4981-b1c5-7f5ec3a80ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\ModelImporter\FBX">
+      <UniqueIdentifier>{db9292c5-bc7c-49a6-a062-c74b8591b9ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\Script">
+      <UniqueIdentifier>{4c61b61c-9db3-4b0b-957e-b381e84ad143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\Script\AS">
+      <UniqueIdentifier>{31a9f74d-5557-4bf4-b7dc-b00480b6c09d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unity\Script\Lua">
+      <UniqueIdentifier>{922e3f3c-a09f-43ac-9d6a-f3a55c08efa6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -859,7 +883,7 @@
       <Filter>Graphics\Renderers\OpenGLESRenderer</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2LanguageManager.hpp">
-      <Filter>Unity\IME\Input\Language</Filter>
+      <Filter>Unity\Language</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2CharCoding.hpp">
       <Filter>Unity\Font</Filter>
@@ -904,19 +928,19 @@
       <Filter>Unity\Font</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2InputEvent.hpp">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2InputEventData.hpp">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2InputEventListener.hpp">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2InputManager.hpp">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2InputPushTransformController.hpp">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2Plugin.hpp">
       <Filter>Unity\DynLib</Filter>
@@ -941,9 +965,6 @@
     </ClInclude>
     <ClInclude Include="Unity\PX2IMEDispatcher.hpp">
       <Filter>Unity\IME</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\PX2LuaManager.hpp">
-      <Filter>Unity\Script</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2AddDeleteManager.hpp">
       <Filter>Unity\Tools</Filter>
@@ -1023,20 +1044,11 @@
     <ClInclude Include="Core\PX2Exception.hpp">
       <Filter>Core\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Core\PX2FixMemoryObject.hpp">
-      <Filter>Core\Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2FixMemoryPool.hpp">
-      <Filter>Core\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="Core\PX2Eventt.hpp">
       <Filter>Core\Thread</Filter>
     </ClInclude>
     <ClInclude Include="Core\PX2FString.hpp">
       <Filter>Core\Untity</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2Function.hpp">
-      <Filter>Core\ObjectSystem</Filter>
     </ClInclude>
     <ClInclude Include="Core\PX2GeneralAlloctor.hpp">
       <Filter>Core\Memory</Filter>
@@ -1090,9 +1102,6 @@
       <Filter>Core\ObjectSystem</Filter>
     </ClInclude>
     <ClInclude Include="Core\PX2ObjectCopyPool.hpp">
-      <Filter>Core\Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ObjectPool.hpp">
       <Filter>Core\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Core\PX2OutStream.hpp">
@@ -1154,9 +1163,6 @@
     </ClInclude>
     <ClInclude Include="Core\PX2System.hpp">
       <Filter>Core\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PX2ScriptManager.hpp">
-      <Filter>Core\Script</Filter>
     </ClInclude>
     <ClInclude Include="Core\PX2Singleton.hpp">
       <Filter>Core\Design</Filter>
@@ -1714,7 +1720,7 @@
       <Filter>Net\Server\ServerSocket</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\PX2Canvas.hpp">
-      <Filter>Graphics\Canvas</Filter>
+      <Filter>Graphics\CanvasWindow</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\PX2Node.hpp">
       <Filter>Graphics\SceneGraph\Node</Filter>
@@ -1727,6 +1733,195 @@
     </ClInclude>
     <ClInclude Include="Graphics\PX2LightNode.hpp">
       <Filter>Graphics\SceneGraph\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2FunObject.hpp">
+      <Filter>Core\FunctionObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Function.hpp">
+      <Filter>Core\FunctionObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2GraphicsEventData.hpp">
+      <Filter>Graphics\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Dir.hpp">
+      <Filter>Core\Dir</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2DirData.hpp">
+      <Filter>Core\Dir</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2FileFn.hpp">
+      <Filter>Core\Dir</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2Filename.hpp">
+      <Filter>Core\Dir</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2RenderWindow.hpp">
+      <Filter>Graphics\CanvasWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2CanvasRenderBind.hpp">
+      <Filter>Graphics\CanvasWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_array.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_atomic.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_builder.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_bytecode.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_callfunc.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_compiler.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_config.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_configgroup.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_context.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_criticalsection.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_datatype.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_debug.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_gc.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_generic.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_map.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_memory.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_module.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_namespace.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_objecttype.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_outputbuffer.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_parser.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_property.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_restore.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_scriptcode.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_scriptengine.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_scriptfunction.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_scriptnode.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_scriptobject.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_string.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_string_util.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_symboltable.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_texts.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_thread.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_tokendef.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_tokenizer.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_typeinfo.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\AngelScript\as_variablescope.h">
+      <Filter>Unity\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2ASContext.hpp">
+      <Filter>Unity\Script\AS</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2LuaContext.hpp">
+      <Filter>Unity\Script\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2ScriptController.hpp">
+      <Filter>Unity\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2ASScriptbuilder.hpp">
+      <Filter>Unity\Script\AS</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2ASClassType.hpp">
+      <Filter>Unity\Script\AS</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2ASScriptController.hpp">
+      <Filter>Unity\Script\AS</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2ASScriptstdstring.hpp">
+      <Filter>Unity\Script\AS</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2ScriptContext.hpp">
+      <Filter>Unity\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2ScriptManager.hpp">
+      <Filter>Unity\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2FixMemoryPool.hpp">
+      <Filter>Core\Memory\ObjectPool</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2FixMemoryObject.hpp">
+      <Filter>Core\Memory\ObjectPool</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ObjectPool.hpp">
+      <Filter>Core\Memory\ObjectPool</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PX2InterpCurveBrightnessCtrl.hpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\ModelImporter\Obj\MtlLoader.h">
+      <Filter>Unity\ModelImporter\Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\ModelImporter\Obj\ObjLoader.h">
+      <Filter>Unity\ModelImporter\Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2ReferencesObject.hpp">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PX2SmartPointerRef.hpp">
+      <Filter>Core\Memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2283,7 +2478,7 @@
       <Filter>Graphics\Renderers\OpenGLESRenderer</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2LanguageManager.cpp">
-      <Filter>Unity\IME\Input\Language</Filter>
+      <Filter>Unity\Language</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2CharCodingGBK.cpp">
       <Filter>Unity\Font</Filter>
@@ -2319,19 +2514,19 @@
       <Filter>Unity\Font</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2InputEvent.cpp">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2InputEventData.cpp">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2InputEventListener.cpp">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2InputManager.cpp">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2InputPushTransformController.cpp">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2PluginManager.cpp">
       <Filter>Unity\DynLib</Filter>
@@ -2353,9 +2548,6 @@
     </ClCompile>
     <ClCompile Include="Unity\PX2IMEDispatcher.cpp">
       <Filter>Unity\IME</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\PX2LuaManager.cpp">
-      <Filter>Unity\Script</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2AddDeleteManager.cpp">
       <Filter>Unity\Tools</Filter>
@@ -2468,9 +2660,6 @@
     <ClCompile Include="Core\PX2Object_Event.cpp">
       <Filter>Core\ObjectSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Core\PX2Object_Function.cpp">
-      <Filter>Core\ObjectSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Core\PX2Object_NameID.cpp">
       <Filter>Core\ObjectSystem</Filter>
     </ClCompile>
@@ -2481,9 +2670,6 @@
       <Filter>Core\ObjectSystem</Filter>
     </ClCompile>
     <ClCompile Include="Core\PX2Object_Rtti.cpp">
-      <Filter>Core\ObjectSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2Object_Script.cpp">
       <Filter>Core\ObjectSystem</Filter>
     </ClCompile>
     <ClCompile Include="Core\PX2Object_UserData.cpp">
@@ -2533,9 +2719,6 @@
     </ClCompile>
     <ClCompile Include="Core\PX2System.cpp">
       <Filter>Core\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PX2ScriptManager.cpp">
-      <Filter>Core\Script</Filter>
     </ClCompile>
     <ClCompile Include="Core\PX2Stream.cpp">
       <Filter>Core\FileStream</Filter>
@@ -3063,7 +3246,7 @@
       <Filter>Net\Server\ServerSocket</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\PX2Canvas.cpp">
-      <Filter>Graphics\Canvas</Filter>
+      <Filter>Graphics\CanvasWindow</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\PX2Node.cpp">
       <Filter>Graphics\SceneGraph\Node</Filter>
@@ -3076,6 +3259,192 @@
     </ClCompile>
     <ClCompile Include="Graphics\PX2LightNode.cpp">
       <Filter>Graphics\SceneGraph\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2FunObject.cpp">
+      <Filter>Core\FunctionObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Object_Function.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2GraphicsEventData.cpp">
+      <Filter>Graphics\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Dir.cpp">
+      <Filter>Core\Dir</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2DirData.cpp">
+      <Filter>Core\Dir</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2FileFn.cpp">
+      <Filter>Core\Dir</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2Filename.cpp">
+      <Filter>Core\Dir</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2RenderWindow.cpp">
+      <Filter>Graphics\CanvasWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2CanvasRenderBind.cpp">
+      <Filter>Graphics\CanvasWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_atomic.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_builder.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_bytecode.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc_arm.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc_mips.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc_ppc.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc_ppc_64.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc_sh4.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc_x64_gcc.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc_x64_mingw.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc_x64_msvc.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc_x86.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_callfunc_xenon.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_compiler.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_configgroup.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_context.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_datatype.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_gc.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_generic.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_globalproperty.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_memory.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_module.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_objecttype.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_outputbuffer.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_parser.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_restore.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_scriptcode.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_scriptengine.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_scriptfunction.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_scriptnode.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_scriptobject.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_string.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_string_util.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_thread.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_tokenizer.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_typeinfo.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\AngelScript\as_variablescope.cpp">
+      <Filter>Unity\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2ASContext.cpp">
+      <Filter>Unity\Script\AS</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2LuaContext.cpp">
+      <Filter>Unity\Script\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2ScriptController.cpp">
+      <Filter>Unity\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2ASScriptbuilder.cpp">
+      <Filter>Unity\Script\AS</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2ASClassType.cpp">
+      <Filter>Unity\Script\AS</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2ASScriptController.cpp">
+      <Filter>Unity\Script\AS</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2ASScriptstdstring.cpp">
+      <Filter>Unity\Script\AS</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2ScriptContext.cpp">
+      <Filter>Unity\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2ScriptManager.cpp">
+      <Filter>Unity\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PX2InterpCurveBrightnessCtrl.cpp">
+      <Filter>Graphics\Controllers\InterpCurveCtrls\Float</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\ModelImporter\Obj\MtlLoader.cpp">
+      <Filter>Unity\ModelImporter\Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\ModelImporter\Obj\MtlLoaderCodes.cpp">
+      <Filter>Unity\ModelImporter\Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\ModelImporter\Obj\ObjLoader.cpp">
+      <Filter>Unity\ModelImporter\Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\ModelImporter\Obj\ObjLoaderCodes.cpp">
+      <Filter>Unity\ModelImporter\Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PX2ReferencesObject.cpp">
+      <Filter>Core\Memory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -3197,10 +3566,10 @@
       <Filter>Unity\Font</Filter>
     </None>
     <None Include="Unity\PX2InputManager.inl">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </None>
     <None Include="Unity\PX2InputPushTransformController.inl">
-      <Filter>Unity\IME\Input</Filter>
+      <Filter>Unity\Input</Filter>
     </None>
     <None Include="Unity\PX2ResourceManager.inl">
       <Filter>Unity\Resource</Filter>
@@ -3210,9 +3579,6 @@
     </None>
     <None Include="Unity\PX2SoundSystem.inl">
       <Filter>Unity\Sound</Filter>
-    </None>
-    <None Include="Unity\PX2LuaManager.inl">
-      <Filter>Unity\Script</Filter>
     </None>
     <None Include="Core\PX2Ascii.inl">
       <Filter>Core\Untity</Filter>
@@ -3244,9 +3610,6 @@
     <None Include="Core\PX2FileIO.inl">
       <Filter>Core\FileStream</Filter>
     </None>
-    <None Include="Core\PX2FixMemoryPool.inl">
-      <Filter>Core\Memory</Filter>
-    </None>
     <None Include="Core\PX2GeneralAlloctor.inl">
       <Filter>Core\Memory</Filter>
     </None>
@@ -3264,9 +3627,6 @@
     </None>
     <None Include="Core\PX2Object.inl">
       <Filter>Core\ObjectSystem</Filter>
-    </None>
-    <None Include="Core\PX2ObjectPool.inl">
-      <Filter>Core\Memory</Filter>
     </None>
     <None Include="Core\PX2OutStream.inl">
       <Filter>Core\FileStream</Filter>
@@ -3503,7 +3863,7 @@
       <Filter>Net\Server\User</Filter>
     </None>
     <None Include="Graphics\PX2Canvas.inl">
-      <Filter>Graphics\Canvas</Filter>
+      <Filter>Graphics\CanvasWindow</Filter>
     </None>
     <None Include="Graphics\PX2Node.inl">
       <Filter>Graphics\SceneGraph\Node</Filter>
@@ -3516,6 +3876,45 @@
     </None>
     <None Include="Graphics\PX2LightNode.inl">
       <Filter>Graphics\SceneGraph\Node</Filter>
+    </None>
+    <None Include="Graphics\PX2RenderWindow.inl">
+      <Filter>Graphics\CanvasWindow</Filter>
+    </None>
+    <None Include="Unity\AngelScript\as_callfunc_arm_gcc.S">
+      <Filter>Unity\AngelScript</Filter>
+    </None>
+    <None Include="Unity\AngelScript\as_callfunc_arm_msvc.asm">
+      <Filter>Unity\AngelScript</Filter>
+    </None>
+    <None Include="Unity\AngelScript\as_callfunc_arm_vita.S">
+      <Filter>Unity\AngelScript</Filter>
+    </None>
+    <None Include="Unity\AngelScript\as_callfunc_arm_xcode.S">
+      <Filter>Unity\AngelScript</Filter>
+    </None>
+    <None Include="Unity\AngelScript\as_callfunc_x64_msvc_asm.asm">
+      <Filter>Unity\AngelScript</Filter>
+    </None>
+    <None Include="Unity\PX2LuaContext.inl">
+      <Filter>Unity\Script\Lua</Filter>
+    </None>
+    <None Include="Core\PX2FixMemoryPool.inl">
+      <Filter>Core\Memory\ObjectPool</Filter>
+    </None>
+    <None Include="Core\PX2ObjectPool.inl">
+      <Filter>Core\Memory\ObjectPool</Filter>
+    </None>
+    <None Include="Unity\ModelImporter\Obj\MtlLoader.inl">
+      <Filter>Unity\ModelImporter\Obj</Filter>
+    </None>
+    <None Include="Unity\ModelImporter\Obj\ObjLoader.inl">
+      <Filter>Unity\ModelImporter\Obj</Filter>
+    </None>
+    <None Include="Core\PX2ReferencesObject.inl">
+      <Filter>Core\Memory</Filter>
+    </None>
+    <None Include="Core\PX2SmartPointerRef.inl">
+      <Filter>Core\Memory</Filter>
     </None>
   </ItemGroup>
 </Project>

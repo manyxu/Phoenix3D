@@ -1,0 +1,6 @@
+// PX2EngineLoop.pkg
+
+	class EngineLoop
+	{
+		// SINGLETON
+	};

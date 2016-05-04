@@ -10,7 +10,7 @@
 #include "PX2BPParam.hpp"
 #include "PX2UIFrame.hpp"
 #include "PX2UIPicBox.hpp"
-#include "PX2UIText.hpp"
+#include "PX2UIFText.hpp"
 #include "PX2UIButton.hpp"
 
 namespace PX2
@@ -42,11 +42,8 @@ namespace PX2
 
 		ModuleType GetModuleType() const;
 
-		void Enable(bool enable);
-		bool IsEnable() const;
-
 		// regist
-		void RegistFunObj(const Object::FunObject &funObj);
+		void RegistFunObj(const FunObject &funObj);
 
 		// Input Output
 		const std::map<std::string, BPParam *> &GetInputParams() const;
@@ -73,6 +70,7 @@ namespace PX2
 		void OnDetach();
 		void SetCompilingAsParam(bool isAsParam);
 		bool IsCompilingAsParam() const;
+		std::string GetFunctionName();
 
 	protected:
 		void _ProcessOutputParams(std::string &script, int numTable);
@@ -82,7 +80,6 @@ namespace PX2
 		void _UpdateModuleColorPos();
 
 		ModuleType mModuleType;
-		bool mIsEnable;
 
 		std::vector<BPParamPtr> mInputParamsVec;
 		std::map<std::string, BPParam*> mInputParams;
@@ -97,27 +94,16 @@ namespace PX2
 
 		// UI
 	public:
-		void SetSize(const Sizef &size);
-		const Sizef &GetSize() const;
-
 		float GetItemHeight() const;
-		float GetInOutButSize() const;
 
 	public_internal:
 		void UpdateCurve();
 
 	protected:
-		void _AdjustInOutPos();
-
-		Sizef mSize;
-
-		UIPicBoxPtr mBackPicBox;
-
 		float mItemHeight;
-		UITextPtr mClassText;
-		UITextPtr mNameText;
+		UIFTextPtr mClassText;
+		UIFTextPtr mNameText;
 
-		float mInOutButSize;
 		BPParamPtr mActInBut;
 		BPParamPtr mActOutBut;
 		std::vector<BPParamPtr> mActOutButs_Operator;
@@ -126,7 +112,7 @@ namespace PX2
 
 #include "PX2BPModule.inl"
 	PX2_REGISTER_STREAM(BPModule);
-	typedef Pointer0<BPModule> BPModulePtr;
+	typedef PointerRef<BPModule> BPModulePtr;
 
 }
 

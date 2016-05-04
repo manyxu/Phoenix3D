@@ -101,6 +101,11 @@ inline bool UIText::IsDoCharTranslate() const
 	return mIsDoCharTranslate;
 }
 //----------------------------------------------------------------------------
+inline bool UIText::IsPointAsPunctuation() const
+{
+	return mIsPointAsPunctuation;
+}
+//----------------------------------------------------------------------------
 inline float UIText::GetFontScale() const
 {
 	return mFontScale;
