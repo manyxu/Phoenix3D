@@ -41,30 +41,28 @@ bool ScriptContext::CallBuffer(const char *buffer, unsigned long size)
 	return false;
 }
 //----------------------------------------------------------------------------
-bool ScriptContext::CallFileFunction(const std::string &filename, 
+bool ScriptContext::CallFileFunction(const std::string &filename,
 	const std::string &funName)
 {
-	PX2_UNUSED(filename);
-	PX2_UNUSED(funName);
-
-	return true;
-}
-//----------------------------------------------------------------------------
-bool ScriptContext::CallObjectFunction(const char *objectName,
-	const char *funName, const char *format, ...)
-{
-	PX2_UNUSED(objectName);
-	PX2_UNUSED(funName);
-	PX2_UNUSED(format);
-
 	return false;
 }
 //----------------------------------------------------------------------------
-bool ScriptContext::CallObjectFuntionValist(const char *objectName,
-	const char *funName, const char *format, va_list valist)
+bool ScriptContext::CallObjectFunction(const std::string &funName,
+	Object *paramObj, const char *format, ...)
 {
-	PX2_UNUSED(objectName);
+	va_list argptr;
+	va_start(argptr, format);
+	bool ret = CallObjectFuntionValist(funName, paramObj, format, argptr);
+	va_end(argptr);
+
+	return ret;
+}
+//----------------------------------------------------------------------------
+bool ScriptContext::CallObjectFuntionValist(const std::string &funName,
+	Object *paramObj, const std::string &format, va_list valist)
+{
 	PX2_UNUSED(funName);
+	PX2_UNUSED(paramObj);
 	PX2_UNUSED(format);
 	PX2_UNUSED(valist);
 

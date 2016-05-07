@@ -13,6 +13,4 @@
 		
 		void Clear();
 		void AddPoint(float inVal, float outVal, InterpCurveMode mode);
-
-		InterpCurveFloat mValues;
 	};

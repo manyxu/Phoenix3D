@@ -5,4 +5,10 @@
 	public:
 		Scene();
 		virtual ~Scene();
+		
+		void SetUseCameraActor(CameraActor *cameraActor);
+		CameraActor *GetUseCameraActor();
+
+		AmbientRegionActor *GetDefaultAmbientRegionActor();
+		TerrainActor *GetTerrainActor();
 	};

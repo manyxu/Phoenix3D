@@ -94,7 +94,7 @@ bool ASContext::CallString(const std::string &str)
 //----------------------------------------------------------------------------
 bool ASContext::CallFile(const std::string &filename)
 {
-	_BuildModule(filename, filename);
+	_BuildModule(filename);
 
 	return true;
 }
@@ -110,7 +110,7 @@ bool ASContext::CallBuffer(const char *buffer, unsigned long size)
 bool ASContext::CallFileFunction(const std::string &filename,
 	const std::string &funName)
 {
-	_BuildModule(filename, filename);
+	_BuildModule(filename);
 
 	asIScriptFunction *func = mASEngine->GetModule(filename.c_str())
 		->GetFunctionByDecl(funName.c_str());
@@ -142,6 +142,84 @@ void ASContext::SetUserFunction(const std::string &funName,
 	int r = mASEngine->RegisterGlobalFunction(asStr.c_str(), asFUNCTION(globalFun),
 		asCALL_CDECL);
 	assert(r >= 0);
+}
+//----------------------------------------------------------------------------
+bool ASContext::CallObjectFuntionValist(const std::string &funName,
+	Object *paramObj, const std::string &format, va_list valist)
+{
+	std::string funStr =  "void " + funName + "(" + "Object @obj";
+	const char *pfmt = format.c_str();
+	int count = 0;
+	while (pfmt[count])
+	{
+		if (*pfmt == 'i')
+		{
+			funStr += ", int val";
+		}
+		else if (*pfmt == 'f')
+		{
+			funStr += ", float val";
+		}
+		else if (*pfmt == 's')
+		{
+			funStr += ", string val";
+		}
+		else
+		{
+			assertion(false, "");
+		}
+
+		count++;
+	}
+	funStr += +")";
+
+	count = 0;
+	asIScriptFunction *func = 0;
+	std::map<std::string, asIScriptModule*>::iterator it = mModules.begin();
+	for (; it != mModules.end(); it++)
+	{
+		asIScriptModule *module = it->second;
+		asIScriptFunction *func = module->GetFunctionByDecl(funStr.c_str());
+
+		if (func)
+		{
+			asIScriptContext *ctx = _PrepareContextFromPool(func);
+			ctx->SetArgObject(0, paramObj);
+
+			const char *pfmt = format.c_str();
+			while (pfmt[count])
+			{
+				if (*pfmt == 'i')
+				{
+					int value = va_arg(valist, int);
+					ctx->SetArgDWord(count + 1, value);
+				}
+				else if (*pfmt == 'f')
+				{
+					float value = (float)(va_arg(valist, double));
+					ctx->SetArgFloat(count + 1, value);
+				}
+				else if (*pfmt == 's')
+				{
+					char *str = va_arg(valist, char *);
+					ctx->SetArgAddress(count + 1, str);
+				}
+				else
+				{
+					assertion(false, "");
+				}
+
+				count++;
+			}
+
+			_ContextExecute(ctx);
+			_ReturnContextToPool(ctx);
+
+			return true;
+		}
+	}
+
+	return false;
 }
 //----------------------------------------------------------------------------
 asIScriptEngine *ASContext::GetASScriptEngine()
@@ -253,7 +331,7 @@ ASClassType *ASContext::_GetASClassType(const std::string &filename,
 			return mASClassTypes[n];
 	}
 
-	asIScriptModule *mod = mASEngine->GetModule(className.c_str(),
+	asIScriptModule *mod = mASEngine->GetModule(filename.c_str(),
 		asGM_ONLY_IF_EXISTS);
 	if (mod)
 	{
@@ -261,7 +339,7 @@ ASClassType *ASContext::_GetASClassType(const std::string &filename,
 		return 0;
 	}
 
-	_BuildModule(filename, className);
+	_BuildModule(filename);
 
 	// push in ASClassType
 	ASClassType *classType = new0 ASClassType();
@@ -269,7 +347,7 @@ ASClassType *ASContext::_GetASClassType(const std::string &filename,
 	classType->ClassName = className;
 
 	// Find class
-	mod = mASEngine->GetModule(className.c_str(), asGM_ONLY_IF_EXISTS);
+	mod = mASEngine->GetModule(filename.c_str(), asGM_ONLY_IF_EXISTS);
 	asIObjectType *type = 0;
 	int tc = mod->GetObjectTypeCount();
 	for (int n = 0; n < tc; n++)
@@ -328,13 +406,12 @@ ASClassType *ASContext::_GetASClassType(const std::string &filename,
 	return classType;
 }
 //----------------------------------------------------------------------------
-void ASContext::_BuildModule(const std::string &filename,
-	const std::string &moduleName)
+void ASContext::_BuildModule(const std::string &filename)
 {
 	int r = 0;
 
 	CScriptBuilder builder;
-	r = builder.StartNewModule(mASEngine, moduleName.c_str());
+	r = builder.StartNewModule(mASEngine, filename.c_str());
 	if (r < 0)
 		return;
 
@@ -351,6 +428,9 @@ void ASContext::_BuildModule(const std::string &filename,
 	r = builder.BuildModule();
 	if (r < 0)
 		return;
+
+	asIScriptModule *module = builder.GetModule();
+	mModules[filename] = module;
 }
 //----------------------------------------------------------------------------
 int ASContext::_ContextExecute(asIScriptContext *ctx)

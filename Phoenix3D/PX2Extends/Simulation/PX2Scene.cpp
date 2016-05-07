@@ -8,7 +8,7 @@
 #include "PX2ScriptManager.hpp"
 using namespace PX2;
 
-PX2_IMPLEMENT_RTTI_V(PX2, Node, Scene, 4);
+PX2_IMPLEMENT_RTTI(PX2, Node, Scene);
 PX2_IMPLEMENT_STREAM(Scene);
 PX2_IMPLEMENT_FACTORY(Scene);
 PX2_IMPLEMENT_DEFAULT_NAMES(Node, Scene);
@@ -517,33 +517,22 @@ void Scene::Load(InStream& source)
 	source.ReadPointer(mTerrainActor);
 
 	int readedVersion = GetReadedVersion();
-	if (1 <= readedVersion)
-	{
-		source.ReadBool(mIsShowHelpNode);
-	}
-	if (2 <= readedVersion)
-	{
-		source.ReadBool(mIsUseBloom);
-		source.ReadBool(mIsBloomRenderTargetSizeSameWithScreen);
-		source.ReadAggregate(mBloomRenderTargetSize);
-		source.Read(mBloomBrightWeight);
+	source.ReadBool(mIsShowHelpNode);
 
-		source.Read(mBloomBlurDeviation);
-		source.Read(mBloomBlurWeight);
-		source.Read(mBloomWeight);
+	source.ReadBool(mIsUseBloom);
+	source.ReadBool(mIsBloomRenderTargetSizeSameWithScreen);
+	source.ReadAggregate(mBloomRenderTargetSize);
+	source.Read(mBloomBrightWeight);
 
-		source.ReadBool(mIsUseShadowMap);
-		source.ReadBool(mIsShadowRenderTargetSizeSameWithScreen);
-		source.ReadAggregate(mShadowRenderTargetSize);
-	}
-	if (3 <= readedVersion)
-	{
-		source.ReadAggregate(mViewPort);
-	}
-	if (4 <= readedVersion)
-	{
-		source.ReadBool(mIsOverrideWireFrame);
-	}
+	source.Read(mBloomBlurDeviation);
+	source.Read(mBloomBlurWeight);
+	source.Read(mBloomWeight);
+
+	source.ReadBool(mIsUseShadowMap);
+	source.ReadBool(mIsShadowRenderTargetSizeSameWithScreen);
+	source.ReadAggregate(mShadowRenderTargetSize);
+
+	source.ReadBool(mIsOverrideWireFrame);
 
 	PX2_END_DEBUG_STREAM_LOAD(Scene, source);
 }
@@ -622,8 +611,6 @@ void Scene::Save(OutStream& target) const
 	target.WriteBool(mIsShadowRenderTargetSizeSameWithScreen);
 	target.WriteAggregate(mShadowRenderTargetSize);
 
-	target.WriteAggregate(mViewPort);
-
 	target.WriteBool(mIsOverrideWireFrame);
 
 	PX2_END_DEBUG_STREAM_SAVE(Scene, target);
@@ -639,58 +626,22 @@ int Scene::GetStreamingSize(Stream &stream) const
 	size += PX2_POINTERSIZE(mDefaultAmbientRegionActor);
 	size += PX2_POINTERSIZE(mTerrainActor);
 
-	if (stream.IsIn())
-	{
-		int readedVersion = GetReadedVersion();
-		if (1 <= readedVersion)
-		{
-			size += PX2_BOOLSIZE(mIsShowHelpNode);
-		}
-		if (2 <= readedVersion)
-		{
-			size += PX2_BOOLSIZE(mIsUseBloom);
-			size += PX2_BOOLSIZE(mIsBloomRenderTargetSizeSameWithScreen);
-			size += sizeof(mBloomRenderTargetSize);
-			size += sizeof(mBloomBrightWeight);
+	size += PX2_BOOLSIZE(mIsShowHelpNode);
 
-			size += sizeof(mBloomBlurDeviation);
-			size += sizeof(mBloomBlurWeight);
-			size += sizeof(mBloomWeight);
+	size += PX2_BOOLSIZE(mIsUseBloom);
+	size += PX2_BOOLSIZE(mIsBloomRenderTargetSizeSameWithScreen);
+	size += sizeof(mBloomRenderTargetSize);
+	size += sizeof(mBloomBrightWeight);
 
-			size += PX2_BOOLSIZE(mIsUseShadowMap);
-			size += PX2_BOOLSIZE(mIsShadowRenderTargetSizeSameWithScreen);
-			size += sizeof(mShadowRenderTargetSize);
-		}
-		if (3 <= readedVersion)
-		{
-			size += sizeof(mViewPort);
-		}
-		if (4 <= readedVersion)
-		{
-			size += PX2_BOOLSIZE(mIsOverrideWireFrame);
-		}
-	}
-	else
-	{
-		size += PX2_BOOLSIZE(mIsShowHelpNode);
+	size += sizeof(mBloomBlurDeviation);
+	size += sizeof(mBloomBlurWeight);
+	size += sizeof(mBloomWeight);
 
-		size += PX2_BOOLSIZE(mIsUseBloom);
-		size += PX2_BOOLSIZE(mIsBloomRenderTargetSizeSameWithScreen);
-		size += sizeof(mBloomRenderTargetSize);
-		size += sizeof(mBloomBrightWeight);
+	size += PX2_BOOLSIZE(mIsUseShadowMap);
+	size += PX2_BOOLSIZE(mIsShadowRenderTargetSizeSameWithScreen);
+	size += sizeof(mShadowRenderTargetSize);
 
-		size += sizeof(mBloomBlurDeviation);
-		size += sizeof(mBloomBlurWeight);
-		size += sizeof(mBloomWeight);
-
-		size += PX2_BOOLSIZE(mIsUseShadowMap);
-		size += PX2_BOOLSIZE(mIsShadowRenderTargetSizeSameWithScreen);
-		size += sizeof(mShadowRenderTargetSize);
-
-		size += sizeof(mViewPort);
-
-		size += PX2_BOOLSIZE(mIsOverrideWireFrame);
-	}
+	size += PX2_BOOLSIZE(mIsOverrideWireFrame);
 
 	return size;
 }

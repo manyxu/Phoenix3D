@@ -12,12 +12,7 @@
 		Size ();
 		Size (const T &width, const T &height);
 		Size (const Size<T> &size);
-		~Size ();
-		
-		Size<T> operator- (const Size<T> &size) const;
-		Size<T> operator+ (const Size<T> &size) const;
-		
-		bool operator== (const Size<T> &size) const;
+		~Size ();		
 
 		void Clear();
 		void Set(const T &width, const T &height);

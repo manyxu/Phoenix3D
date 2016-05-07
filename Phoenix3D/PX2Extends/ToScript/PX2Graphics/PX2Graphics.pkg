@@ -1,6 +1,7 @@
 // PX2Graphics.pkg
 
 $pfile "PX2Graphics/PX2Transform.pkg"
+$pfile "PX2Graphics/PX2Bound.pkg"
 $pfile "PX2Graphics/PX2Controlledable.pkg"
 $pfile "PX2Graphics/PX2Controller.pkg"
 $pfile "PX2Graphics/PX2InterpCurveController.pkg"
@@ -15,6 +16,7 @@ $pfile "PX2Graphics/PX2InterpCurveColorCtrl.pkg"
 $pfile "PX2Graphics/PX2Buffer.pkg"
 $pfile "PX2Graphics/PX2Texture.pkg"
 $pfile "PX2Graphics/PX2Texture2D.pkg"
+$pfile "PX2Graphics/PX2Shine.pkg"
 $pfile "PX2Graphics/PX2Movable.pkg"
 $pfile "PX2Graphics/PX2VertexFormat.pkg"
 $pfile "PX2Graphics/PX2Renderable.pkg"

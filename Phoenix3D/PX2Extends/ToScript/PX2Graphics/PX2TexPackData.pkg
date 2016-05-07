@@ -36,6 +36,4 @@
 		int Width;
 		int Height;
 		bool IsHasUpdate;
-
-		std::vector<TexPackElement> Elements;
 	};

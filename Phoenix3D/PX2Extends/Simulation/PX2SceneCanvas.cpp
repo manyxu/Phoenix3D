@@ -363,11 +363,6 @@ void SceneCanvas::DoExecute(Event *event)
 	{
 		mIsShadowMapChanged = true;
 	}
-	else if (SimuES::IsEqual(event, SimuES::Scene_ViewPortProjectChanged))
-	{
-		// refresh
-		PX2_ENGINELOOP.SetScreenSize(PX2_ENGINELOOP.GetScreenSize());
-	}
 }
 //----------------------------------------------------------------------------
 float gaussianDistribution(float x, float y, float rho)

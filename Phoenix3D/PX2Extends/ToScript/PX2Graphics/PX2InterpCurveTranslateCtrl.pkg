@@ -4,6 +4,4 @@
 	{
 		InterpCurveTranslateController ();
 		virtual ~InterpCurveTranslateController ();
-
-		virtual void Reset ();
 	};

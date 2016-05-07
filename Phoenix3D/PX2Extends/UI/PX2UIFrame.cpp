@@ -8,6 +8,7 @@
 #include "PX2UIMenuItem.hpp"
 #include "PX2UICanvas.hpp"
 #include "PX2FunObject.hpp"
+#include "PX2ScriptManager.hpp"
 using namespace PX2;
 using namespace std;
 
@@ -163,7 +164,6 @@ void UIFrame::DestoryBackgroundPicBox()
 		mBackgroundPicBox = 0;
 	}
 }
-
 //----------------------------------------------------------------------------
 void UIFrame::OnPvoitChanged()
 {
@@ -252,6 +252,17 @@ void UIFrame::OnUIPicked(const UIInputData &inputData)
 void UIFrame::SetWidget(bool isWidget)
 {
 	mIsWidget = isWidget;
+}
+//----------------------------------------------------------------------------
+void UIFrame::CallString(const std::string &funStr, const char *format, ...)
+{
+	ScriptManager *sm = ScriptManager::GetSingletonPtr();
+	if (!sm) return;
+
+	va_list argptr;
+	va_start(argptr, format);
+	PX2_SC_AS->CallObjectFuntionValist(funStr, this, format, argptr);
+	va_end(argptr);
 }
 //----------------------------------------------------------------------------
 UIPicBox *UIFrame::CreateAddMask()

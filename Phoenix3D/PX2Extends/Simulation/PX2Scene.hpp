@@ -89,10 +89,6 @@ namespace PX2
 		void SetSize(const Sizef &size);
 		const Sizef &GetSize() const;
 
-		void SetViewPortProject(float left, float bottom, float width, float height);
-		void SetViewPortProject(const Rectf &rc);
-		const Rectf &GetViewPortProject() const;
-
 		void GetRangeActors(std::vector<Actor*> &actors, const APoint &center,
 			float radius, bool useActorSelfRadius, const std::bitset<PX2_ACTOR_BS_SIZE> &bits);
 		void GetRangeActorsExcept(Actor *except, std::vector<Actor*> &actors,
@@ -103,7 +99,6 @@ namespace PX2
 		SceneManageType mSceneManageType;
 		CellSpacePtr mCellSpace;
 		Sizef mSize;
-		Rectf mViewPort;
 
 		// rendering
 	public:

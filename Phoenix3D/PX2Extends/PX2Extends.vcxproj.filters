@@ -10,15 +10,6 @@
     <Filter Include="Terrains">
       <UniqueIdentifier>{d9876485-8aa9-45fc-b1a7-eebeb6d04fc0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{fcd44926-58e3-4228-b518-28f59d200899}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Canvas">
-      <UniqueIdentifier>{6ef6cf38-c72d-4f89-8950-7142be9fac57}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Event">
-      <UniqueIdentifier>{fb70dcb3-ab7e-4ca5-9f2e-88362462a42d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Simulation">
       <UniqueIdentifier>{99b3611c-e5ad-4bf4-b10e-e4edadaf12ea}</UniqueIdentifier>
     </Filter>
@@ -135,6 +126,15 @@
     </Filter>
     <Filter Include="ToScript\ToAS">
       <UniqueIdentifier>{badbdcba-a1ce-4c6a-8302-f378e175a23f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{fcd44926-58e3-4228-b518-28f59d200899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Canvas">
+      <UniqueIdentifier>{6ef6cf38-c72d-4f89-8950-7142be9fac57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Event">
+      <UniqueIdentifier>{fb70dcb3-ab7e-4ca5-9f2e-88362462a42d}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\UIObj">
       <UniqueIdentifier>{0b0cf755-2e86-4453-b951-a25ec154683c}</UniqueIdentifier>

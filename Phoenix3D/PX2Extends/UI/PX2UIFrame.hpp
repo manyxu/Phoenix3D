@@ -90,6 +90,8 @@ namespace PX2
 		const std::string &GetScriptHandler() const;
 
 	protected:
+		void CallString(const std::string &funStr, const char *format, ...);
+
 		bool mIsWidget;
 		UICallback mUICallback;
 		UIFrame *mMemObject;

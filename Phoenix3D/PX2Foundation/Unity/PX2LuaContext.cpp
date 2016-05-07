@@ -148,13 +148,6 @@ bool LuaContext::CallBuffer (const char *buffer, unsigned long size)
 	return true;
 }
 //----------------------------------------------------------------------------
-bool LuaContext::CallFileFunction(const std::string &filename,
-	const std::string &funName)
-{
-	PX2_UNUSED(funName);
-	return CallFile(filename);
-}
-//----------------------------------------------------------------------------
 void LuaContext::SetUserTypePointer(const std::string &luaName,
 	const std::string &className, void *ptr)
 {
@@ -165,60 +158,31 @@ void LuaContext::SetUserTypePointer(const std::string &luaName,
 	lua_setglobal(mState, luaName.c_str());
 }
 //----------------------------------------------------------------------------
-bool LuaContext::CallObjectFunction (const char *objectName, 
-	const char *funName, const char *format, ...)
+void LuaContext::SetUserFunction(const std::string &funName,
+	const std::string &returnClassTypeName,
+	ScriptGlobalFun globalFun)
 {
-	lua_getglobal(mState, "this");
-	lua_getglobal(mState, objectName);
-	lua_setglobal(mState, "this");
-
-	va_list argptr;
-	va_start(argptr, format);
-	const char *pfmt = format;
-	int count = 0;
-	static const char *args[] = {"arg1", "arg2", "arg3", "arg4"};
-	while (pfmt[count])
-	{
-		if(*pfmt == 'i')
-		{
-			int value = va_arg(argptr, int);
-			lua_pushnumber(mState, value);
-		}
-		else if(*pfmt == 'f')
-		{
-			float value = (float)(va_arg(argptr, double));
-			lua_pushnumber(mState, value);
-		}
-		else if(*pfmt == 's')
-		{
-			char *str = va_arg(argptr, char *);
-			lua_pushstring(mState, str);
-		}
-		else
-		{
-			assertion(false, "");
-		}
-		lua_setglobal(mState, args[count++]);
-	}
-	va_end(argptr);
-
-	{
-		CallString(funName);
-	}
-
-	lua_setglobal(mState, "this");
-
-	return true;
+	PX2_UNUSED(funName);
+	PX2_UNUSED(returnClassTypeName);
+	PX2_UNUSED(globalFun);
+	assertion(false, "");
 }
 //----------------------------------------------------------------------------
-bool LuaContext::CallObjectFuntionValist (const char *objectName, 
-	const char *funName, const char *format, va_list valist)
+bool LuaContext::CallFileFunction(const std::string &filename,
+	const std::string &funName)
+{
+	PX2_UNUSED(funName);
+	return CallFile(filename);
+}
+//----------------------------------------------------------------------------
+bool LuaContext::CallObjectFuntionValist(const std::string &funName,
+	Object *paramObj, const std::string &format, va_list valist)
 {
 	lua_getglobal(mState, "this");
-	lua_getglobal(mState, objectName);
+	lua_getglobal(mState, paramObj->GetName().c_str());
 	lua_setglobal(mState, "this");
 
-	const char *pfmt = format;
+	const char *pfmt = format.c_str();
 	int count = 0;
 	static const char *args[] = {"arg0", "arg1", "arg2", "arg3"};
 	while (pfmt[count])

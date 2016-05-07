@@ -36,11 +36,6 @@ inline const Sizef &Scene::GetSize() const
 	return mSize;
 }
 //----------------------------------------------------------------------------
-inline const Rectf &Scene::GetViewPortProject() const
-{
-	return mViewPort;
-}
-//----------------------------------------------------------------------------
 inline void Scene::SetOverrideWireFrame(bool wireframe)
 {
 	mIsOverrideWireFrame = wireframe;

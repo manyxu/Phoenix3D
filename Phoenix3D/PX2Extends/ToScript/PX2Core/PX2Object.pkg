@@ -5,7 +5,7 @@
 	public:
 		virtual ~Object ();
 	
-			// Enable Disable
+		// Enable Disable
 	public:
 		virtual void Enable(bool enable);
 		bool IsEnable() const;

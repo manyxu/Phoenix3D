@@ -103,6 +103,11 @@ void UIButton::OnPressed()
 	{
 		(*it)->Visit(this, (int)UICT_PRESSED);
 	}
+
+	if (!mUIScriptHandler.empty())
+	{
+		CallString(mUIScriptHandler.c_str(), "i", (int)UICT_PRESSED);
+	}
 }
 //----------------------------------------------------------------------------
 void UIButton::OnPressedNotPick()
@@ -121,6 +126,11 @@ void UIButton::OnPressedNotPick()
 	for (; it != mVisitors.end(); it++)
 	{
 		(*it)->Visit(this, (int)UICT_PRESSED_NOTPICK);
+	}
+
+	if (!mUIScriptHandler.empty())
+	{
+		CallString(mUIScriptHandler.c_str(), "i", (int)UICT_PRESSED_NOTPICK);
 	}
 }
 //----------------------------------------------------------------------------
@@ -153,9 +163,10 @@ void UIButton::OnReleased()
 		(*it)->Visit(this, (int)UICT_RELEASED);
 	}
 
-	Event *ent = UIES::CreateEventX(UIES::ButReleased);
-	ent->SetData<UIButton*>(this);
-	PX2_EW.BroadcastingLocalEvent(ent);
+	if (!mUIScriptHandler.empty())
+	{
+		CallString(mUIScriptHandler.c_str(), "i", (int)UICT_RELEASED);
+	}
 }
 //----------------------------------------------------------------------------
 void UIButton::OnReleasedNotPick()

@@ -69,7 +69,6 @@ namespace PX2
 	};
 
 	typedef void(*UICallback) (UIFrame *frame, UICallType type);
-	typedef void(*NotPickedCallback) (int info);
 
 	enum UILayoutPosType
 	{

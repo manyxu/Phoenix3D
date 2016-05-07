@@ -22,6 +22,11 @@
 	public:
 		void SetUIChildPickOnlyInSizeRange(bool onlyInRange);
 		bool IsUIChildPickOnlyInSizeRange() const;
+		
+		// calls
+	public:
+		void SetScriptHandler(const std::string &scriptHandler);
+		const std::string &GetScriptHandler() const;
 
 		// mask
 	public:

@@ -108,7 +108,6 @@ std::string General_EventHandler::sGEStrings[SimuES::E_QUANTITY] =
 	"GeneralString",
 	"Character_Die",
 	"Actor_Delete",
-	"Scene_ViewPortProjectChanged",
 	"Scene_BloomChanged",
 	"Scene_ShadowMapChange"
 };

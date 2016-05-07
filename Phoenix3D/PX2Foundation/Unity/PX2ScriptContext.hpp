@@ -28,28 +28,27 @@ namespace PX2
 
 		ContextType GetType() const;
 
+		// general
 		virtual bool CallString(const std::string &str);
 		virtual bool CallFile(const std::string &filename);
 		virtual bool CallBuffer(const char *buffer, unsigned long size);
 
-		// call start functions
+		// file function
 		virtual bool CallFileFunction(const std::string &filename, 
 			const std::string &funName);
 
-		// object functions
-		virtual bool CallObjectFunction(const char *objectName,
-			const char *funName,
-			const char *format = "", ...); 
-		// 调用者需要保证objectName是全局唯一的
-		virtual bool CallObjectFuntionValist(const char *objectName,
-			const char *funName, const char *format, va_list valist);
-
-		// general functions
+		// type pointer function
 		virtual void SetUserTypePointer(const std::string &luaName,
-			const std::string &className, void *ptr);	
-		virtual void SetUserFunction(const std::string &funName, 
+			const std::string &className, void *ptr);
+		virtual void SetUserFunction(const std::string &funName,
 			const std::string &returnClassTypeName,
 			ScriptGlobalFun globalFun);
+
+		// object functions
+		bool CallObjectFunction(const std::string &funName,
+			Object *paramObj, const char *format, ...);
+		virtual bool CallObjectFuntionValist(const std::string &funName,
+			Object *paramObj, const std::string &format, va_list valist);
 
 		virtual ScriptController *CreateScriptController(
 			const std::string &filename, const std::string &className);

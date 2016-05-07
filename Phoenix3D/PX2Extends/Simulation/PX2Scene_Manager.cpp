@@ -25,27 +25,6 @@ void Scene::SetSize(const Sizef &size)
 	mSize = size;
 }
 //----------------------------------------------------------------------------
-void Scene::SetViewPortProject(float left, float bottom, float width, 
-	float height)
-{
-	Rectf rc;
-	rc.Left = left;
-	rc.Bottom = bottom;
-	rc.Right = left + width;
-	rc.Top = bottom + height;
-
-	SetViewPortProject(rc);
-}
-//----------------------------------------------------------------------------
-void Scene::SetViewPortProject(const Rectf &rc)
-{
-	mViewPort = rc;
-
-	Event *ent = SimuES::CreateEventX(SimuES::Scene_ViewPortProjectChanged);
-	ent->SetData<void*>(this);
-	PX2_EW.BroadcastingLocalEvent(ent);
-}
-//----------------------------------------------------------------------------
 void Scene::GetRangeActors(std::vector<Actor*> &actors, const APoint &center,
 	float radius, bool useActorSelfRadius, const std::bitset<PX2_ACTOR_BS_SIZE> &bits)
 {
