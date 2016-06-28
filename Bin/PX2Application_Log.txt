@@ -1,3 +1,3 @@
-[22:54:6] [INFO] Year:2016; Month:5; Week:18; Day:4; DayOfWeek:3; DayOfYear:125; Hour:22; Minute:54; Second:6; Millisecond:639; Microsecond:554 [PX2EngineLoop_InitTerm.cpp:54]
-[22:54:8] [ERROR] CallBuffer::lua_pcall error:[string "?"]:3: attempt to index global 'PX2_SC_LUA' (a nil value).
+[1:3:32] [INFO] Year:2016; Month:6; Week:26; Day:28; DayOfWeek:2; DayOfYear:180; Hour:1; Minute:3; Second:32; Millisecond:823; Microsecond:539 [PX2EngineLoop_InitTerm.cpp:54]
+[1:3:34] [ERROR] CallBuffer::lua_pcall error:[string "?"]:3: attempt to index global 'PX2_SC_LUA' (a nil value).
  [PX2LuaManager.cpp:181]
