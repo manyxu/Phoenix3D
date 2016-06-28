@@ -1,0 +1,8 @@
+// PX2Scene.pkg
+
+	class Scene : public Node
+	{
+	public:
+		Scene();
+		virtual ~Scene();
+	};

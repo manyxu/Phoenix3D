@@ -1,0 +1,11 @@
+// PX2UI.pkg
+
+$pfile "PX2UI/PX2UIDefine.pkg"
+$pfile "PX2UI/PX2UIFrame.pkg"
+$pfile "PX2UI/PX2UIPicBox.pkg"
+$pfile "PX2UI/PX2UIButtonBase.pkg"
+$pfile "PX2UI/PX2UIButton.pkg"
+$pfile "PX2UI/PX2UIFPicBox.pkg"
+$pfile "PX2UI/PX2UIText.pkg"
+$pfile "PX2UI/PX2UIFText.pkg"
+$pfile "PX2UI/PX2UICanvas.pkg"

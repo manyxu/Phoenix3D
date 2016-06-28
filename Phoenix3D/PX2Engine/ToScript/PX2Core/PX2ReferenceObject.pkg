@@ -1,0 +1,12 @@
+// PX2ReferenceObject.pkg
+
+	class RefObject
+	{
+	public:
+		virtual ~RefObject();
+		
+	public:
+		void IncrementReferences();
+		void DecrementReferences();
+		int GetReferences() const;
+	};

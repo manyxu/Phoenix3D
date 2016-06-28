@@ -1,0 +1,6 @@
+// PX2Application.pkg
+
+$pfile "PX2Application/PX2Project.pkg"
+$pfile "PX2Application/PX2Scene.pkg"
+$pfile "PX2Application/PX2Application.pkg"
+$pfile "PX2Application/PX2Creater.pkg"

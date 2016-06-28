@@ -1,0 +1,8 @@
+// PX2UICanvas.pkg
+
+	class UICanvas : public Canvas
+	{
+	public:
+		UICanvas();
+		virtual ~UICanvas();
+	};

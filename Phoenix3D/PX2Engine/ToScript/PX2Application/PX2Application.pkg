@@ -1,0 +1,66 @@
+// PX2Application.pkg
+
+	class Application
+	{
+		// SINGLETON
+	public:
+
+		// Update
+	public:
+		float GetElapsedTime();
+
+		// screen adjust
+	public:
+		void SetScreenSize(const Sizef &screenSize);
+		const Sizef &GetScreenSize() const;
+
+		// boost
+	public:
+		enum PlayLogicMode
+		{
+			PLM_SIMPLE,
+			PLM_LOGIC,
+			PLM_MAX_MODE
+		};
+
+		bool LoadBoost(const std::string &filename);
+		const Sizef &GetBoostSize() const;
+		const std::string &GetProjectName() const;
+		PlayLogicMode GetPlayLogicMode() const;
+		std::string GetPlayLogicModeStr() const;
+
+		void SetBoostSize(const Sizef &size);
+		void SetPlayLogicMode(PlayLogicMode mode);
+		bool WriteBoost();
+		
+		// project
+	public:
+		void NewProject(const std::string &pathname,
+			const std::string &projName, int so, int width, int height);
+		bool LoadProject(const std::string &pathname);
+		bool SaveProject();
+		bool SaveProjectAs(const std::string &pathname);
+		void CloseProject();
+		const std::string &GetProjectFilePath() const;
+
+		void NewScene();
+		bool LoadScene(const std::string &pathname);
+		bool SaveScene(const std::string &pathname);
+		bool SaveSceneAs(const std::string &pathname);
+		void CloseScene();
+
+		bool LoadUI(const std::string &pathname);
+		void CloseUI();
+
+		// play
+	public:
+		enum PlayType
+		{
+			PT_NONE,
+			PT_SIMULATE,
+			PT_PLAY,
+			PT_MAX_TYPE
+		};
+		void Play(PlayType type);
+		PlayType GetPlayType() const;
+	};

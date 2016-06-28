@@ -1,0 +1,16 @@
+// PX2Project.pkg
+
+	class Project
+	{
+		// SINGLETON
+	
+		// Scene
+	public:
+		void SetScene(Scene *scene);
+		Scene *GetScene();
+		const std::string &GetSceneFilename() const;
+	
+		void SetUIFrame(UIFrame *ui);
+		UIFrame *GetUIFrame();
+		const std::string &GetUIFilename() const;
+	};
