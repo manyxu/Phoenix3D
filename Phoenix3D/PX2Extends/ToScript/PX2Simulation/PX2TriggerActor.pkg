@@ -1,8 +1,0 @@
-// PX2TrigerActor.pkg
-
-	class TriggerActor : public Actor
-	{
-	public:
-		TriggerActor();
-		virtual ~TriggerActor();
-	};

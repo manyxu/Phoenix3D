@@ -1,9 +1,0 @@
-// PX2UIFText.pkg
-
-	class UIFText : public UIFrame
-	{
-		UIFText();
-		virtual ~UIFText();
-
-		UIText *GetText();
-	};

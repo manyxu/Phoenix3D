@@ -1,7 +1,0 @@
-// PX2BPManager.pkg
-
-	class BPManager
-	{
-		// SINGLETON
-	public:
-	};

@@ -1,7 +1,0 @@
-// PX2BPFile.pkg
-
-	class BPFile : public UIFrame
-	{
-		BPFile();
-		virtual ~BPFile();
-	};

@@ -1,8 +1,0 @@
-// PX2ASContext.pkg
-	
-	class ASContext : public ScriptContext
-	{
-		virtual ~ASContext();
-		
-		virtual ScriptController *CreateScriptController(const std::string &filename, const std::string &className);
-	};

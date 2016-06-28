@@ -1,6 +1,0 @@
-// PX2LuaContext.pkg
-	
-	class LuaContext : public ScriptContext
-	{
-		virtual ~LuaContext();
-	};
