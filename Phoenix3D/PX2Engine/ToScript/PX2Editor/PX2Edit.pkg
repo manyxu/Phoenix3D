@@ -1,0 +1,11 @@
+// PX2Edit.hpp
+
+	class Edit
+	{
+		// SINGLETON
+	
+	public:
+		bool Initlize();
+		bool Terminate();
+		void Reset();
+	};

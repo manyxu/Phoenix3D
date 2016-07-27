@@ -1,0 +1,8 @@
+// PX2ObjCast.pkg
+
+	class Cast
+	{
+	public:
+		static Movable *ToMovable(Object *obj);
+		static Node *ToNode(Object *obj);
+	};
