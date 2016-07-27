@@ -19,6 +19,7 @@ mIsNeedRecal(true),
 mIsExpand(true),
 mIsNumAllChildExpandNeedRecal(true),
 mNumAllChildExpand(0),
+mIconArrowState(IconArrowState::IAS_NONE),
 mLevelAdjust(0),
 mLevel(0),
 mIsSelected(false),
@@ -72,9 +73,13 @@ void UIItem::ShowItem(bool show)
 	if (IsRootItem())
 	{
 		if (mIsShowItem)
-			mLevel = 0;
+		{
+			mLevel = 0 + mLevelAdjust;
+		}
 		else
-			mLevel = -1;
+		{
+			mLevel = -1 + mLevelAdjust;
+		}
 
 		mIsNeedRecal = true;
 		mIsNumAllChildExpandNeedRecal = true;
@@ -212,10 +217,7 @@ void UIItem::Expand(bool expand)
 {
 	mIsExpand = expand;
 
-	if (IAS_NONE != mIconArrowState)
-	{
-		SetIconArrowState(expand ? IAS_ARROW1 : IAS_ARROW0);
-	}
+	SetIconArrowState(expand ? IAS_ARROW1 : IAS_ARROW0);
 
 	mIsNumAllChildExpandNeedRecal = true;
 	_TellParentChildrenExpand();
@@ -388,10 +390,11 @@ void UIItem::_Recal()
 		float textOffsetPosX = offsetPosX;
 		if (mButArrow && mButArrow->IsShow())
 		{
+			mButArrow->Check(!IsExpand(), false);
 			mButArrow->SetAnchorParamHor(
 				offsetPosX + iconArrowSpace / 2.0f, 0.0f);
-			textOffsetPosX += iconArrowSpace;
 		}
+		textOffsetPosX += iconArrowSpace;
 		text->SetOffset(Float2(textOffsetPosX, 0.0f));
 
 		int numItemExtend = 0;
@@ -429,6 +432,7 @@ mIsNeedRecal(true),
 mIsExpand(true),
 mIsNumAllChildExpandNeedRecal(true),
 mNumAllChildExpand(0),
+mIconArrowState(IconArrowState::IAS_NONE),
 mLevelAdjust(0),
 mLevel(0),
 mObject(0)

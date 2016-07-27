@@ -46,7 +46,7 @@ namespace PX2
 		void SetTouchConvertCallback(TouchConvertCallback callback);
 		TouchConvertCallback GetTouchConvertCallback() const;
 
-		virtual void DoExecute(Event *event);
+		virtual void OnEvent(Event *event);
 
 	protected:
 		AVector mLockDir;

@@ -15,6 +15,11 @@ Camera::DepthType Camera::msDefaultDepthType = Camera::PM_DEPTH_ZERO_TO_ONE;
 Camera::Camera (bool isPerspective) :
 mIsPerspective(isPerspective),
 mCameraNode(0),
+mClearDepth(1.0f),
+mClearStencil(0),
+mClearFlagColor(true),
+mClearFlagDepth(true),
+mClearFlagStencil(true),
 mDepthType(msDefaultDepthType)
 #ifdef PX2_VALIDATE_CAMERA_FRAME_ONCE
 ,
@@ -189,6 +194,45 @@ void Camera::SetPostProjectionMatrix (const HMatrix& postProjMatrix)
 	mPostProjectionMatrix = postProjMatrix;
 	mPostProjectionIsIdentity = (mPostProjectionMatrix == HMatrix::IDENTITY);
 	UpdatePVMatrix();
+}
+//----------------------------------------------------------------------------
+bool Camera::GetPickRay(float sizePosX, float sizePosZ, const Sizef &size,
+	APoint& origin, AVector& direction)
+{
+	// Get the [0,1]^2-normalized coordinates of (x,y).
+	float r = sizePosX / (float)size.Width;
+	float u = sizePosZ / (float)size.Height;
+
+	return GetPickRay(r, u, origin, direction);
+}
+//----------------------------------------------------------------------------
+bool Camera::GetPickRay(float posSizePercentWdith, float posSizePercentHeight,
+	APoint& origin, AVector& direction)
+{
+	// Get the [0,1]^2-normalized coordinates of (x,y).
+	float r = posSizePercentWdith;
+	float u = posSizePercentHeight;
+
+	// Get the relative coordinates in [rmin,rmax]x[umin,umax].
+	float rBlend = (1.0f - r)*GetRMin() + r*GetRMax();
+	float uBlend = (1.0f - u)*GetUMin() + u*GetUMax();
+
+	if (IsPerspective())
+	{
+		origin = GetPosition();
+		direction = GetDMin()*GetDVector() +
+			rBlend*GetRVector() + uBlend*GetUVector();
+		direction.Normalize();
+	}
+	else
+	{
+		origin = GetPosition() + rBlend*GetRVector() +
+			uBlend*GetUVector();
+		direction = GetDVector();
+		direction.Normalize();
+	}
+
+	return true;
 }
 //----------------------------------------------------------------------------
 void Camera::OnFrameChange ()
@@ -389,7 +433,7 @@ void Camera::OnPropertyChanged (const PropertyObject &obj)
 	}
 	else if ("DMax" == obj.Name)
 	{
-		SetFrustum(	mFrustum[VF_DMIN], PX2_ANY_AS(obj.Data, float),
+		SetFrustum(mFrustum[VF_DMIN], PX2_ANY_AS(obj.Data, float),
 			mFrustum[VF_UMIN], mFrustum[VF_UMAX],
 			mFrustum[VF_RMIN], mFrustum[VF_RMAX]);
 	}
@@ -397,7 +441,7 @@ void Camera::OnPropertyChanged (const PropertyObject &obj)
 	{
 		float val = PX2_ANY_AS(obj.Data, float);
 
-		SetFrustum(	mFrustum[VF_DMIN], mFrustum[VF_DMAX],
+		SetFrustum(mFrustum[VF_DMIN], mFrustum[VF_DMAX],
 			-val, val,
 			mFrustum[VF_RMIN], mFrustum[VF_RMAX]);
 	}
@@ -405,7 +449,7 @@ void Camera::OnPropertyChanged (const PropertyObject &obj)
 	{
 		float val = PX2_ANY_AS(obj.Data, float);
 
-		SetFrustum(	mFrustum[VF_DMIN], mFrustum[VF_DMAX],
+		SetFrustum(mFrustum[VF_DMIN], mFrustum[VF_DMAX],
 			mFrustum[VF_UMIN], mFrustum[VF_UMAX],
 			-val, val);
 	}
@@ -433,6 +477,28 @@ void Camera::OnPropertyChanged (const PropertyObject &obj)
 	}
 }
 //----------------------------------------------------------------------------
+void Camera::SetClearColor(const Float4 &color)
+{
+	mClearColor = color;
+}
+//----------------------------------------------------------------------------
+void Camera::SetClearDepth(float depth)
+{
+	mClearDepth = depth;
+}
+//----------------------------------------------------------------------------
+void Camera::SetClearStencil(unsigned int stencil)
+{
+	mClearStencil = stencil;
+}
+//----------------------------------------------------------------------------
+void Camera::SetClearFlag(bool color, bool depth, bool stencil)
+{
+	mClearFlagColor = color;
+	mClearFlagDepth = depth;
+	mClearFlagStencil = stencil;
+}
+//----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
 // 持久化支持
@@ -450,7 +516,12 @@ mPostProjectionMatrix(HMatrix::ZERO),
 mPostProjectionIsIdentity(false),
 mIsPerspective(false),
 mDepthType(msDefaultDepthType),
-mCameraNode(0)
+mCameraNode(0),
+mClearDepth(1.0f),
+mClearStencil(0),
+mClearFlagColor(true),
+mClearFlagDepth(true),
+mClearFlagStencil(true)
 {
 	mProjectionViewMatrix[mDepthType] = HMatrix::ZERO;
 
@@ -481,6 +552,13 @@ void Camera::Load (InStream& source)
 	// 计算 mViewMatrix 和 mProjectionMatrix[].
 	OnFrameChange();
 	OnFrustumChange();
+
+	source.ReadAggregate(mClearColor);
+	source.Read(mClearDepth);
+	source.Read(mClearStencil);
+	source.ReadBool(mClearFlagColor);
+	source.ReadBool(mClearFlagDepth);
+	source.ReadBool(mClearFlagStencil);
 
 	PX2_END_DEBUG_STREAM_LOAD(Camera, source);
 }
@@ -520,6 +598,13 @@ void Camera::Save (OutStream& target) const
 
 	// mViewMatrix和mProjectionMatrix[]没有必要保存
 
+	target.WriteAggregate(mClearColor);
+	target.Write(mClearDepth);
+	target.Write(mClearStencil);
+	target.WriteBool(mClearFlagColor);
+	target.WriteBool(mClearFlagDepth);
+	target.WriteBool(mClearFlagStencil);
+
 	PX2_END_DEBUG_STREAM_SAVE(Camera, target);
 }
 //----------------------------------------------------------------------------
@@ -537,6 +622,14 @@ int Camera::GetStreamingSize (Stream &stream) const
 	size += sizeof(mPostProjectionMatrix);
 	size += PX2_BOOLSIZE(mPostProjectionIsIdentity);
 	size += PX2_BOOLSIZE(mIsPerspective);
+
+	size += sizeof(mClearColor);
+	size += sizeof(mClearDepth);
+	size += sizeof(mClearStencil);
+	size += PX2_BOOLSIZE(mClearFlagColor);
+	size += PX2_BOOLSIZE(mClearFlagDepth);
+	size += PX2_BOOLSIZE(mClearFlagStencil);
+
 	return size;
 }
 //----------------------------------------------------------------------------

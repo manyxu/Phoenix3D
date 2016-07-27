@@ -3,7 +3,7 @@
 #ifndef PX2LOGICMANAGER_HPP
 #define PX2LOGICMANAGER_HPP
 
-#include "PX2SimulationPre.hpp"
+#include "PX2LogicPre.hpp"
 #include "PX2Singleton_NeedNew.hpp"
 #include "PX2LogicModule.hpp"
 #include "PX2LogicModuleCatalogue.hpp"
@@ -11,7 +11,7 @@
 namespace PX2
 {
 
-	class PX2_GAME_ITEM LogicManager : public Singleton<LogicManager>
+	class PX2_ENGINE_ITEM LogicManager : public Singleton<LogicManager>
 	{
 	public:
 		LogicManager();

@@ -9,9 +9,10 @@
 #include "PX2UIFPicBox.hpp"
 #include "PX2InputEvent.hpp"
 #include "PX2InputEventData.hpp"
-#include "PX2EngineLoop.hpp"
+#include "PX2Application.hpp"
 #include "PX2NetInitTerm.hpp"
 #include "PX2AweUIFrame.hpp"
+#include "PX2UICanvas.hpp"
 #include <Awesomium/WebCore.h>
 using namespace PX2;
 using namespace Awesomium;
@@ -44,7 +45,7 @@ void LP_Manager::Initlize()
 	PX2_SC_LUA->CallFile("DataLauncher/scripts/start.lua");
 
 	RenderWindow *rw = PX2_GR.GetMainWindow();
-	UICanvas *mainCanvas = (UICanvas*)(rw->GetCanvas("Main"));
+	UICanvas *mainCanvas = (UICanvas*)(rw->GetMainCanvas());
 
 	UIFrame *uiMainFrame = new0 UIFrame();
 	mainCanvas->AttachChild(uiMainFrame);
@@ -68,7 +69,6 @@ void LP_Manager::Initlize()
 	UIFrame *headFrame = CreateHeadFrame();
 	frameTop->AttachChild(headFrame);
 
-
 	mTableFrame = new0 UITabFrame();
 	mTableFrame->SetName("TheTabFrame");
 	mTableFrame->SetUICallback(TabFrameUICallback);
@@ -85,31 +85,29 @@ void LP_Manager::Initlize()
 	// Awesomium
 	WebCore* web_core = WebCore::Initialize(WebConfig());
 
-	UIFrame *frameHub = AddTabFrame("PhoenixHub", PX2_LMVAL("PhoenixHub"));
+	UIFrame *frameHub = AddTabFrame("ManyKit", PX2_LMVAL("ManyKit"));
 	UIFrame *hubFrame = CreateHubFrame();
 	frameHub->AttachChild(hubFrame);
 
-	UIFrame *frameEngine = AddTabFrame("Engine", PX2_LMVAL("Engine"));
+	UIFrame *frameEngine = AddTabFrame("Edu", PX2_LMVAL("Edu"));
 	UIFrame *engineFrame = CreateEngineFrame();
 	frameEngine->AttachChild(engineFrame);
 
-	UIFrame *frameMarket = AddTabFrame("Market", PX2_LMVAL("Market"));
+	UIFrame *frameMarket = AddTabFrame("Toys", PX2_LMVAL("Toys"));
 	AweUIFrame *aweMarket = new0 AweUIFrame();
 	frameMarket->AttachChild(aweMarket);
 	aweMarket->SetAnchorHor(0.0f, 1.0f);
 	aweMarket->SetAnchorVer(0.0f, 1.0f);
 	aweMarket->OpenURL("http://www.baidu.com");
 
-	UIFrame *frameYouMake = AddTabFrame("YouMake", PX2_LMVAL("YouMake"));
+	UIFrame *frameYouMake = AddTabFrame("Games", PX2_LMVAL("Games"));
 	AweUIFrame *aweYouMake = new0 AweUIFrame();
 	frameYouMake->AttachChild(aweYouMake);
 	aweYouMake->SetAnchorHor(0.0f, 1.0f);
 	aweYouMake->SetAnchorVer(0.0f, 1.0f);
 	aweYouMake->OpenURL("http://sg.zuiyouxi.com/");
 
-	//AddTabFrame("DogGait", PX2_LMVAL("DogGait"));
-	//AddTabFrame("Toys", PX2_LMVAL("Toys"));
-	mTableFrame->SetActiveTab("PhoenixHub");
+	mTableFrame->SetActiveTab("ManyKit");
 
 }
 //----------------------------------------------------------------------------
@@ -118,9 +116,6 @@ void LP_Manager::Terminate()
 	mTableFrame = 0;
 
 	PX2_UIAUIM.Clear();
-
-	RenderWindow *rw = PX2_GR.GetMainWindow();
-	rw->RemoveAllCanvas();
 
 	PX2_EW.GoOut(this);
 
@@ -131,7 +126,7 @@ void LP_Manager::Update(double appSeconds, double elapsedSeconds)
 {
 }
 //----------------------------------------------------------------------------
-void LP_Manager::DoExecute(Event *event)
+void LP_Manager::OnEvent(Event *event)
 {
 }
 //----------------------------------------------------------------------------
@@ -191,7 +186,7 @@ UIFrame *LP_Manager::AddTabFrame(const std::string &name,
 	fpicBox->LocalTransform.SetTranslateY(-10.0f);
 	fpicBox->SetAnchorHor(0.0f, 1.0f);
 	fpicBox->SetAnchorVer(1.0f, 1.0f);
-	fpicBox->SetPivot(1.0f, 1.0f);
+	fpicBox->SetPivot(0.5f, 1.0f);
 	fpicBox->SetSize(0.0f, 3.0f);
 	UIPicBox *picBox = fpicBox->GetUIPicBox();
 	picBox->SetTexture("Data/engine/white.png");
@@ -201,30 +196,43 @@ UIFrame *LP_Manager::AddTabFrame(const std::string &name,
 	UIText *text = mTableFrame->GetTabButton(name)->GetText();
 	text->SetColorSelfCtrled(true);
 	text->SetBrightnessSelfCtrled(true); 
-	text->SetFont("DataLauncher/fonts/msyh.ttc", 24, 24);
 	text->SetFontScale(0.65f);
 	text->SetFontColor(Float3::WHITE);
 	text->SetColor(Float3::WHITE);
 	text->SetDrawStyle(FD_SHADOW);
 	text->SetBorderShadowAlpha(0.8f);
 
+	if ("ManyKit" == name)
+	{
+		text->SetFont("DataLauncher/fonts/msyh.ttc", 24, 24);
+	}
+	else
+	{
+		text->SetFont("DataLauncher/fonts/msyhl.ttc", 24, 24);
+	}
+
 	UIButton *tabBut = mTableFrame->GetTabButton(name);
 
 	Float3 color = Float3::MakeColor(237, 28, 36);
-	if ("PhoenixHub" == name)
+	if ("ManyKit" == name)
 	{
 		color = Float3::MakeColor(237, 28, 36);
 	}
-	else if ("Engine" == name)
+	else if ("Edu" == name)
+	{
+		color = Float3::MakeColor(0, 162, 233);
+	}
+	else if ("Toys" == name)
 	{
 		color = Float3::MakeColor(255, 127, 39);
 	}
-	else if ("YouMake" == name)
+	else if ("Games" == name)
 	{
 		color = Float3::MakeColor(24, 177, 76);
 	}
 
 	picBox->SetColor(color);
+
 	tabBut->SetStateColor(UIButtonBase::BS_NORMAL, color);
 	tabBut->SetStateColor(UIButtonBase::BS_HOVERED, color);
 	tabBut->SetStateBrightness(UIButtonBase::BS_HOVERED, 1.2f);

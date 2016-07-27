@@ -16,10 +16,12 @@ void Application::Play(PlayType type)
 
 	if (PT_PLAY == mPlayType)
 	{
-		std::string callFilenameLua = "Data/" + mBoostProjectName + "/scripts/lua/start.lua";
-		PX2_SC_LUA->CallFile(callFilenameLua.c_str());
+		std::string projName = PX2_PROJ.GetName();
 
-		std::string callFilenameAS = "Data/" + mBoostProjectName + "/scripts/as/start.as";
+		std::string callFilenameLua = "Data/" + projName + "/scripts/lua/start.lua";
+		PX2_SC_LUA->CallFileFunction(callFilenameLua.c_str(), "start");
+
+		std::string callFilenameAS = "Data/" + projName + "/scripts/as/start.as";
 		PX2_SC_AS->CallFileFunction(callFilenameAS.c_str(), "void start()");
 	}
 

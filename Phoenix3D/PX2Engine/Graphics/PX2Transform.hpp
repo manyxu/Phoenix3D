@@ -76,6 +76,10 @@ namespace PX2
 		inline const APoint& GetScale () const;
 		inline float GetUniformScale () const;
 
+		void SetDU(const AVector &dir, const AVector &uping = AVector::UNIT_Z);
+		AVector GetDirection() const;
+		void GetRDUVector(AVector &r, AVector &d, AVector &u) const;
+
 		// For M = R*S, the largest value of S in absolute value is returned.
 		// For general M, the max-row-sum norm is returned, which is a reasonable
 		// measure of maximum scale of the transformation.

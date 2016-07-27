@@ -367,7 +367,8 @@ bool ResourceManager::LoadBuffer (const std::string &filename, int &bufferSize,
 		loadRec.Buffer = 0;
 		loadRec.BufferSize = 0;
 
-		assertion(false, "load Buffer failed.\n");
+		assertion(false, "load Buffer failed: %s \n", filename.c_str());
+
 		return false;
 	}
 }

@@ -34,9 +34,9 @@ namespace PX2
 		bool IsInOrIningWorld(EventWorld *world) const;
 
 		// 重载,进行相应的消息处理
-		virtual void DoEnter ();
-		virtual void DoExecute (Event *event);
-		virtual void DoLeave ();
+		virtual void OnEnter ();
+		virtual void OnEvent (Event *event);
+		virtual void OnLeave ();
 		
 public_internal:
 		void Execute (Event* event);

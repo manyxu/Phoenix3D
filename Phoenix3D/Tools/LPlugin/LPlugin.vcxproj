@@ -55,14 +55,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;WIN32_LEAN_AND_MEAN;PROTOBUF_USE_DLLS;PX2_FOUNDATION_DLL_IMPORT;PX2_EXTENDS_DLL_IMPORT;PX2LP_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;WIN32_LEAN_AND_MEAN;PROTOBUF_USE_DLLS;PX2_ENGINE_DLL_IMPORT;PX2LP_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>.\;.\ToLua;.\PropGrid;..\..\PX2Foundation\ToLua;..\..\PX2Foundation\Unity\ToLua;..\..\PX2Foundation\Unity\Lua;..\..\PX2SDK\Include;..\..\PX2Edit;..\..\ThirdPartiesLibs\wxWidgets-3.0.2\include;..\..\ThirdPartiesLibs\wxWidgets-3.0.2\lib\vc_lib\mswud;..\..\ThirdPartiesLibs\Awesomium SDK\1.7.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>PX2FoundationD.lib;PX2ExtendsD.lib;awesomium.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>PX2EngineD.lib;awesomium.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration);..\..\ThirdPartiesLibs\wxWidgets-3.0.2\lib\vc_lib;..\..\ThirdPartiesLibs\Awesomium SDK\1.7.5.1\build\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>

@@ -7,6 +7,7 @@
 #include "PX2RedoUndo.hpp"
 #include "PX2ScriptManager.hpp"
 #include "PX2StringHelp.hpp"
+#include "PX2Log.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------
@@ -24,6 +25,8 @@ void Application::NewProject(const std::string &pathname,
 	TheProject->SetSize((float)width, (float)height);
 	TheProject->Save(pathname);
 	mProjectFilePath = pathname;
+
+	PX2_SC_LUA->SetUserTypePointer("PX2_PROJ", "Project", Project::GetSingletonPtr());
 
 	Event *ent = PX2_CREATEEVENTEX(ProjectES, NewProject);
 	PX2_EW.BroadcastingLocalEvent(ent);
@@ -52,8 +55,14 @@ bool Application::LoadProject(const std::string &pathname)
 
 		if (PX2_RM.IsFloderExist("", folder))
 		{
+			PX2_LOG_INFO("Begin load project dll: %s", projDllPath.c_str());
+
 			PX2_PLUGINMAN.Load(projDllPath);
+
+			PX2_LOG_INFO("End load project dll: %s", projDllPath.c_str());
 		}
+
+		PX2_SC_LUA->SetUserTypePointer("PX2_PROJ", "Project", Project::GetSingletonPtr());
 
 		Event *ent = PX2_CREATEEVENTEX(ProjectES, LoadedProject);
 		PX2_EW.BroadcastingLocalEvent(ent);
@@ -71,6 +80,8 @@ bool Application::LoadProject(const std::string &pathname)
 		}
 
 		mProjectFilePath = pathname;
+
+		PX2_LOG_INFO("Loaded Project: %s", projName.c_str());
 
 		return true;
 	}

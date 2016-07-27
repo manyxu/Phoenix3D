@@ -19,15 +19,21 @@ Canvas::Canvas() :
 mRenderNode(0),
 mRenderWindow(0),
 mIsMain(false),
+mOverCamera(0),
 mIsSizeChangeReAdjustCamera(true),
 mPriority(0),
 mIsPickOnlyInSizeRange(true),
 mIsInRange(false),
+mClearStencil(0),
+mClearFlagColor(false),
+mClearFlagDepth(false),
+mClearFlagStencil(false),
 mIsPressed(false),
 mIsLeftPressed(false),
 mIsRightPressed(false),
 mIsMiddlePressed(false),
-mIsMoved(false)
+mIsMoved(false),
+mClearDepth(1.0f)
 {
 	mOverrideWireProperty = new0 WireProperty();
 	mOverrideWireProperty->Enabled = true;
@@ -73,7 +79,7 @@ void Canvas::SetMain(bool main)
 	mIsMain = main;
 }
 //----------------------------------------------------------------------------
-void Canvas::SetRenderNode(SizeNode *movable)
+void Canvas::SetRenderNode(Node *movable)
 {
 	mRenderNode = movable;
 }
@@ -112,14 +118,6 @@ void Canvas::UpdateWorldData(double applicationTime,
 		else
 		{
 			UpdateLeftBottomCornerOffset(GetParent());
-		}
-
-		if (mRenderNode)
-		{
-			mRenderNode->_MarkRelatvieChange();
-
-			mRenderNode->UpdateLayout(GetParent());
-			mRenderNode->UpdateLeftBottomCornerOffset(GetParent());
 		}
 
 		mIsLayoutChanged = false;
@@ -203,6 +201,22 @@ void Canvas::SetViewPort(float left, float bottom, float width,
 	mViewPort.Top = bottom + height;
 }
 //----------------------------------------------------------------------------
+void Canvas::SetOverCamera(Camera *overCamera)
+{
+	if (mOverCamera)
+	{
+		mOverCameraCuller = 0;
+	}
+
+	mOverCamera = overCamera;
+
+	if (mOverCamera)
+	{
+		mOverCameraCuller = new0 Culler();
+		mOverCameraCuller->SetCamera(mOverCamera);
+	}
+}
+//----------------------------------------------------------------------------
 void Canvas::AddCamera(Camera *camera)
 {
 	std::map<Camera*, CullerPtr>::iterator it = mCullers.find(camera);
@@ -272,37 +286,6 @@ void Canvas::OnGetVisibleSet(Culler& culler, bool noCull)
 	}
 }
 //----------------------------------------------------------------------------
-//bool Canvas::GetPickRay(float viewPortPosX, float viewPortPosZ,
-//	APoint& origin, AVector& direction)
-//{
-//	if (!mCamera) return false;
-//
-//	// Get the [0,1]^2-normalized coordinates of (x,y).
-//	float r = viewPortPosX / (float)mSize.Width;
-//	float u = viewPortPosZ / (float)mSize.Height;
-//
-//	// Get the relative coordinates in [rmin,rmax]x[umin,umax].
-//	float rBlend = (1.0f - r)*mCamera->GetRMin() + r*mCamera->GetRMax();
-//	float uBlend = (1.0f - u)*mCamera->GetUMin() + u*mCamera->GetUMax();
-//
-//	if (mCamera->IsPerspective())
-//	{
-//		origin = mCamera->GetPosition();
-//		direction = mCamera->GetDMin()*mCamera->GetDVector() +
-//			rBlend*mCamera->GetRVector() + uBlend*mCamera->GetUVector();
-//		direction.Normalize();
-//	}
-//	else
-//	{
-//		origin = mCamera->GetPosition() + rBlend*mCamera->GetRVector() +
-//			uBlend*mCamera->GetUVector();
-//		direction = mCamera->GetDVector();
-//		direction.Normalize();
-//	}
-//
-//	return true;
-//}
-//----------------------------------------------------------------------------
 //Vector2f Canvas::WorldPos3DToViewPort(const APoint &worldPos,
 //	bool *isInBack)
 //{
@@ -357,12 +340,41 @@ void Canvas::OnGetVisibleSet(Culler& culler, bool noCull)
 //	return camVec;
 //}
 //----------------------------------------------------------------------------
+void Canvas::SetClearColor(const Float4 &color)
+{
+	mClearColor = color;
+}
+//----------------------------------------------------------------------------
+void Canvas::SetClearDepth(float depth)
+{
+	mClearDepth = depth;
+}
+//----------------------------------------------------------------------------
+void Canvas::SetClearStencil(unsigned int stencil)
+{
+	mClearStencil = stencil;
+}
+//----------------------------------------------------------------------------
+void Canvas::SetClearFlag(bool color, bool depth, bool stencil)
+{
+	mClearFlagColor = color;
+	mClearFlagDepth = depth;
+	mClearFlagStencil = stencil;
+}
+//----------------------------------------------------------------------------
 void Canvas::ClearVisibleSet()
 {
-	std::map<Camera*, CullerPtr>::iterator it = mCullers.begin();
-	for (; it != mCullers.end(); it++)
+	if (mOverCamera)
 	{
-		it->second->Clear();
+		mOverCameraCuller->Clear();
+	}
+	else
+	{
+		std::map<Camera*, CullerPtr>::iterator it = mCullers.begin();
+		for (; it != mCullers.end(); it++)
+		{
+			it->second->Clear();
+		}
 	}
 }
 //----------------------------------------------------------------------------
@@ -370,12 +382,26 @@ void Canvas::ComputeVisibleSet()
 {
 	if (!IsShow()) return;
 
-	std::map<Camera*, CullerPtr>::iterator it = mCullers.begin();
-	for (; it != mCullers.end(); it++)
+	if ("EU_CanvasStage" == GetName())
 	{
-		it->second->Clear();
-		it->second->ComputeVisibleSet(this);
-		it->second->GetVisibleSet().Sort();	
+		int a = 0;
+	}
+
+	if (mOverCamera)
+	{
+		mOverCameraCuller->Clear();
+		mOverCameraCuller->ComputeVisibleSet(this);
+		mOverCameraCuller->GetVisibleSet().Sort();
+	}
+	else
+	{
+		std::map<Camera*, CullerPtr>::iterator it = mCullers.begin();
+		for (; it != mCullers.end(); it++)
+		{
+			it->second->Clear();
+			it->second->ComputeVisibleSet(this);
+			it->second->GetVisibleSet().Sort();
+		}
 	}
 }
 //----------------------------------------------------------------------------
@@ -396,29 +422,77 @@ void Canvas::Draw(Renderer *renderer)
 	Rectf viewPort = mViewPort;
 	if (viewPort.IsEmpty()) viewPort = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
 	renderer->SetViewport(viewPort);
-	renderer->ClearDepthBuffer();
 
-	for (int i = 0; i < (int)mCameras.size(); i++)
+	bool bClearColor = false;
+	bool bClearDepth = false;
+	bool bClearStencil = false;
+	GetClearFlag(bClearColor, bClearDepth, bClearStencil);
+	_Clear(renderer, bClearColor, GetClearColor(),
+		bClearDepth, GetClearDepth(), bClearStencil, GetClearStencil());
+
+	if (mOverCamera)
 	{
-		Camera *camera = mCameras[i];
-		Culler *culler = mCullers[camera];
-
-		VisibleSet &visibleSet = culler->GetVisibleSet();
-
-		renderer->SetCamera(camera);
-		PX2_GR.GetCurEnvirParam()->ComputeEnvironment(visibleSet);
-		renderer->Draw(visibleSet);
+		_Draw(mOverCamera, renderer, mOverCameraCuller);
 	}
-
-	renderer->ClearDepthBuffer();
-	for (int i = 0; i < (int)mCameras.size(); i++)
+	else
 	{
-		Camera *camera = mCameras[i];
-		renderer->SetCamera(camera);
+		for (int i = 0; i < (int)mCameras.size(); i++)
+		{
+			Camera *camera = mCameras[i];
+			Culler *culler = mCullers[camera];
 
-		renderer->Update(GetDebugLine()->GetVertexBuffer());
-		renderer->Draw(GetDebugLine());
+			_Draw(camera, renderer, culler);
+		}
 	}
+}
+//----------------------------------------------------------------------------
+void Canvas::_Clear(Renderer *renderer, bool bColor, const Float4 &color,
+	bool bDepth, float depth, bool bStencil, int stencil)
+{
+	if (bColor && bDepth && bStencil)
+	{
+		renderer->SetClearColor(color);
+		renderer->ClearBuffers();
+	}
+	else
+	{
+		if (bColor)
+		{
+			renderer->SetClearColor(color);
+			renderer->ClearColorBuffer();
+		}
+		if (bDepth)
+		{
+			renderer->SetClearDepth(depth);
+			renderer->ClearDepthBuffer();
+		}
+		if (bStencil)
+		{
+			renderer->SetClearStencil(stencil);
+			renderer->ClearStencilBuffer();
+		}
+	}
+}
+//----------------------------------------------------------------------------
+void Canvas::_Draw(Camera *camera, Renderer *renderer, Culler *culler)
+{
+	VisibleSet &visibleSet = culler->GetVisibleSet();
+
+	renderer->SetCamera(camera);
+	EnvirParam *evrParam = PX2_GR.GetCurEnvirParam();
+	if (evrParam)
+		evrParam->ComputeEnvironment(visibleSet);
+
+	bool clearColor = false;
+	bool clearDepth = false;
+	bool clearStencil = false;
+	camera->GetClearFlag(clearColor, clearDepth, clearStencil);
+
+	_Clear(renderer, clearColor,camera->GetClearColor(),
+		clearDepth, camera->GetClearDepth(),
+		clearStencil, camera->GetClearStencil());
+
+	renderer->Draw(visibleSet);
 }
 //----------------------------------------------------------------------------
 bool Canvas::LessThan(const Canvas *step0, const Canvas *step1)
@@ -437,7 +511,7 @@ void Canvas::SetPickOnlyInSizeRange(bool inRange)
 	mIsPickOnlyInSizeRange = inRange;
 }
 //----------------------------------------------------------------------------
-void Canvas::DoExecute(Event *event)
+void Canvas::OnEvent(Event *event)
 {
 	if (InputEventSpace::IsIn(event))
 	{
@@ -593,50 +667,50 @@ void Canvas::OnMotion(const APoint &worldPos)
 //----------------------------------------------------------------------------
 std::pair<float, float> Canvas::CalPixelToWorld()
 {
-	//Rectf viewPort = mViewPort;
-	//if (viewPort.IsEmpty())
-	//	viewPort = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
+	Rectf viewPort = mViewPort;
+	if (viewPort.IsEmpty())
+		viewPort = Rectf(0.0f, 0.0f, mSize.Width, mSize.Height);
 
-	//std::pair<float, float> pixelToWorld;
+	std::pair<float, float> pixelToWorld;
 
-	//if (mCamera)
-	//{
-	//	if (mCamera->IsPerspective())
-	//	{
-	//		float rMin = mCamera->GetRMin();
-	//		float uMin = mCamera->GetUMin();
-	//		float viewPortWidth = viewPort.Width();
-	//		float viewPortHeight = viewPort.Height();
+	if (mOverCamera)
+	{
+		if (mOverCamera->IsPerspective())
+		{
+			float rMin = mOverCamera->GetRMin();
+			float uMin = mOverCamera->GetUMin();
+			float viewPortWidth = viewPort.Width();
+			float viewPortHeight = viewPort.Height();
 
-	//		float worldW = 2.0f * -rMin;
-	//		float worldH = 2.0f * -uMin;
+			float worldW = 2.0f * -rMin;
+			float worldH = 2.0f * -uMin;
 
-	//		worldW *= 10.0f;
-	//		worldH *= 10.0f;
+			worldW *= 10.0f;
+			worldH *= 10.0f;
 
-	//		pixelToWorld.first = worldW / (float)viewPortWidth;
-	//		pixelToWorld.second = worldH / (float)viewPortHeight;
-	//	}
-	//	else
-	//	{
-	//		float rMin = mCamera->GetRMin();
-	//		float uMin = mCamera->GetUMin();
-	//		float viewPortWidth = viewPort.Width();
-	//		float viewPortHeight = viewPort.Height();
+			pixelToWorld.first = worldW / (float)viewPortWidth;
+			pixelToWorld.second = worldH / (float)viewPortHeight;
+		}
+		else
+		{
+			float rMin = mOverCamera->GetRMin();
+			float uMin = mOverCamera->GetUMin();
+			float viewPortWidth = viewPort.Width();
+			float viewPortHeight = viewPort.Height();
 
-	//		float worldW = 2.0f * -rMin;
-	//		float worldH = 2.0f * -uMin;
+			float worldW = 2.0f * -rMin;
+			float worldH = 2.0f * -uMin;
 
-	//		worldW *= 1.0f;
-	//		worldH *= 1.0f;
+			worldW *= 1.0f;
+			worldH *= 1.0f;
 
-	//		pixelToWorld.first = worldW / (float)viewPortWidth;
-	//		pixelToWorld.second = worldH / (float)viewPortHeight;
-	//	}
+			pixelToWorld.first = worldW / (float)viewPortWidth;
+			pixelToWorld.second = worldH / (float)viewPortHeight;
+		}
 
-	//}
+	}
 
-	//mPixelToWorld = pixelToWorld;
+	mPixelToWorld = pixelToWorld;
 
 	return mPixelToWorld;
 }
@@ -669,12 +743,17 @@ void Canvas::AddDebugLine(const APoint &fromPos, const APoint &toPos,
 Canvas::Canvas(LoadConstructor value) :
 SizeNode(value),
 mRenderNode(0),
+mOverCamera(0),
 mRenderWindow(0),
 mIsMain(false),
 mIsSizeChangeReAdjustCamera(true),
 mPriority(0),
 mIsPickOnlyInSizeRange(true),
 mIsInRange(false),
+mClearStencil(0),
+mClearFlagColor(false),
+mClearFlagDepth(false),
+mClearFlagStencil(false),
 mIsPressed(false),
 mIsLeftPressed(false),
 mIsRightPressed(false),

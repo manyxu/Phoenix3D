@@ -42,9 +42,12 @@ mIsOverMe(false)
 	ComeInEventWorld();
 
 	UIPicBox *picBoxBottom = CreateAddBackgroundPicBox();
-	picBoxBottom->SetColor(PX2_UISM.Color_Splitter);
+	picBoxBottom->SetColor(Float3::WHITE);
+	SetColor(PX2_UISM.Color_Splitter);
 
 	SetWidget(true);
+
+	SetColorSelfCtrled(true);
 }
 //----------------------------------------------------------------------------
 UISplitterFrame::~UISplitterFrame()

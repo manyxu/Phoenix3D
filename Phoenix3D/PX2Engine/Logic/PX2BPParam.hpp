@@ -3,18 +3,20 @@
 #ifndef PX2BPPARAM_HPP
 #define PX2BPPARAM_HPP
 
-#include "PX2SimulationPre.hpp"
+#include "PX2LogicPre.hpp"
 #include "PX2UIFrame.hpp"
 #include "PX2UIButton.hpp"
 #include "PX2UIFText.hpp"
 #include "PX2FunObject.hpp"
+#include "PX2InterpCurve.hpp"
+#include "PX2Polysegment.hpp"
 
 namespace PX2
 {
 
 	class BPModule;
 
-	class PX2_GAME_ITEM BPParam : public UIFrame
+	class PX2_ENGINE_ITEM BPParam : public UIFrame
 	{
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;

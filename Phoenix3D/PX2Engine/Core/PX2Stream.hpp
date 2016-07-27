@@ -47,13 +47,13 @@ namespace PX2
 //----------------------------------------------------------------------------
 #define PX2_NEW(classname) \
 public: \
-	static Object *New() \
+	static classname *New() \
 	{ \
 		classname *obj = new0 classname(); \
 		return obj; \
 	} \
 	\
-	static Object *New(const std::string &name) \
+	static classname *New(const std::string &name) \
 	{ \
 		classname *obj = new0 classname(); \
 		obj->SetName(name); \

@@ -155,8 +155,6 @@ void ASScriptController::Load(InStream& source)
 void ASScriptController::Link(InStream& source)
 {
 	ScriptController::Link(source);
-
-	source.ResolveLink(mObject);
 }
 //----------------------------------------------------------------------------
 void ASScriptController::PostLink()

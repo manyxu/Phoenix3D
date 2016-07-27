@@ -97,15 +97,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FT2_BUILD_LIBRARY;PX2_ENGINE_DLL_EXPORT;PX2_USE_DX9;PX2_USE_FMOD;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;./Core;./Core/RapidXML;./Core/RapidJSON;./Mathematics;./Graphics;./Graphics/Renderers/Dx9Renderer;./Unity;./Unity/ZLib;./Unity/ZLib/minzip;./Unity/Lua;./Unity/ToLua;./Unity/LuaPlus;./Unity/AngelScript;./Unity/SoundFMod;./Unity/ImageLibs/PNG;./Unity/FreeType;./Unity/FreeType/include;./Unity/FreeType/include/freetype;./Unity/FreeType/include/config;./Unity/FreeType/include/internal;./Unity/FreeType/src/base;./Unity/FreeType/src/autofit;./Unity/FreeType/src/cff;./Unity/FreeType/src/pshinter;./Unity/FreeType/src/psnames;./Unity/FreeType/src/truetype;./Unity/FreeType/src/smooth;./Unity/FreeType/src/sfnt;./Unity/FreeType/src/raster;./Unity/CURL/config;./Unity/CURL/config/win32;./Unity/CURL/src;./Unity/Edit;./Unity/Account;./Unity/ModelImporter/FBX;./Net;./Net/google/vsprojects;./UI;./Effect;./Terrains;./Application;./ToScript;../ThirdPartiesLibs/Microsoft DirectX SDK June 2010/Include;../ThirdPartiesLibs/FMOD/FMOD Studio API Windows/api/lowlevel/inc;../ThirdPartiesLibs/FBX/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FT2_BUILD_LIBRARY;PX2_ENGINE_DLL_EXPORT;PX2_USE_DX9;PX2_USE_FMOD;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;LUAPLUS_EXCEPTIONS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;./Core;./Core/RapidXML;./Core/RapidJSON;./Mathematics;./Graphics;./Graphics/Renderers/Dx9Renderer;./Unity;./Unity/ZLib;./Unity/ZLib/minzip;./Unity/Lua;./Unity/ToLua;./Unity/LuaPlus;./Unity/AngelScript;./Unity/SoundFMod;./Unity/ImageLibs/PNG;./Unity/FreeType;./Unity/FreeType/include;./Unity/FreeType/include/freetype;./Unity/FreeType/include/config;./Unity/FreeType/include/internal;./Unity/FreeType/src/base;./Unity/FreeType/src/autofit;./Unity/FreeType/src/cff;./Unity/FreeType/src/pshinter;./Unity/FreeType/src/psnames;./Unity/FreeType/src/truetype;./Unity/FreeType/src/smooth;./Unity/FreeType/src/sfnt;./Unity/FreeType/src/raster;./Unity/CURL/config;./Unity/CURL/config/win32;./Unity/CURL/src;./Unity/Edit;./Unity/Account;./Unity/ModelImporter/FBX;./Net;./Net/google/vsprojects;./UI;./Effect;./Terrains;./Logic;./Application;./ToScript;../ThirdPartiesLibs/Microsoft DirectX SDK June 2010/Include;../ThirdPartiesLibs/FMOD/FMOD Studio API Windows/api/lowlevel/inc;../ThirdPartiesLibs/FBX/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxerr.lib;dinput8.lib;dxguid.lib;fmod_vc.lib;ws2_32.lib;libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\ThirdPartiesLibs\Microsoft DirectX SDK June 2010\Lib\x86;..\ThirdPartiesLibs\FMOD\FMOD Studio API Windows\api\lowlevel\lib;..\ThirdPartiesLibs\FBX\lib\vs2013\x86\release</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\ThirdPartiesLibs\Microsoft DirectX SDK June 2010\Lib\x86;..\ThirdPartiesLibs\FMOD\FMOD Studio API Windows\api\lowlevel\lib;..\ThirdPartiesLibs\FBX\lib\vs2013\x86\debug</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>mkdir ..\PX2SDK\Include
@@ -137,6 +137,10 @@ xcopy /DY .\Effect\*.inl ..\PX2SDK\Include
 xcopy /DY .\Terrains\*.hpp ..\PX2SDK\Include
 
 xcopy /DY .\Terrains\*.inl ..\PX2SDK\Include
+xcopy /DY .\Logic\*.hpp ..\PX2SDK\Include
+
+xcopy /DY .\Logic\*.inl ..\PX2SDK\Include
+
 xcopy /DY .\Application\*.hpp ..\PX2SDK\Include
 
 xcopy /DY .\Application\*.inl ..\PX2SDK\Include
@@ -223,7 +227,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FT2_BUILD_LIBRARY;PX2_ENGINE_DLL_EXPORT;PX2_USE_DX9;PX2_USE_FMOD;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;./Core;./Core/RapidXML;./Core/RapidJSON;./Mathematics;./Graphics;./Graphics/Renderers/Dx9Renderer;./Unity;./Unity/ZLib;./Unity/ZLib/minzip;./Unity/Lua;./Unity/ToLua;./Unity/LuaPlus;./Unity/AngelScript;./Unity/SoundFMod;./Unity/ImageLibs/PNG;./Unity/FreeType;./Unity/FreeType/include;./Unity/FreeType/include/freetype;./Unity/FreeType/include/config;./Unity/FreeType/include/internal;./Unity/FreeType/src/base;./Unity/FreeType/src/autofit;./Unity/FreeType/src/cff;./Unity/FreeType/src/pshinter;./Unity/FreeType/src/psnames;./Unity/FreeType/src/truetype;./Unity/FreeType/src/smooth;./Unity/FreeType/src/sfnt;./Unity/FreeType/src/raster;./Unity/CURL/config;./Unity/CURL/config/win32;./Unity/CURL/src;./Unity/Edit;./Unity/Account;./Unity/ModelImporter/FBX;./Net;./Net/google/vsprojects;./UI;./Effect;./Terrains;./Application;./ToScript;../ThirdPartiesLibs/Microsoft DirectX SDK June 2010/Include;../ThirdPartiesLibs/FMOD/FMOD Studio API Windows/api/lowlevel/inc;../ThirdPartiesLibs/FBX/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./Core;./Core/RapidXML;./Core/RapidJSON;./Mathematics;./Graphics;./Graphics/Renderers/Dx9Renderer;./Unity;./Unity/ZLib;./Unity/ZLib/minzip;./Unity/Lua;./Unity/ToLua;./Unity/LuaPlus;./Unity/AngelScript;./Unity/SoundFMod;./Unity/ImageLibs/PNG;./Unity/FreeType;./Unity/FreeType/include;./Unity/FreeType/include/freetype;./Unity/FreeType/include/config;./Unity/FreeType/include/internal;./Unity/FreeType/src/base;./Unity/FreeType/src/autofit;./Unity/FreeType/src/cff;./Unity/FreeType/src/pshinter;./Unity/FreeType/src/psnames;./Unity/FreeType/src/truetype;./Unity/FreeType/src/smooth;./Unity/FreeType/src/sfnt;./Unity/FreeType/src/raster;./Unity/CURL/config;./Unity/CURL/config/win32;./Unity/CURL/src;./Unity/Edit;./Unity/Account;./Unity/ModelImporter/FBX;./Net;./Net/google/vsprojects;./UI;./Effect;./Terrains;./Logic;./Application;./ToScript;../ThirdPartiesLibs/Microsoft DirectX SDK June 2010/Include;../ThirdPartiesLibs/FMOD/FMOD Studio API Windows/api/lowlevel/inc;../ThirdPartiesLibs/FBX/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -346,6 +350,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Application\PX2Application.hpp" />
     <ClInclude Include="Application\PX2Applications.hpp" />
     <ClInclude Include="Application\PX2Creater.hpp" />
+    <ClInclude Include="Application\PX2ObjCast.hpp" />
     <ClInclude Include="Application\PX2Project.hpp" />
     <ClInclude Include="Application\PX2ProjectEvent.hpp" />
     <ClInclude Include="Application\PX2Scene.hpp" />
@@ -700,6 +705,18 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Graphics\Renderers\OpenGLESRenderer\PX2OpenGLESVertexBuffer.hpp" />
     <ClInclude Include="Graphics\Renderers\OpenGLESRenderer\PX2OpenGLESVertexFormat.hpp" />
     <ClInclude Include="Graphics\Renderers\OpenGLESRenderer\PX2OpenGLESVertexShader.hpp" />
+    <ClInclude Include="Logic\PX2BPEdit.hpp" />
+    <ClInclude Include="Logic\PX2BPFile.hpp" />
+    <ClInclude Include="Logic\PX2BPManager.hpp" />
+    <ClInclude Include="Logic\PX2BPModule.hpp" />
+    <ClInclude Include="Logic\PX2BPPackage.hpp" />
+    <ClInclude Include="Logic\PX2BPParam.hpp" />
+    <ClInclude Include="Logic\PX2LogicController.hpp" />
+    <ClInclude Include="Logic\PX2LogicManager.hpp" />
+    <ClInclude Include="Logic\PX2LogicModule.hpp" />
+    <ClInclude Include="Logic\PX2LogicModuleCatalogue.hpp" />
+    <ClInclude Include="Logic\PX2LogicPre.hpp" />
+    <ClInclude Include="Logic\PX2UIBlueBlock.hpp" />
     <ClInclude Include="Mathematics\PX2APoint.hpp" />
     <ClInclude Include="Mathematics\PX2AVector.hpp" />
     <ClInclude Include="Mathematics\PX2AxisAlignedBox3.hpp" />
@@ -871,7 +888,6 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="UI\PX2UIList.hpp" />
     <ClInclude Include="UI\PX2UIMenu.hpp" />
     <ClInclude Include="UI\PX2UIMenuItem.hpp" />
-    <ClInclude Include="UI\PX2UIPanel.hpp" />
     <ClInclude Include="UI\PX2UIPicBox.hpp" />
     <ClInclude Include="UI\PX2UIPre.hpp" />
     <ClInclude Include="UI\PX2UIProgressBar.hpp" />
@@ -1019,6 +1035,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClInclude Include="Unity\PX2LuaContext.hpp" />
     <ClInclude Include="Unity\PX2LuaPlusContext.hpp" />
     <ClInclude Include="Unity\PX2LuaPlusHelper.hpp" />
+    <ClInclude Include="Unity\PX2LuaScriptController.hpp" />
     <ClInclude Include="Unity\PX2LuaStackBackup.hpp" />
     <ClInclude Include="Unity\PX2Plugin.hpp" />
     <ClInclude Include="Unity\PX2PluginManager.hpp" />
@@ -1061,6 +1078,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Application\PX2ApplicationInitTerm.cpp" />
     <ClCompile Include="Application\PX2ApplicationMap.cpp" />
     <ClCompile Include="Application\PX2Creater.cpp" />
+    <ClCompile Include="Application\PX2ObjCast.cpp" />
     <ClCompile Include="Application\PX2Project.cpp" />
     <ClCompile Include="Application\PX2ProjectEvent.cpp" />
     <ClCompile Include="Application\PX2Scene.cpp" />
@@ -1347,6 +1365,17 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Graphics\Renderers\OpenGLESRenderer\PX2OpenGLESVertexBuffer.cpp" />
     <ClCompile Include="Graphics\Renderers\OpenGLESRenderer\PX2OpenGLESVertexFormat.cpp" />
     <ClCompile Include="Graphics\Renderers\OpenGLESRenderer\PX2OpenGLESVertexShader.cpp" />
+    <ClCompile Include="Logic\PX2BPEdit.cpp" />
+    <ClCompile Include="Logic\PX2BPFile.cpp" />
+    <ClCompile Include="Logic\PX2BPManager.cpp" />
+    <ClCompile Include="Logic\PX2BPModule.cpp" />
+    <ClCompile Include="Logic\PX2BPPackage.cpp" />
+    <ClCompile Include="Logic\PX2BPParam.cpp" />
+    <ClCompile Include="Logic\PX2LogicController.cpp" />
+    <ClCompile Include="Logic\PX2LogicManager.cpp" />
+    <ClCompile Include="Logic\PX2LogicModule.cpp" />
+    <ClCompile Include="Logic\PX2LogicModuleCatalogue.cpp" />
+    <ClCompile Include="Logic\PX2UIBlueBlock.cpp" />
     <ClCompile Include="Mathematics\PX2APoint.cpp" />
     <ClCompile Include="Mathematics\PX2AVector.cpp" />
     <ClCompile Include="Mathematics\PX2BezierCurve3.cpp" />
@@ -1480,7 +1509,6 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="UI\PX2UIList.cpp" />
     <ClCompile Include="UI\PX2UIMenu.cpp" />
     <ClCompile Include="UI\PX2UIMenuItem.cpp" />
-    <ClCompile Include="UI\PX2UIPanel.cpp" />
     <ClCompile Include="UI\PX2UIPicBox.cpp" />
     <ClCompile Include="UI\PX2UIProgressBar.cpp" />
     <ClCompile Include="UI\PX2UIProgressBarCtrl.cpp" />
@@ -1643,6 +1671,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <ClCompile Include="Unity\PX2LanguageManager.cpp" />
     <ClCompile Include="Unity\PX2LuaContext.cpp" />
     <ClCompile Include="Unity\PX2LuaPlusContext.cpp" />
+    <ClCompile Include="Unity\PX2LuaScriptController.cpp" />
     <ClCompile Include="Unity\PX2LuaStackBackup.cpp" />
     <ClCompile Include="Unity\PX2PluginManager.cpp" />
     <ClCompile Include="Unity\PX2RedoUndo.cpp" />
@@ -1812,6 +1841,12 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
     <None Include="Graphics\PX2VertexShader.inl" />
     <None Include="Graphics\PX2VisibleSet.inl" />
     <None Include="Graphics\PX2RenderWindow.inl" />
+    <None Include="Logic\PX2BPFile.inl" />
+    <None Include="Logic\PX2BPManager.inl" />
+    <None Include="Logic\PX2BPModule.inl" />
+    <None Include="Logic\PX2BPPackage.inl" />
+    <None Include="Logic\PX2BPParam.inl" />
+    <None Include="Logic\PX2LogicManager.inl" />
     <None Include="Mathematics\PX2APoint.inl" />
     <None Include="Mathematics\PX2AVector.inl" />
     <None Include="Mathematics\PX2AxisAlignedBox3.inl" />

@@ -26,6 +26,8 @@
 #include "PX2Singleton.hpp"
 #include "PX2RendererInput.hpp"
 #include "PX2TimerManager.hpp"
+#include "PX2LogicManager.hpp"
+#include "PX2UICanvas.hpp"
 
 namespace PX2
 {
@@ -36,7 +38,7 @@ namespace PX2
 	public:
 		ProjectEventController();
 		virtual ~ProjectEventController();
-		virtual void DoExecute(Event *event);
+		virtual void OnEvent(Event *event);
 	};
 
 	class PX2_ENGINE_ITEM Application
@@ -89,6 +91,7 @@ namespace PX2
 		AccoutManager *mAccoutManager;
 		UIAuiManager *mUIAuiManager;
 		UISkinManager *mUISkinManager;
+		LogicManager *mLogicManager;
 		Creater *mCreater;
 
 		bool mIsInBackground;
@@ -157,6 +160,9 @@ namespace PX2
 		bool LoadUI(const std::string &pathname);
 		void CloseUI();
 
+		Canvas *GetEngineSceneCanvas();
+		UICanvas *GetEngineUICanvas();
+
 	protected:
 		std::string _CalSavePath(const std::string &pathname);
 		bool _SaveSceneInternal(const std::string &pathname);
@@ -165,6 +171,9 @@ namespace PX2
 		std::string mSceneFilePath;
 		std::string mUIFilePath;
 		std::string mBPFilePath;
+
+		CanvasPtr mEngineSceneCanvas;
+		UICanvasPtr mEngineUICanvas;
 
 	public_internal:
 		PointerRef<Project> TheProject;

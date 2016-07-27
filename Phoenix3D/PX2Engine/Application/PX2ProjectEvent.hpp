@@ -1,7 +1,7 @@
 // PX2ProjectEvent.hpp
 
-#ifndef PX2GRAPHICSEVENTTYPE_HPP
-#define PX2GRAPHICSEVENTTYPE_HPP
+#ifndef PX2PROJECTEVENTTYPE_HPP
+#define PX2PROJECTEVENTTYPE_HPP
 
 #include "PX2GraphicsPre.hpp"
 #include "PX2EventSystem.hpp"

@@ -161,6 +161,42 @@ void Transform::GetRotate(float &x, float &y, float &z) const
 	mat.ExtractEulerXYZ(x, y, z);
 }
 //----------------------------------------------------------------------------
+void Transform::SetDU(const AVector &dir, const AVector &uping)
+{
+	AVector right = dir.Cross(uping);
+	right.Normalize();
+	AVector up = right.Cross(dir);
+	up.Normalize();
+
+	Matrix3f matRot(right, dir, up, true);
+	SetRotate(matRot);
+}
+//----------------------------------------------------------------------------
+AVector Transform::GetDirection() const
+{
+	const HMatrix &matRot = GetRotate();
+	HPoint dir;
+	matRot.GetColumn(1, dir);
+
+	AVector vecDir = AVector(dir[0], dir[1], dir[2]);
+	vecDir.Normalize();
+
+	return vecDir;
+}
+//----------------------------------------------------------------------------
+void Transform::GetRDUVector(AVector &r, AVector &d, AVector &u) const
+{
+	const HMatrix &rotMat = GetRotate();
+	HPoint r0, d0, u0;
+	rotMat.GetColumn(0, r0);
+	rotMat.GetColumn(1, d0);
+	rotMat.GetColumn(2, u0);
+
+	r = AVector(r0[0], r0[1], r0[2]);
+	d = AVector(d0[0], d0[1], d0[2]);
+	u = AVector(u0[0], u0[1], u0[2]);
+}
+//----------------------------------------------------------------------------
 float Transform::GetNorm () const
 {
 	if (mIsRSMatrix)

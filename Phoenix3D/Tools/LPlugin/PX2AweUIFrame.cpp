@@ -1,6 +1,7 @@
 // PX2AweUIFrame.cpp
 
 #include "PX2AweUIFrame.hpp"
+#include "PX2Renderer.hpp"
 #include <Awesomium/WebURL.h>
 #include <Awesomium/WebString.h>
 #include <Awesomium/STLHelpers.h>

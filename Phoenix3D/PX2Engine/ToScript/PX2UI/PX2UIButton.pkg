@@ -5,7 +5,8 @@
 		UIButton();
 		virtual ~UIButton();
 		
-		static Object *New();
+		static UIButton *New();
+		static UIButton *New(const std::string &name);
 
 		virtual void Enable(bool enable);
 

@@ -23,6 +23,8 @@ namespace PX2
 		void AddItem(UIFrame *item);
 		void RemoveAllItems();
 
+		void SetSliderPercent(float percent);
+
 		virtual void OnSizeChanged();
 
 	protected:
@@ -31,7 +33,6 @@ namespace PX2
 		void _UpdateContentPos();
 		void _SliderCallback(UIFrame *frame, UICallType type);
 
-		bool mIsNeedRecal;
 		bool mIsUpdateSliderVisible;
 		bool mIsUpdateContentPos;
 

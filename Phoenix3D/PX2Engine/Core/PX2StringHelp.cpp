@@ -461,3 +461,22 @@ std::string StringHelp::FormatColor(int r, int g, int b)
 	return colorStr;
 }
 //----------------------------------------------------------------------------
+int StringHelp::StringToCharArray(char arr[], int lengthArr, 
+	const std::string &fromStr)
+{
+	if (fromStr.empty())
+	{
+		memset(arr, 0, lengthArr);
+		return 0;
+	}
+
+	int lengthStr = fromStr.length();
+	int copyStrLen = lengthStr;
+	if (lengthStr > lengthArr - 1) copyStrLen = lengthArr - 1;
+
+	memcpy(arr, fromStr.c_str(), copyStrLen);
+	arr[copyStrLen] = '\0';
+
+	return copyStrLen;
+}
+//----------------------------------------------------------------------------

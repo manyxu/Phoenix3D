@@ -3,12 +3,12 @@
 #include "PX2N_RenderView.hpp"
 #include "PX2InputManager.hpp"
 #include "PX2Edit.hpp"
-#include "PX2EngineLoop.hpp"
 #include "PX2EU_Manager.hpp"
 #include "PX2EditEventType.hpp"
 #include "PX2EditEventData.hpp"
 #include "PX2N_Frame.hpp"
 #include "PX2Time.hpp"
+#include "PX2Application.hpp"
 using namespace NA;
 using namespace PX2;
 
@@ -99,7 +99,7 @@ void RenderView::OnTimer(wxTimerEvent& event)
 			PX2_EDIT.IsRightMouseDown = wxGetMouseState().RightIsDown();
 			PX2_EDIT.IsMidMouseDown = wxGetMouseState().MiddleIsDown();
 
-			PX2_ENGINELOOP.Tick();
+			PX2_APP.Update();
 		}
 	}
 }
@@ -114,7 +114,7 @@ void RenderView::OnSize(wxSizeEvent& e)
 
 	if ("Main" == name)
 	{
-		PX2_ENGINELOOP.SetScreenSize(sz);
+		PX2_APP.SetScreenSize(sz);
 	}
 	else
 	{
@@ -412,7 +412,7 @@ void RenderView::OnChar(wxKeyEvent& e)
 	}
 }
 //----------------------------------------------------------------------------
-void RenderView::DoExecute(PX2::Event *event)
+void RenderView::OnEvent(PX2::Event *event)
 {
 	PX2_UNUSED(event);
 }

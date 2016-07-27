@@ -313,23 +313,8 @@
     <Filter Include="0.Base\Unity\Script">
       <UniqueIdentifier>{4c61b61c-9db3-4b0b-957e-b381e84ad143}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0.Base\Unity\Script\AngelScript">
-      <UniqueIdentifier>{a7dc27f0-abb7-4f10-9f83-2338f152d636}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0.Base\Unity\Script\ToLua">
       <UniqueIdentifier>{f8531f9b-1bc4-4c68-9e18-34b973b0948b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Base\Unity\Script\LuaContext">
-      <UniqueIdentifier>{922e3f3c-a09f-43ac-9d6a-f3a55c08efa6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Base\Unity\Script\AngelScriptContext">
-      <UniqueIdentifier>{31a9f74d-5557-4bf4-b7dc-b00480b6c09d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Base\Unity\Script\Lua">
-      <UniqueIdentifier>{8ea7c9ad-dbff-446c-a8a0-f53a516512c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Base\Unity\Script\LuaPlus">
-      <UniqueIdentifier>{392382c2-54e6-436a-9851-261b3b652902}</UniqueIdentifier>
     </Filter>
     <Filter Include="0.Base\Unity\Edit">
       <UniqueIdentifier>{d3faf426-3867-46d1-ba77-998c6ff91478}</UniqueIdentifier>
@@ -390,6 +375,60 @@
     </Filter>
     <Filter Include="0.Base\Unity\ModelImporter\FBX">
       <UniqueIdentifier>{4915905a-780f-4e61-a1e5-803546bed3d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\UIFrame\Text">
+      <UniqueIdentifier>{19aa039c-3324-425d-a374-8207aa2122fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\UIFrame\Align">
+      <UniqueIdentifier>{1222b837-f6f9-47a3-8ab6-473b8464b588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\UIFrame\Button">
+      <UniqueIdentifier>{c1b38b28-475d-43bd-9a8b-64da3787ffff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\UIFrame\PicBox">
+      <UniqueIdentifier>{1c583bb8-d60f-439a-938d-5288ac2b39d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\UIFrame\Progress">
+      <UniqueIdentifier>{129b9a0c-1e99-4080-8921-3f3a59ab7722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\Aui">
+      <UniqueIdentifier>{f45cd9a1-2beb-4820-956c-154cbc066bd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\UIFrame\Slider">
+      <UniqueIdentifier>{ee49bb55-11f2-41a7-9eb8-3b3e02b42724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\UIFrame\Splitter">
+      <UniqueIdentifier>{887f076d-af00-415b-b71b-1b897e2236b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\UIFrame\Table">
+      <UniqueIdentifier>{4e927a5e-2486-4a37-b378-e78bcfd97219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\UIFrame\ComboBox">
+      <UniqueIdentifier>{9fe24974-4d1d-42d2-b300-4856645aa307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Ext\UI\UIFrame\EditBox">
+      <UniqueIdentifier>{4c576abd-354b-472c-b498-836dd514cf87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Base\Unity\Script\Angel">
+      <UniqueIdentifier>{60feb6f1-4cd5-4b43-9b91-19c6e4dae380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Base\Unity\Script\Angel\AngelScript">
+      <UniqueIdentifier>{a7dc27f0-abb7-4f10-9f83-2338f152d636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Base\Unity\Script\Angel\AngelScriptContext">
+      <UniqueIdentifier>{31a9f74d-5557-4bf4-b7dc-b00480b6c09d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Base\Unity\Script\Lua">
+      <UniqueIdentifier>{a72f8e45-dc20-4cac-939a-61af8b4b0722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Base\Unity\Script\Lua\Lua">
+      <UniqueIdentifier>{8ea7c9ad-dbff-446c-a8a0-f53a516512c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Base\Unity\Script\Lua\LuaContext">
+      <UniqueIdentifier>{922e3f3c-a09f-43ac-9d6a-f3a55c08efa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Base\Unity\Script\Lua\LuaPlus">
+      <UniqueIdentifier>{392382c2-54e6-436a-9851-261b3b652902}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -608,75 +647,6 @@
     </ClInclude>
     <ClInclude Include="Unity\ImageLibs\PNG\pngstruct.h">
       <Filter>0.Base\Unity\ImageLibs\PNG</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lapi.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lauxlib.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lcode.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\ldebug.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\ldo.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lfunc.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lgc.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\llex.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\llimits.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lmem.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lobject.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lopcodes.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lparser.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lstate.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lstring.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\ltable.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\ltm.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lua.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\luaconf.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lualib.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lundump.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lvm.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\Lua\lzio.h">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
     </ClInclude>
     <ClInclude Include="Unity\SoundFMod\PX2FMODSound.hpp">
       <Filter>0.Base\Unity\SoundFMod</Filter>
@@ -1834,25 +1804,25 @@
       <Filter>0.Base\Graphics\CanvasWindow</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2ASContext.hpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2LuaContext.hpp">
-      <Filter>0.Base\Unity\Script\LuaContext</Filter>
+      <Filter>0.Base\Unity\Script\Lua\LuaContext</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2ScriptController.hpp">
       <Filter>0.Base\Unity\Script</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2ASScriptbuilder.hpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2ASClassType.hpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2ASScriptController.hpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2ASScriptstdstring.hpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2ScriptContext.hpp">
       <Filter>0.Base\Unity\Script</Filter>
@@ -1885,10 +1855,10 @@
       <Filter>0.Base\Core\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2ASScriptweakref.hpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2ASScriptArray.hpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClInclude>
     <ClInclude Include="Core\rapidjson\allocators.h">
       <Filter>0.Base\Core\XMLJSON\JSON\rapidjson</Filter>
@@ -2001,68 +1971,14 @@
     <ClInclude Include="Core\PX2JSONValue.hpp">
       <Filter>0.Base\Core\XMLJSON\JSON</Filter>
     </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaAutoBlock.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaCall.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaFunction.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaHelper.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaHelper_Object.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaHelper_StackObject.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaObject.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaPlus.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaPlusCD.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaPlusConfig.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaPlusInternal.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaStackObject.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaStackTableIterator.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaState.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaStateCD.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaStateOutFile.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaStateOutString.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity\LuaPlus\LuaTableIterator.h">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClInclude>
     <ClInclude Include="Unity\PX2LuaPlusContext.hpp">
-      <Filter>0.Base\Unity\Script\LuaContext</Filter>
+      <Filter>0.Base\Unity\Script\Lua\LuaContext</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2LuaPlusHelper.hpp">
-      <Filter>0.Base\Unity\Script\LuaContext</Filter>
+      <Filter>0.Base\Unity\Script\Lua\LuaContext</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2LuaStackBackup.hpp">
-      <Filter>0.Base\Unity\Script\LuaContext</Filter>
+      <Filter>0.Base\Unity\Script\Lua\LuaContext</Filter>
     </ClInclude>
     <ClInclude Include="Unity\PX2Importer.hpp">
       <Filter>0.Base\Unity\ModelImporter</Filter>
@@ -2074,15 +1990,6 @@
       <Filter>1.Ext\Effect</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UI.hpp">
-      <Filter>1.Ext\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIAuiBlockFrame.hpp">
-      <Filter>1.Ext\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIAuiFrame.hpp">
-      <Filter>1.Ext\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIAuiManager.hpp">
       <Filter>1.Ext\UI</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UIDefine.hpp">
@@ -2280,34 +2187,7 @@
     <ClInclude Include="Effect\PX2TRange.hpp">
       <Filter>1.Ext\Effect\Base</Filter>
     </ClInclude>
-    <ClInclude Include="UI\PX2UIButton.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIButtonBase.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIEditBox.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIComboBox.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UICheckButton.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
     <ClInclude Include="UI\PX2UIFrame.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIFrameGridAlignControl.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIFText.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIFPicBox.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIInputText.hpp">
       <Filter>1.Ext\UI\UIFrame</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UIItem.hpp">
@@ -2336,33 +2216,6 @@
     </ClInclude>
     <ClInclude Include="UI\PX2UITree.hpp">
       <Filter>1.Ext\UI\UIFrame\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIPanel.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIProgressBar.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIProgressBarCtrl.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIScoreText.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIScoreTextCtrl.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UISlider.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UISplitterFrame.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UITabFrame.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PX2UIText.hpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
     </ClInclude>
     <ClInclude Include="UI\PX2UIPropertyGrid.hpp">
       <Filter>1.Ext\UI\UIFrame\Item</Filter>
@@ -2395,118 +2248,118 @@
       <Filter>0.Base\Net\BitStream</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\angelscript.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_array.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_atomic.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_builder.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_bytecode.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_callfunc.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_compiler.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_config.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_configgroup.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_context.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_criticalsection.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_datatype.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_debug.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_gc.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_generic.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_map.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_memory.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_module.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_namespace.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_objecttype.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_outputbuffer.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_parser.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_property.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_restore.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_scriptcode.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_scriptengine.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_scriptfunction.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_scriptnode.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_scriptobject.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_string.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_string_util.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_symboltable.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_texts.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_thread.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_tokendef.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_tokenizer.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_typeinfo.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\AngelScript\as_variablescope.h">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClInclude>
     <ClInclude Include="Unity\ModelImporter\FBX\PX2FBXImporter.hpp">
       <Filter>0.Base\Unity\ModelImporter\FBX</Filter>
@@ -2525,6 +2378,231 @@
     </ClInclude>
     <ClInclude Include="Unity\ModelImporter\FBX\PX2FBXVertex.hpp">
       <Filter>0.Base\Unity\ModelImporter\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2LogicController.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2LogicManager.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2LogicModule.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2LogicModuleCatalogue.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2UIBlueBlock.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2BPEdit.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2BPFile.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2BPManager.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2BPModule.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2BPPackage.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2BPParam.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\PX2LogicPre.hpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIFrameGridAlignControl.hpp">
+      <Filter>1.Ext\UI\UIFrame\Align</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIButton.hpp">
+      <Filter>1.Ext\UI\UIFrame\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIButtonBase.hpp">
+      <Filter>1.Ext\UI\UIFrame\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UICheckButton.hpp">
+      <Filter>1.Ext\UI\UIFrame\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIFPicBox.hpp">
+      <Filter>1.Ext\UI\UIFrame\PicBox</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIFText.hpp">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIInputText.hpp">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIProgressBar.hpp">
+      <Filter>1.Ext\UI\UIFrame\Progress</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIProgressBarCtrl.hpp">
+      <Filter>1.Ext\UI\UIFrame\Progress</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIScoreTextCtrl.hpp">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIScoreText.hpp">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIText.hpp">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIEditBox.hpp">
+      <Filter>1.Ext\UI\UIFrame\EditBox</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIAuiBlockFrame.hpp">
+      <Filter>1.Ext\UI\Aui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIAuiFrame.hpp">
+      <Filter>1.Ext\UI\Aui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIAuiManager.hpp">
+      <Filter>1.Ext\UI\Aui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UITabFrame.hpp">
+      <Filter>1.Ext\UI\UIFrame\Table</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UISplitterFrame.hpp">
+      <Filter>1.Ext\UI\UIFrame\Splitter</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UISlider.hpp">
+      <Filter>1.Ext\UI\UIFrame\Slider</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PX2UIComboBox.hpp">
+      <Filter>1.Ext\UI\UIFrame\ComboBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\PX2LuaScriptController.hpp">
+      <Filter>0.Base\Unity\Script\Lua\LuaContext</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaAutoBlock.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaCall.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaFunction.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaHelper.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaHelper_Object.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaHelper_StackObject.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaObject.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaPlus.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaPlusCD.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaPlusConfig.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaPlusInternal.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaStackObject.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaStackTableIterator.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaState.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaStateCD.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaStateOutFile.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaStateOutString.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\LuaPlus\LuaTableIterator.h">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lapi.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lauxlib.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lcode.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\ldebug.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\ldo.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lfunc.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lgc.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\llex.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\llimits.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lmem.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lobject.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lopcodes.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lparser.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lstate.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lstring.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\ltable.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\ltm.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lua.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\luaconf.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lualib.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lundump.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lvm.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Unity\Lua\lzio.h">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\PX2ObjCast.hpp">
+      <Filter>2.Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2674,96 +2752,6 @@
     </ClCompile>
     <ClCompile Include="Unity\ImageLibs\PNG\pngwutil.c">
       <Filter>0.Base\Unity\ImageLibs\PNG</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lapi.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lauxlib.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lbaselib.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lcode.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\ldblib.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\ldebug.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\ldo.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\ldump.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lfunc.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lgc.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\linit.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\liolib.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\llex.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lmathlib.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lmem.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\loadlib.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lobject.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lopcodes.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\loslib.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lparser.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lstate.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lstring.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lstrlib.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\ltable.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\ltablib.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\ltm.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lundump.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lvm.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\lzio.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\Lua\print.c">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
     </ClCompile>
     <ClCompile Include="Unity\SoundFMod\PX2FMODSound.cpp">
       <Filter>0.Base\Unity\SoundFMod</Filter>
@@ -3888,25 +3876,25 @@
       <Filter>0.Base\Graphics\CanvasWindow</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2ASContext.cpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2LuaContext.cpp">
-      <Filter>0.Base\Unity\Script\LuaContext</Filter>
+      <Filter>0.Base\Unity\Script\Lua\LuaContext</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2ScriptController.cpp">
       <Filter>0.Base\Unity\Script</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2ASScriptbuilder.cpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2ASClassType.cpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2ASScriptController.cpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2ASScriptstdstring.cpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2ScriptContext.cpp">
       <Filter>0.Base\Unity\Script</Filter>
@@ -3933,10 +3921,10 @@
       <Filter>0.Base\Core\Memory</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2ASScriptweakref.cpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2ASScriptArray.cpp">
-      <Filter>0.Base\Unity\Script\AngelScriptContext</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScriptContext</Filter>
     </ClCompile>
     <ClCompile Include="Core\PX2JSONData.cpp">
       <Filter>0.Base\Core\XMLJSON\JSON</Filter>
@@ -3944,32 +3932,14 @@
     <ClCompile Include="Core\PX2JSONValue.cpp">
       <Filter>0.Base\Core\XMLJSON\JSON</Filter>
     </ClCompile>
-    <ClCompile Include="Unity\LuaPlus\LuaPlus.cpp">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\LuaPlus\LuaPlusAddons.c">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity\LuaPlus\LuaState_DumpObject.cpp">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </ClCompile>
     <ClCompile Include="Unity\PX2LuaPlusContext.cpp">
-      <Filter>0.Base\Unity\Script\LuaContext</Filter>
+      <Filter>0.Base\Unity\Script\Lua\LuaContext</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2LuaStackBackup.cpp">
-      <Filter>0.Base\Unity\Script\LuaContext</Filter>
+      <Filter>0.Base\Unity\Script\Lua\LuaContext</Filter>
     </ClCompile>
     <ClCompile Include="Unity\PX2Importer.cpp">
       <Filter>0.Base\Unity\ModelImporter</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIAuiBlockFrame.cpp">
-      <Filter>1.Ext\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIAuiFrame.cpp">
-      <Filter>1.Ext\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIAuiManager.cpp">
-      <Filter>1.Ext\UI</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UIDefine.cpp">
       <Filter>1.Ext\UI</Filter>
@@ -4157,34 +4127,7 @@
     <ClCompile Include="Effect\PX2SoundableObject.cpp">
       <Filter>1.Ext\Effect\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="UI\PX2UIButton.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIButtonBase.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIEditBox.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIComboBox.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UICheckButton.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
     <ClCompile Include="UI\PX2UIFrame.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIFrameGridAlignControl.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIFText.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIFPicBox.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIInputText.cpp">
       <Filter>1.Ext\UI\UIFrame</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UIItem.cpp">
@@ -4213,33 +4156,6 @@
     </ClCompile>
     <ClCompile Include="UI\PX2UITree.cpp">
       <Filter>1.Ext\UI\UIFrame\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIPanel.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIProgressBar.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIProgressBarCtrl.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIScoreText.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIScoreTextCtrl.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UISlider.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UISplitterFrame.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UITabFrame.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PX2UIText.cpp">
-      <Filter>1.Ext\UI\UIFrame</Filter>
     </ClCompile>
     <ClCompile Include="UI\PX2UIPropertyItem.cpp">
       <Filter>1.Ext\UI\UIFrame\Item</Filter>
@@ -4278,118 +4194,118 @@
       <Filter>0.Base\Net\BitStream</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_atomic.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_builder.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_bytecode.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc_arm.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc_mips.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc_ppc.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc_ppc_64.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc_sh4.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc_x64_gcc.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc_x64_mingw.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc_x64_msvc.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc_x86.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_callfunc_xenon.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_compiler.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_configgroup.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_context.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_datatype.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_gc.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_generic.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_globalproperty.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_memory.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_module.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_objecttype.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_outputbuffer.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_parser.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_restore.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_scriptcode.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_scriptengine.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_scriptfunction.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_scriptnode.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_scriptobject.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_string.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_string_util.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_thread.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_tokenizer.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_typeinfo.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\AngelScript\as_variablescope.cpp">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </ClCompile>
     <ClCompile Include="Unity\ModelImporter\FBX\PX2FBXImporter.cpp">
       <Filter>0.Base\Unity\ModelImporter\FBX</Filter>
@@ -4405,6 +4321,204 @@
     </ClCompile>
     <ClCompile Include="Unity\ModelImporter\FBX\PX2FBXUtilities.cpp">
       <Filter>0.Base\Unity\ModelImporter\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2LogicController.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2LogicManager.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2LogicModule.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2LogicModuleCatalogue.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2UIBlueBlock.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2BPEdit.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2BPFile.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2BPManager.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2BPModule.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2BPPackage.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\PX2BPParam.cpp">
+      <Filter>1.Ext\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIFrameGridAlignControl.cpp">
+      <Filter>1.Ext\UI\UIFrame\Align</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIButton.cpp">
+      <Filter>1.Ext\UI\UIFrame\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIButtonBase.cpp">
+      <Filter>1.Ext\UI\UIFrame\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UICheckButton.cpp">
+      <Filter>1.Ext\UI\UIFrame\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIFPicBox.cpp">
+      <Filter>1.Ext\UI\UIFrame\PicBox</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIFText.cpp">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIInputText.cpp">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIProgressBar.cpp">
+      <Filter>1.Ext\UI\UIFrame\Progress</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIProgressBarCtrl.cpp">
+      <Filter>1.Ext\UI\UIFrame\Progress</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIScoreTextCtrl.cpp">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIScoreText.cpp">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIText.cpp">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIAuiBlockFrame.cpp">
+      <Filter>1.Ext\UI\Aui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIAuiFrame.cpp">
+      <Filter>1.Ext\UI\Aui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIAuiManager.cpp">
+      <Filter>1.Ext\UI\Aui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UITabFrame.cpp">
+      <Filter>1.Ext\UI\UIFrame\Table</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UISplitterFrame.cpp">
+      <Filter>1.Ext\UI\UIFrame\Splitter</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UISlider.cpp">
+      <Filter>1.Ext\UI\UIFrame\Slider</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIComboBox.cpp">
+      <Filter>1.Ext\UI\UIFrame\ComboBox</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PX2UIEditBox.cpp">
+      <Filter>1.Ext\UI\UIFrame\EditBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\PX2LuaScriptController.cpp">
+      <Filter>0.Base\Unity\Script\Lua\LuaContext</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\LuaPlus\LuaPlus.cpp">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\LuaPlus\LuaPlusAddons.c">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\LuaPlus\LuaState_DumpObject.cpp">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lapi.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lauxlib.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lbaselib.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lcode.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\ldblib.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\ldebug.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\ldo.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\ldump.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lfunc.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lgc.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\linit.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\liolib.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\llex.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lmathlib.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lmem.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\loadlib.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lobject.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lopcodes.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\loslib.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lparser.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lstate.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lstring.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lstrlib.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\ltable.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\ltablib.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\ltm.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lundump.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lvm.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\lzio.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity\Lua\print.c">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\PX2ObjCast.cpp">
+      <Filter>2.Application</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -4509,9 +4623,6 @@
     </None>
     <None Include="Graphics\PX2GraphicsRoot.inl">
       <Filter>0.Base\Graphics</Filter>
-    </None>
-    <None Include="Unity\Lua\Makefile">
-      <Filter>0.Base\Unity\Script\Lua</Filter>
     </None>
     <None Include="Unity\PX2CSVParser.inl">
       <Filter>0.Base\Unity\CSV</Filter>
@@ -4841,7 +4952,7 @@
       <Filter>0.Base\Graphics\CanvasWindow</Filter>
     </None>
     <None Include="Unity\PX2LuaContext.inl">
-      <Filter>0.Base\Unity\Script\LuaContext</Filter>
+      <Filter>0.Base\Unity\Script\Lua\LuaContext</Filter>
     </None>
     <None Include="Core\PX2FixMemoryPool.inl">
       <Filter>0.Base\Core\Memory\ObjectPool</Filter>
@@ -4860,27 +4971,6 @@
     </None>
     <None Include="Core\PX2SmartPointerRef.inl">
       <Filter>0.Base\Core\Memory</Filter>
-    </None>
-    <None Include="Unity\LuaPlus\LuaCall.inl">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </None>
-    <None Include="Unity\LuaPlus\LuaObject.inl">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </None>
-    <None Include="Unity\LuaPlus\LuaStackObject.inl">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </None>
-    <None Include="Unity\LuaPlus\LuaStackTableIterator.inl">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </None>
-    <None Include="Unity\LuaPlus\LuaState.inl">
-      <Filter>0.Base\Unity\Script\LuaPlus</Filter>
-    </None>
-    <None Include="UI\PX2UIAuiBlockFrame.inl">
-      <Filter>1.Ext\UI</Filter>
-    </None>
-    <None Include="UI\PX2UIAuiManager.inl">
-      <Filter>1.Ext\UI</Filter>
     </None>
     <None Include="UI\PX2UIPicBox.inl">
       <Filter>1.Ext\UI</Filter>
@@ -4984,31 +5074,7 @@
     <None Include="Effect\PX2TRange.inl">
       <Filter>1.Ext\Effect\Base</Filter>
     </None>
-    <None Include="UI\PX2UIButton.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIButtonBase.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIEditBox.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIComboBox.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
     <None Include="UI\PX2UIFrame.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIFrameGridAlignControl.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIFText.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIFPicBox.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIInputText.inl">
       <Filter>1.Ext\UI\UIFrame</Filter>
     </None>
     <None Include="UI\PX2UICanvas.inl">
@@ -5032,30 +5098,6 @@
     <None Include="UI\PX2UITree.inl">
       <Filter>1.Ext\UI\UIFrame\Item</Filter>
     </None>
-    <None Include="UI\PX2UIProgressBar.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIProgressBarCtrl.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIScoreText.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIScoreTextCtrl.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UISlider.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UISplitterFrame.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UITabFrame.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
-    <None Include="UI\PX2UIText.inl">
-      <Filter>1.Ext\UI\UIFrame</Filter>
-    </None>
     <None Include="Graphics\PX2AnimationObject.inl">
       <Filter>0.Base\Graphics\Animation</Filter>
     </None>
@@ -5075,21 +5117,111 @@
       <Filter>0.Base\Graphics\Animation</Filter>
     </None>
     <None Include="Unity\AngelScript\as_callfunc_arm_gcc.S">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </None>
     <None Include="Unity\AngelScript\as_callfunc_arm_msvc.asm">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </None>
     <None Include="Unity\AngelScript\as_callfunc_arm_vita.S">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </None>
     <None Include="Unity\AngelScript\as_callfunc_arm_xcode.S">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
+    </None>
+    <None Include="Logic\PX2LogicManager.inl">
+      <Filter>1.Ext\Logic</Filter>
+    </None>
+    <None Include="Logic\PX2BPFile.inl">
+      <Filter>1.Ext\Logic</Filter>
+    </None>
+    <None Include="Logic\PX2BPManager.inl">
+      <Filter>1.Ext\Logic</Filter>
+    </None>
+    <None Include="Logic\PX2BPModule.inl">
+      <Filter>1.Ext\Logic</Filter>
+    </None>
+    <None Include="Logic\PX2BPPackage.inl">
+      <Filter>1.Ext\Logic</Filter>
+    </None>
+    <None Include="Logic\PX2BPParam.inl">
+      <Filter>1.Ext\Logic</Filter>
+    </None>
+    <None Include="UI\PX2UIFrameGridAlignControl.inl">
+      <Filter>1.Ext\UI\UIFrame\Align</Filter>
+    </None>
+    <None Include="UI\PX2UIButton.inl">
+      <Filter>1.Ext\UI\UIFrame\Button</Filter>
+    </None>
+    <None Include="UI\PX2UIButtonBase.inl">
+      <Filter>1.Ext\UI\UIFrame\Button</Filter>
+    </None>
+    <None Include="UI\PX2UIFPicBox.inl">
+      <Filter>1.Ext\UI\UIFrame\PicBox</Filter>
+    </None>
+    <None Include="UI\PX2UIFText.inl">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </None>
+    <None Include="UI\PX2UIInputText.inl">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </None>
+    <None Include="UI\PX2UIProgressBar.inl">
+      <Filter>1.Ext\UI\UIFrame\Progress</Filter>
+    </None>
+    <None Include="UI\PX2UIProgressBarCtrl.inl">
+      <Filter>1.Ext\UI\UIFrame\Progress</Filter>
+    </None>
+    <None Include="UI\PX2UIScoreTextCtrl.inl">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </None>
+    <None Include="UI\PX2UIScoreText.inl">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </None>
+    <None Include="UI\PX2UIText.inl">
+      <Filter>1.Ext\UI\UIFrame\Text</Filter>
+    </None>
+    <None Include="UI\PX2UIEditBox.inl">
+      <Filter>1.Ext\UI\UIFrame\EditBox</Filter>
+    </None>
+    <None Include="UI\PX2UIAuiBlockFrame.inl">
+      <Filter>1.Ext\UI\Aui</Filter>
+    </None>
+    <None Include="UI\PX2UIAuiManager.inl">
+      <Filter>1.Ext\UI\Aui</Filter>
+    </None>
+    <None Include="UI\PX2UITabFrame.inl">
+      <Filter>1.Ext\UI\UIFrame\Table</Filter>
+    </None>
+    <None Include="UI\PX2UISplitterFrame.inl">
+      <Filter>1.Ext\UI\UIFrame\Splitter</Filter>
+    </None>
+    <None Include="UI\PX2UISlider.inl">
+      <Filter>1.Ext\UI\UIFrame\Slider</Filter>
+    </None>
+    <None Include="UI\PX2UIComboBox.inl">
+      <Filter>1.Ext\UI\UIFrame\ComboBox</Filter>
+    </None>
+    <None Include="Unity\LuaPlus\LuaCall.inl">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </None>
+    <None Include="Unity\LuaPlus\LuaObject.inl">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </None>
+    <None Include="Unity\LuaPlus\LuaStackObject.inl">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </None>
+    <None Include="Unity\LuaPlus\LuaStackTableIterator.inl">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </None>
+    <None Include="Unity\LuaPlus\LuaState.inl">
+      <Filter>0.Base\Unity\Script\Lua\LuaPlus</Filter>
+    </None>
+    <None Include="Unity\Lua\Makefile">
+      <Filter>0.Base\Unity\Script\Lua\Lua</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Unity\AngelScript\as_callfunc_x64_msvc_asm.asm">
-      <Filter>0.Base\Unity\Script\AngelScript</Filter>
+      <Filter>0.Base\Unity\Script\Angel\AngelScript</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

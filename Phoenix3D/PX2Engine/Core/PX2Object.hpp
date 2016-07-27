@@ -107,7 +107,7 @@ namespace PX2
 
 		ObjectEventHandler *GetEventHandler();
 
-		virtual void DoExecute(Event *event);
+		virtual void OnEvent(Event *event);
 
 	protected:
 		ObjectEventHandler *mEventHandler;
@@ -239,6 +239,10 @@ namespace PX2
 		Object ();
 	public:
 		virtual ~Object ();
+
+	public:
+		static Object *New();
+		static Object *New(const std::string &name);
 	};
 
 	static bool gsStreamRegistered_Object = Object::RegisterFactory();

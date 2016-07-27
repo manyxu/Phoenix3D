@@ -129,17 +129,6 @@ const std::string &UIEditBox::GetRealText() const
 	return mInputText->GetRealText();
 }
 //----------------------------------------------------------------------------
-void UIEditBox::OnPvoitChanged()
-{
-	UIFrame::OnPvoitChanged();
-
-	if (mBackPicBox)
-		mBackPicBox->SetPivot(mPvoit);
-
-	if (mBackPicBox)
-		mBackPicBox->SetPivot(mPvoit);
-}
-//----------------------------------------------------------------------------
 void UIEditBox::OnSizeChanged()
 {
 	UIFrame::OnSizeChanged();

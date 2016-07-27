@@ -1,0 +1,189 @@
+<enums num="6">
+	<enum name="SelectMode">
+		<enum_item itemstr="SM_SINGLE"/>
+		<enum_item itemstr="SM_MULTI"/>
+		<enum_item itemstr="SM_MAX_TYPE"/>
+	</enum>
+	<enum name="RenderViewType">
+		<enum_item itemstr="RVT_SCENEUI"/>
+		<enum_item itemstr="RVT_LOGIC"/>
+		<enum_item itemstr="RVT_RES"/>
+		<enum_item itemstr="RVT_PREVIEW"/>
+		<enum_item itemstr="RVT_TIMELINE"/>
+		<enum_item itemstr="PVT_PROJECT"/>
+		<enum_item itemstr="RVT_MAX_TYPE"/>
+	</enum>
+</enums>
+<classes num="4">
+	<class name="Edit">
+		<enum name="EditType">
+			<enum_item itemstr="ET_SCENE"/>
+			<enum_item itemstr="ET_TERRAIN"/>
+			<enum_item itemstr="ET_UI"/>
+			<enum_item itemstr="ET_SIMULATE"/>
+			<enum_item itemstr="ET_PLAY"/>
+			<enum_item itemstr="ET_MAXTYPE"/>
+		</enum>
+		<enum name="EditAxisMode">
+			<enum_item itemstr="EAM_WORLD"/>
+			<enum_item itemstr="EAM_LOCAL"/>
+			<enum_item itemstr="EAM_PARENT"/>
+			<enum_item itemstr="EMA_MAX_MODE"/>
+		</enum>
+		<enum name="EditMode">
+			<enum_item itemstr="EM_NONE"/>
+			<enum_item itemstr="EM_SELECT"/>
+			<enum_item itemstr="EM_TRANSLATE"/>
+			<enum_item itemstr="EM_ROTATE"/>
+			<enum_item itemstr="EM_SCALE"/>
+			<enum_item itemstr="EM_MAX_MODE"/>
+		</enum>
+		<function name="Initlize" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="bool " is_retrun="true" type_str="bool" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="Terminate" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="bool " is_retrun="true" type_str="bool" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="Reset" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="SetEditType" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="EditType type" is_retrun="false" type_str="EditType" valuename_str="type" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="GetEditType" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="true">
+			<param paramstr="EditType " is_retrun="true" type_str="EditType" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="CanDoEdit" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="true">
+			<param paramstr="bool " is_retrun="true" type_str="bool" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="SetEditAxisMode" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="EditAxisMode mode" is_retrun="false" type_str="EditAxisMode" valuename_str="mode" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="GetEdtiAxisMode" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="true">
+			<param paramstr="EditAxisMode " is_retrun="true" type_str="EditAxisMode" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="SetEditMode" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="EditMode mode" is_retrun="false" type_str="EditMode" valuename_str="mode" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="GetEditMode" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="true">
+			<param paramstr="EditMode " is_retrun="true" type_str="EditMode" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="SetPickPos" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="const APoint &amp;pos" is_retrun="false" type_str="APoint" valuename_str="pos" is_pointer="false" is_ref="true" is_const="true"/>
+		</function>
+		<function name="GetPickPos" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="true">
+			<param paramstr="APoint " is_retrun="true" type_str="APoint" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="DeleteSelection" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="bool " is_retrun="true" type_str="bool" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+	</class>
+	<class name="SelectResData">
+		<enum name="SelectResType">
+			<enum_item itemstr="RT_NORMAL"/>
+			<enum_item itemstr="RT_TEXPACKELEMENT"/>
+			<enum_item itemstr="RT_MAX_TYPE"/>
+		</enum>
+		<function name="GetSelectResType" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="true">
+			<param paramstr="SelectResType " is_retrun="true" type_str="SelectResType" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="IsTheObjectTex" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="true">
+			<param paramstr="bool " is_retrun="true" type_str="bool" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="GetTheObjectTexSize" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="true">
+			<param paramstr="Sizef " is_retrun="true" type_str="Sizef" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+	</class>
+	<class name="TimeLineEdit"/>
+	<class name="EU_Manager">
+		<function name="Menu_Main_AddMainItem" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="const std::string &amp;name" is_retrun="false" type_str="std::string" valuename_str="name" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;title" is_retrun="false" type_str="std::string" valuename_str="title" is_pointer="false" is_ref="true" is_const="true"/>
+		</function>
+		<function name="Menu_Main_AddSubItem" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="const std::string &amp;parentName" is_retrun="false" type_str="std::string" valuename_str="parentName" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;name" is_retrun="false" type_str="std::string" valuename_str="name" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;title" is_retrun="false" type_str="std::string" valuename_str="title" is_pointer="false" is_ref="true" is_const="true"/>
+		</function>
+		<function name="Menu_Main_AddItem" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="const std::string &amp;parentName" is_retrun="false" type_str="std::string" valuename_str="parentName" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;name" is_retrun="false" type_str="std::string" valuename_str="name" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;title" is_retrun="false" type_str="std::string" valuename_str="title" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;script" is_retrun="false" type_str="std::string" valuename_str="script" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr='const std::string &amp;tag = ""' is_retrun="false" type_str="std::string" valuename_str="tag" is_pointer="false" is_ref="true" is_const="true"/>
+		</function>
+		<function name="Menu_Main_AddItemSeparater" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="const std::string &amp;parentName" is_retrun="false" type_str="std::string" valuename_str="parentName" is_pointer="false" is_ref="true" is_const="true"/>
+		</function>
+		<function name="Menu_Edit_Begin" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="const std::string &amp;whe" is_retrun="false" type_str="std::string" valuename_str="whe" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;name" is_retrun="false" type_str="std::string" valuename_str="name" is_pointer="false" is_ref="true" is_const="true"/>
+		</function>
+		<function name="Menu_Edit_AddSubItem" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="const std::string &amp;whe" is_retrun="false" type_str="std::string" valuename_str="whe" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;parentName" is_retrun="false" type_str="std::string" valuename_str="parentName" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;name" is_retrun="false" type_str="std::string" valuename_str="name" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;title" is_retrun="false" type_str="std::string" valuename_str="title" is_pointer="false" is_ref="true" is_const="true"/>
+		</function>
+		<function name="Menu_Edit_AddItem" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="const std::string &amp;whe" is_retrun="false" type_str="std::string" valuename_str="whe" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;parentName" is_retrun="false" type_str="std::string" valuename_str="parentName" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;name" is_retrun="false" type_str="std::string" valuename_str="name" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;title" is_retrun="false" type_str="std::string" valuename_str="title" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;script" is_retrun="false" type_str="std::string" valuename_str="script" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr='const std::string &amp;tag=""' is_retrun="false" type_str="std::string" valuename_str="tag" is_pointer="false" is_ref="true" is_const="true"/>
+		</function>
+		<function name="Menu_Edit_AddItemSeparater" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="const std::string &amp;whe" is_retrun="false" type_str="std::string" valuename_str="whe" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const std::string &amp;parentName" is_retrun="false" type_str="std::string" valuename_str="parentName" is_pointer="false" is_ref="true" is_const="true"/>
+		</function>
+		<function name="Menu_Edit_EndPopUp" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+			<param paramstr="const std::string &amp;whe" is_retrun="false" type_str="std::string" valuename_str="whe" is_pointer="false" is_ref="true" is_const="true"/>
+			<param paramstr="const APoint &amp;pos" is_retrun="false" type_str="APoint" valuename_str="pos" is_pointer="false" is_ref="true" is_const="true"/>
+		</function>
+		<function name="NewProject" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="OpenProject" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="SaveProject" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="CloseProject" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="NewScene" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="OpenScene" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="SaveScene" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="SaveSceneAs" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="CloseScene" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+		<function name="Exit" funtype="class_member" is_operator="false" is_purevirtual="false" is_virtual="false" is_inline="false" is_const="false">
+			<param paramstr="void " is_retrun="true" type_str="void" valuename_str="" is_pointer="false" is_ref="false" is_const="false"/>
+		</function>
+	</class>
+</classes>
+

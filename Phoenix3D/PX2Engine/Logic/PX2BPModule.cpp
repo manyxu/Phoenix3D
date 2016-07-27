@@ -4,6 +4,7 @@
 #include "PX2FontManager.hpp"
 #include "PX2BPManager.hpp"
 #include "PX2LogicManager.hpp"
+#include "PX2StringHelp.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, BPModule);

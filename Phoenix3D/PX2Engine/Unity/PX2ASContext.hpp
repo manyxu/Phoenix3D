@@ -77,7 +77,6 @@ namespace PX2
 		void _ReturnContextToPool(asIScriptContext *ctx);
 		int _ContextExecute(asIScriptContext *ctx);
 
-
 		ASClassType *_GetASClassType(const std::string &filename, 
 			const std::string &className);
 		void _BuildModule(const std::string &filename);

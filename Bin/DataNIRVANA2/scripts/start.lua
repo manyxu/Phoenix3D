@@ -11,8 +11,7 @@ function n_EditOnEvent(entType)
 	n_project:onEvent(entType)
 end
 
-local function naStart()
+function naStart()
 	n_AddLanguage()
 	n_CreateMainMenu()
 end
-naStart()

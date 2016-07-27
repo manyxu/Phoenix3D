@@ -98,14 +98,18 @@ bool LuaContext::CallFile (const std::string &filename)
 	if (ResourceManager::GetSingleton().LoadBuffer(filename, bufferSize,
 		buffer))
 	{
-		ret = CallBuffer(buffer, (unsigned long)bufferSize);
+		ret = CallBuffer(buffer, (unsigned long)bufferSize, 
+			filename);
 	}
 
 	return ret;
 }
 //----------------------------------------------------------------------------
-bool LuaContext::CallBuffer (const char *buffer, unsigned long size)
+bool LuaContext::CallBuffer(const char *buffer, unsigned long size, 
+	const std::string &name)
 {
+	PX2_UNUSED(name);
+
 	if (luaL_loadbuffer(
 		mState, buffer, (size_t)size, lua_tostring(mState, -1)) != 0)
 	{

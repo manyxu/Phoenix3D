@@ -16,7 +16,7 @@ namespace PX2
 		ObjectEventHandler(Object *obj);
 		virtual ~ObjectEventHandler();
 
-		virtual void DoExecute(Event *event);
+		virtual void OnEvent(Event *event);
 
 	protected:
 		ObjectEventHandler();

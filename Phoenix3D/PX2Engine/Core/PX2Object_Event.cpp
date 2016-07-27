@@ -28,7 +28,7 @@ ObjectEventHandler *Object::GetEventHandler()
 	return mEventHandler;
 }
 //----------------------------------------------------------------------------
-void Object::DoExecute(Event *event)
+void Object::OnEvent(Event *event)
 {
 	PX2_UNUSED(event);
 }

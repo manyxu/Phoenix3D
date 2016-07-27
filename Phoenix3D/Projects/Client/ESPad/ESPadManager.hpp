@@ -7,6 +7,7 @@
 #include "PX2EventHandler.hpp"
 #include "PX2Singleton.hpp"
 #include "PX2UIFrame.hpp"
+#include "ESPadDataAnalyzer.hpp"
 
 namespace PX2
 {
@@ -22,7 +23,10 @@ namespace PX2
 		
 		void Update();
 
-		virtual void DoExecute(Event *event);
+		virtual void OnEvent(Event *event);
+
+	protected:
+		FeetDataAnalyzerPtr mAnalyzer;
 	};
 
 }

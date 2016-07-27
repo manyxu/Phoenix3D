@@ -3,7 +3,7 @@
 #ifndef PX2BPEDIT_HPP
 #define PX2BPEDIT_HPP
 
-#include "PX2SimulationPre.hpp"
+#include "PX2LogicPre.hpp"
 #include "PX2InterpCurve.hpp"
 #include "PX2BPPackage.hpp"
 #include "PX2Singleton_NeedNew.hpp"

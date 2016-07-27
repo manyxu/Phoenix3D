@@ -4,6 +4,7 @@
 #define PX2N_APP_HPP
 
 #include "PX2N_Pre.hpp"
+#include "PX2EventHandler.hpp"
 
 namespace NA
 {
@@ -22,7 +23,7 @@ namespace NA
 		virtual bool OnInit();
 		virtual int OnExit();
 
-		virtual void DoExecute(PX2::Event *event);
+		virtual void OnEvent(PX2::Event *event);
 
 	protected:
 		N_Frame *CreateMainFrame();

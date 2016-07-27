@@ -77,16 +77,16 @@ bool EventHandler::IsInOrIningWorld(EventWorld *world) const
 	return false;
 }
 //----------------------------------------------------------------------------
-void EventHandler::DoEnter ()
+void EventHandler::OnEnter ()
 {
 }
 //----------------------------------------------------------------------------
-void EventHandler::DoExecute (Event *event)
+void EventHandler::OnEvent (Event *event)
 {
 	PX2_UNUSED(event);
 }
 //----------------------------------------------------------------------------
-void EventHandler::DoLeave ()
+void EventHandler::OnLeave ()
 {
 }
 //----------------------------------------------------------------------------
@@ -95,7 +95,7 @@ void EventHandler::Execute (Event* event)
 	assertion(event!=0, "event must exist.");
 	if (mEntered)
 	{
-		DoExecute(event);
+		OnEvent(event);
 	}
 }
 //----------------------------------------------------------------------------
@@ -103,13 +103,13 @@ void EventHandler::Enter (EventWorld* world)
 {
 	mWorld = world;
 	mEntered = true;
-	DoEnter();
+	OnEnter();
 }
 //----------------------------------------------------------------------------
 void EventHandler::Leave ()
 {
 	mEntered = false;
-	DoLeave();
+	OnLeave();
 	mWorld = 0;
 }
 //----------------------------------------------------------------------------

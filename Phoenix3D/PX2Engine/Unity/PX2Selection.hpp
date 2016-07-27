@@ -12,39 +12,39 @@
 namespace PX2
 {
 
-	class PX2_ENGINE_ITEM Selection
+	class PX2_ENGINE_ITEM Selection : public RefObject
 	{
 	public:
 		Selection();
 		virtual ~Selection();
 
-		void AddObject(PX2::Object *obj);
-		void RemoveObject(PX2::Object *obj);
+		void AddObject(Object *obj);
+		void RemoveObject(Object *obj);
 		Object *GetObjectAt(int i);
 		int GetNumObjects();
-		bool IsObjectIn(PX2::Object *obj);
+		bool IsObjectIn(Object *obj);
 		void Clear();
 
 		Object *GetFirstObject() const;
 
-		void Translate(PX2::AVector vec);
-		void TranslateTo(PX2::APoint pos);
-		void AddRolate(PX2::AVector vec);
-		void AddScale(PX2::AVector vec);
+		void Translate(AVector vec);
+		void TranslateTo(APoint pos);
+		void AddRolate(AVector vec);
+		void AddScale(AVector vec);
 
-		const PX2::APoint &GetCenter() const;
+		const APoint &GetCenter() const;
 		float GetRadius() const;
 
 	private:
 		void _UpdateSelect();
 
 		std::vector<ObjectPtr> mObjects;
-		PX2::APoint mCenter;
+		APoint mCenter;
 		float mBoundRadius;
 	};
 
 #include "PX2Selection.inl"
-	typedef Pointer0<Selection> SelectionPtr;
+	typedef PointerRef<Selection> SelectionPtr;
 
 }
 

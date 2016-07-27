@@ -1,7 +1,7 @@
 // PX2L_Frame.cpp
 
 #include "PX2L_Frame.hpp"
-#include "PX2EngineLoop.hpp"
+#include "PX2Application.hpp"
 using namespace Launcher;
 using namespace PX2;
 
@@ -29,7 +29,7 @@ mRenderView(0)
 
 	if ("Main" != name)
 	{
-		Renderer *renderer = PX2_ENGINELOOP.CreateRenderer(name,
+		Renderer *renderer = PX2_APP.CreateRenderer(name,
 			mRenderView->GetHandle(), width, height, 0);
 		uiWindow->SetRenderer(renderer);
 		uiWindow->SetScreenSize(Sizef((float)width, (float)height));

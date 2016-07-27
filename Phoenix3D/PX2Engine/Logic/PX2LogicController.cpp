@@ -61,7 +61,6 @@ bool LogicController::Register(OutStream& target) const
 {
 	if (ScriptController::Register(target))
 	{
-		target.Register(mObject);
 		return true;
 	}
 	return false;

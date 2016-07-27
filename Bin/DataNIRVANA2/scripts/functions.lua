@@ -1,61 +1,9 @@
 -- functions.lua
 
--- create actor
-function n_CreateActor_Plane()
-	local scene = PX2_PROJ:GetScene()
-	local pickPos = PX2_EDIT:GetPickPos()
-	PX2_CREATER:CreateActor_Rectangle(scene, pickPos, false)
-end
-
-function n_CreateActor_Box()
-	local scene = PX2_PROJ:GetScene()
-	local pickPos = PX2_EDIT:GetPickPos()
-	PX2_CREATER:CreateActor_Box(scene, pickPos, false)
-end
-
-function n_CreateActor_Sphere()
-	local scene = PX2_PROJ:GetScene()
-	local pickPos = PX2_EDIT:GetPickPos()
-	PX2_CREATER:CreateActor_Sphere(scene, pickPos, false)
-end
-
-function n_CreateActor_Actor()
-	local scene = PX2_PROJ:GetScene()
-	local pickPos = PX2_EDIT:GetPickPos()
-	PX2_CREATER:CreateActor_Actor(scene, pickPos, false)
-end
-
-function n_CreateActor_Character()
-	local scene = PX2_PROJ:GetScene()
-	local pickPos = PX2_EDIT:GetPickPos()
-	PX2_CREATER:CreateActor_Character(scene, pickPos, false)
-end
-
-function n_CreateActor_Camera()
-end
-
-function n_CreateActor_Light()
-	local scene = PX2_PROJ:GetScene()
-	local pickPos = PX2_EDIT:GetPickPos()
-	PX2_CREATER:CreateActor_Light(scene, pickPos, false)
-end
-
-function n_CreateActor_Trigger()
-
-end
-
-function n_CreateActor_Terrain()
-
-end
-
-function n_CreateActor_Sky()
-
-end
-
 -- create objs
 function n_Create_Geometry_Plane()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local node = PX2_CREATER:ConvertToNode(selectObj)
+	local node = Cast:ToNode(selectObj)
 	if nil~=node then
 		local pickPos = PX2_EDIT:GetPickPos()
 		local mov = PX2_CREATER:CreateRectangle(node, pickPos, false)
@@ -66,10 +14,11 @@ end
 
 function n_Create_Geometry_Box()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local node = PX2_CREATER:ConvertToNode(selectObj)
+	local node = Cast:ToNode(selectObj)
 	if nil~=node then
 		local pickPos = PX2_EDIT:GetPickPos()
-		local mov = PX2_CREATER:CreateBox(node, pickPos, false)
+		local mov = PX2_CREATER:CreateNode_Box()
+		node:AttachChild(mov)
 	else
 		PX2EU_MAN:PlayTip(PX2_LM:GetValue("Notice"), PX2_LM:GetValue("TipNotHasParent"))
 	end
@@ -77,10 +26,11 @@ end
 
 function n_Create_Geometry_Sphere()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local node = PX2_CREATER:ConvertToNode(selectObj)
+	local node = Cast:ToNode(selectObj)
 	if nil~=node then
 		local pickPos = PX2_EDIT:GetPickPos()
-		local mov = PX2_CREATER:CreateBox(node, pickPos, false)
+		local mov = PX2_CREATER:CreateNode_Box()
+		node:AttachChild(mov)
 	else
 		PX2EU_MAN:PlayTip(PX2_LM:GetValue("Notice"), PX2_LM:GetValue("TipNotHasParent"))
 	end
@@ -88,7 +38,7 @@ end
 
 function n_Create_Effect_Billboard()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local node = PX2_CREATER:ConvertToNode(selectObj)
+	local node = Cast:ToNode(selectObj)
 	if nil~=node then
 		local pickPos = PX2_EDIT:GetPickPos()
 		local mov = PX2_CREATER:CreateSphere(node, pickPos, false)
@@ -99,7 +49,7 @@ end
 
 function n_Create_Effect_Particle()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local node = PX2_CREATER:ConvertToNode(selectObj)
+	local node = Cast:ToNode(selectObj)
 	if nil~=node then
 		local pickPos = PX2_EDIT:GetPickPos()
 		local mov = PX2_CREATER:CreateParticleEmitter(node, pickPos, false)
@@ -110,7 +60,7 @@ end
 
 function n_Create_Effect_Beam()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local node = PX2_CREATER:ConvertToNode(selectObj)
+	local node = Cast:ToNode(selectObj)
 	if nil~=node then
 		local pickPos = PX2_EDIT:GetPickPos()
 		local mov = PX2_CREATER:CreateBeamEmitter(node, pickPos, false)
@@ -121,7 +71,7 @@ end
 
 function n_Create_Effect_Ribbon()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local node = PX2_CREATER:ConvertToNode(selectObj)
+	local node = Cast:ToNode(selectObj)
 	if nil~=node then
 		local pickPos = PX2_EDIT:GetPickPos()
 		local mov = PX2_CREATER:CreateRibbonEmitter(node, pickPos, false)
@@ -132,7 +82,7 @@ end
 
 function n_Create_Effect_Sound()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local node = PX2_CREATER:ConvertToNode(selectObj)
+	local node = Cast:ToNode(selectObj)
 	if nil~=node then
 		local pickPos = PX2_EDIT:GetPickPos()
 		local mov = PX2_CREATER:CreateSoundable(node, pickPos, false)
@@ -143,7 +93,7 @@ end
 
 function n_Create_Effect_Node()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local node = PX2_CREATER:ConvertToNode(selectObj)
+	local node = Cast:ToNode(selectObj)
 	if nil~=node then
 		local pickPos = PX2_EDIT:GetPickPos()
 		local mov = PX2_CREATER:CreateNode(node, pickPos, false)
@@ -154,7 +104,7 @@ end
 
 function n_Create_Controller_ColorController()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local mov = PX2_CREATER:ConvertToMovable(selectObj)
+	local mov = Cast:ToMovable(selectObj)
 	if nil~=mov then
 		PX2_CREATER:CreateICC_Color(mov)
 	else
@@ -164,7 +114,7 @@ end
 
 function n_Create_Controller_BrightnessController()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local mov = PX2_CREATER:ConvertToMovable(selectObj)
+	local mov = Cast:ToMovable(selectObj)
 	if nil~=mov then
 		PX2_CREATER:CreateICC_Brightness(mov)
 	else
@@ -174,7 +124,7 @@ end
 
 function n_Create_Controller_AlphaController()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local mov = PX2_CREATER:ConvertToMovable(selectObj)
+	local mov = Cast:ToMovable(selectObj)
 	if nil~=mov then
 		PX2_CREATER:CreateICC_Alpha(mov)
 	else
@@ -184,7 +134,7 @@ end
 
 function n_Create_Controller_UniformScaleController()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local mov = PX2_CREATER:ConvertToMovable(selectObj)
+	local mov = Cast:ToMovable(selectObj)
 	if nil~=mov then
 		PX2_CREATER:CreateICC_UniformScale(mov)
 	else
@@ -194,7 +144,7 @@ end
 
 function n_Create_Controller_ScaleController()
 	local selectObj = PX2_SELECTM_E:GetFirstObject()
-	local mov = PX2_CREATER:ConvertToMovable(selectObj)
+	local mov = Cast:ToMovable(selectObj)
 	if nil~=mov then
 		PX2_CREATER:CreateICC_Scale(mov)
 	else

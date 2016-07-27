@@ -2,9 +2,7 @@
 
 #include "PX2L_App.hpp"
 #include "PX2L_Frame.hpp"
-#include "PX2EditEventData.hpp"
-#include "PX2EngineLoop.hpp"
-#include "PX2Edit.hpp"
+#include "PX2Application.hpp"
 #include "PX2EditEventType.hpp"
 #include "PX2RenderWindow.hpp"
 #include "PX2EditEventType.hpp"
@@ -26,10 +24,10 @@ L_App::~L_App()
 //-----------------------------------------------------------------------------
 bool L_App::OnInit()
 {
-	PX2_ENGINELOOP.Initlize();
+	PX2_APP.Initlize();
 	PX2_EW.ComeIn(this);
 
-	PX2_ENGINELOOP.Play(EngineLoop::PT_NONE);
+	PX2_APP.Play(Application::PT_NONE);
 
 	wxLog::SetLogLevel(0);
 
@@ -50,7 +48,7 @@ bool L_App::OnInit()
 int L_App::OnExit()
 {
 	PX2_EW.GoOut(this);
-	PX2_ENGINELOOP.Terminate();
+	PX2_APP.Terminate();
 
 	return 0;
 }
@@ -89,9 +87,9 @@ L_Frame *L_App::CreateMainFrame(const std::string &name)
 	mainFrame->Center();
 
 	const Sizef &size = PX2_GR.GetMainWindow()->GetScreenSize();
-	PX2_ENGINELOOP.SetPt_Data(mainFrame->GerRenderView()->GetHandle());
-	PX2_ENGINELOOP.SetPt_Size(size);
-	PX2_ENGINELOOP.InitlizeRenderer();
+	PX2_APP.SetPt_Data(mainFrame->GerRenderView()->GetHandle());
+	PX2_APP.SetPt_Size(size);
+	PX2_APP.InitlizeRenderer();
 
 	mainFrame->Show(true);
 

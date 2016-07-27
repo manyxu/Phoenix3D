@@ -1,14 +1,14 @@
 // PX2BPManager.cpp
 
 #include "PX2BPManager.hpp"
-#include "PX2Character.hpp"
 #include "PX2Animation3DSkeleton.hpp"
 #include "PX2ResourceManager.hpp"
 #include "PX2XMLData.hpp"
 #include "PX2ResourceManager.hpp"
 #include "PX2ScriptManager.hpp"
-#include "PX2SimulationEventType.hpp"
 #include "PX2FunObject.hpp"
+#include "PX2Renderer.hpp"
+#include "PX2VertexColor4Material.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------

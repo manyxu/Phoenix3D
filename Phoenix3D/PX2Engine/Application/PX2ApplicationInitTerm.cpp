@@ -11,6 +11,7 @@
 #include "PX2LuaContext.hpp"
 #include "PX2LuaPlusContext.hpp"
 #include "PX2ASContext.hpp"
+
 using namespace PX2;
 
 //----------------------------------------------------------------------------
@@ -24,7 +25,7 @@ ProjectEventController::~ProjectEventController()
 	GoOutEventWorld();
 }
 //----------------------------------------------------------------------------
-void ProjectEventController::DoExecute(Event *event)
+void ProjectEventController::OnEvent(Event *event)
 {
 	Canvas *canvas = DynamicCast<Canvas>(GetControlledable());
 	if (canvas)
@@ -207,6 +208,8 @@ bool Application::Initlize()
 
 	mUISkinManager = new0 UISkinManager();
 
+	mLogicManager = new0 LogicManager();
+
 	mCreater = new0 Creater();
 
 	LuaPlusContext *luaContext = (LuaPlusContext*)PX2_SC_LUA;
@@ -214,22 +217,24 @@ bool Application::Initlize()
 
 	// Lua
 	tolua_PX2_open((lua_State*)luaContext->GetLuaState());
+	LuaPlus::LuaState *luaPlusState = luaContext->GetLuaPlusState();
 
-	PX2_SC_LUA->SetUserTypePointer("PX2_APP", "Application", this);
+	PX2_SC_LUA->SetUserTypePointer("PX2_APP", "Application", Application::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_LM", "LanguageManager", LanguageManager::GetSingletonPtr());
 	PX2_SC_LUA->SetUserTypePointer("PX2_LOGGER", "Logger", Logger::GetSingletonPtr());
-	PX2_SC_LUA->SetUserTypePointer("PX2_LM", "LanguageManager", &(PX2_LM));
-	PX2_SC_LUA->SetUserTypePointer("PX2_RM", "ResourceManager", ResourceManager::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_RM", "ResourceManager", PX2_SC_LUA);
 	PX2_SC_LUA->SetUserTypePointer("PX2_SM", "ScriptManager", ScriptManager::GetSingletonPtr());
-	PX2_SC_LUA->SetUserTypePointer("PX2_SC_LUA", "LuaContext", luaContext);
-	PX2_SC_LUA->SetUserTypePointer("PX2_SC_AS", "ASContext", asContext);
-	//PX2_SC_LUA->SetUserTypePointer("PX2_SELECTM", "Selection", SelectionManager::GetSingletonPtr());
-	//PX2_SC_LUA->SetUserTypePointer("PX2_SELECTM_D", "Selection", PX2_SELECTM_D);
-	//PX2_SC_LUA->SetUserTypePointer("PX2_SELECTM_E", "Selection", PX2_SELECTM_E);
-	//PX2_SC_LUA->SetUserTypePointer("PX2_URDOM", "URDoManager", URDoManager::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_SC_LUA", "LuaContext", PX2_SC_LUA);
+	PX2_SC_LUA->SetUserTypePointer("PX2_SC_AS", "ASContext", PX2_SC_LUA);
+	PX2_SC_LUA->SetUserTypePointer("PX2_CREATER", "Creater", Creater::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_PROJ", "Project", Project::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_SELECTM", "SelectionManager", SelectionManager::GetSingletonPtr());
+	PX2_SC_LUA->SetUserTypePointer("PX2_SELECTM_D", "Selection", SelectionManager::GetSingleton().GetSelecton("Default"));
+	PX2_SC_LUA->SetUserTypePointer("PX2_SELECTM_E", "Selection", SelectionManager::GetSingleton().GetSelecton("Editor"));
 	// end Lua
 
 	// AS
-	toAS_PX2_open(asContext->GetASScriptEngine());
+	PX2ToAngelScript(asContext->GetASScriptEngine());
 	PX2_SC_AS->RegistOperators();
 
 	PX2_SC_AS->SetUserFunction("PX2_APP", "Application", GetApplication);
@@ -240,10 +245,6 @@ bool Application::Initlize()
 	PX2_SC_AS->SetUserFunction("+PX2_SC_LUA", "LuaContext", GetLuaContext);
 	PX2_SC_AS->SetUserFunction("+PX2_SC_AS", "ASContext", GetASContext);
 	PX2_SC_AS->SetUserFunction("PX2_CREATER", "Creater", GetCreater);
-	//PX2_SC_AS->SetUserFunction("PX2_SELECTM", "Selection", GetSelectionManager);
-	//PX2_SC_AS->SetUserFunction("PX2_SELECTM_D", "Selection", GetSelectM_D);
-	//PX2_SC_AS->SetUserFunction("PX2_SELECTM_E", "Selection", GetSelectM_E);
-	//PX2_SC_AS->SetUserFunction("PX2_URDOM", "URDoManager", GetURDoManager);
 	PX2_SC_AS->SetUserFunction("PX2_PROJ", "Project", sGetProject);
 
 	// end AS
@@ -274,6 +275,7 @@ void Application::InitlizeDefaultEngineCanvas()
 	UICanvas *canvasMain = DynamicCast<UICanvas>(rw->GetMainCanvas());
 
 	Canvas *sceneCanvas = new0 Canvas();
+	mEngineSceneCanvas = sceneCanvas;
 	canvasMain->AttachChild(sceneCanvas);
 	sceneCanvas->AttachController(new0 ProjectEventController());
 	sceneCanvas->SetName("ProjectSceneCanvas");
@@ -282,12 +284,15 @@ void Application::InitlizeDefaultEngineCanvas()
 	sceneCanvas->SetAnchorVer(0.0f, 1.0f);
 
 	UICanvas *uiCanvas = new0 UICanvas();
+	mEngineUICanvas = uiCanvas;
 	canvasMain->AttachChild(uiCanvas);
 	uiCanvas->AttachController(new0 ProjectEventController());
 	uiCanvas->SetName("ProjectUICanvas");
 	uiCanvas->EnableAnchorLayout(true);
 	uiCanvas->SetAnchorHor(0.0f, 1.0f);
 	uiCanvas->SetAnchorVer(0.0f, 1.0f);
+
+	uiCanvas->GetCameraNode()->GetCamera()->SetClearFlag(false, true, true);
 }
 //----------------------------------------------------------------------------
 bool Application::InitlizeRenderer()
@@ -371,6 +376,9 @@ bool Application::Terminate()
 	PX2_SC_AS->CallFileFunction("Data/engine/scripts/as/engine_end.as",
 		"void engine_end()");
 
+	mEngineSceneCanvas = 0;
+	mEngineUICanvas = 0;
+
 	PX2_EW.Shutdown(true);
 
 	mScriptMan->TernimateAll();
@@ -384,6 +392,12 @@ bool Application::Terminate()
 	{
 		delete0(mCreater);
 		Creater::Set(0);
+	}
+
+	if (mLogicManager)
+	{
+		delete0(mLogicManager);
+		LogicManager::Set(0);
 	}
 
 	if (mUISkinManager)

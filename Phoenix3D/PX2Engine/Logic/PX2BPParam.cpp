@@ -3,6 +3,7 @@
 #include "PX2BPParam.hpp"
 #include "PX2BPModule.hpp"
 #include "PX2BPManager.hpp"
+#include "PX2StringHelp.hpp"
 using namespace PX2;
 
 PX2_IMPLEMENT_RTTI(PX2, UIFrame, BPParam);

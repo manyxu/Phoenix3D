@@ -1,0 +1,44 @@
+// PX2EU_Manager.pkg
+
+	class EU_Manager
+	{
+		// windows
+	public:
+		
+		// menus
+	public:
+		void Menu_Main_AddMainItem(const std::string &name, const std::string &title);
+		void Menu_Main_AddSubItem(const std::string &parentName, const std::string &name,
+			const std::string &title);
+		void Menu_Main_AddItem(const std::string &parentName, const std::string &name,
+			const std::string &title, const std::string &script, 
+			const std::string &tag = "");
+		void Menu_Main_AddItemSeparater(const std::string &parentName);
+		
+		void Menu_Edit_Begin(const std::string &whe, const std::string &name);
+		void Menu_Edit_AddSubItem(const std::string &whe,
+			const std::string &parentName, const std::string &name,
+			const std::string &title);
+		void Menu_Edit_AddItem(const std::string &whe,
+			const std::string &parentName, const std::string &name,
+			const std::string &title,
+			const std::string &script,
+			const std::string &tag="");
+		void Menu_Edit_AddItemSeparater(const std::string &whe,
+			const std::string &parentName);
+		void Menu_Edit_EndPopUp(const std::string &whe,
+			const APoint &pos); // x z
+		
+		// commonds
+	public:
+		void NewProject();
+		void OpenProject();
+		void SaveProject();
+		void CloseProject();
+		void NewScene();
+		void OpenScene();
+		void SaveScene();
+		void SaveSceneAs();
+		void CloseScene();
+		void Exit();
+	};

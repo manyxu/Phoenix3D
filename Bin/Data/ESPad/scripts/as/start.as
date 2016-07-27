@@ -15,11 +15,15 @@ void UICallback(Object @obj, int type)
 
 void start()
 {
-	PX2_LOGGER().LogInfo("project_start", "start");
+	PX2_LOGGER().LogInfo("script_as", "project_start");
 	
 	// scene
-	Scene @scene = Scene();
-	PX2_PROJ().SetScene(scene);	
+	Scene @scene = PX2_PROJ().GetScene();
+	if (scene is null)
+	{
+		@scene = Scene();
+		PX2_PROJ().SetScene(scene);	
+	}
 	
 	Node @model = PX2_CREATER().CreateNode_Model("Data/ESPad/models/swk/swk.px2obj");
 	scene.AttachChild(model);

@@ -6,6 +6,8 @@
 #include "PX2GraphicsPre.hpp"
 #include "PX2Object.hpp"
 #include "PX2HMatrix.hpp"
+#include "PX2Float4.hpp"
+#include "PX2Size.hpp"
 
 namespace PX2
 {
@@ -201,6 +203,12 @@ namespace PX2
 		inline const HMatrix& GetPostProjectionMatrix () const;
 		inline bool PostProjectionIsIdentity () const;
 
+		bool GetPickRay(float sizePosX, float sizePosZ, const Sizef &size,
+			APoint& origin, AVector& direction);
+
+		bool GetPickRay(float posSizePercentWdith, float posSizePercentHeight,
+			APoint& origin, AVector& direction);
+
 	protected:
 		// 相机改变后，重新计算取景矩阵
 		void OnFrameChange ();
@@ -259,6 +267,28 @@ private_internal:
 #ifdef PX2_VALIDATE_CAMERA_FRAME_ONCE
 		bool mValidateCameraFrame;
 #endif
+
+		// Render
+	public:
+		void SetClearColor(const Float4 &color);
+		const Float4 &GetClearColor() const;
+
+		void SetClearDepth(float depth);
+		float GetClearDepth() const;
+
+		void SetClearStencil(unsigned int stencil);
+		unsigned int GetClearStencil() const;
+
+		void SetClearFlag(bool color, bool depth, bool stencil);
+		void GetClearFlag(bool &color, bool &depth, bool &stencil);
+
+	protected:
+		Float4 mClearColor;
+		float mClearDepth;
+		unsigned int mClearStencil;
+		bool mClearFlagColor;
+		bool mClearFlagDepth;
+		bool mClearFlagStencil;
 	};
 
 	PX2_REGISTER_STREAM(Camera);

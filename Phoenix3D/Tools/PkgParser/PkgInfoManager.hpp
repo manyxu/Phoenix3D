@@ -29,7 +29,7 @@ namespace PkgParse
 		bool Save(const std::string &filename);
 		bool Load(const std::string &filename);
 
-		bool GenToASFile();
+		bool GenToASFile(const std::string &filename);
 
 	private:
 		PkgInfoManager();

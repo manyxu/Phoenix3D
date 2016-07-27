@@ -3,7 +3,7 @@
 #ifndef PX2BPMANAGER_HPP
 #define PX2BPMANAGER_HPP
 
-#include "PX2SimulationPre.hpp"
+#include "PX2LogicPre.hpp"
 #include "PX2BPFile.hpp"
 #include "PX2BPPackage.hpp"
 #include "PX2Singleton_NeedNew.hpp"
@@ -12,7 +12,7 @@
 namespace PX2
 {
 
-	class PX2_GAME_ITEM BPManager : public Singleton<BPManager>
+	class PX2_ENGINE_ITEM BPManager : public Singleton<BPManager>
 	{
 	public:
 		BPManager();

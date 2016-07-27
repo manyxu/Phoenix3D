@@ -3,7 +3,7 @@
 #ifndef PX2BPMODULE_HPP
 #define PX2BPMODULE_HPP
 
-#include "PX2SimulationPre.hpp"
+#include "PX2LogicPre.hpp"
 #include "PX2UIFrame.hpp"
 #include "PX2XMLNode.hpp"
 #include "PX2Any.hpp"
@@ -16,7 +16,7 @@
 namespace PX2
 {
 
-	class PX2_GAME_ITEM BPModule : public UIFrame
+	class PX2_ENGINE_ITEM BPModule : public UIFrame
 	{
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;

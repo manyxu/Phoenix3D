@@ -223,7 +223,7 @@ void InputPushTransformController::OnMoving(const AVector &dis)
 	movable->LocalTransform.SetTranslate(curPos);
 }
 //----------------------------------------------------------------------------
-void InputPushTransformController::DoExecute(Event *event)
+void InputPushTransformController::OnEvent(Event *event)
 {
 	if (!Active) return;
 	if (!IsPlaying()) return;

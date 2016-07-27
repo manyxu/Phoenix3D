@@ -6,8 +6,8 @@
 #include "PX2Assert.hpp"
 #include "PX2Log.hpp"
 #include "PX2LuaStackBackup.hpp"
+#include "PX2LuaScriptController.hpp"
 #include "LuaPlus.h"
-using namespace PX2;
 
 extern "C"
 {
@@ -17,15 +17,25 @@ extern "C"
 }
 #include "tolua++.h"
 using namespace PX2;
+using namespace LuaPlus;
 
+//----------------------------------------------------------------------------
+LuaPlusContext *LuaPlusContext::mSingletonLuaPlusContext = 0;
 //----------------------------------------------------------------------------
 LuaPlusContext::LuaPlusContext() :
 ScriptContext(ScriptContext::CT_LUA),
 mLuaPlusState(0)
 {
+	mSingletonLuaPlusContext = this;
+
 	mLuaPlusState = LuaPlus::LuaState::Create(true);
-	//mLuaPlusState->GetGlobals().RegisterDirect("CallFile", (*this), &LuaPlusContext::CallFile);
-	//mLuaPlusState->GetGlobals().RegisterDirect("CallString", (*this), &LuaPlusContext::CallString);
+
+	mLuaPlusState->OpenLibs();
+
+	mLuaPlusState->GetGlobals().RegisterDirect("CallFile", (*this), 
+		&LuaPlusContext::CallFile1);
+	mLuaPlusState->GetGlobals().RegisterDirect("CallString", (*this), 
+		&LuaPlusContext::CallString1);
 }
 //----------------------------------------------------------------------------
 LuaPlusContext::~LuaPlusContext()
@@ -41,6 +51,16 @@ LuaPlus::LuaState *LuaPlusContext::GetLuaPlusState()
 void *LuaPlusContext::GetLuaState()
 {
 	return mLuaPlusState->GetCState();
+}
+//----------------------------------------------------------------------------
+bool LuaPlusContext::CallString1(const char *str)
+{
+	return CallString(str);
+}
+//----------------------------------------------------------------------------
+bool LuaPlusContext::CallFile1(const char *filename)
+{
+	return CallFile(filename);
 }
 //----------------------------------------------------------------------------
 bool LuaPlusContext::CallString(const std::string &str)
@@ -103,22 +123,104 @@ bool LuaPlusContext::CallBuffer(const char *buffer, unsigned long size,
 bool LuaPlusContext::CallFileFunction(const std::string &filename,
 	const std::string &funName)
 {
-	PX2_UNUSED(funName);
-	return CallFile(filename);
+	if (!CallFile(filename))
+		return false;
+
+	LuaObject funcObj = mLuaPlusState->GetGlobal(funName.c_str());
+	if (!funcObj.IsNil())
+	{
+		LuaCall call = funcObj;
+		
+		try
+		{
+			call << LuaRun();
+		}
+		catch (LuaException &e)
+		{
+			const char* msg = e.GetErrorMessage();
+			PX2_LOG_ERROR("%s", msg);
+			assertion(false, "%s", msg);
+		}
+
+		return true;
+	}
+
+	return false;
 }
 //----------------------------------------------------------------------------
 void LuaPlusContext::SetUserTypePointer(const std::string &luaName,
 	const std::string &className, void *ptr)
 {
 	LuaStackBackup stackbackup((lua_State*)mLuaPlusState);
-
 	tolua_pushusertype((lua_State*)mLuaPlusState, ptr, className.c_str());
-
 	lua_setglobal((lua_State*)mLuaPlusState, luaName.c_str());
+}
+//----------------------------------------------------------------------------
+void LuaPlusContext::SetUserFunction(const std::string &funName,
+	const std::string &returnClassTypeName,
+	ScriptGlobalFun globalFun)
+{
+	mLuaPlusState->GetGlobals().RegisterDirect(funName.c_str(), globalFun);
+}
+//----------------------------------------------------------------------------
+bool LuaPlusContext::CallObjectFuntionValist(const std::string &funName,
+	Object *paramObj, const std::string &format, va_list valist)
+{
+	lua_State *state = (lua_State*)mLuaPlusState;
+
+	lua_getglobal(state, "this");
+	lua_getglobal(state, paramObj->GetName().c_str());
+	lua_setglobal(state, "this");
+
+	const char *pfmt = format.c_str();
+	int count = 0;
+	static const char *args[] = { "arg0", "arg1", "arg2", "arg3" };
+	while (pfmt[count])
+	{
+		if (*pfmt == 'i')
+		{
+			int value = va_arg(valist, int);
+			lua_pushnumber(state, value);
+		}
+		else if (*pfmt == 'f')
+		{
+			float value = (float)(va_arg(valist, double));
+			lua_pushnumber(state, value);
+		}
+		else if (*pfmt == 's')
+		{
+			char *str = va_arg(valist, char *);
+			lua_pushstring(state, str);
+		}
+		else
+		{
+			assertion(false, "");
+		}
+		lua_setglobal(state, args[count++]);
+	}
+
+	{
+		CallString(funName);
+	}
+
+	lua_setglobal(state, "this");
+
+	return true;
+}
+//----------------------------------------------------------------------------
+ScriptController *LuaPlusContext::CreateScriptController(
+	const std::string &filename, const std::string &className)
+{
+	LuaScriptController *luaScriptCtrl = new0 LuaScriptController(filename,
+		className);
+
+	return luaScriptCtrl;
 }
 //----------------------------------------------------------------------------
 void LuaPlusContext::OnError(int errorNum)
 {
+	PX2_UNUSED(errorNum);
+
 	LuaPlus::LuaStackObject stackObj(mLuaPlusState, -1);
 	const char* errStr = stackObj.GetString();
 	if (errStr)

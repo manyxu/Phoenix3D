@@ -2,6 +2,7 @@
 
 #include "PX2N_Frame.hpp"
 #include "PX2APoint.hpp"
+#include "PX2EventWorld.hpp"
 using namespace NA;
 using namespace PX2;
 

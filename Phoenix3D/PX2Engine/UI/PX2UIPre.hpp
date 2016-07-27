@@ -8,5 +8,4 @@
 #include "PX2GraphicsPre.hpp"
 #include "PX2UnityPre.hpp"
 
-
 #endif

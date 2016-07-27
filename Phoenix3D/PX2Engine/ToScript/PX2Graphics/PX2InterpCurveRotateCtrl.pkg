@@ -4,4 +4,7 @@
 	{
 		InterpCurveRotateController ();
 		virtual ~InterpCurveRotateController ();
+		
+		static InterpCurveRotateController *New();
+		static InterpCurveRotateController *New(const std::string &name);
 	};

@@ -111,3 +111,25 @@ inline Camera::DepthType Camera::GetDefaultDepthType ()
 	return msDefaultDepthType;
 }
 //----------------------------------------------------------------------------
+inline const Float4 &Camera::GetClearColor() const
+{
+	return mClearColor;
+}
+//----------------------------------------------------------------------------
+inline float Camera::GetClearDepth() const
+{
+	return mClearDepth;
+}
+//----------------------------------------------------------------------------
+inline unsigned int Camera::GetClearStencil() const
+{
+	return mClearStencil;
+}
+//----------------------------------------------------------------------------
+inline void Camera::GetClearFlag(bool &color, bool &depth, bool &stencil)
+{
+	color = mClearFlagColor;
+	depth = mClearFlagDepth;
+	stencil = mClearFlagStencil;
+}
+//----------------------------------------------------------------------------

@@ -1,0 +1,56 @@
+// PX2Edit.hpp
+
+	class Edit
+	{
+		// SINGLETON
+	
+	public:
+		bool Initlize();
+		bool Terminate();
+		void Reset();
+		
+	public:
+		enum EditType
+		{
+			ET_SCENE,
+			ET_TERRAIN,
+			ET_UI,
+			ET_SIMULATE,
+			ET_PLAY,
+			ET_MAXTYPE
+		};
+		void SetEditType(EditType type);
+		EditType GetEditType() const;
+		bool CanDoEdit() const;
+
+		enum EditAxisMode
+		{
+			EAM_WORLD,
+			EAM_LOCAL,
+			EAM_PARENT,
+			EMA_MAX_MODE
+		};
+		void SetEditAxisMode(EditAxisMode mode);
+		EditAxisMode GetEdtiAxisMode() const;
+
+		enum EditMode
+		{
+			EM_NONE,
+			EM_SELECT,
+			EM_TRANSLATE,
+			EM_ROTATE,
+			EM_SCALE,
+			EM_MAX_MODE
+		};
+		void SetEditMode(EditMode mode);
+		EditMode GetEditMode() const;
+		
+		// Pick
+	public:
+		void SetPickPos(const APoint &pos);
+		APoint GetPickPos() const;
+		
+		// Select
+	public:
+		bool DeleteSelection();
+	};

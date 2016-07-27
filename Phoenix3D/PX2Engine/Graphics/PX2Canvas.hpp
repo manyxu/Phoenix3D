@@ -34,8 +34,8 @@ namespace PX2
 		void SetMain(bool main);
 		bool IsMain() const;
 
-		void SetRenderNode(SizeNode *movable);
-		SizeNode *GetRenderNode();
+		void SetRenderNode(Node *movable);
+		Node *GetRenderNode();
 
 	public_internal:
 		void SetRenderWindow(RenderWindow *rw);
@@ -50,7 +50,7 @@ namespace PX2
 
 		RenderWindow *mRenderWindow;
 		bool mIsMain;
-		SizeNode *mRenderNode;
+		Node *mRenderNode;
 
 		// ViewPort
 	public:
@@ -69,6 +69,10 @@ namespace PX2
 
 		// Renderer Camera Culler
 	public:
+		// 一个观看整个场景的相机
+		void SetOverCamera(Camera *overCamera);
+		Camera *GetOverCamera();
+
 		void AddCamera(Camera *camera);
 		void RemoveCamera(Camera *camera);
 		void RemoveAllCameras();
@@ -82,6 +86,10 @@ namespace PX2
 	protected:
 		std::vector<Camera *> mCameras;
 		std::map<Camera*, CullerPtr> mCullers;
+
+		CameraPtr mOverCamera;
+		CullerPtr mOverCameraCuller;
+
 		CanvasRenderBindPtr mCanvasRenderBind;
 
 		WirePropertyPtr mOverrideWireProperty;
@@ -91,22 +99,41 @@ namespace PX2
 		void SetPriority(int priority); // 越大越在前
 		int GetPriority() const;
 
+		void SetClearColor(const Float4 &color);
+		const Float4 &GetClearColor() const;
+
+		void SetClearDepth(float depth);
+		float GetClearDepth() const;
+
+		void SetClearStencil(unsigned int stencil);
+		unsigned int GetClearStencil() const;
+
+		void SetClearFlag(bool color, bool depth, bool stencil);
+		void GetClearFlag(bool &color, bool &depth, bool &stencil);
+
 		virtual void ClearVisibleSet();
 		virtual void ComputeVisibleSet();
 		virtual void Draw(Renderer *renderer);
-
-		void SetAfterDrawClear(bool color, bool depth, bool stencil);
-		void GetAfterDrawClear(bool &color, bool &depth, bool &stencil);
 
 	public_internal:
 		static bool LessThan(const Canvas *step0, const Canvas *step1);
 
 	protected:
+		void _Clear(Renderer *renderer, bool bColor, const Float4 &color,
+			bool bDepth, float depth, bool bStencil, int stencil);
+		void _Draw(Camera *camera, Renderer *renderer, Culler *culler);
+
 		int mPriority;
+		Float4 mClearColor;
+		float mClearDepth;
+		unsigned int mClearStencil;
+		bool mClearFlagColor;
+		bool mClearFlagDepth;
+		bool mClearFlagStencil;
 
 		// event
 	public:
-		virtual void DoExecute(Event *event);
+		virtual void OnEvent(Event *event);
 
 		// pick
 	public:
@@ -156,7 +183,7 @@ namespace PX2
 
 		// Help
 	public:
-		std::pair<float, float> CalPixelToWorld();
+		virtual std::pair<float, float> CalPixelToWorld();
 
 	protected:
 		std::pair<float, float> mPixelToWorld;

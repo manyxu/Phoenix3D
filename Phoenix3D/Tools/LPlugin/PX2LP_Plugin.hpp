@@ -20,6 +20,7 @@ namespace PX2
 
 		virtual void OnInstall();
 		virtual void OnUninstall();
+		virtual void OnUpdate();
 	};
 
 }

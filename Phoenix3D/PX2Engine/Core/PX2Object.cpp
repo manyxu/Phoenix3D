@@ -46,3 +46,17 @@ bool Object::IsActivated() const
 	return mIsActivated;
 }
 //----------------------------------------------------------------------------
+Object *Object::New()
+{
+	assertion(false, "No New");
+	return 0;
+}
+//----------------------------------------------------------------------------
+Object *Object::New(const std::string &name)
+{
+	assertion(false, "No New");
+
+	PX2_UNUSED(name);
+	return 0;
+}
+//----------------------------------------------------------------------------

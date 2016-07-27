@@ -22,7 +22,7 @@ UICanvasController::~UICanvasController()
 {
 }
 //----------------------------------------------------------------------------
-void UICanvasController::DoExecute(Event *event)
+void UICanvasController::OnEvent(Event *event)
 {
 	UICanvas *canvas = DynamicCast<UICanvas>(this->GetControlledable());
 	if (!canvas->IsActivated())

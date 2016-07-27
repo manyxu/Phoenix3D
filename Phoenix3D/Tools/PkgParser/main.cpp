@@ -16,9 +16,10 @@ int main(int numArguments, char** arguments)
 	// Use _CrtSetBreakAlloc(n) to find a specific memory leak
 #endif
 
-	if (numArguments > 1)
+	if (numArguments > 2)
 	{
 		std::string filename = arguments[1];
+		std::string genFilename = arguments[2];
 
 		PkgParser parser;
 		parser.ParseFile(filename);
@@ -26,7 +27,7 @@ int main(int numArguments, char** arguments)
 
 		PkgInfoManager::GetSingleton().Save("Pkg.xml");
 
-		PkgInfoManager::GetSingleton().GenToASFile();
+		PkgInfoManager::GetSingleton().GenToASFile(genFilename);
 
 		PkgInfoManager::GetSingleton().Ternimate();
 	}

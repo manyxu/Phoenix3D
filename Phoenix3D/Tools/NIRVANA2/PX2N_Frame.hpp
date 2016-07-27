@@ -88,7 +88,7 @@ namespace NA
 
 		// event
 	public:
-		virtual void DoExecute(PX2::Event *event);
+		virtual void OnEvent(PX2::Event *event);
 
 		// renderview
 	public:

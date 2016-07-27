@@ -26,6 +26,16 @@ inline Application::PlayLogicMode Application::GetPlayLogicMode() const
 	return mPlayLogicMode;
 }
 //----------------------------------------------------------------------------
+inline Canvas *Application::GetEngineSceneCanvas()
+{
+	return mEngineSceneCanvas;
+}
+//----------------------------------------------------------------------------
+inline UICanvas *Application::GetEngineUICanvas()
+{
+	return mEngineUICanvas;
+}
+//----------------------------------------------------------------------------
 inline Application::PlayType Application::GetPlayType() const
 {
 	return mPlayType;

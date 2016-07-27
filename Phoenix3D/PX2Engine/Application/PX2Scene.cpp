@@ -24,6 +24,14 @@ Scene::Scene()
 	CameraNode *camNode = PX2_CREATER.CreateNode_Camera();
 	AttachChild(camNode);
 	camNode->SetName("MainCameraNode");
+	camNode->GetCamera()->SetClearColor(Float4::BLUE);
+	camNode->LocalTransform.SetTranslate(-10.0f, -10.0f, 10.0f);
+	camNode->LookAt(APoint(0.0f, 0.0f, 0.0f));
+
+	camNode->LocalTransform.SetTranslate(10.0f, -10.0f, 10.0f);
+	camNode->LookAt(APoint(0.0f, 0.0f, 0.0f));
+
+	AttachChild(PX2_CREATER.CreateNode_Box());
 }
 //----------------------------------------------------------------------------
 Scene::~Scene()
@@ -76,46 +84,48 @@ void Scene::UpdateWorldData(double applicationTime, double elapsedTime)
 	if (scene)
 	{
 		EnvirParam *envirParam = scene->GetEnvirParam();
-
-		Light *lightDir = envirParam->GetLight_Dir();
-		Projector *projector = envirParam->GetLight_Dir_Projector();
-
-		lightDir->Ambient = Float4(mAmbientColor[0], mAmbientColor[1],
-			mAmbientColor[2], mIntensity);
-		lightDir->Intensity = mIntensity;
-		lightDir->Diffuse = Float4(1.0f, mDiffuseColor[1],
-			mDiffuseColor[2], 1.0f);
-		lightDir->Specular = Float4(mSpecularColor[0], mSpecularColor[1],
-			mSpecularColor[2], mSpecularPow);
-
-		float upDot = dir.Dot(-AVector::UNIT_Z);
-		if (upDot >= 0.99f)
+		if (envirParam)
 		{
-		}
-		else
-		{
-			AVector upTemp = AVector::UNIT_Z;
-			AVector right = dir.UnitCross(upTemp);
-			AVector up = right.UnitCross(dir);
+			Light *lightDir = envirParam->GetLight_Dir();
+			Projector *projector = envirParam->GetLight_Dir_Projector();
 
-			lightDir->DVector = dir;
-			lightDir->UVector = up;
-			lightDir->RVector = right;
+			lightDir->Ambient = Float4(mAmbientColor[0], mAmbientColor[1],
+				mAmbientColor[2], mIntensity);
+			lightDir->Intensity = mIntensity;
+			lightDir->Diffuse = Float4(1.0f, mDiffuseColor[1],
+				mDiffuseColor[2], 1.0f);
+			lightDir->Specular = Float4(mSpecularColor[0], mSpecularColor[1],
+				mSpecularColor[2], mSpecularPow);
 
-			APoint camPos = mLightCameraLookPosition - dir*mLightCameraLookDistance;
-			projector->SetFrame(camPos, lightDir->DVector,
-				lightDir->UVector, lightDir->RVector);
-		}
+			float upDot = dir.Dot(-AVector::UNIT_Z);
+			if (upDot >= 0.99f)
+			{
+			}
+			else
+			{
+				AVector upTemp = AVector::UNIT_Z;
+				AVector right = dir.UnitCross(upTemp);
+				AVector up = right.UnitCross(dir);
 
-		if (!projector->IsPerspective())
-		{
-			projector->SetFrustum(0.1f, 100.0f,
-				-mLightCameraExtent, mLightCameraExtent, -mLightCameraExtent,
-				mLightCameraExtent);
-		}
-		else
-		{
-			projector->SetFrustum(mLightCameraExtent, 1.0f, 1.0f, 100.0f);
+				lightDir->DVector = dir;
+				lightDir->UVector = up;
+				lightDir->RVector = right;
+
+				APoint camPos = mLightCameraLookPosition - dir*mLightCameraLookDistance;
+				projector->SetFrame(camPos, lightDir->DVector,
+					lightDir->UVector, lightDir->RVector);
+			}
+
+			if (!projector->IsPerspective())
+			{
+				projector->SetFrustum(0.1f, 100.0f,
+					-mLightCameraExtent, mLightCameraExtent, -mLightCameraExtent,
+					mLightCameraExtent);
+			}
+			else
+			{
+				projector->SetFrustum(mLightCameraExtent, 1.0f, 1.0f, 100.0f);
+			}
 		}
 	}
 
@@ -123,7 +133,7 @@ void Scene::UpdateWorldData(double applicationTime, double elapsedTime)
 	Node::UpdateWorldData(applicationTime, elapsedTime);
 }
 //----------------------------------------------------------------------------
-void Scene::DoExecute(Event *ent)
+void Scene::OnEvent(Event *ent)
 {
 	if (GraphicsES::IsEqual(ent, GraphicsES::AddObject))
 	{
@@ -159,6 +169,7 @@ void Scene::OnPropertyChanged(const PropertyObject &obj)
 Scene::Scene(LoadConstructor value) :
 Node(value)
 {
+	ComeInEventWorld();
 }
 //----------------------------------------------------------------------------
 void Scene::Load(InStream& source)
@@ -168,23 +179,36 @@ void Scene::Load(InStream& source)
 	Node::Load(source);
 	PX2_VERSION_LOAD(source);
 
+	source.ReadPointer(mEnvirParam);
+
 	PX2_END_DEBUG_STREAM_LOAD(Scene, source);
 }
 //----------------------------------------------------------------------------
 void Scene::Link(InStream& source)
 {
 	Node::Link(source);
+
+	if (mEnvirParam)
+		source.ResolveLink(mEnvirParam);
 }
 //----------------------------------------------------------------------------
 void Scene::PostLink()
 {
 	Node::PostLink();
+
+	if (mEnvirParam)
+		mEnvirParam->PostLink();
 }
 //----------------------------------------------------------------------------
 bool Scene::Register(OutStream& target) const
 {
 	if (Node::Register(target))
 	{
+		if (mEnvirParam)
+		{
+			mEnvirParam->Register(target);
+		}
+
 		return true;
 	}
 
@@ -198,6 +222,8 @@ void Scene::Save(OutStream& target) const
 	Node::Save(target);
 	PX2_VERSION_SAVE(target);
 
+	target.WritePointer(mEnvirParam);
+
 	PX2_END_DEBUG_STREAM_SAVE(Scene, target);
 }
 //----------------------------------------------------------------------------
@@ -205,6 +231,8 @@ int Scene::GetStreamingSize(Stream &stream) const
 {
 	int size = Node::GetStreamingSize(stream);
 	size += PX2_VERSION_SIZE(mVersion);
+
+	size += PX2_POINTERSIZE(mEnvirParam);
 	
 	return size;
 }

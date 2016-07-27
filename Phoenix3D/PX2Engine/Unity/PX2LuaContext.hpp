@@ -23,9 +23,11 @@ namespace PX2
 		// general
 		virtual bool CallString(const std::string &str);
 		virtual bool CallFile(const std::string &filename);
-		virtual bool CallBuffer(const char *buffer, unsigned long size);
+		virtual bool CallBuffer(const char *buffer, unsigned long size, 
+			const std::string &name);
 
 		// file function
+		// 直接调用文件
 		virtual bool CallFileFunction(const std::string &filename,
 			const std::string &funName);
 

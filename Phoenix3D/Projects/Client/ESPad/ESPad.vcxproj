@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ESPadDataAnalyzer.cpp" />
     <ClCompile Include="ESPadDll.cpp" />
     <ClCompile Include="ESPadManager.cpp" />
     <ClCompile Include="ESPadPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ESPadDataAnalyzer.hpp" />
     <ClInclude Include="ESPadManager.hpp" />
     <ClInclude Include="ESPadPlugin.hpp" />
     <ClInclude Include="ESPadPre.hpp" />

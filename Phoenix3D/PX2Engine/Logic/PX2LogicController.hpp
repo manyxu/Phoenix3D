@@ -3,14 +3,14 @@
 #ifndef PX2LOGICCONTROLLER_HPP
 #define PX2LOGICCONTROLLER_HPP
 
-#include "PX2SimulationPre.hpp"
+#include "PX2LogicPre.hpp"
 #include "PX2ScriptController.hpp"
 #include "PX2LogicModule.hpp"
 
 namespace PX2
 {
 
-	class PX2_GAME_ITEM LogicController : public ScriptController
+	class PX2_ENGINE_ITEM LogicController : public ScriptController
 	{
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;

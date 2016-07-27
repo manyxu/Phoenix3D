@@ -37,7 +37,6 @@ namespace PX2
 		void SetFixedWidth(float fixedWidth);
 		float GetFixedWidth() const;
 
-		virtual void OnPvoitChanged();
 		virtual void OnSizeChanged();
 		virtual void UpdateLeftBottomCornerOffset(Movable *parent);
 

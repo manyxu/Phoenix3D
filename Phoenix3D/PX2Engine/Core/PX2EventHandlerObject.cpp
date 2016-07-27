@@ -18,8 +18,8 @@ ObjectEventHandler::ObjectEventHandler()
 {
 }
 //----------------------------------------------------------------------------
-void ObjectEventHandler::DoExecute(Event *event)
+void ObjectEventHandler::OnEvent(Event *event)
 {
-	mObject->DoExecute(event);
+	mObject->OnEvent(event);
 }
 //----------------------------------------------------------------------------

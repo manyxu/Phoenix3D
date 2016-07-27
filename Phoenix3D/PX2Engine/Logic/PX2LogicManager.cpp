@@ -1,6 +1,8 @@
 // PX2LogicManager.cpp
 
 #include "PX2LogicManager.hpp"
+#include "PX2APoint.hpp"
+#include "PX2AVector.hpp"
 using namespace PX2;
 
 //----------------------------------------------------------------------------

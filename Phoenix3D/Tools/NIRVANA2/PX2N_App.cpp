@@ -5,11 +5,13 @@
 #include "PX2N_GeneralFrame.hpp"
 #include "PX2EU_Manager.hpp"
 #include "PX2EditEventData.hpp"
-#include "PX2EngineLoop.hpp"
 #include "PX2Edit.hpp"
 #include "PX2EditEventType.hpp"
 #include "PX2RenderWindow.hpp"
 #include "PX2EditEventType.hpp"
+#include "PX2Application.hpp"
+#include "PX2EditorEventType.hpp"
+#include "PX2Application.hpp"
 using namespace PX2;
 using namespace NA;
 
@@ -27,10 +29,10 @@ N_App::~N_App()
 //-----------------------------------------------------------------------------
 bool N_App::OnInit()
 {
-	PX2_ENGINELOOP.Initlize();
+	PX2_APP.Initlize();
 	PX2_EW.ComeIn(this);
 
-	PX2_ENGINELOOP.Play(EngineLoop::PT_NONE);
+	PX2_APP.Play(Application::PT_NONE);
 
 	wxLog::SetLogLevel(0);
 
@@ -41,15 +43,16 @@ bool N_App::OnInit()
 	wxXmlResource::Get()->InitAllHandlers();
 	wxXmlResource::Get()->Load(wxT("DataNIRVANA2/wxfbp/*.xrc"));
 
-
 	N_Frame *frame = CreateMainFrame();
 	frame->Maximize();
 
 	const Sizef &size = PX2_GR.GetMainWindow()->GetScreenSize();
-	PX2_ENGINELOOP.SetPt_Data(frame->GerRenderView()->GetHandle());
-	PX2_ENGINELOOP.SetPt_Size(size);
-	PX2_ENGINELOOP.InitlizeRenderer();
-	PX2_EDIT.InitlizeEditor();
+	PX2_APP.SetPt_Data(frame->GerRenderView()->GetHandle());
+	PX2_APP.SetPt_Size(size);
+	PX2_APP.InitlizeRenderer();
+
+	Edit *edit = new0 Edit();
+	edit->Initlize();
 
 	RenderWindow *rw = PX2_GR.GetMainWindow();
 	rw->SetWindowHandle(frame->GerRenderView()->GetHandle());
@@ -61,15 +64,26 @@ bool N_App::OnInit()
 //-----------------------------------------------------------------------------
 int N_App::OnExit()
 {
+	PX2_EW.Shutdown(true);
+
+	Edit *edit = Edit::GetSingletonPtr();
+	if (edit)
+	{
+		edit->Terminate();
+
+		delete0(edit);
+		Edit::Set(0);
+	}
+
 	PX2_EW.GoOut(this);
-	PX2_ENGINELOOP.Terminate();
+	PX2_APP.Terminate();
 
 	return 0;
 }
 //-----------------------------------------------------------------------------
-void N_App::DoExecute(Event *event)
+void N_App::OnEvent(Event *event)
 {
-	if (EditEventSpace::IsEqual(event, EditEventSpace::N_Simu))
+	if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_Simu))
 	{
 		int type = event->GetData<int>();
 		SimuApp(type);
@@ -108,27 +122,27 @@ void N_App::SimuApp(int type)
 
 	const std::string &projName = proj->GetName();
 
-	EngineLoop::PlayType pt = PX2_ENGINELOOP.GetPlayType();
+	Application::PlayType pt = PX2_APP.GetPlayType();
 	if (1 == type)
 	{	
-		if (pt != EngineLoop::PT_NONE)
+		if (pt != Application::PT_NONE)
 		{
-			PX2_ENGINELOOP.Play(EngineLoop::PT_NONE);
+			PX2_APP.Play(Application::PT_NONE);
 		}
 		else
 		{
-			PX2_ENGINELOOP.Play(EngineLoop::PT_SIMULATE);
+			PX2_APP.Play(Application::PT_SIMULATE);
 		}
 	}
 	else if (2 == type)
 	{
-		if (pt != EngineLoop::PT_NONE)
+		if (pt != Application::PT_NONE)
 		{
-			PX2_ENGINELOOP.Play(EngineLoop::PT_NONE);
+			PX2_APP.Play(Application::PT_NONE);
 		}
 		else
 		{
-			PX2_ENGINELOOP.Play(EngineLoop::PT_PLAY);
+			PX2_APP.Play(Application::PT_PLAY);
 		}
 	}
 	else if (3 == type)

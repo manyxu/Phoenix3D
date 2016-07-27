@@ -22,7 +22,7 @@ namespace PX2
 		void Terminate();
 		void Update(double appSeconds, double elapsedSeconds);
 
-		virtual void DoExecute(Event *event);
+		virtual void OnEvent(Event *event);
 		virtual void Visit(Object *obj, int info);
 
 	protected:

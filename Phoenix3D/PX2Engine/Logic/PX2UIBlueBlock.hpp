@@ -3,14 +3,14 @@
 #ifndef PX2UIBLUEBLOCK_HPP
 #define PX2UIBLUEBLOCK_HPP
 
-#include "PX2SimulationPre.hpp"
+#include "PX2LogicPre.hpp"
 #include "PX2UIButton.hpp"
 #include "PX2UIFPicBox.hpp"
 
 namespace PX2
 {
 
-	class PX2_GAME_ITEM UIBlueblock : public UIFrame
+	class PX2_ENGINE_ITEM UIBlueblock : public UIFrame
 	{
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;

@@ -236,17 +236,15 @@ void RenderWindow::Draw()
 	if (mRenderer && mRenderer->PreDraw())
 	{
 		// clear screen
-		mRenderer->SetViewport(Rectf(0.0f, 0.0f, mScreenSize.Width, mScreenSize.Height));
-		mRenderer->SetClearColor(Float4(230.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f, 1.0f));
+		//mRenderer->SetViewport(Rectf(0.0f, 0.0f, mScreenSize.Width, mScreenSize.Height));
+		//mRenderer->SetClearColor(Float4(230.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f, 1.0f));
 
-		mRenderer->ClearBuffers();
+		//mRenderer->ClearBuffers();
 
 		if (mMainCanvas && mMainCanvas->IsShow())
 		{
 			mMainCanvas->Draw(mRenderer);
 		}
-
-		mRenderer->ClearDepthBuffer();
 
 		mRenderer->PostDraw();
 		mRenderer->DisplayColorBuffer();

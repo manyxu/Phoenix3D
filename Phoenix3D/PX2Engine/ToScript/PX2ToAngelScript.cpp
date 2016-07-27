@@ -366,6 +366,12 @@ static ScriptController * fScriptController0()
 	pointer->IncrementReferences();
 	return pointer;
 }
+static Selection * fSelection0()
+{
+	Selection* pointer = new0 Selection();
+	pointer->IncrementReferences();
+	return pointer;
+}
 static BeamEmitter * fBeamEmitter0()
 {
 	BeamEmitter* pointer = new0 BeamEmitter();
@@ -494,7 +500,7 @@ static Scene * fScene0()
 	pointer->IncrementReferences();
 	return pointer;
 }
-int toAS_PX2_open(asIScriptEngine* asEngine)
+int PX2ToAngelScript(asIScriptEngine* asEngine)
 {
 	int r = 0;
 	// Enum: InterpCurveMode
@@ -707,6 +713,10 @@ int toAS_PX2_open(asIScriptEngine* asEngine)
 	assert(r >= 0);
 	r = asEngine->RegisterObjectType("ScriptController", 0, asOBJ_REF); 
 	assert(r >= 0);
+	r = asEngine->RegisterObjectType("Selection", 0,  asOBJ_REF | asOBJ_NOCOUNT);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectType("SelectionManager", 0,  asOBJ_REF | asOBJ_NOCOUNT);
+	assert(r >= 0);
 	r = asEngine->RegisterObjectType("Effectable", 0, asOBJ_REF); 
 	assert(r >= 0);
 	r = asEngine->RegisterObjectType("BeamEmitter", 0, asOBJ_REF); 
@@ -758,6 +768,8 @@ int toAS_PX2_open(asIScriptEngine* asEngine)
 	r = asEngine->RegisterObjectType("Application", 0,  asOBJ_REF | asOBJ_NOCOUNT);
 	assert(r >= 0);
 	r = asEngine->RegisterObjectType("Creater", 0,  asOBJ_REF | asOBJ_NOCOUNT);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectType("Cast", 0,  asOBJ_REF | asOBJ_NOCOUNT);
 	assert(r >= 0);
 	// Class: RefObject
 	r = asEngine->RegisterObjectBehaviour("RefObject", asBEHAVE_ADDREF, "void f()", asMETHOD(RefObject, IncrementReferences), asCALL_THISCALL);
@@ -2656,6 +2668,10 @@ int toAS_PX2_open(asIScriptEngine* asEngine)
 	r = asEngine->RegisterObjectMethod("InterpCurveRotateController", "void AddPoint(float inVal, const Float3 & outVal, InterpCurveMode mode)", asMETHODPR(InterpCurveRotateController, AddPoint, (float, const Float3 & , InterpCurveMode), void), asCALL_THISCALL);
 	assert(r >= 0);
 	r = asEngine->RegisterObjectMethod("InterpCurveRotateController", "void AddPoint(float inVal, const AVector & outVal, InterpCurveMode mode)", asMETHODPR(InterpCurveRotateController, AddPoint, (float, const AVector & , InterpCurveMode), void), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("InterpCurveRotateController", "InterpCurveRotateController @+ New()", asFUNCTIONPR(InterpCurveRotateController::New, (), InterpCurveRotateController * ), asCALL_CDECL_OBJLAST);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("InterpCurveRotateController", "InterpCurveRotateController @+ New(const string & name)", asFUNCTIONPR(InterpCurveRotateController::New, (const std::string & ), InterpCurveRotateController * ), asCALL_CDECL_OBJLAST);
 	assert(r >= 0);
 	r = asEngine->RegisterGlobalProperty("Rtti InterpCurveRotateController_TYPE", (void*)&InterpCurveRotateController::TYPE); 
 	assert(r >= 0);
@@ -5619,6 +5635,44 @@ int toAS_PX2_open(asIScriptEngine* asEngine)
 	r = asEngine->RegisterObjectProperty("ScriptController", "double Frequency", asOFFSET(ScriptController, Frequency));
 	assert(r >= 0);
 	r = asEngine->RegisterObjectProperty("ScriptController", "bool Active", asOFFSET(ScriptController, Active));
+	assert(r >= 0);
+	// Class: Selection
+	r = asEngine->RegisterObjectBehaviour("Selection", asBEHAVE_FACTORY, "Selection @ f()", asFUNCTION(fSelection0), asCALL_CDECL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "void AddObject(Object @+ obj)", asMETHODPR(Selection, AddObject, (Object * ), void), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "void RemoveObject(Object @+ obj)", asMETHODPR(Selection, RemoveObject, (Object * ), void), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "Object @+ GetObjectAt(int i)", asMETHODPR(Selection, GetObjectAt, (int), Object * ), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "int GetNumObjects()", asMETHODPR(Selection, GetNumObjects, (), int), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "bool IsObjectIn(Object @+ obj)", asMETHODPR(Selection, IsObjectIn, (Object * ), bool), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "void Clear()", asMETHODPR(Selection, Clear, (), void), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "Object @+ GetFirstObject() const", asMETHODPR(Selection, GetFirstObject, () const, Object * ), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "void Translate(AVector vec)", asMETHODPR(Selection, Translate, (AVector), void), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "void TranslateTo(APoint pos)", asMETHODPR(Selection, TranslateTo, (APoint), void), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "void AddRolate(AVector vec)", asMETHODPR(Selection, AddRolate, (AVector), void), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "void AddScale(AVector vec)", asMETHODPR(Selection, AddScale, (AVector), void), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "const APoint & GetCenter() const", asMETHODPR(Selection, GetCenter, () const, const APoint & ), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Selection", "float GetRadius() const", asMETHODPR(Selection, GetRadius, () const, float), asCALL_THISCALL);
+	assert(r >= 0);
+	// Class: SelectionManager
+	r = asEngine->RegisterObjectMethod("SelectionManager", "void Clear()", asMETHODPR(SelectionManager, Clear, (), void), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("SelectionManager", "Selection @ CreateAddSelection(const string & name)", asMETHODPR(SelectionManager, CreateAddSelection, (const std::string & ), Selection * ), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("SelectionManager", "void DestorySelecton(const string & name)", asMETHODPR(SelectionManager, DestorySelecton, (const std::string & ), void), asCALL_THISCALL);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("SelectionManager", "Selection @ GetSelecton(const string & name)", asMETHODPR(SelectionManager, GetSelecton, (const std::string & ), Selection * ), asCALL_THISCALL);
 	assert(r >= 0);
 	// Class: Effectable
 	// Enum: FaceType
@@ -11001,7 +11055,9 @@ int toAS_PX2_open(asIScriptEngine* asEngine)
 	assert(r >= 0);
 	r = asEngine->RegisterObjectMethod("UIButton", "UIText @+ GetText()", asMETHODPR(UIButton, GetText, (), UIText * ), asCALL_THISCALL);
 	assert(r >= 0);
-	r = asEngine->RegisterObjectMethod("UIButton", "Object @+ New()", asFUNCTIONPR(UIButton::New, (), Object * ), asCALL_CDECL_OBJLAST);
+	r = asEngine->RegisterObjectMethod("UIButton", "UIButton @+ New()", asFUNCTIONPR(UIButton::New, (), UIButton * ), asCALL_CDECL_OBJLAST);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("UIButton", "UIButton @+ New(const string & name)", asFUNCTIONPR(UIButton::New, (const std::string & ), UIButton * ), asCALL_CDECL_OBJLAST);
 	assert(r >= 0);
 		r = asEngine->RegisterObjectMethod("UIButton", "void SetAfterReleasedType(AfterReleasedType type)", asMETHODPR(UIButton, SetAfterReleasedType, (UIButton::AfterReleasedType), void), asCALL_THISCALL);
 	assert(r >= 0);
@@ -12075,6 +12131,10 @@ int toAS_PX2_open(asIScriptEngine* asEngine)
 	assert(r >= 0);
 	r = asEngine->RegisterObjectMethod("Scene", "int GetAnchorID() const", asMETHODPR(Scene, GetAnchorID, () const, int), asCALL_THISCALL);
 	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Scene", "Scene @+ New()", asFUNCTIONPR(Scene::New, (), Scene * ), asCALL_CDECL_OBJLAST);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Scene", "Scene @+ New(const string & name)", asFUNCTIONPR(Scene::New, (const std::string & ), Scene * ), asCALL_CDECL_OBJLAST);
+	assert(r >= 0);
 	r = asEngine->RegisterGlobalProperty("Rtti Scene_TYPE", (void*)&Scene::TYPE); 
 	assert(r >= 0);
 	r = asEngine->RegisterObjectProperty("Scene", "Transform LocalTransform", asOFFSET(Scene, LocalTransform));
@@ -12174,6 +12234,11 @@ int toAS_PX2_open(asIScriptEngine* asEngine)
 	r = asEngine->RegisterObjectMethod("Creater", "CameraNode @+ CreateNode_Camera(bool )", asMETHODPR(Creater, CreateNode_Camera, (bool), CameraNode * ), asCALL_THISCALL);
 	assert(r >= 0);
 	r = asEngine->RegisterObjectMethod("Creater", "Node @+ CreateNode_Model(const string & filename)", asMETHODPR(Creater, CreateNode_Model, (const std::string & ), Node * ), asCALL_THISCALL);
+	assert(r >= 0);
+	// Class: Cast
+	r = asEngine->RegisterObjectMethod("Cast", "Movable @+ ToMovable(Object @+ obj)", asFUNCTIONPR(Cast::ToMovable, (Object * ), Movable * ), asCALL_CDECL_OBJLAST);
+	assert(r >= 0);
+	r = asEngine->RegisterObjectMethod("Cast", "Node @+ ToNode(Object @+ obj)", asFUNCTIONPR(Cast::ToNode, (Object * ), Node * ), asCALL_CDECL_OBJLAST);
 	assert(r >= 0);
 
 	return 0;

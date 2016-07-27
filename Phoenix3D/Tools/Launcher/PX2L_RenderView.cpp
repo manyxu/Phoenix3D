@@ -2,7 +2,7 @@
 
 #include "PX2L_RenderView.hpp"
 #include "PX2InputManager.hpp"
-#include "PX2EngineLoop.hpp"
+#include "PX2Application.hpp"
 #include "PX2Time.hpp"
 using namespace Launcher;
 using namespace PX2;
@@ -28,14 +28,14 @@ RenderView::RenderView(RenderWindow *rw, wxWindow *parent) :
 wxWindow(parent, wxID_ANY, wxDefaultPosition,
 wxSize(rw->GetScreenSize().Width, rw->GetScreenSize().Height),
 wxNO_BORDER | wxTRANSPARENT_WINDOW),
-mTimerID(-1),
+mTimerID(1),
 mIsInited(false),
 mRenderWindow(rw)
 {
 	std::string name = rw->GetName();
 	SetName(name);
 
-	mTimerID = PX2_EDIT_GETID;
+	mTimerID = 1;
 	Connect(mTimerID, wxEVT_TIMER, wxTimerEventHandler(RenderView::OnTimer));
 
 	mTimer.SetOwner(this, mTimerID);
@@ -56,7 +56,7 @@ void RenderView::OnSize(wxSizeEvent& e)
 
 	if ("Main" == name)
 	{
-		PX2_ENGINELOOP.SetScreenSize(sz);
+		PX2_APP.SetScreenSize(sz);
 	}
 }
 //----------------------------------------------------------------------------
@@ -67,20 +67,20 @@ void RenderView::OnTimer(wxTimerEvent& event)
 		std::string name = GetName();
 		if ("Main" == name)
 		{
-			PX2_EDIT.IsAltDown = wxGetKeyState(WXK_ALT);
-			PX2_EDIT.IsCtrlDown = wxGetKeyState(WXK_CONTROL);
-			PX2_EDIT.IsShiftDown = wxGetKeyState(WXK_SHIFT);
+			//PX2_EDIT.IsAltDown = wxGetKeyState(WXK_ALT);
+			//PX2_EDIT.IsCtrlDown = wxGetKeyState(WXK_CONTROL);
+			//PX2_EDIT.IsShiftDown = wxGetKeyState(WXK_SHIFT);
 
-			PX2_EDIT.IsKeyDown_W = wxGetKeyState((wxKeyCode)87) || wxGetKeyState((wxKeyCode)119);
-			PX2_EDIT.IsKeyDown_S = wxGetKeyState((wxKeyCode)83) || wxGetKeyState((wxKeyCode)115);
-			PX2_EDIT.IsKeyDown_A = wxGetKeyState((wxKeyCode)65) || wxGetKeyState((wxKeyCode)97);
-			PX2_EDIT.IsKeyDown_D = wxGetKeyState((wxKeyCode)68) || wxGetKeyState((wxKeyCode)100);
+			//PX2_EDIT.IsKeyDown_W = wxGetKeyState((wxKeyCode)87) || wxGetKeyState((wxKeyCode)119);
+			//PX2_EDIT.IsKeyDown_S = wxGetKeyState((wxKeyCode)83) || wxGetKeyState((wxKeyCode)115);
+			//PX2_EDIT.IsKeyDown_A = wxGetKeyState((wxKeyCode)65) || wxGetKeyState((wxKeyCode)97);
+			//PX2_EDIT.IsKeyDown_D = wxGetKeyState((wxKeyCode)68) || wxGetKeyState((wxKeyCode)100);
 
-			PX2_EDIT.IsLeftMouseDown = wxGetMouseState().LeftIsDown();
-			PX2_EDIT.IsRightMouseDown = wxGetMouseState().RightIsDown();
-			PX2_EDIT.IsMidMouseDown = wxGetMouseState().MiddleIsDown();
+			//PX2_EDIT.IsLeftMouseDown = wxGetMouseState().LeftIsDown();
+			//PX2_EDIT.IsRightMouseDown = wxGetMouseState().RightIsDown();
+			//PX2_EDIT.IsMidMouseDown = wxGetMouseState().MiddleIsDown();
 
-			PX2_ENGINELOOP.Tick();
+			PX2_APP.Update();
 		}
 	}
 }

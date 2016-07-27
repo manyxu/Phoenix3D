@@ -15,6 +15,7 @@ namespace PX2
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;
 		PX2_DECLARE_PROPERTY;
+		PX2_NEW(Scene);
 		PX2_DECLARE_STREAM(Scene);
 
 	public:
@@ -32,7 +33,7 @@ namespace PX2
 		std::vector<CameraPtr> mCameras;
 
 	public:
-		void DoExecute(Event *ent);
+		void OnEvent(Event *ent);
 	};
 
 #include "PX2Scene.inl"

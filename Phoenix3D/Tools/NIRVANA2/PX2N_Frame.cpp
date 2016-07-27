@@ -2,14 +2,15 @@
 
 #include "PX2N_Frame.hpp"
 #include "PX2Edit.hpp"
-#include "PX2EngineLoop.hpp"
+#include "PX2Application.hpp"
 #include "PX2InputManager.hpp"
 #include "PX2EU_Manager.hpp"
 #include "PX2EditEventType.hpp"
 #include "PX2EditEventData.hpp"
-#include "PX2N_DlgCreateProject.hpp"
 #include "PX2GraphicsRoot.hpp"
 #include "PX2GraphicsEventType.hpp"
+#include "PX2EditorEventType.hpp"
+#include "PX2N_DlgCreateProject.hpp"
 using namespace NA;
 using namespace PX2;
 
@@ -45,7 +46,7 @@ mRenderWindow(uiWindow)
 
 	if ("Main" != name)
 	{
-		Renderer *renderer = PX2_ENGINELOOP.CreateRenderer(name, 
+		Renderer *renderer = PX2_APP.CreateRenderer(name, 
 			mRenderView->GetHandle(), width, height, 0);
 		uiWindow->SetRenderer(renderer);
 		uiWindow->SetScreenSize(Sizef((float)width, (float)height));
@@ -95,17 +96,17 @@ N_Frame::~N_Frame()
 	}
 }
 //----------------------------------------------------------------------------
-void N_Frame::DoExecute(Event *event)
+void N_Frame::OnEvent(Event *event)
 {
 	std::string name = GetName();
 	if ("Main" == name)
 	{
-		if (EditEventSpace::IsEqual(event, EditEventSpace::N_Window))
+		if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_Window))
 		{
 			mIsNWindow = true;
 			mNUIWindow = event->GetData<RenderWindow*>();
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_AddMenu))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_AddMenu))
 		{
 			EED_AddMenu data = event->GetData<EED_AddMenu>();
 			if (data.Where == GetName())
@@ -196,47 +197,47 @@ void N_Frame::DoExecute(Event *event)
 				}
 			}
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_NewProject))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_NewProject))
 		{
 			mIsNewProject = true;
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_OpenProject))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_OpenProject))
 		{
 			mIsOpenProject = true;
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_SaveProject))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_SaveProject))
 		{
 			mIsSaveProject = true;
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_CloseProject))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_CloseProject))
 		{
 			mIsCloseProject = true;
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_NewScene))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_NewScene))
 		{
 			mIsNewScene = true;
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_OpenScene))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_OpenScene))
 		{
 			mIsOpenScene = true;
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_SaveScene))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_SaveScene))
 		{
 			mIsSaveScene = true;
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_SaveSceneAs))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_SaveSceneAs))
 		{
 			mIsSaveSceneAs = true;
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_CloseScene))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_CloseScene))
 		{
 			mIsCloseScene = true;
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_Exit))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_Exit))
 		{
 			mIsExit = true;
 		}
-		else if (EditEventSpace::IsEqual(event, EditEventSpace::N_PlayTip))
+		else if (EditorEventSpace::IsEqual(event, EditorEventSpace::N_PlayTip))
 		{
 			EED_Tip tipData = event->GetData<EED_Tip>();
 			
@@ -281,14 +282,25 @@ void N_Frame::DoExecute(Event *event)
 	}
 }
 //----------------------------------------------------------------------------
-void _CreateScriptFile(const std::string &pathName,
+void _CreateScriptFile(const std::string &pathName, const std::string &subDir,
 	const std::string &scFileName)
 {
-	std::string scriptPath = "Data/" + pathName + "scripts/" + scFileName;
+	std::string scriptPath = "Data/" + pathName + subDir + scFileName;
 	std::ofstream outputFile;
 	outputFile.open(scriptPath.c_str());
+
+	std::string outBaseName;
+	std::string outExt;
+	StringHelp::SplitBaseFilename(scFileName, outBaseName, outExt);
+	
+	std::string noteStr = "-- ";
+	if ("lua" == outExt)
+		noteStr = "-- ";
+	else if ("as" == outExt)
+		noteStr = "// ";
+
 	std::string scriptStart;
-	scriptStart += "-- " + scFileName;
+	scriptStart += noteStr + scFileName;
 	outputFile << scriptStart;
 	outputFile.close();
 }
@@ -321,13 +333,16 @@ void N_Frame::DoNewProject()
 			PX2_RM.CreateFloder("Data/", pathName + "models/");
 			PX2_RM.CreateFloder("Data/", pathName + "scenes/");
 			PX2_RM.CreateFloder("Data/", pathName + "scripts/");
-			PX2_RM.CreateFloder("Data/", pathName + "scripts/bp");
+			PX2_RM.CreateFloder("Data/", pathName + "scripts/lua/");
+			PX2_RM.CreateFloder("Data/", pathName + "scripts/as/");
 
-			_CreateScriptFile(pathName, "start.lua");
-			_CreateScriptFile(pathName, "end.lua");
+			_CreateScriptFile(pathName, "scripts/lua/", "start.lua");
+			_CreateScriptFile(pathName, "scripts/lua/", "end.lua");
+			_CreateScriptFile(pathName, "scripts/as/", "start.as");
+			_CreateScriptFile(pathName, "scripts/as/", "end.as");
 
 			std::string path = "Data/" + pathName + name + ".px2proj";
-			PX2_ENGINELOOP.NewProject(path, name, screenOriention, width,
+			PX2_APP.NewProject(path, name, screenOriention, width,
 				height);
 		}
 	}
@@ -349,7 +364,7 @@ void N_Frame::DoOpenProject()
 	{
 		std::string path = dlg.GetPath();
 		path = StringHelp::StandardiseFilename(path);
-		PX2_ENGINELOOP.LoadProject(path);
+		PX2_APP.LoadProject(path);
 	}
 	else
 	{
@@ -370,20 +385,20 @@ void N_Frame::DoSaveProject()
 		}
 	}
 
-	PX2_ENGINELOOP.SaveProject();
+	PX2_APP.SaveProject();
 }
 //----------------------------------------------------------------------------
 void N_Frame::DoCloseProject()
 {
 	mIsCloseProject = false;
 
-	PX2_ENGINELOOP.CloseProject();
+	PX2_APP.CloseProject();
 }
 //----------------------------------------------------------------------------
 void N_Frame::DoNewScene()
 {
 	mIsNewScene = false;
-	PX2_ENGINELOOP.NewScene();
+	PX2_APP.NewScene();
 }
 //----------------------------------------------------------------------------
 void N_Frame::DoOpenScene()
@@ -401,7 +416,7 @@ void N_Frame::DoOpenScene()
 	if (wxID_OK == dlg.ShowModal())
 	{
 		std::string strPath = dlg.GetPath();
-		PX2_ENGINELOOP.LoadScene(strPath);
+		PX2_APP.LoadScene(strPath);
 	}
 }
 //----------------------------------------------------------------------------
@@ -415,7 +430,7 @@ void N_Frame::DoSaveScene()
 
 	if (!path.empty())
 	{
-		PX2_ENGINELOOP.SaveScene(path.c_str());
+		PX2_APP.SaveScene(path.c_str());
 	}
 	else
 	{
@@ -431,7 +446,7 @@ void N_Frame::DoSaveScene()
 		if (wxID_OK == dlg.ShowModal())
 		{
 			std::string strPath = dlg.GetPath();
-			PX2_ENGINELOOP.SaveScene(strPath);
+			PX2_APP.SaveScene(strPath);
 		}
 	}
 }
@@ -452,7 +467,7 @@ void N_Frame::DoSaveSceneAs()
 	if (dlg.ShowModal() == wxID_OK)
 	{
 		std::string strPath = dlg.GetPath();
-		PX2_ENGINELOOP.SaveSceneAs(strPath);
+		PX2_APP.SaveSceneAs(strPath);
 	}
 }
 //----------------------------------------------------------------------------
@@ -460,7 +475,7 @@ void N_Frame::DoCloseScene()
 {
 	mIsCloseScene = false;
 
-	PX2_ENGINELOOP.CloseScene();
+	PX2_APP.CloseScene();
 }
 //----------------------------------------------------------------------------
 void N_Frame::DoExit()

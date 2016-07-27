@@ -74,6 +74,8 @@ namespace PX2
 		static std::string FormatSeconds(int seconds);
 		static std::string FormatColor(int r, int g, int b);
 
+		static int StringToCharArray(char arr[], int lengthArr, const std::string &fromStr);
+
 		// Hash
 		static unsigned int Hash(const std::string &str, unsigned int type);
 		static unsigned int Hash(const char *str, unsigned int type,

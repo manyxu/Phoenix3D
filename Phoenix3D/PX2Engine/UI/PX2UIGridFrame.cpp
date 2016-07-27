@@ -11,7 +11,6 @@ PX2_IMPLEMENT_DEFAULT_NAMES(UIFrame, UIGridFrame);
 
 //----------------------------------------------------------------------------
 UIGridFrame::UIGridFrame():
-mIsNeedRecal(false),
 mIsUpdateSliderVisible(true),
 mSliderSize(10),
 mItemHeight(20.0f),
@@ -107,8 +106,6 @@ void UIGridFrame::AddItem(UIFrame *item)
 	mItems.push_back(item);
 
 	item->SetUserData("index", (int)(mItems.size() - 1));
-
-	mIsNeedRecal = true;
 }
 //----------------------------------------------------------------------------
 void UIGridFrame::RemoveAllItems()
@@ -118,8 +115,11 @@ void UIGridFrame::RemoveAllItems()
 		mContentFrame->DetachChild(mItems[i]);
 	}
 	mItems.clear();
-
-	mIsNeedRecal = true;
+}
+//----------------------------------------------------------------------------
+void UIGridFrame::SetSliderPercent(float percent)
+{
+	mSlider->SetPercent(percent);
 }
 //----------------------------------------------------------------------------
 void UIGridFrame::OnSizeChanged()
@@ -132,7 +132,6 @@ void UIGridFrame::OnSizeChanged()
 		gridAlignCtrl->MarkLayoutChanged();
 	}
 
-	mIsNeedRecal = true;
 	mIsUpdateContentPos = true;
 }
 //----------------------------------------------------------------------------

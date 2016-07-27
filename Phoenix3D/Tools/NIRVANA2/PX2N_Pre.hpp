@@ -3,7 +3,7 @@
 #ifndef PX2N_PRE_HPP
 #define PX2N_PRE_HPP
 
-#include "PX2EditPre.hpp"
+#include "PX2EditorPre.hpp"
 
 #include "wx/wxprec.h"
 

@@ -37,7 +37,7 @@ namespace NA
 
 		void OnMenuItem(wxCommandEvent &e);
 
-		virtual void DoExecute(PX2::Event *event);
+		virtual void OnEvent(PX2::Event *event);
 
 	protected:
 		DECLARE_EVENT_TABLE()

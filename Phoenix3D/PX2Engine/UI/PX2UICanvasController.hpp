@@ -20,7 +20,7 @@ namespace PX2
 		UICanvasController();
 		virtual ~UICanvasController();
 
-		virtual void DoExecute(Event *event);
+		virtual void OnEvent(Event *event);
 		
 	protected:
 		bool mIsRightPressed;

@@ -14,6 +14,6 @@
 #include "PX2Applications.hpp"
 using namespace PX2;
 
-PX2_ENGINE_ITEM int toAS_PX2_open(asIScriptEngine* asEngine);
+PX2_ENGINE_ITEM int PX2ToAngelScript(asIScriptEngine* asEngine);
 
 #endif

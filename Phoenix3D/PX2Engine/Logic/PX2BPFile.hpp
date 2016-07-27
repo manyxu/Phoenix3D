@@ -11,7 +11,7 @@
 namespace PX2
 {
 
-	class PX2_GAME_ITEM BPFile : public UIFrame
+	class PX2_ENGINE_ITEM BPFile : public UIFrame
 	{
 		PX2_DECLARE_RTTI;
 		PX2_DECLARE_NAMES;

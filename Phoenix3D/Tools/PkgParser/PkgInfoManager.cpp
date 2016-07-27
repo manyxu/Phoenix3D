@@ -216,14 +216,38 @@ bool PkgInfoManager::Load(const std::string &filename)
 	return true;
 }
 //----------------------------------------------------------------------------
-bool PkgInfoManager::GenToASFile()
+void SplitBaseFilename(const std::string &baseFileName,
+	std::string &outBaseName,
+	std::string &outExtention)
 {
-	std::ofstream fout("PX2ToAngelScript.cpp", std::ios::out);
+	size_t i = baseFileName.find_last_of(".");
+
+	if (i == std::string::npos)
+	{
+		outExtention.clear();
+		outBaseName = baseFileName;
+	}
+	else
+	{
+		outExtention = baseFileName.substr(i + 1);
+		outBaseName = baseFileName.substr(0, i);
+	}
+}
+//----------------------------------------------------------------------------
+bool PkgInfoManager::GenToASFile(const std::string &filename)
+{
+	std::ofstream fout(filename, std::ios::out);
 	fout.clear();
 
-	fout << "// " << "PX2ToAngelScript.cpp" << endl << endl;
+	fout << "// " << filename << endl << endl;
 
-	fout << "#include <PX2ToAngelScript.hpp>" << endl;
+	std::string headerCpp;
+	std::string baseFileName;
+	std::string ext;
+	SplitBaseFilename(filename, baseFileName, ext);
+	std::string headFilename = baseFileName + ".hpp";
+
+	fout << "#include <" << headFilename << ">" << endl;
 	fout << "#include \"angelscript.h\"" << endl;
 	fout << "using namespace std;" << endl << endl;
 
@@ -289,7 +313,7 @@ bool PkgInfoManager::GenToASFile()
 		}
 	}
 
-	fout << "int toAS_PX2_open(asIScriptEngine* asEngine)" << endl;
+	fout << "int " << baseFileName <<"(asIScriptEngine* asEngine)" << endl;
 
 	fout << "{" << endl;
 
