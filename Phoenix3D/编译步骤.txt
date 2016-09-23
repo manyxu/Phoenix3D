@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 1.解压ThirdPartiesLibs.zip （解压完，只保留一个ThirdPartiesLibs目录，将里面的ThirdPartiesLibs剪切出来）
 2.编译ThirdPartiesLibs/wxWidgets-3.0.2/build/msw中的一个wxWidget的解决方案例如wx_vc12.sln
 3.编译Phoenix3D.sln
@@ -7,4 +8,12 @@
 引擎默认是在64位环境下编译，使用的是x64的libfbxsdk.dll
 
 2.Android和iOS的编译在Phoenix3D这个版本还没去搞，
+=======
+1.解压ThirdPartiesLibs.zip
+2.编译ThirdPartiesLibs/wxWidgets-3.0.2/build/msw中的一个wxWidget的解决方案例如wx_vc12.sln
+3.编译Phoenix3D.sln首先编译PX2Foundation，然后编译PX2Extends
+
+默认使用的开发环境是vs2013
+Android和iOS的编译在Phoenix3D这个版本还没去搞，
+>>>>>>> c3f4216e60c9615013e85181394e8d2440ba26d1
 以前在Android使用的是.mk配置，接下来需要使用cmake做统一的方案。
