@@ -12,8 +12,8 @@ function n_CreateBPModule(className, funName)
 	PX2_EDIT:CreateBPModule(className, funName)
 end
 
-function n_CreateBPEvent(eventName)
-	PX2_EDIT:CreateBPEvent(eventName)
+function n_CreateBPEvent(spaceName, eventName)
+	PX2_EDIT:CreateBPEvent(spaceName, eventName)
 end
 
 function n_CreateBPOption(optionName)

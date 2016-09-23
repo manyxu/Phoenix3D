@@ -171,7 +171,7 @@ xcopy /DY "$(TargetPath)" ..\..\Bin</Command>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxerr.lib;dinput8.lib;dxguid.lib;fmod64_vc.lib;ws2_32.lib;libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\ThirdPartiesLibs\Microsoft DirectX SDK June 2010\Lib\x64;..\ThirdPartiesLibs\FMOD\FMOD Studio API Windows\api\lowlevel\lib;..\ThirdPartiesLibs\FBX\lib\vs2013\x64\debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\ThirdPartiesLibs\Microsoft DirectX SDK June 2010\Lib\x64;..\ThirdPartiesLibs\FMOD\FMOD Studio API Windows\api\lowlevel\lib;..\ThirdPartiesLibs\FBX\lib\vs2013\x64\release</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>mkdir ..\PX2SDK\Include

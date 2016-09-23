@@ -1,7 +1,7 @@
 -- menu.lua
 
 function n_AddLanguage()
-	-- menus
+	-- MainFrame
 	PX2_LM:AddItem1("File", "文件")
 	PX2_LM:AddItem1("NewProject", "新建工程")
 	PX2_LM:AddItem1("NewScene", "新建场景")
@@ -49,7 +49,7 @@ function n_AddLanguage()
 	PX2_LM:AddItem1("Help", "帮助")	
 	PX2_LM:AddItem1("About", "关于")
 	
-	-- general
+	-- General
 	PX2_LM:AddItem1("Create", "创建")
 	
 	-- BluePrint
@@ -57,12 +57,26 @@ function n_AddLanguage()
 	PX2_LM:AddItem1("Compile", "编译")
 	PX2_LM:AddItem1("Disconnect", "断开")
 	
+	-- Scene
+	PX2_LM:AddItem1("Scene", "场景")
+	
 	-- UI
 	PX2_LM:AddItem1("UI", "界面")
-	PX2_LM:AddItem1("PicBox", "图片")
-	PX2_LM:AddItem1("Button", "按钮")
+	PX2_LM:AddItem1("UIFrame", "层")
+	PX2_LM:AddItem1("UIFPicBox", "层图片")
+	PX2_LM:AddItem1("UIFText", "层文本")
+	PX2_LM:AddItem1("UIButton", "按钮")
+	PX2_LM:AddItem1("UICheckButton", "选择按钮")
+	PX2_LM:AddItem1("UIComboBox", "组合框")
+	PX2_LM:AddItem1("UIEditBox", "编辑框")
+	PX2_LM:AddItem1("UIPicBox", "图片")
+	PX2_LM:AddItem1("UIText", "文本")	
 	
-	-- 事件
+	PX2_LM:AddItem1("CreateScriptControllerFromRes", "从资源创建脚本控制器")
+	
+	PX2_LM:AddItem1("CreateFromRes", "从资源创建")
+	
+	-- Event
 	PX2_LM:AddItem1("Event", "事件")
 	PX2_LM:AddItem1("SimuStart", "仿真开始")
 	
@@ -76,7 +90,7 @@ function n_AddLanguage()
 	PX2_LM:AddItem1("Trigger", "触发器")
 	PX2_LM:AddItem1("Terrain", "地形")
 	PX2_LM:AddItem1("Sky", "天空")
-	PX2_LM:AddItem1("ImportSelected", "导入选择")
+	PX2_LM:AddItem1("ImportSelectedRes", "导入选择资源")
 	PX2_LM:AddItem1("Import", "导入")
 	PX2_LM:AddItem1("SceneActor", "场景角色")
 	PX2_LM:AddItem1("Effect", "特效")
@@ -86,6 +100,7 @@ function n_AddLanguage()
 	PX2_LM:AddItem1("Ribbon", "波带")
 	PX2_LM:AddItem1("Sound", "声音")
 	PX2_LM:AddItem1("Node", "节点")
+	PX2_LM:AddItem1("SkyBox", "天空盒")
 	PX2_LM:AddItem1("Controller", "控制器")
 	PX2_LM:AddItem1("ColorController", "颜色控制器")
 	PX2_LM:AddItem1("BrightnessController", "亮度控制器")
@@ -93,11 +108,13 @@ function n_AddLanguage()
 	PX2_LM:AddItem1("UniformScaleController", "统一缩放控制器")
 	PX2_LM:AddItem1("ScaleController", "缩放控制器")
 	PX2_LM:AddItem1("RotateController", "旋转控制器")
-	PX2_LM:AddItem1("TranslateController", "位移控制器")
+	PX2_LM:AddItem1("TranslateController", "位移控制器")		
+	PX2_LM:AddItem1("ScriptController", "脚本控制器")
 	
 	PX2_LM:AddItem1("Copy", "复制")
 	PX2_LM:AddItem1("Paste", "粘贴")
 	PX2_LM:AddItem1("Delete", "删除")
+	PX2_LM:AddItem1("DeleteAll", "删除全部")
 	
 	PX2_LM:AddItem1("ResetPlay", "重置播放")
 	PX2_LM:AddItem1("Play", "播放")
@@ -106,6 +123,8 @@ function n_AddLanguage()
 	
 	PX2_LM:AddItem1("FindInProjectTree", "在工程树中查找")
 	PX2_LM:AddItem1("FindInResTree", "在资源树中查找")
+	
+	PX2_LM:AddItem1("MakeCurve", "曲线化")
 	
 	-- tips
 	PX2_LM:AddItem("Notice", "注意！", "Notice!")
