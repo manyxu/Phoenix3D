@@ -1,0 +1,10 @@
+1.解压ThirdPartiesLibs.zip （解压完，只保留一个ThirdPartiesLibs目录，将里面的ThirdPartiesLibs剪切出来）
+2.编译ThirdPartiesLibs/wxWidgets-3.0.2/build/msw中的一个wxWidget的解决方案例如wx_vc12.sln
+3.编译Phoenix3D.sln
+
+注意：
+1.ThirdPartiesLibs中的FBX SDK有x86和x64版本，编译不同解决方案最终运行时，需要自行拷贝libfbxsdk.dll到Bin目录
+引擎默认是在64位环境下编译，使用的是x64的libfbxsdk.dll
+
+2.Android和iOS的编译在Phoenix3D这个版本还没去搞，
+以前在Android使用的是.mk配置，接下来需要使用cmake做统一的方案。
