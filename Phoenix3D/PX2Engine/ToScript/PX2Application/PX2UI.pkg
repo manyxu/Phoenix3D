@@ -1,0 +1,8 @@
+// PX2UI.pkg
+
+	class UI : public UIFrame
+	{
+	public:
+		UI();
+		virtual ~UI();
+	};

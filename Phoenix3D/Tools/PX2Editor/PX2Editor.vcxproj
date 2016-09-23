@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PX2Brush.cpp" />
+    <ClCompile Include="PX2Curve.cpp" />
+    <ClCompile Include="PX2CurveCtrl.cpp" />
+    <ClCompile Include="PX2CurveGroup.cpp" />
+    <ClCompile Include="PX2Edit.cpp" />
+    <ClCompile Include="PX2EditEventData.cpp" />
+    <ClCompile Include="PX2EditEventHandler.cpp" />
+    <ClCompile Include="PX2EditObject.cpp" />
+    <ClCompile Include="PX2EditObjectTerrain.cpp" />
+    <ClCompile Include="PX2EditorEventType.cpp" />
+    <ClCompile Include="PX2EditParams.cpp" />
+    <ClCompile Include="PX2EditTimeLineEdit.cpp" />
+    <ClCompile Include="PX2EU_BluePrintFrame.cpp" />
+    <ClCompile Include="PX2EU_BPFrame.cpp" />
+    <ClCompile Include="PX2EU_CanvasBP.cpp" />
+    <ClCompile Include="PX2EU_CanvasPreView.cpp" />
+    <ClCompile Include="PX2EU_CanvasStage.cpp" />
+    <ClCompile Include="PX2EU_CanvasStageSimu.cpp" />
+    <ClCompile Include="PX2EU_CanvasStageUI.cpp" />
+    <ClCompile Include="PX2EU_CanvasTimeLineEdit.cpp" />
+    <ClCompile Include="PX2EU_CF_BluePrint.cpp" />
+    <ClCompile Include="PX2EU_ConsoleFrame.cpp" />
+    <ClCompile Include="PX2EU_CreateFrame.cpp" />
+    <ClCompile Include="PX2EU_EditFrame.cpp" />
+    <ClCompile Include="PX2EU_InspectorFrameRes.cpp" />
+    <ClCompile Include="PX2EU_PropertyGridEdit.cpp" />
+    <ClCompile Include="PX2EU_PropertyGridRes.cpp" />
+    <ClCompile Include="PX2EU_ResGridFrame.cpp" />
+    <ClCompile Include="PX2EU_InspectorFrame.cpp" />
+    <ClCompile Include="PX2EU_Manager.cpp" />
+    <ClCompile Include="PX2EU_PreViewFrame.cpp" />
+    <ClCompile Include="PX2EU_ProjectEventController.cpp" />
+    <ClCompile Include="PX2EU_ProjectFrame.cpp" />
+    <ClCompile Include="PX2EU_ProjectItem.cpp" />
+    <ClCompile Include="PX2EU_ProjectTree.cpp" />
+    <ClCompile Include="PX2EU_PropertyGrid.cpp" />
+    <ClCompile Include="PX2EU_ResFrame.cpp" />
+    <ClCompile Include="PX2EU_ResGridItem.cpp" />
+    <ClCompile Include="PX2EU_ResList.cpp" />
+    <ClCompile Include="PX2EU_ResTree.cpp" />
+    <ClCompile Include="PX2EU_SimuFrame.cpp" />
+    <ClCompile Include="PX2EU_StageFrame.cpp" />
+    <ClCompile Include="PX2EU_TimeLineFrame.cpp" />
+    <ClCompile Include="PX2GeoObjFactory.cpp" />
+    <ClCompile Include="PX2SceneNodeCtrl.cpp" />
+    <ClCompile Include="PX2SelectResData.cpp" />
+    <ClCompile Include="PX2TerrainBrush.cpp" />
+    <ClCompile Include="PX2TerrainEdit.cpp" />
+    <ClCompile Include="PX2TerrainProcess.cpp" />
+    <ClCompile Include="PX2UICurveGroup.cpp" />
+    <ClCompile Include="PX2UIObjectCtrl.cpp" />
+    <ClCompile Include="ToScript\PX2EditorToLua.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PX2Brush.hpp" />
+    <ClInclude Include="PX2Curve.hpp" />
+    <ClInclude Include="PX2CurveCtrl.hpp" />
+    <ClInclude Include="PX2CurveGroup.hpp" />
+    <ClInclude Include="PX2Edit.hpp" />
+    <ClInclude Include="PX2EditDefine.hpp" />
+    <ClInclude Include="PX2EditEventData.hpp" />
+    <ClInclude Include="PX2EditEventHandler.hpp" />
+    <ClInclude Include="PX2EditObject.hpp" />
+    <ClInclude Include="PX2EditObjectTerrain.hpp" />
+    <ClInclude Include="PX2EditorEventType.hpp" />
+    <ClInclude Include="PX2EditParams.hpp" />
+    <ClInclude Include="PX2EditorPre.hpp" />
+    <ClInclude Include="PX2Edits.hpp" />
+    <ClInclude Include="PX2EditTimeLineEdit.hpp" />
+    <ClInclude Include="PX2EU_BluePrintFrame.hpp" />
+    <ClInclude Include="PX2EU_BPFrame.hpp" />
+    <ClInclude Include="PX2EU_CanvasBP.hpp" />
+    <ClInclude Include="PX2EU_CanvasPreView.hpp" />
+    <ClInclude Include="PX2EU_CanvasStage.hpp" />
+    <ClInclude Include="PX2EU_CanvasStageSimu.hpp" />
+    <ClInclude Include="PX2EU_CanvasStageUI.hpp" />
+    <ClInclude Include="PX2EU_CanvasTimeLineEdit.hpp" />
+    <ClInclude Include="PX2EU_CF_BluePrint.hpp" />
+    <ClInclude Include="PX2EU_ConsoleFrame.hpp" />
+    <ClInclude Include="PX2EU_CreateFrame.hpp" />
+    <ClInclude Include="PX2EU_EditFrame.hpp" />
+    <ClInclude Include="PX2EU_InspectorFrameRes.hpp" />
+    <ClInclude Include="PX2EU_PropertyGridEdit.hpp" />
+    <ClInclude Include="PX2EU_PropertyGridRes.hpp" />
+    <ClInclude Include="PX2EU_ResGridFrame.hpp" />
+    <ClInclude Include="PX2EU_InspectorFrame.hpp" />
+    <ClInclude Include="PX2EU_Manager.hpp" />
+    <ClInclude Include="PX2EU_PreViewFrame.hpp" />
+    <ClInclude Include="PX2EU_ProjectFrame.hpp" />
+    <ClInclude Include="PX2EU_ProjectItem.hpp" />
+    <ClInclude Include="PX2EU_ProjectTree.hpp" />
+    <ClInclude Include="PX2EU_PropertyGrid.hpp" />
+    <ClInclude Include="PX2EU_ResFrame.hpp" />
+    <ClInclude Include="PX2EU_ResGridItem.hpp" />
+    <ClInclude Include="PX2EU_ResList.hpp" />
+    <ClInclude Include="PX2EU_ResTree.hpp" />
+    <ClInclude Include="PX2EU_SimuFrame.hpp" />
+    <ClInclude Include="PX2EU_StageFrame.hpp" />
+    <ClInclude Include="PX2EU_TimeLineFrame.hpp" />
+    <ClInclude Include="PX2GeoObjFactory.hpp" />
+    <ClInclude Include="PX2SceneNodeCtrl.hpp" />
+    <ClInclude Include="PX2SelectResData.hpp" />
+    <ClInclude Include="PX2TerrainBrush.hpp" />
+    <ClInclude Include="PX2TerrainEdit.hpp" />
+    <ClInclude Include="PX2TerrainProcess.hpp" />
+    <ClInclude Include="PX2UICurveGroup.hpp" />
+    <ClInclude Include="PX2UIObjectCtrl.hpp" />
+    <ClInclude Include="PX2EU_ProjectEventController.hpp" />
+    <ClInclude Include="ToScript\PX2EditorToLua.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PX2Edit.inl" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{243EEDC5-8F5F-4CED-9DE3-83BDBB11CCC1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>PX2Editor</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>PX2EditorD</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>PX2Editor64D</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>PX2Editor</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>_OutPut\$(PlatformToolset)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>PX2Editor64</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;PX2_ENGINE_DLL_IMPORT;PX2_ENGINE_DLL_EXPORT1;PX2_EDITOR_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\;.\ToScript;..\..\PX2SDK\Include;..\..\PX2Engine\Unity\Lua;..\..\PX2Engine\Unity\ToLua;..\..\PX2Engine\Unity\LuaPlus;..\..\PX2Engine\Unity\AngelScript;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>PX2EngineD.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /DY *.hpp ..\..\PX2SDK\Include
+
+xcopy /DY *.inl ..\..\PX2SDK\Include
+
+mkdir ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+
+xcopy /DY "$(OutDir)$(TargetName).lib" ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(TargetPath)" ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(TargetPath)" ..\..\..\Bin</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;PX2_ENGINE_DLL_IMPORT;PX2_ENGINE_DLL_EXPORT1;PX2_EDITOR_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\;.\ToScript;..\..\PX2SDK\Include;..\..\PX2Engine\Unity\Lua;..\..\PX2Engine\Unity\ToLua;..\..\PX2Engine\Unity\LuaPlus;..\..\PX2Engine\Unity\AngelScript;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>PX2Engine64D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /DY *.hpp ..\..\PX2SDK\Include
+
+xcopy /DY *.inl ..\..\PX2SDK\Include
+
+mkdir ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+
+xcopy /DY "$(OutDir)$(TargetName).lib" ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(TargetPath)" ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(TargetPath)" ..\..\..\Bin</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;PX2_ENGINE_DLL_IMPORT;PX2_EDITOR_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\;.\ToScript;..\..\PX2SDK\Include;..\..\PX2Engine\Unity\Lua;..\..\PX2Engine\Unity\ToLua;..\..\PX2Engine\Unity\LuaPlus;..\..\PX2Engine\Unity\AngelScript;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PX2Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /DY *.hpp ..\..\PX2SDK\Include
+
+xcopy /DY *.inl ..\..\PX2SDK\Include
+
+mkdir ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+
+xcopy /DY "$(OutDir)$(TargetName).lib" ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(TargetPath)" ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(TargetPath)" ..\..\..\Bin</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;PX2_ENGINE_DLL_IMPORT;PX2_EDITOR_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\;.\ToScript;..\..\PX2SDK\Include;..\..\PX2Engine\Unity\Lua;..\..\PX2Engine\Unity\ToLua;..\..\PX2Engine\Unity\LuaPlus;..\..\PX2Engine\Unity\AngelScript;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PX2Engine64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /DY *.hpp ..\..\PX2SDK\Include
+
+xcopy /DY *.inl ..\..\PX2SDK\Include
+
+mkdir ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+
+xcopy /DY "$(OutDir)$(TargetName).lib" ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(TargetPath)" ..\..\PX2SDK\Library\$(PlatformToolset)\$(Platform)\$(Configuration)
+xcopy /DY "$(TargetPath)" ..\..\..\Bin</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

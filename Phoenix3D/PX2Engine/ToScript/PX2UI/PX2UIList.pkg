@@ -1,0 +1,30 @@
+// PX2UIList.pkg
+
+	class UIList : public UIFrame
+	{
+	public:
+		UIList();
+		virtual ~UIList();
+
+		void SetSliderSize(float size);
+		float GetSliderSize() const;
+
+		void SetItemHeight(float height);
+		float GetItemHeight() const;
+
+		UIItem *AddItem(const std::string &text);
+		void RemoveAllItems();
+		float GetContentHeight() const;
+
+		void AddSelectItem(UIItem *item);
+		void ClearAllSelectItems();
+		UIItem *GetSelectedItem();
+
+		virtual void OnSelected(UIItem *item);
+		int GetSelectIndex() const;
+
+		void SetTextColor(const Float3 &textColor);
+		const Float3 &GetTextColor() const;
+
+		virtual void OnSizeChanged();
+	};

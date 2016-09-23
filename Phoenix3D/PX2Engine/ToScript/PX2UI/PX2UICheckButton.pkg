@@ -1,0 +1,11 @@
+// PX2UICheckButton.pkg
+
+	class UICheckButton : public UIButtonBase
+	{
+	public:
+		UICheckButton();
+		virtual ~UICheckButton();
+
+		void Check(bool check, bool doCall = true);
+		bool IsCheck() const;
+	};

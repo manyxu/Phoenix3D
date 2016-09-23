@@ -1,0 +1,11 @@
+// PX2Application.pkg
+
+$pfile "PX2Application/PX2Project.pkg"
+$pfile "PX2Application/PX2Scene.pkg"
+$pfile "PX2Application/PX2Application.pkg"
+$pfile "PX2Application/PX2Creater.pkg"
+$pfile "PX2Application/PX2ObjCast.pkg"
+$pfile "PX2Application/PX2UI.pkg"
+$pfile "PX2Application/PX2EngineEventHandler.pkg"
+$pfile "PX2Application/PX2TriggerController.pkg"
+$pfile "PX2Application/PX2AmbientRegionController.pkg"

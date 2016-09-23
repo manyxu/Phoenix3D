@@ -1,0 +1,7 @@
+// PX2InterpCurveAlphaCtrl.pkg
+	
+	class InterpCurveAlphaController : public InterpCurveFloatController
+	{
+		InterpCurveAlphaController ();
+		virtual ~InterpCurveAlphaController ();
+	};

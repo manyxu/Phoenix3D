@@ -1,0 +1,23 @@
+// PX2UIEditBox.pkg
+
+	class UIEditBox : public UIFrame
+	{
+	public:
+		UIEditBox();
+		virtual ~UIEditBox();
+
+		virtual void Enable(bool enable);
+
+		void SetPassword(bool isPassword);
+		bool IsPassword() const;
+
+		UIFPicBox *GetBackPicBox() const;
+
+		void SetText(const std::string &text);
+		const std::string &GetText() const;
+		const std::string &GetRealText() const;
+		UIInputText *GetInputText();
+
+		void SetFixedWidth(float fixedWidth);
+		float GetFixedWidth() const;
+	};

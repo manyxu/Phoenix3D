@@ -1,0 +1,11 @@
+// PX2ObjCast.pkg
+
+	class Cast
+	{
+	public:
+		static Controller *ToController(Object *obj);
+		static Controlledable *ToControlledable(Object *obj);
+		static Movable *ToMovable(Object *obj);
+		static Node *ToNode(Object *obj);
+		static ScriptController *ToSC(void *obj);
+	};

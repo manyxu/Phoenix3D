@@ -1,0 +1,25 @@
+// PX2UIProgressBar.pkg
+
+	class UIProgressBar : public UIFrame
+	{
+	public:
+		UIProgressBar();
+		virtual ~UIProgressBar();
+
+		void SetBackPicBox(UIPicBox *picBox);
+		void SetProgressPicBox(UIPicBox *picBox);
+		void SetOverPicBox(UIPicBox *picBox);
+		UIPicBox *GetBackPicBox();
+		UIPicBox *GetProgressPicBox();
+		UIPicBox *GetOverPicBox();
+
+		// 0-1.0f
+		void SetProgress(float progress, bool callLogic = true);
+		float GetProgress() const;
+
+		void SetProgressAnimInit(float progress);
+		void SetProgressAnim(float progress);
+
+		void SetProgressAnimSpeed(float speed);
+		float GetProgressAnimSpeed();
+	};
