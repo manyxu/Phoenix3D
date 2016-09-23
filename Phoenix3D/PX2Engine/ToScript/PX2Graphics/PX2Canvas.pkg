@@ -1,8 +1,0 @@
-// PX2Canvas.hpp
-
-	class Canvas : public Object
-	{
-	public:
-		Canvas();
-		virtual ~Canvas();
-	};

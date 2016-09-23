@@ -1,7 +1,0 @@
-// PX2Edits.hpp
-
-$pfile "PX2Editor/PX2Edit.pkg"
-$pfile "PX2Editor/PX2EditDefine.pkg"
-$pfile "PX2Editor/PX2SelectResData.pkg"
-$pfile "PX2Editor/PX2EditTimeLineEdit.pkg"
-$pfile "PX2Editor/PX2EU_Manager.pkg"

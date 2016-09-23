@@ -1,8 +1,0 @@
-// PX2VertexFormat.pkg
-
-	class VertexFormat : public Object
-	{
-	public:
-		~VertexFormat();
-		
-	};

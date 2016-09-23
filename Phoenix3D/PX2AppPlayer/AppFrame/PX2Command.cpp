@@ -42,7 +42,7 @@ Command::Command(char* commandLine)
 	{
 		return;
 	}
-	mCommandLine = new1<char>(strlen(commandLine) + 1);
+	mCommandLine = new1<char>((int)strlen(commandLine) + 1);
 	strcpy(mCommandLine, commandLine);
 
 	char* token = strtok(mCommandLine, " \t");
@@ -316,7 +316,7 @@ int Command::GetString(const char* name, char*& value)
 				return 0;
 			}
 
-			value = new1<char>(strlen(tmp) + 1);
+			value = new1<char>((int)strlen(tmp) + 1);
 			strcpy(value, tmp);
 			mUsed[i] = true;
 			mUsed[i + 1] = true;
@@ -341,7 +341,7 @@ int Command::GetFilename(char*& name)
 		char* tmp = mArguments[i];
 		if (!mUsed[i] && tmp[0] != '-')
 		{
-			name = new1<char>(strlen(tmp) + 1);
+			name = new1<char>((int)strlen(tmp) + 1);
 			strcpy(name, tmp);
 			mUsed[i] = true;
 			matchFound = i;

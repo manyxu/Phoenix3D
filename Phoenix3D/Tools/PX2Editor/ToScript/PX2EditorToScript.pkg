@@ -1,4 +1,0 @@
-// PX2EditorToLua.pkg
-
-$#include "PX2EditorToLua.hpp"
-$pfile "PX2Editor/PX2Edits.pkg"

@@ -1,9 +1,0 @@
-// PX2UIText.pkg
-
-	class UIText : public TriMesh
-	{
-		UIText();
-		virtual ~UIText();
-		
-		void SetFont(const std::string &fontFilename, int fontWidth, int fontHeight, unsigned int fontStyle);
-	};
